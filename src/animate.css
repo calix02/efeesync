@@ -1,0 +1,39 @@
+.fade-in {
+  animation: fadeIn 0.75s ease forwards;
+}
+
+.fade-out {
+  animation: fadeOut 0.75s ease forwards;
+}
+.fade-down{
+    animation: downFade 1.5s ease forwards;
+}
+.fade-up{
+    animation: upFade 1.5s ease forwards;
+
+}
+
+
+@keyframes showUpload{
+    from{opacity: 0; width: 30px;}
+    to {opacity: 1; width: 460px;}
+
+}
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeOut {
+  from { opacity: 1; transform: translateY(0); }
+  to { opacity: 0; transform: translateY(-10px); }
+}
+
+@keyframes downFade {
+    from{opacity: 0; height: 0px;}
+    to{opacity: 1; height: 540px;}
+}
+@keyframes upFade {
+    from{opacity: 1; height: 320px;}
+    to{opacity: 0; height: 0px;}
+}
+

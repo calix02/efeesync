@@ -13,25 +13,16 @@ import { Bar } from 'react-chartjs-2';
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
-function Charts() {
+function Charts({title}) {
   const data = {
-    labels: ['First Year', 'Second Year', 'Third Year', 'Fourth Year'],
+    labels: ['CITSC', 'SCEAP', 'COTSC', 'CESC','CCSC'],
     datasets: [
       {
-        label: 'Paid',
-        data: [200, 150, 70, 50],
-        backgroundColor: '#d492f9'
+        data: [200,127,300,430,690],
+        backgroundColor: ['#d492f9','#FFD8CC','#F6FFB1','#D4E4FF','#FCBBD8']
       },
-      {
-        label: 'Unsettled',
-        data: [50, 25, 15, 15],
-        backgroundColor: '#f97ed4'
-      },
-      {
-        label: 'Not Paid',
-        data: [50, 25, 5, 5],
-        backgroundColor: '#e24468'
-      }
+       
+     
     ]
   };
 
@@ -39,7 +30,7 @@ function Charts() {
     responsive: true,
     plugins: {
       legend: {
-        position: 'top'
+        display:false
       },
       title: {
         display: false
@@ -56,8 +47,8 @@ function Charts() {
   };
 
   return (
-    <div style={{ maxWidth: '500px', margin: 'auto', padding: '20px' }}>
-      <h2 style={{ color: '#7b1fa2' }}>IT Week</h2>
+    <div className='w-150 p-4'>
+      <h2 className='font-semibold text-lg py-3'>{title}</h2>
       <Bar data={data} options={options} />
     </div>
   );

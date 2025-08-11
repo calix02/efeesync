@@ -9,19 +9,8 @@ import { Doughnut } from 'react-chartjs-2';
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
-function StudentGraph (props) {
-  const data = {
-    labels: [' 1st,Year', ' 2nd,Year', '3rd,Year', ' 4th,Year'],
-    datasets: [
-      {
-        label: 'CITizens',
-        data: [300, 200, 100, 70],
-        backgroundColor: ['#d492f9', '#a659f5', '#7b1fa2', '#4a0072'],
-        borderWidth: 0,
-        cutout: '50%'
-      }
-    ]
-  };
+function StudentGraph ({graphTitle ,data}) {
+ 
 
   const options = {
     responsive: true,
@@ -45,7 +34,7 @@ function StudentGraph (props) {
       textAlign: 'center',
       padding: '20px'
     }}>
-      <h2 style={{ color: '#7b1fa2' }} className='text-[16px] font-bold'>{props.graphTitle}</h2>
+      <h2 style={{ color: '#000' }} className='text-[16px] font-bold'>{graphTitle}</h2>
       <Doughnut data={data} options={options} />
       <div style={{ display: 'flex', justifyContent: 'space-around', marginTop: '20px' }}>
         {data.labels.map((label, i) => (

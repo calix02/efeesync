@@ -8,8 +8,8 @@ function LogIn(){
     const navigate = useNavigate();
     let role = "cit"
     const handleLogIn = () =>{
-        if(role === "admin"){
-             navigate("/admin/dashboard");
+        if(role === "osas"){
+             navigate("/osas/dashboard");
         }else if(role === "cit"){
             navigate("/org/citdashboard")
         }

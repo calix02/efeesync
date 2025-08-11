@@ -12,6 +12,9 @@
     animation: upFade 1.5s ease forwards;
 
 }
+.fade-side{
+  animation: fadeSide 0.75s ease forwards;
+}
 
 
 @keyframes showUpload{
@@ -26,6 +29,12 @@
 @keyframes fadeOut {
   from { opacity: 1; transform: translateY(0); }
   to { opacity: 0; transform: translateY(-10px); }
+}
+
+@keyframes fadeSide{
+  from { opacity: 0; transform: translateX(-10); }
+  to { opacity: 1; transform: translateY(0); }
+
 }
 
 @keyframes downFade {

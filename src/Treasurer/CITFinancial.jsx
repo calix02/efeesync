@@ -22,7 +22,7 @@ function CITFinancial(){
                 <div className="mt-[110px] lg:ml-[280px]">
                     <h2 className="text-[26px] font-semibold ml-[20px]">Financial Report</h2>
                 </div>
-                <div className=' flex lg:flex-row flex-col lg:ml-[280px]  gap-4 lg:justify-center items-center mt-[20px]'>
+                <div className=' flex lg:flex-row flex-col lg:ml-[280px] px-10  gap-4 lg:justify-center items-center mt-[20px]'>
                     <FinancialCard title="Cash Inflow" amount="P200 000.00" bgColor="bg-[#FFD8CC]"/>
                     <FinancialCard title="Cash Outflow" amount="P100 000.00" bgColor="bg-[#FCBBD8]"/>
                     <FinancialCard title="Cash On Hand" amount="P50 000.00" bgColor="bg-[#ECCEFC]"/>

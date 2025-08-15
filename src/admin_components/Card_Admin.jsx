@@ -27,16 +27,7 @@ function Card_Admin(props){
                     <span className='text-sm '>Cash in Bank:</span>
                     <div className='w-40 text-center font-bold text-sm'>P{props.cashBank}</div>
                 </div>
-                
-                
-            
-
-            
-            
-           
         </div>
     );
 }
-
-
 export default Card_Admin;

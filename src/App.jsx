@@ -9,6 +9,17 @@ import Student from './Osas/Student.jsx';
 import Account from './Osas/Account.jsx';
 import Setting from './Osas/Setting.jsx';
 
+import StudentDashboard from './Student/Dashboard.jsx';
+import Contribution from './Student/Contribution.jsx';
+import Attendance from './Student/Attendance.jsx';
+import SanctionStudent from './Student/Sanction.jsx';
+import ExcuseLetterStudent from './Student/ExcuseLetter.jsx';
+import ShiftingRequest from './Student/ShiftingRequest.jsx';
+import FinancialReport from './Student/FinancialReport.jsx';
+import AccomplishmentReport from './Student/AccomplishmentReport.jsx';
+import Payment from './Student/Payment.jsx';
+import SettingsStudent from './Student/Settings.jsx';
+
 import CITCouncil from './Treasurer/CITCouncil.jsx';
 import CITStudent from './Treasurer/CITStudent.jsx';
 import CITEventList from './Treasurer/CITEventList.jsx';
@@ -37,6 +48,25 @@ function App() {
         <Route path="/osas/student" element={<Student/>}/>
         <Route path="/osas/account" element={<Account/>}/>
         <Route path="/osas/setting" element={<Setting/>}/>
+
+        <Route path="/student/dashboard" element={<StudentDashboard/>}/>
+        <Route path="/student/contribution" element={<Contribution/>}/>
+        <Route path="/student/attendance" element={<Attendance/>}/>
+        <Route path="/student/sanction" element={<SanctionStudent/>}/>
+        <Route path="/student/excuse" element={<ExcuseLetterStudent/>}/>
+        <Route path="/student/shifting" element={<ShiftingRequest/>}/>
+        <Route path="/student/financial" element={<FinancialReport/>}/>
+        <Route path="/student/accomplishment" element={<AccomplishmentReport/>}/>
+        <Route path="/student/payment" element={<Payment/>}/>
+        <Route path="/student/settings" element={<SettingsStudent/>}/>
+
+
+
+
+
+
+        
+
 
         <Route path="/org/citdashboard" element={<CITCouncil/>}/>
         <Route path="/org/citstudent" element={<CITStudent/>}/>

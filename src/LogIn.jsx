@@ -6,12 +6,14 @@ import Cbsua from './assets/cbsua.png';
 function LogIn(){
 
     const navigate = useNavigate();
-    let role = "cit"
+    let role = "student"
     const handleLogIn = () =>{
         if(role === "osas"){
              navigate("/osas/dashboard");
         }else if(role === "cit"){
             navigate("/org/citdashboard")
+        }else if(role === "student"){
+            navigate("/student/dashboard");
         }
     }
     return(

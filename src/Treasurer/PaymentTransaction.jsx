@@ -1,6 +1,6 @@
 import React, { useRef, useState } from 'react';
 import CITHeader from '../other_components/Header_Council.jsx';
-import CITSidebar from './CITSidebar.jsx';
+import CITSidebar from './Sidebar.jsx';
 import it from '../assets/it.png';
 import EfeeViolet from '../assets/violetlogo.png';
 import TablePaymentTransaction from '../other_components/TablePaymentTransaction.jsx';

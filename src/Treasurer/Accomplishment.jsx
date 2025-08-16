@@ -1,5 +1,5 @@
 import CITHeader from '../other_components/Header_Council.jsx';
-import CITSidebar from './CITSidebar.jsx';
+import CITSidebar from './Sidebar.jsx';
 import AccomplishPic from '../assets/general.jpg';
 import AccomplishmentCard from '../other_components/AccomplishmentCard.jsx';
 import AddAccomplishmentCard from '../other_components/AddAccomplishmentCard.jsx';

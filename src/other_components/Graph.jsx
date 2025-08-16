@@ -34,7 +34,7 @@ function StudentGraph ({graphTitle ,data}) {
       textAlign: 'center',
       padding: '20px'
     }}>
-      <h2 style={{ color: '#000' }} className='text-[16px] font-bold'>{graphTitle}</h2>
+      <h2 style={{ color: '#000' }} className='text-md lg:text-lg font-[family-name:Helvetica] font-semibold'>{graphTitle}</h2>
       <Doughnut data={data} options={options} />
       <div style={{ display: 'flex', justifyContent: 'space-around', marginTop: '20px' }}>
         {data.labels.map((label, i) => (

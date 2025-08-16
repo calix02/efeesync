@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import React, { useState, useRef } from 'react';
 import EfeeViolet from '../assets/violetlogo.png'
 import AccountCard from './AccountCard';
-import CITSidebar from '../Treasurer/CITSidebar.jsx';
+import CITSidebar from '../Treasurer/Sidebar.jsx';
 import NotificationCard from './NotificationCard.jsx';
 
 import '../animate.css';
@@ -90,12 +90,12 @@ function Header_Council(props) {
           <i onClick={clickedMenu} className="fa-solid fa-bars text-sm cursor-pointer"></i>
         </span>
         <span className='lg:ml-18'>
-          <img src={props.logoCouncil} className='lg:w-18 w-12' alt="logo"/>
+          <img src={props.logoCouncil} className='lg:w-18 md:w-14 w-12' alt="logo"/>
         </span>
       </span>
       
       <span className="lg:ml-5 ml-1">
-        <h2 className="lg:text-2xl text-sm font-bold">{props.titleCouncil}</h2>
+        <h2 className="lg:text-2xl md:text-lg text-sm  font-bold">{props.titleCouncil}</h2>
       </span>
 
       <span className="flex lg:gap-5 absolute right-8">

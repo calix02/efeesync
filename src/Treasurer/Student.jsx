@@ -1,5 +1,5 @@
 import CITHeader from '../other_components/Header_Council.jsx';
-import CITSidebar from './CITSidebar.jsx';
+import CITSidebar from './Sidebar.jsx';
 import TableStudent from '../other_components/TableStudent.jsx';
 import AddStudentCard from '../other_components/AddStudentCard.jsx';
 import UpdateStudentCard from '../other_components/UpdateStudentCard.jsx';

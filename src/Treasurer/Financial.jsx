@@ -1,5 +1,5 @@
 import CITHeader from '../other_components/Header_Council.jsx';
-import CITSidebar from './CITSidebar.jsx';
+import CITSidebar from './Sidebar.jsx';
 import FinancialCard from '../other_components/FinancialCard.jsx';
 import FinancialTable from '../other_components/FinancialTable.jsx';
 import it from '../assets/it.png';

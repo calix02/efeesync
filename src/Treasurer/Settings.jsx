@@ -1,5 +1,5 @@
 import CITHeader from '../other_components/Header_Council.jsx';
-import CITSidebar from './CITSidebar.jsx';
+import CITSidebar from './Sidebar.jsx';
 import AccountSetting from '../other_components/AccountSetting.jsx';
 import SystemSetting from '../other_components/SystemSetting.jsx';
 import it from '../assets/it.png';

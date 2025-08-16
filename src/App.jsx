@@ -1,6 +1,7 @@
 import{BrowserRouter as Router, Routes,Route} from 'react-router-dom';
 import LogIn from './LogIn.jsx';
 
+/* ----------------------------- Osas -------------------------------- */
 import OsasDashboard from './Osas/Dashboard.jsx';
 import College from './Osas/College.jsx';
 import Program from './Osas/Program.jsx';
@@ -8,7 +9,7 @@ import Organisation from './Osas/Organisation.jsx';
 import Student from './Osas/Student.jsx';
 import Account from './Osas/Account.jsx';
 import Setting from './Osas/Setting.jsx';
-
+/* ----------------------------- Student -------------------------------- */
 import StudentDashboard from './Student/Dashboard.jsx';
 import Contribution from './Student/Contribution.jsx';
 import Attendance from './Student/Attendance.jsx';
@@ -19,18 +20,17 @@ import FinancialReport from './Student/FinancialReport.jsx';
 import AccomplishmentReport from './Student/AccomplishmentReport.jsx';
 import Payment from './Student/Payment.jsx';
 import SettingsStudent from './Student/Settings.jsx';
-
-import CITCouncil from './Treasurer/CITCouncil.jsx';
-import CITStudent from './Treasurer/CITStudent.jsx';
-import CITEventList from './Treasurer/CITEventList.jsx';
-import CITEventContribution from './Treasurer/CITEventContribution.jsx';
-import CITAttendance from './Treasurer/CITAttendance.jsx';
-import CITFinancial from './Treasurer/CITFinancial.jsx';
-import CITAccomplishment from './Treasurer/CITAccomplishment.jsx';
-import CITSanction from './Treasurer/CITSanction.jsx';
-import CITExcuse from './Treasurer/CITExcuse.jsx';
-import CITSettings from './Treasurer/CITSettings.jsx';
-import User from './User.jsx';
+/* ----------------------------- Treasurer -------------------------------- */
+import TreasurerDashboard from './Treasurer/Dashboard.jsx';
+import TreasurerStudent from './Treasurer/Student.jsx';
+import CITEventList from './Treasurer/EventList.jsx';
+import CITEventContribution from './Treasurer/EventContribution.jsx';
+import CITAttendance from './Treasurer/Attendance.jsx';
+import CITFinancial from './Treasurer/Financial.jsx';
+import CITAccomplishment from './Treasurer/Accomplishment.jsx';
+import CITSanction from './Treasurer/Sanction.jsx';
+import CITExcuse from './Treasurer/Excuse.jsx';
+import CITSettings from './Treasurer/Settings.jsx';
 import ShiftingApproval from './Treasurer/ShiftingApproval.jsx';
 import PaymentTransaction from './Treasurer/PaymentTransaction.jsx';
 import './index.css'
@@ -61,28 +61,20 @@ function App() {
         <Route path="/student/settings" element={<SettingsStudent/>}/>
 
 
-
-
-
-
-        
-
-
-        <Route path="/org/citdashboard" element={<CITCouncil/>}/>
-        <Route path="/org/citstudent" element={<CITStudent/>}/>
-        <Route path="/org/citeventlist" element={<CITEventList/>}/>
-        <Route path="/org/citeventcontribution" element={<CITEventContribution/>}/>
-        <Route path="/org/citattendance" element={<CITAttendance/>}/>
-        <Route path="/org/citfinancial" element={<CITFinancial/>}/>
-        <Route path="/org/citaccomplishment" element={<CITAccomplishment/>}/>
+        <Route path="/org/dashboard" element={<TreasurerDashboard/>}/>
+        <Route path="/org/student" element={<TreasurerStudent/>}/>
+        <Route path="/org/eventlist" element={<CITEventList/>}/>
+        <Route path="/org/eventcontribution" element={<CITEventContribution/>}/>
+        <Route path="/org/attendance" element={<CITAttendance/>}/>
+        <Route path="/org/financial" element={<CITFinancial/>}/>
+        <Route path="/org/accomplishment" element={<CITAccomplishment/>}/>
         <Route path="/org/payment-transaction" element={<PaymentTransaction/>}/>
-        <Route path="/org/citsanction" element={<CITSanction/>}/>
-        <Route path="/org/citexcuse" element={<CITExcuse/>}/>
+        <Route path="/org/sanction" element={<CITSanction/>}/>
+        <Route path="/org/excuse" element={<CITExcuse/>}/>
         <Route path="/org/shifting-approval" element={<ShiftingApproval/>}/>
-        <Route path="/org/citsettings" element={<CITSettings/>}/>
+        <Route path="/org/settings" element={<CITSettings/>}/>
 
 
-        <Route path="/user" element={<User/>}/>
       </Routes>
     </Router>
    

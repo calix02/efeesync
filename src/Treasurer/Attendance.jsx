@@ -3,64 +3,43 @@ import CITSidebar from './Sidebar.jsx';
 import TableAttendance from '../other_components/TableAttendance.jsx';
 import AddEventListCard from '../other_components/AddEventListCard.jsx';
 import UpdateEventCard from '../other_components/UpdateEventCard.jsx';
-import React, {useState,useRef} from 'react';
+import React, {useRef} from 'react';
+import useAnimatedToggle from '../hooks/useAnimatedToggle.js';
 import it from '../assets/it.png';
 import EfeeViolet from '../assets/violetlogo.png'
 
 function CITAttendance(){
-    const [showAddEventCard, setShowAddEventCard] = useState(false);
-    const [showUpdateEventCard, setShowUpdateEventCard] = useState(false);
-    
-    const [animation,setAnimation] = useState('');
-    const cardRef = useRef(null);
+/* ------------------------- Animated States ----------------------------- */
+    const addEvent = useAnimatedToggle();
+    const updateEvent = useAnimatedToggle();
 
-    const clickedAddBtn = () =>{
-        if(!showAddEventCard){
-            setShowAddEventCard(true);
-            setAnimation('fade-in');
-        }else{
-            setAnimation('fade-out');
-        }
-    }
-    const clickedUpdateBtn = () =>{
-        if(!showUpdateEventCard){
-            setShowUpdateEventCard(true);
-            setAnimation('fade-in');
-        }else{
-            setAnimation('fade-out');
-        }
-    }
-     const handleAddCardAnimation = () =>{
-        if(animation === 'fade-out'){
-            setShowAddEventCard(false);
-        }
-    }
-    const handleUpdateCardAnimation = () =>{
-        if(animation === 'fade-out'){
-            setShowUpdateEventCard(false);
-        }
-    }
-    const handleCloseCard = () => {
-    setAnimation('fade-out');
-    };
-    
+    const addRef = useRef(null);
+    const updateRef = useRef(null);
+
     return(
         <>
-         {showAddEventCard &&
-            <>
+
+         {addEvent.isVisible &&(
+             <>
+                {/* Add Event*/}
                 <div className="fixed inset-0 bg-[#00000062] z-40 pointer-events-auto">
                     {/* Overlay */}
                 </div>
-                <AddEventListCard ref={cardRef} onAnimationEnd={handleAddCardAnimation} animate={animation} onClose={handleCloseCard} />
+                <AddEventListCard ref={addRef} onAnimationEnd={addEvent.handleEnd} animate={addEvent.animation} onClose={() => addEvent.setAnimation("fade-out")} />
             </>
+         )
+           
         }
-        {showUpdateEventCard &&
+        {updateEvent.isVisible &&(
             <>
+                {/* Update Event */}
                 <div className="fixed inset-0 bg-[#00000062] z-40 pointer-events-auto">
                     {/* Overlay */}
                 </div>
-                <UpdateEventCard ref={cardRef} onAnimationEnd={handleUpdateCardAnimation} animate={animation} onClose={handleCloseCard} />
+                <UpdateEventCard ref={updateRef} onAnimationEnd={updateEvent.handleEnd} animate={updateEvent.animation} onClose={() => updateEvent.setAnimation("fade-out")} />
             </>
+        )
+            
         }
             <CITHeader logoCouncil={it} titleCouncil = "College Of Information Teachnology" abb="CIT Council" />
              <div className="w-screen h-screen bg-[#fafafa] absolute z-[-1] overflow-y-auto overflow-x-auto ">
@@ -86,7 +65,7 @@ function CITAttendance(){
                         </select>
                         <button className='bg-white w-[100px] border-1 border-[#8A2791] h-[30px] font-semibold text-[#8A2791] cursor-pointer rounded-[5px] text-[14px] text-center flex justify-center items-center'><span class="material-symbols-outlined">print</span>Print</button>
                     </div>
-                <TableAttendance addEvent={clickedAddBtn} updateEvent={clickedUpdateBtn}/>
+                <TableAttendance addEvent={addEvent.toggle} updateEvent={updateEvent.toggle}/>
 
                 </div>
             </div>
@@ -94,8 +73,6 @@ function CITAttendance(){
                 <CITSidebar eFee={EfeeViolet}/>
             </div>
         </>
-       
-
     );
 }
 export default CITAttendance;

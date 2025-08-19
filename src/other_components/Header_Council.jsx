@@ -1,93 +1,55 @@
 import { Link } from 'react-router-dom';
-import React, { useState, useRef } from 'react';
+import React, { useRef } from 'react';
 import EfeeViolet from '../assets/violetlogo.png'
 import AccountCard from './AccountCard';
 import CITSidebar from '../Treasurer/Sidebar.jsx';
+import useAnimatedToggle from '../hooks/useAnimatedToggle.js';
 import NotificationCard from './NotificationCard.jsx';
 
 import '../animate.css';
 
 function Header_Council(props) {
-   const borderColor =
-   props.code === "cit" ? 'border-[#621668]' 
-   :props.code === "coe" ? 'border-[#0E2148]'
-   :props.code === "coc" ? 'border-[#3A0519]'
-   :props.code === "cot" ? 'border-[#FFD95F] text-[#000]'
-   :props.code === "eap" ? 'border-[#4B352A]'
-   :props.code === "osas" ? 'border-[#174515]'
-   : 'border-red'
+/* ------------------------- Border Color by Council ----------------------------- */
 
-  const [showAccount, setShowAccount] = useState(false);
-  const [accAnimation, setAccAnimation] = useState('');
+   const borderColors = {
+    cit: "border-[#621668]",
+    coe: "border-[#0E2148]",
+    coc: "border-[#3A0519]",
+    cot: "border-[#FFD95F] text-[#000]",
+    eap: "border-[#4B352A]",
+    osas: "border-[#174515]",
+  };
+  const borderColor = borderColors[props.code] || "border-red";
+
+/* ------------------------- Animated States ----------------------------- */
+  const account = useAnimatedToggle();
+  const sidebar = useAnimatedToggle();
+  const notification = useAnimatedToggle();
+
   const accRef = useRef(null);
-
-  const [showSidebar, setShowSidebar] = useState(false);
-  const [sidebarAnimation, setSidebarAnimation] = useState('');
   const sideRef = useRef(null);
-
-  const [showNotification, setShowNotification] = useState(false);
-  const [notifAnimation,setNotifAnimation] = useState('');
   const notifRef = useRef(null);
 
-
-
-  const clickedMenu = () =>{
-    if(!showSidebar){
-      setShowSidebar(true);
-      setSidebarAnimation('fade-side');
-    }else{
-      setSidebarAnimation('fade-out') 
-    }
-  }
-
   const clickedBell = () =>{
-    if(!showNotification){
-      setShowNotification(true);
-      setNotifAnimation('fade-in');
-    }else{
-      setNotifAnimation('fade-out') 
-    }
+    account.setIsVisible(false);
+    sidebar.setIsVisible(false);
   }
-  const handleNotifAnimation = () =>{
-    if(notifAnimation === 'fade-out'){
-      setShowNotification(false);
-    }
+  const clickedAccBar = () =>{
+    notification.setIsVisible(false);
   }
-
- 
-  const clickedAcc = () =>{
-    if(!showAccount){
-      setShowAccount(true);
-      setAccAnimation('fade-in');
-    }else{
-      setAccAnimation('fade-out') 
-    }
-  }
-  const handleAccAnimation = () =>{
-    if(accAnimation === 'fade-out'){
-      setShowAccount(false);
-    }
-  }
-
-
-
-  const handleAnimationEnd = () => {
-    if (sidebarAnimation === 'fade-out') {
-      setShowSidebar(false); 
-              // Unmount only after fade-out
-    }
+  
+  /* ------------------ Dark Mode Toggle ------------------ */
+  const toggleDarkMode = () => {
+    document.documentElement.classList.toggle("dark");
   };
-   const handleCloseSidebar = () => {
-    setSidebarAnimation('fade-out');
-    };
 
   return (
   <>
-    <header className={` flex  bg-white fixed top-0 w-screen h-[80px] lg:z-30 z-80 items-center border-b-3 ${borderColor} `}>
+    <header className={` flex  bg-white fixed top-0 w-screen h-[80px] lg:z-30 z-80 items-center border-b-3 ${borderColor}`}>
       <span hidden>{props.code}</span>
       <span className="flex items-center  gap-3 ml-2">
         <span className='lg:hidden block'>
-          <i onClick={clickedMenu} className="fa-solid fa-bars text-sm cursor-pointer"></i>
+          <i onClick={()=>{clickedAccBar(); sidebar.toggle();} } className="fa-solid fa-bars text-sm cursor-pointer"></i>
         </span>
         <span className='lg:ml-18'>
           <img src={props.logoCouncil} className='lg:w-18 md:w-14 w-12' alt="logo"/>
@@ -101,37 +63,41 @@ function Header_Council(props) {
       <span className="flex lg:gap-5 absolute right-8">
 
       <span className='lg:block hidden'>
-        <i className="fa-solid fa-moon lg:text-xl"></i>
+        <i  className="fa-solid fa-moon lg:text-xl cursor-pointer"></i>
       </span>
 
       <span>
-        <i onClick={clickedBell} className="fa-solid fa-bell lg:text-xl text-sm"></i>
+        <i onClick={() => {clickedBell(); notification.toggle();}} className="fa-solid fa-bell lg:text-xl text-sm cursor-pointer"></i>
       </span>
 
         <span className="hidden lg:block">
-          <i onClick={clickedAcc}  className="fa-solid fa-circle-user lg:text-xl text-sm"></i>
+          <i onClick={() =>{clickedAccBar(); account.toggle();}}  className="fa-solid fa-circle-user lg:text-xl text-sm cursor-pointer"></i>
         </span>
       </span>
-      { showAccount &&
-        <AccountCard ref={accRef} onAnimationEnd={handleAccAnimation} animate={accAnimation} />
-        
-      }
 
+      {/* Account Card */}
+      { account.isVisible &&(
+          <AccountCard ref={accRef} onAnimationEnd={account.handleEnd} animate={account.animation} />
+        )    
+      }
     </header>
-    {showSidebar &&
+      
+    {/* Sidebar*/}
+    {sidebar.isVisible && (
       <>
         <div className="fixed inset-0 bg-[#00000062] z-40 pointer-events-auto">
           {/* Overlay */}
         </div>
-        <CITSidebar eFee={EfeeViolet} ref={sideRef} onAnimationEnd={handleAnimationEnd} animate={sidebarAnimation} onClose={handleCloseSidebar} />
+        <CITSidebar eFee={EfeeViolet} ref={sideRef} onAnimationEnd={sidebar.handleEnd} animate={sidebar.animation} onClose={() => sidebar.setAnimation("fade-out")} />
       </>
+    )
+      
     }
-    {showNotification &&
+    {notification.isVisible &&(
+      <NotificationCard ref={notifRef} onAnimationEnd={notification.handleEnd} animate={notification.animation} />
+    )
 
-      <NotificationCard ref={notifRef} onAnimationEnd={handleNotifAnimation} animate={notifAnimation} />
     }
-    
-
     </>
      
     

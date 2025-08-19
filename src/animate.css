@@ -1,9 +1,9 @@
 .fade-in {
-  animation: fadeIn 0.75s ease forwards;
+  animation: fadeIn 0.3s ease forwards;
 }
 
 .fade-out {
-  animation: fadeOut 0.75s ease forwards;
+  animation: fadeOut 0.3s ease forwards;
 }
 .fade-down{
     animation: downFade 1.5s ease forwards;

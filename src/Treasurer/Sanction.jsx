@@ -6,41 +6,26 @@ import EfeeViolet from '../assets/violetlogo.png';
 import TableMonetarySanction from '../other_components/TableMonetarySanction.jsx';
 import TableCommunityService from '../other_components/TableCommunityService.jsx';
 import SanctionCollect from '../other_components/SanctionCollect.jsx';
+import useAnimatedToggle from '../hooks/useAnimatedToggle.js';
 function CITSanction() {
+/* ------------------------- Animated States ----------------------------- */
+    const sanctionCollect = useAnimatedToggle();
+    const sanctionRef = useRef(null);
+
     const [selectedSanction, setSelectedSanction] = useState("Monetary Sanction");
-
-    const [showCollectSanction, setShowCollectSanction] = useState(false);
-    const[animation,setAnimation] = useState('');
-    const collectRef = useRef(null);
-
-    const clickedCollect = () =>{
-        if(!showCollectSanction){
-            setShowCollectSanction(true);
-            setAnimation("fade-in");
-        }else{
-            setAnimation("fade-out");
-        }
-    }
-    const handleCloseCollection = () =>{
-        if(animation === "fade-out"){
-            setShowCollectSanction(false);
-        }
-    }
-     const handleCloseCard = () => {
-        setAnimation('fade-out');
-    };
 
     return (
         <>
-        {showCollectSanction &&
-            <>
-
+        {sanctionCollect.isVisible &&(
+             <>
+            {/* Sanction Collection */}
              <div className="fixed inset-0 bg-[#00000062] z-40 pointer-events-auto">
                     {/* Overlay */}
                 </div>
-            <SanctionCollect ref={collectRef} onAnimationEnd={handleCloseCollection} animate={animation} onClose={handleCloseCard} />
+            <SanctionCollect ref={sanctionRef} onAnimationEnd={sanctionCollect.handleEnd} animate={sanctionCollect.animation} onClose={() => sanctionCollect.setAnimation("fade-out")} />
             </>
-
+        )
+           
         }
             <CITHeader logoCouncil={it} titleCouncil="College Of Information Teachnology" abb="CIT Council" />
 
@@ -80,7 +65,7 @@ function CITSanction() {
                     {selectedSanction === "Community Service" ? (
                         <TableCommunityService code="cit" />
                     ) : (
-                        <TableMonetarySanction collectSanction={clickedCollect} code="cit" />
+                        <TableMonetarySanction collectSanction={sanctionCollect.toggle} code="cit" />
                     )}
                 </div>
             </div>

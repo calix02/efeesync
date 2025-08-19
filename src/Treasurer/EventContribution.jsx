@@ -3,64 +3,44 @@ import CITSidebar from './Sidebar.jsx';
 import AddEventContributionCard from '../other_components/AddEventContributionCard.jsx';
 import UpdateEventCard from '../other_components/UpdateEventCard.jsx';
 import TableEventContribution from '../other_components/TableEventContribution.jsx';
-import React, {useState,useRef} from 'react';
+import React, {use, useRef} from 'react';
+import useAnimatedToggle from '../hooks/useAnimatedToggle.js';
 import it from '../assets/it.png';
 import EfeeViolet from '../assets/violetlogo.png'
 
 function CITEventContribution(){
-    const [showAddEventCard, setShowAddEventCard] = useState(false);
-    const [showUpdateEventCard, setShowUpdateEventCard] = useState(false);
-    
-    const [animation,setAnimation] = useState('');
-    const cardRef = useRef(null);
+/* ------------------------- Animated States ----------------------------- */
+    const addContribution = useAnimatedToggle();
+    const updateContribution = useAnimatedToggle();
 
-    const clickedAddBtn = () =>{
-        if(!showAddEventCard){
-            setShowAddEventCard(true);
-            setAnimation('fade-in');
-        }else{
-            setAnimation('fade-out');
-        }
-    }
-    const clickedUpdateBtn = () =>{
-        if(!showUpdateEventCard){
-            setShowUpdateEventCard(true);
-            setAnimation('fade-in');
-        }else{
-            setAnimation('fade-out');
-        }
-    }
-     const handleAddCardAnimation = () =>{
-        if(animation === 'fade-out'){
-            setShowAddEventCard(false);
-        }
-    }
-    const handleUpdateCardAnimation = () =>{
-        if(animation === 'fade-out'){
-            setShowUpdateEventCard(false);
-        }
-    }
-    const handleCloseCard = () => {
-    setAnimation('fade-out');
-    };
+    const addRef = useRef(null);
+    const updateRef = useRef(null);
+
+
     
     return(
         <>
-         {showAddEventCard &&
-            <>
+         {addContribution.isVisible &&(
+             <>
+                {/* Add Contribution*/}
                 <div className="fixed inset-0 bg-[#00000062] z-40 pointer-events-auto">
                     {/* Overlay */}
                 </div>
-                <AddEventContributionCard ref={cardRef} onAnimationEnd={handleAddCardAnimation} animate={animation} onClose={handleCloseCard} />
+                <AddEventContributionCard ref={addRef} onAnimationEnd={addContribution.handleEnd} animate={addContribution.animation} onClose={() => addContribution.setAnimation("fade-out")} />
             </>
+         )
+           
         }
-        {showUpdateEventCard &&
+        {updateContribution.isVisible &&(
             <>
+                {/* Update Contribution */}
                 <div className="fixed inset-0 bg-[#00000062] z-40 pointer-events-auto">
                     {/* Overlay */}
                 </div>
-                <UpdateEventCard ref={cardRef} onAnimationEnd={handleUpdateCardAnimation} animate={animation} onClose={handleCloseCard} />
+                <UpdateEventCard ref={updateRef} onAnimationEnd={updateContribution.handleEnd} animate={updateContribution.animation} onClose={() => updateContribution.setAnimation("fade-out")} />
             </>
+        )
+            
         }
             <CITHeader logoCouncil={it} titleCouncil = "College Of Information Teachnology" abb="CIT Council" />
              <div className="w-screen h-screen bg-[#fafafa] absolute z-[-1] overflow-y-auto overflow-x-auto ">
@@ -85,7 +65,7 @@ function CITEventContribution(){
 
                         </select>
                     </div>
-                <TableEventContribution addEvent={clickedAddBtn} updateEvent={clickedUpdateBtn}/>
+                <TableEventContribution addEvent={addContribution.toggle} updateEvent={updateContribution.toggle}/>
 
                 </div>
             </div>
@@ -93,8 +73,6 @@ function CITEventContribution(){
                 <CITSidebar eFee={EfeeViolet}/>
             </div>
         </>
-       
-
     );
 }
 export default CITEventContribution;

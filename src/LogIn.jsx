@@ -2,17 +2,36 @@ import { useNavigate } from "react-router-dom";
 import School from './assets/CBSUA-Image.png';
 import Logo from './assets/Final_Logo.png'
 import Cbsua from './assets/cbsua.png';
+import React, {useState} from 'react';
 
 function LogIn(){
 
     const navigate = useNavigate();
-    let role = "student"
-    const handleLogIn = () =>{
-        if(role === "osas"){
+    const [userRole, setUserRole] = useState(null);
+
+    const handleLogIn = async () => {
+        try {
+            const res = await fetch("/api/verify-login", {
+                credentials: "include",
+            });
+
+            const data = await res.json();
+
+            if (data.status === "success" && data.current_user_id > 0) {
+                setUserRole(data); // store logged-in user
+            } else {
+                setUserRole(null); // not logged in
+            }
+        } catch (err) {
+            console.error("Auth fetch failed:", err);
+            setUserRole(null);
+        }
+
+        if(userRole === "admin") {
              navigate("/osas/dashboard");
-        }else if(role === "cit"){
+        } else if(userRole === "cit") {
             navigate("/org/dashboard")
-        }else if(role === "student"){
+        } else if(userRole === "student") {
             navigate("/student/dashboard");
         }
     }
@@ -40,7 +59,7 @@ function LogIn(){
                             <label className="font-semibold text-md" htmlFor="">Email:</label><br />
                             <input type="email" className="bg-white mb-2 border-2 font-semibold text-md border-[#000] w-[100%] px-2 py-2 rounded-md" /><br />
                             <label className="font-semibold text-md" htmlFor="">Password:</label><br />
-                            <input type="password" className="bg-white mb-2 border-2 font-semibold text-md border-[#000] w-[100%] py-2 rounded-md" /><br /><br />
+                            <input type="password" className="bg-white mb-2 border-2 font-semibold text-md border-[#000] w-[100%] px-2 py-2 rounded-md" /><br /><br />
                             <button onClick={ handleLogIn} className="bg-[#174515] rounded-md cursor-pointer py-2 w-[100%] text-white">Sign In</button>
                             <center>
                                 <p className="mt-3 text-sm text-[#414040c4]">Forgot Password?</p>

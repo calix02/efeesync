@@ -4,80 +4,58 @@ import TableStudent from '../other_components/TableStudent.jsx';
 import AddStudentCard from '../other_components/AddStudentCard.jsx';
 import UpdateStudentCard from '../other_components/UpdateStudentCard.jsx';
 import EfeeViolet from '../assets/violetlogo.png'
-import React, {useState,useRef} from 'react';
+import React, {useRef} from 'react';
+import useAnimatedToggle from '../hooks/useAnimatedToggle.js';
 import it from '../assets/it.png';
 import '../animate.css';
 
 function CITStudent(){
-    let animate = 'fade-in';
 
      const studData = Array.from({ length: 13 }, (_, i) => ({
         id: `22-${1000 + i}`,
         name: `Mark Alvarado ${i + 1}`,
         yearSection: "3A",
     }));
-   
-    const [showAddStudentCard, setShowAddStudentCard] = useState(false);
-    const [showUpdateStudentCard, setShowUpdateStudentCard] = useState(false);
 
-    const [animation,setAnimation] = useState('');
-    const cardRef = useRef(null);
+/* ------------------------- Animated States ----------------------------- */
+    const addStudent = useAnimatedToggle();
+    const updateStudent = useAnimatedToggle();
 
-    const clickedAddBtn = () =>{
-        if(!showAddStudentCard){
-            setShowAddStudentCard(true);
-            setAnimation('fade-in');
-        }else{
-            setAnimation('fade-out');
-        }
-    }
-    const clickedUpdateBtn = () =>{
-        if(!showUpdateStudentCard){
-            setShowUpdateStudentCard(true);
-            setAnimation('fade-in');
-        }else{
-            setAnimation('fade-out');
-        }
-    }
-    const handleAddCardAnimation = () =>{
-        if(animation === 'fade-out'){
-            setShowAddStudentCard(false);
-        }
-    }
-     const handleUpdateCardAnimation = () =>{
-        if(animation === 'fade-out'){
-            setShowUpdateStudentCard(false);
-        }
-    }
-    const handleCloseCard = () => {
-    setAnimation('fade-out');
-    };
+    const addRef = useRef(null);
+    const updateRef = useRef(null);
 
     return(
         <>
-        {showAddStudentCard &&
+        {addStudent.isVisible &&(
             <>
+                {/* Add Student*/}
                 <div className="fixed inset-0 bg-[#00000062] z-40 pointer-events-auto">
                     {/* Overlay */}
                 </div>
-                <AddStudentCard ref={cardRef} onAnimationEnd={handleAddCardAnimation} animate={animation} onClose={handleCloseCard} />
+                <AddStudentCard ref={addRef} onAnimationEnd={addStudent.handleEnd} animate={addStudent.animation} onClose={() => addStudent.setAnimation("fade-out")} />
             </>
+
+        )
+            
         }
-         {showUpdateStudentCard &&
+         {updateStudent.isVisible &&(
             <>
+                {/* Update Student */}
                 <div className="fixed inset-0 bg-[#00000062] z-40 pointer-events-auto">
                     {/* Overlay */}
                 </div>
-                <UpdateStudentCard ref={cardRef} onAnimationEnd={handleUpdateCardAnimation} animate={animation} onClose={handleCloseCard} />
+                <UpdateStudentCard ref={updateRef} onAnimationEnd={updateStudent.handleEnd} animate={updateStudent.animation} onClose={() => updateStudent.setAnimation("fade-out")} />
             </>
+
+         )
+            
         }
          
 
             <CITHeader logoCouncil={it} titleCouncil = "College Of Information Teachnology" abb="CIT Council" />
              <div className="w-screen h-screen bg-[#fafafa] absolute z-[-1] overflow-y-auto overflow-x-auto ">
-
-                <div className='lg:ml-[290px] mt-[110px] lg:flex lg:justify-between px-[10px]'>
-                    <h2 className='text-[26px] font-semibold'>Manage Students</h2>
+                <div className='lg:ml-70 lg:mt-30 lg:flex lg:justify-between '>
+                    <h2 className="text-2xl font-medium font-[family-name:Futura Bold] ml-6">Manage Students</h2>
                     <div className=' lg:flex lg:mr-8 lg:gap-2.5 lg:mt-0 mt-[10px] items-center'>
                         <input className='lg:w-[320px] w-[100%] p-2 bg-white rounded-[10px] border-2 font-semibold border-[#8A2791] block' type="text" placeholder='Search Student' />
                         <div className='relative lg:mt-0 mt-[10px]'>
@@ -85,8 +63,7 @@ function CITStudent(){
                             <button className='bg-[#8A2791] h-[35px] lg:w-[150px] w-[100%] px-[15px] flex items-center justify-center cursor-pointer rounded-[10px] text-white absolute z-[-1] top-0'>
                                 <span className="material-symbols-outlined">download</span>Import CSV
                             </button>
-                        </div>
-                       
+                        </div>  
                     </div> 
 
                 </div>
@@ -117,7 +94,7 @@ function CITStudent(){
                     </div>
 
                 </div>
-                <TableStudent students={studData} show={clickedAddBtn} update={clickedUpdateBtn} />      
+                <TableStudent students={studData} show={addStudent.toggle} update={updateStudent.toggle} />      
 
                              
                

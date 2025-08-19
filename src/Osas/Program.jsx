@@ -5,76 +5,53 @@ import TableProgram from '../other_components/TableProgram.jsx';
 import AddProgramCard from '../other_components/AddProgramCard.jsx';
 import UpdateProgramCard from '../other_components/UpdateProgramCard.jsx';
 import Header from '../other_components/Header_Council.jsx';
-import React, {useState,useRef} from 'react';
+import React, {useRef} from 'react';
+import useAnimatedToggle from '../hooks/useAnimatedToggle.js';
 import '../animate.css';
 
 
 
 
 function Program(){
-    const [showAddCollege, setShowAddCollege] = useState(false);
-    const [showUpdateCollege, setShowUpdateCollege] = useState(false);
+/* ------------------------- Animated States ----------------------------- */
+    const addProgram = useAnimatedToggle();
+    const updateProgram = useAnimatedToggle();
 
-    const [animate, setAnimate] = useState('');
-    const updateCollege  = useRef(null);
-    const addCollege = useRef(null);
-
-    const clickedAddStudent = () =>{
-        if(!showAddCollege){
-            setShowAddCollege(true);
-            setAnimate('fade-in');
-        }else{
-            setAnimate('fade-out');
-        }
-    }
-    const clickedUpdateStudent = () =>{
-        if(!showUpdateCollege){
-            setShowUpdateCollege(true);
-            setAnimate('fade-in');
-        }else{
-            setAnimate('fade-out');
-        }
-    }
-    const handleAddStudent = () =>{
-        if(animate === "fade-out"){
-            setShowAddCollege(false);
-        }
-    }
-
-     const handleUpdateStudent = () =>{
-        if(animate === "fade-out"){
-            setShowUpdateCollege(false);
-        }
-    }
-    const handleCloseCard = () => {
-    setAnimate('fade-out');
-    };
+    const addRef = useRef(null);
+    const updateRef = useRef(null);
+ 
 
     return(
         <>
-        {showAddCollege &&
-            <>
+        {addProgram.isVisible &&(
+             <>
                  <div className="fixed inset-0 bg-[#00000062] z-40 pointer-events-auto">
                     {/* Overlay */}
                 </div>
-                <AddProgramCard ref={addCollege} onAnimationEnd={handleAddStudent} onClose={handleCloseCard} animate={animate} />
+                <AddProgramCard ref={addRef} onAnimationEnd={addProgram.handleEnd} onClose={() => addProgram.setAnimation("fade-out")} animate={addProgram.animation} />
             </>
+
+        )
+           
         }
-        {showUpdateCollege &&
+        {updateProgram.isVisible &&(
             <>  
                  <div className="fixed inset-0 bg-[#00000062] z-40 pointer-events-auto">
                     {/* Overlay */}
                 </div>
-                <UpdateProgramCard ref={updateCollege} onAnimationEnd={handleUpdateStudent} onClose={handleCloseCard} animate={animate} />
+                <UpdateProgramCard ref={updateRef} onAnimationEnd={updateProgram.handleEnd} onClose={() => updateProgram.setAnimation("fade-out")} animate={updateProgram.animation} />
 
             </>
+
+        )
+            
 
         }
         <Header code="osas" logoCouncil={OsasLogo} titleCouncil = "Office of Student Affairs and Services"/>
              <div className="w-screen h-screen bg-[#fafafa] absolute z-[-1] overflow-y-auto overflow-x-auto ">
                 <div className='lg:ml-73 mt-27 lg:flex lg:justify-between items-center px-5'>
                     <h2 className='text-[26px] font-semibold'>Manage Program</h2>
-                    <button onClick={clickedAddStudent} className='bg-[#174515] w-40 py-1 text-sm flex justify-center items-center text-white rounded-md'>
+                    <button onClick={addProgram.toggle} className='bg-[#174515] w-40 py-1 text-sm flex justify-center items-center text-white rounded-md'>
                         <span className="material-symbols-outlined px-1">add</span>Add Program
                     </button>
                     
@@ -94,7 +71,7 @@ function Program(){
                     </div>
 
                 </div>
-             <TableProgram update={clickedUpdateStudent}/>
+             <TableProgram update={updateProgram.toggle}/>
 
              </div>
 

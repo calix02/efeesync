@@ -1,6 +1,9 @@
 import{BrowserRouter as Router, Routes,Route} from 'react-router-dom';
 import LogIn from './LogIn.jsx';
 
+/* ------------------------- Error Pages ----------------------------- */
+import NotFound from "./NotFound";
+import Unauthorized from "./Unauthorized";
 /* ----------------------------- Osas -------------------------------- */
 import OsasDashboard from './Osas/Dashboard.jsx';
 import College from './Osas/College.jsx';
@@ -41,6 +44,10 @@ function App() {
     <Router>
       <Routes>
         <Route path="/" element={<LogIn/>}/>
+        <Route path="/login" element={<LogIn/>}/>
+        <Route path="/unauthorized" element={<Unauthorized />} />
+
+        <Route path="/osas" element={<OsasDashboard/>}/>
         <Route path="/osas/dashboard" element={<OsasDashboard/>}/>
         <Route path="/osas/college" element={<College/>}/>
         <Route path="/osas/program" element={<Program/>}/>
@@ -49,6 +56,7 @@ function App() {
         <Route path="/osas/account" element={<Account/>}/>
         <Route path="/osas/setting" element={<Setting/>}/>
 
+        <Route path="/student" element={<StudentDashboard/>}/>
         <Route path="/student/dashboard" element={<StudentDashboard/>}/>
         <Route path="/student/contribution" element={<Contribution/>}/>
         <Route path="/student/attendance" element={<Attendance/>}/>
@@ -60,7 +68,7 @@ function App() {
         <Route path="/student/payment" element={<Payment/>}/>
         <Route path="/student/settings" element={<SettingsStudent/>}/>
 
-
+        <Route path="/org" element={<TreasurerDashboard/>}/>
         <Route path="/org/dashboard" element={<TreasurerDashboard/>}/>
         <Route path="/org/student" element={<TreasurerStudent/>}/>
         <Route path="/org/eventlist" element={<CITEventList/>}/>
@@ -74,10 +82,9 @@ function App() {
         <Route path="/org/shifting-approval" element={<ShiftingApproval/>}/>
         <Route path="/org/settings" element={<CITSettings/>}/>
 
-
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </Router>
-   
   );
 }
 

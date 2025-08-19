@@ -5,69 +5,46 @@ import EfeeOsas from '../assets/Final_logo.png';
 import TableStudentOsas from '../other_components/TableStudentOsas.jsx';
 import AddStudentOsasCard from '../other_components/AddStudentOsasCard.jsx';
 import UpdateStudentOsasCard from '../other_components/UpdateStudentOsasCard.jsx';
-import React, {useState,useRef} from 'react';
+import React, {useRef} from 'react';
 import '../animate.css';
+import useAnimatedToggle from '../hooks/useAnimatedToggle.js';
 
 
 
 
 function Student(){
-    const [showAddCollege, setShowAddCollege] = useState(false);
-    const [showUpdateCollege, setShowUpdateCollege] = useState(false);
+/* ------------------------- Animated States ----------------------------- */
+    const addStudent = useAnimatedToggle();
+    const updateStudent = useAnimatedToggle();
 
-    const [animate, setAnimate] = useState('');
-    const updateCollege  = useRef(null);
-    const addCollege = useRef(null);
+    const addRef = useRef(null);
+    const updateRef = useRef(null);
 
-    const clickedAddStudent = () =>{
-        if(!showAddCollege){
-            setShowAddCollege(true);
-            setAnimate('fade-in');
-        }else{
-            setAnimate('fade-out');
-        }
-    }
-    const clickedUpdateStudent = () =>{
-        if(!showUpdateCollege){
-            setShowUpdateCollege(true);
-            setAnimate('fade-in');
-        }else{
-            setAnimate('fade-out');
-        }
-    }
-    const handleAddStudent = () =>{
-        if(animate === "fade-out"){
-            setShowAddCollege(false);
-        }
-    }
-
-     const handleUpdateStudent = () =>{
-        if(animate === "fade-out"){
-            setShowUpdateCollege(false);
-        }
-    }
-    const handleCloseCard = () => {
-    setAnimate('fade-out');
-    };
-
+   
     return(
         <>
-        {showAddCollege &&
+        {addStudent.isVisible &&(
             <>
                  <div className="fixed inset-0 bg-[#00000062] z-40 pointer-events-auto">
                     {/* Overlay */}
                 </div>
-                <AddStudentOsasCard ref={addCollege} onAnimationEnd={handleAddStudent} onClose={handleCloseCard} animate={animate} />
+                <AddStudentOsasCard ref={addRef} onAnimationEnd={addStudent.handleEnd} onClose={() => addStudent.setAnimation("fade-out")} animate={addStudent.animation} />
             </>
+
+        )
+            
         }
-        {showUpdateCollege &&
+        {updateStudent.isVisible &&(
             <>  
                  <div className="fixed inset-0 bg-[#00000062] z-40 pointer-events-auto">
                     {/* Overlay */}
                 </div>
-                <UpdateStudentOsasCard ref={updateCollege} onAnimationEnd={handleUpdateStudent} onClose={handleCloseCard} animate={animate} />
+                <UpdateStudentOsasCard ref={updateRef} onAnimationEnd={updateStudent.handleEnd} onClose={() => updateStudent.setAnimation("fade-out")} animate={updateStudent.animation} />
 
             </>
+
+        )
+            
 
         }
         <Header code="osas" logoCouncil={OsasLogo} titleCouncil = "Office of Student Affairs and Services"/>
@@ -103,7 +80,7 @@ function Student(){
                     </div>
 
                 </div>
-             <TableStudentOsas update={clickedUpdateStudent} add={clickedAddStudent}/>
+             <TableStudentOsas update={updateStudent.toggle} add={addStudent.toggle}/>
 
              </div>
 

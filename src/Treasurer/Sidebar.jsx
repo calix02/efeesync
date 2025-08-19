@@ -18,8 +18,8 @@ const CITSidebar = React.forwardRef(({eFee, animate, onAnimationEnd,onClose},ref
                     <NavLink code="cit" navLink = "/org/dashboard" iconName="dashboard" navName="Dashboard"/>
                     <NavLink code="cit" navLink = "/org/student" iconName="person" navName="Student"/>
                     <NavLink code="cit" navLink = "/org/eventlist" iconName="event_note" navName="Event List"/>
-                    <DropDownNav code="cit" subNavLink1 = "/org/eventcontribution" subNavLink2 = "/org/citattendance" iconName="calendar_month" navName="Event Management" iconName1 = "event_upcoming" subNavName1 = "Event Contributions" iconName2 = "edit_calendar" subNavName2 = "Event Attendance"/>
-                    <DropDownNav code="cit" subNavLink1 = "/org/financial" subNavLink2 = "/org/citaccomplishment" iconName="assignment" navName="Reports" iconName1 = "article" subNavName1 = "Financial Report" iconName2 = "fact_check" subNavName2 = "Accomplishment Report"/>
+                    <DropDownNav code="cit" subNavLink1 = "/org/eventcontribution" subNavLink2 = "/org/attendance" iconName="calendar_month" navName="Event Management" iconName1 = "event_upcoming" subNavName1 = "Event Contributions" iconName2 = "edit_calendar" subNavName2 = "Event Attendance"/>
+                    <DropDownNav code="cit" subNavLink1 = "/org/financial" subNavLink2 = "/org/accomplishment" iconName="assignment" navName="Reports" iconName1 = "article" subNavName1 = "Financial Report" iconName2 = "fact_check" subNavName2 = "Accomplishment Report"/>
                     <NavLink code="cit" navLink = "/org/payment-transaction" iconName="credit_card" navName="Payment Transactions"/>
                     <NavLink code="cit" navLink = "/org/sanction" iconName="event_busy" navName="Sanctions"/>
                     <DropDownNav code="cit" subNavLink1 = "/org/excuse" subNavLink2="/org/shifting-approval" iconName="approval" navName="Excuse Approval" subNavName1="Excuse Letter Approval" iconName1="inbox_text" subNavName2="Shifting Approval" iconName2="article_person"/>

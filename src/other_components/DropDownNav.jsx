@@ -15,7 +15,7 @@ function DropDownNav(props){
     }
     return(
         <>
-            <Link onClick={clickedUpdate} className='flex items-center font-[family-name:Helvetica] p-2.5 text-md hover:bg-[#4F1C51] rounded-md hover:text-white'>
+            <Link onClick={clickedUpdate} className={`flex items-center font-[family-name:Helvetica] p-2.5 text-md ${hoverColor} transition duration-150 rounded-md hover:text-white`}>
                 <span className="material-symbols-outlined px-2.5">{props.iconName}</span>
                 <span>{props.navName}</span>
                 <span className="material-symbols-outlined">

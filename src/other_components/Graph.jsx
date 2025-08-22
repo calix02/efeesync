@@ -29,14 +29,10 @@ function StudentGraph ({graphTitle ,data}) {
   };
 
   return (
-    <div style={{
-      maxWidth: '300px',
-      textAlign: 'center',
-      padding: '20px'
-    }}>
+    <div className='text-center p-5 w-70 '>
       <h2 style={{ color: '#000' }} className='text-md lg:text-lg font-[family-name:Helvetica] font-semibold'>{graphTitle}</h2>
       <Doughnut data={data} options={options} />
-      <div style={{ display: 'flex', justifyContent: 'space-around', marginTop: '20px' }}>
+      <div className='flex justify-center font-[family-name:Arial] gap-4 mt-5'>
         {data.labels.map((label, i) => (
           <div key={label} style={{ textAlign: 'center' }}>
             <div style={{
@@ -45,9 +41,9 @@ function StudentGraph ({graphTitle ,data}) {
               backgroundColor: data.datasets[0].backgroundColor[i],
               borderRadius: '50%',
               display: 'inline-block',
-              marginRight: '5px'
+              marginRight: '15px'
             }}></div>
-            <span>{label}</span>
+            <span className="text-xs">{label}</span>
           </div>
         ))}
       </div>

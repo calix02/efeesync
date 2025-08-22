@@ -5,23 +5,22 @@
 .fade-out {
   animation: fadeOut 0.3s ease forwards;
 }
-.fade-down{
-    animation: downFade 1.5s ease forwards;
+.card-In{
+  animation: cardIn .5s ease forwards;
 }
-.fade-up{
-    animation: upFade 1.5s ease forwards;
+.left-In{
+  animation: leftIn .5s ease forwards;
 
 }
-.fade-side{
-  animation: fadeSide 0.75s ease forwards;
-}
-
-
-@keyframes showUpload{
-    from{opacity: 0; width: 30px;}
-    to {opacity: 1; width: 460px;}
+.right-In{
+  animation: rightIn .5s ease forwards;
 
 }
+
+
+
+
+
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(-10px); }
   to { opacity: 1; transform: translateY(0); }
@@ -30,19 +29,18 @@
   from { opacity: 1; transform: translateY(0); }
   to { opacity: 0; transform: translateY(-10px); }
 }
-
-@keyframes fadeSide{
-  from { opacity: 0; transform: translateX(-10); }
-  to { opacity: 1; transform: translateY(0); }
-
+@keyframes cardIn {
+  from { opacity: 0; transform: translateY(-50px);}
+  to {opacity: 1; transform: translateY(0);}
+}
+@keyframes leftIn {
+  from { opacity: 0; transform: translateX(-80px);}
+  to {opacity: 1; transform: translateX(0);}
+}
+@keyframes rightIn {
+  from { opacity: 0; transform: translateX(80px);}
+  to {opacity: 1; transform: translateX(0);}
 }
 
-@keyframes downFade {
-    from{opacity: 0; height: 0px;}
-    to{opacity: 1; height: 540px;}
-}
-@keyframes upFade {
-    from{opacity: 1; height: 320px;}
-    to{opacity: 0; height: 0px;}
-}
+
 

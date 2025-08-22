@@ -1,6 +1,10 @@
 import { useState, useMemo } from "react";
+import "../animate.css";
 
 function TableEventContribution({ code = "cit", events = [], addEvent, updateEvent }) {
+/* ------------------------ animation ------------------------- */
+  const animate = "card-In";
+
   const textColor =
     code === "cit" ? "text-[#4F1C51]"
       : code === "coe" ? "text-[#0E2148]"
@@ -60,11 +64,11 @@ function TableEventContribution({ code = "cit", events = [], addEvent, updateEve
 
   /* -------------------------------- Render ------------------------------- */
   return (
-    <div className="w-full flex flex-col gap-6">
+    <div className={`w-full ${animate} flex flex-col gap-6  lg:text-sm text-xs`}>
       {/* ===================== EVENT TABLE ===================== */}
       {selectedEventIndex === null && (
         <>
-        <div className="lg:ml-[300px] bg-white text-black flex-grow p-5 mx-5 mt-3 rounded-[10px] shadow-[2px_2px_2px_grey]">
+        <div className={`lg:ml-70 bg-white   border-1 font-[family-name:Arial] border-[#d8d8d8] text-black flex-grow p-5  mt-3 rounded-lg shadow-[2px_2px_2px_grey]`}>
           <table className="w-full text-center">
             <thead>
               <tr className={`border-b-2 border-[#000] ${textColor}`}>
@@ -177,11 +181,8 @@ function TableEventContribution({ code = "cit", events = [], addEvent, updateEve
                   <td className="text-[#119e3e]">{attendee.contriDate}</td>
                   <td className="text-[#119e3e]">{attendee.totalFees}</td>
                   <td className="text-[#119e3e]">{attendee.balance}</td>
-                  <td>
-                    <span
-                    
-                      className="material-symbols-outlined cursor-pointer text-[#8A2791] bg-white shadow-[2px_2px_1px_grey] rounded-[5px] border border-[#8A2791] px-[2px]"
-                    >
+                  <td className="flex justify-center gap-1 py-1">
+                    <span className="material-symbols-outlined cursor-pointer text-[#8A2791] bg-white shadow-[2px_2px_1px_grey] rounded-sm border border-[#8A2791] px-1">
                       edit_square
                     </span>
                      <span className="material-symbols-outlined bg-white cursor-pointer text-[#d10707] shadow-[2px_2px_2px_grey] rounded-[5px] border border-[#d10707] px-[2px]">

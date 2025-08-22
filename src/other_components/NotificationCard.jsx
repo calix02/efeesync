@@ -5,7 +5,7 @@ const NotificationCard = React.forwardRef(({animate, onAnimationEnd}, ref) => {
         date: `July 19, 2025 3:00pm`,
     })); 
     return(
-        <div ref={ref} onAnimationEnd={onAnimationEnd} className={`${animate} w-85 h-85 rounded-[10px] bg-white border-1 border-black shadow-[2px_2px_grey] z-80 absolute right-10 top-[60px] `} >
+        <div ref={ref} onAnimationEnd={onAnimationEnd} className={`${animate} w-85 h-85 rounded-lg bg-white border-1 border-black shadow-[2px_2px_grey] z-80 absolute lg:right-10 right-5 top-18 `} >
             <div className='mt-3 px-5 flex justify-between'>
                 <h2 className='text-xl font-bold text-[#621668] font-[family-name:Helvetica]'>Notifications</h2>
                 <button className='text-sm text-[#666666]'>Clear All</button>

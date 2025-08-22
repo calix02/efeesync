@@ -3,7 +3,7 @@ import EfeeOsas from '../assets/Final_logo.png';
 import Header from '../other_components/Header_Council.jsx';
 import OsasLogo from '../assets/osas.png';
 import CardOsas from '../other_components/CardOsas.jsx';
-import Card_Admin from '../admin_components/Card_Admin.jsx';
+import Card_Admin from '../osas_components/Card_Admin.jsx';
 import CouncilGraph from '../other_components/Graph.jsx';
 import ChartSanction from '../Charts.jsx';
 import StudentTreasurerCard from '../other_components/StudentTreasurerCard.jsx';

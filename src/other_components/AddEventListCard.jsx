@@ -3,21 +3,21 @@ const AddEventListCard = React.forwardRef(({animate, onAnimationEnd,onClose}, re
 
 
     return( 
-        <div ref={ref}   className={` ${animate} lg:w-[420px] w-[390px] h-[480px] px-[30px] bg-white shadow-[2px_2px_#8A2791,-2px_-2px_white] rounded-[10px] absolute z-50 inset-0 mx-auto mt-[120px] `}
+        <div ref={ref}   className={` ${animate} lg:w-100 md:w-100 w-80  h-115 text-sm font-[family-name:Arial] px-6 bg-white shadow-[2px_2px_#8A2791,-2px_-2px_white] rounded-lg absolute z-80 inset-0 mx-auto mt-30 `}
         onAnimationEnd={onAnimationEnd}>
-            <div className="mt-[10px] relative">
+            <div className="mt-2 relative">
                 <span onClick={onClose} className="material-symbols-outlined absolute right-0.5 cursor-pointer">disabled_by_default</span>
             </div>
-            <div className="mt-[20px] border-b-4 border-[#8A2791]">
-                <span className="text-[#8A2791] font-semibold text-[22px]">Add Event</span>
+            <div className="mt-6 border-b-4 border-[#8A2791]">
+                <span className="text-[#8A2791] font-semibold font-[family-name:Helvetica] text-xl">Add Event</span>
             </div>
-            <div className="mt-[15px]">
+            <div className="mt-4">
                 <label>Event Name:</label><br />
-                <input type="text" className="border-2 border-[#8A2791] h-[30px] rounded-[5px] w-[100%] mb-3" /> <br />
+                <input type="text" className="border-2 border-[#8A2791] h-8 rounded-md w-[100%] mb-3" /> <br />
                  <label>Event Description:</label><br />
-                 <textarea name="" id="" className="border-2 border-[#8A2791] h-[30px] rounded-[5px] w-[100%] mb-2"></textarea>
+                 <textarea name="" id="" className="border-2 border-[#8A2791] h-8 rounded-md w-[100%] mb-2"></textarea>
                  <label htmlFor="">Target Year</label>
-                 <div className="border-2 border-[#8A2791] h-[30px] rounded-[5px] w-[100%] mb-4 grid grid-cols-[auto_auto_auto_auto] justify-center items-center gap-[15px]">
+                 <div className="border-2 border-[#8A2791] h-8 rounded-md text-xs w-[100%] mb-4 grid grid-cols-[auto_auto_auto_auto] justify-center items-center lg:gap-3 md:gap-3 gap-2">
                     <span>
                         <input type="checkbox" />
                         <label htmlFor="">1st Year</label>
@@ -39,22 +39,29 @@ const AddEventListCard = React.forwardRef(({animate, onAnimationEnd,onClose}, re
                     </span> 
                  </div>
                  <label htmlFor="">Date Range</label>
-                 <div className="w-[100%] flex gap-[20px]">
-                    <div className="border-2 border-[#8A2791] h-[30px] rounded-[5px] w-[50%] mb-3 grid justify-center items-center">
-                        <input type="date" className="w-[130px] " />
+                 <div className="w-[100%] flex lg:gap-3 md:gap-3 gap-1">
+                    <div className="border-2 border-[#8A2791] h-8 px-2 rounded-md w-[50%] mb-3 grid justify-center items-center">
+                        <input type="date" className="w-[100%] " />
                     </div>
-                    <div className="border-2 border-[#8A2791] h-[30px] rounded-[5px] w-[50%] mb-3 grid justify-center items-center">
-                        <input type="date" className="w-[130px] " />
+                    <div className="border-2 border-[#8A2791] h-8 px-2 rounded-md w-[50%] mb-3 grid justify-center items-center">
+                        <input type="date" className="w-[100%] " />
                     </div>
 
                  </div>
                  
                 <label htmlFor="">Event Category</label>
-               <select className="border-2 border-[C] h-[30px] rounded-[5px] w-[100%] mb-3 grid grid-cols-[auto_auto] justify-around items-center">
-                    <option value=""></option>
-                    <option value="">With Contribution</option>
-                    <option value="">With Attendance</option>
-                </select>
+                <div className="border-2 border-[#8A2791] flex justify-between px-8 items-center h-8  rounded-md w-[100%] mb-3">
+                    <span className="flex items-center">
+                        <input type="checkbox" />
+                        <p>With Attendance</p>
+                    </span>
+                    <span className="flex items-center">
+                        <input type="checkbox" />
+                        <p>With Contribution</p>
+                    </span>
+
+                </div>
+
                 <button className="bg-[#8A2791] rounded-[5px] mt-[5px] text-white w-[100%] py-[5px]">Next</button> 
             </div>
         </div>

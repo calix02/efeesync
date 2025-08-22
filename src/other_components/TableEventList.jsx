@@ -1,4 +1,5 @@
 import { useState, useMemo } from "react";
+import "../animate.css";
 
 /**
  * TableStudent
@@ -6,6 +7,8 @@ import { useState, useMemo } from "react";
  * @param {Array}  events   – array of { id, name, yearSection }
  */
 function TableEventList({ code = "cit", events = [] , addEvent, updateEvent}) {
+  /* --------------------------------- animation -------------------------------- */
+  const animate = "card-In";
   /* --------------------------------- colors -------------------------------- */
   const textColor =
     code === "cit" ? "text-[#4F1C51]"
@@ -18,7 +21,7 @@ function TableEventList({ code = "cit", events = [] , addEvent, updateEvent}) {
 
 
   /* ---------------------------- sample fallback ---------------------------- */
-  const fallback = Array.from({ length: 5 }, (_, i) => ({
+  const fallback = Array.from({ length: 12 }, (_, i) => ({
     eventName: `Year-End-Party`,
     targetYear: `1,2,3,4`,
     eventDate: `7/11/25`,
@@ -44,9 +47,9 @@ function TableEventList({ code = "cit", events = [] , addEvent, updateEvent}) {
   /* -------------------------------- render --------------------------------- */
   return (
   
-    <div className="w-full flex flex-col gap-6">
+    <div className={`w-full ${animate} flex flex-col gap-6 lg:text-sm text-xs font-[family-name:Arial]`}>
       {/* table wrapper */}
-      <div className="lg:ml-[300px] bg-white text-black flex-grow p-5 mx-5 mt-3 rounded-[10px] shadow-[2px_2px_2px_grey]">
+      <div className={`lg:ml-70  bg-white text-black flex-grow p-5 mt-3 rounded-lg shadow-[2px_2px_2px_grey]`}>
         <table className="w-full text-center ">
           <thead>
             <tr className={`border-b-2 border-[#adadad] ${textColor}`}>
@@ -69,7 +72,7 @@ function TableEventList({ code = "cit", events = [] , addEvent, updateEvent}) {
                 <td>{s.eventType}</td>
 
                 <td className="flex lg:flex-row flex-col gap-2 justify-center py-2">
-                    <span className="material-symbols-outlined  shadow-[2px_2px_1px_grey] rounded-[5px] text-[#3a2791] border border-[#3a2791] px-[2px]">visibility</span>
+                    <span className="material-symbols-outlined cursor-pointer  shadow-[2px_2px_1px_grey] rounded-[5px] text-[#3a2791] border border-[#3a2791] px-[2px]">visibility</span>
                   <span onClick={updateEvent} className="material-symbols-outlined cursor-pointer text-[#8A2791] bg-white  shadow-[2px_2px_1px_grey] rounded-[5px] border border-[#8A2791] px-[2px]">
                     edit_square
                   </span>
@@ -84,7 +87,7 @@ function TableEventList({ code = "cit", events = [] , addEvent, updateEvent}) {
         </table>
       </div>
         {/* pagination controls */}
-        <div className=" relative lg:ml-[270px] mt-[-10px] flex flex-col-reverse justify-center items-center">
+        <div className=" relative lg:ml-70 flex mt-[-10px] flex-col-reverse justify-center items-center">
             <p className='text-[#8A2791] lg:absolute left-9'>Showing of 600</p>  
         <span className="flex">
              <button
@@ -92,7 +95,7 @@ function TableEventList({ code = "cit", events = [] , addEvent, updateEvent}) {
             disabled={page === 0}
             className=" mx-1 flex items-center rounded-md border disabled:opacity-40"
           >
-            <span className="material-symbols-outlined">chevron_left</span>
+            <span className="material-symbols-outlined cursor-pointer">chevron_left</span>
 
           </button>
 
@@ -100,9 +103,9 @@ function TableEventList({ code = "cit", events = [] , addEvent, updateEvent}) {
             <button
               key={i}
               onClick={() => setPage(i)}
-              className={`px-2 mx-1 rounded-md border
+              className={`px-2 mx-1 rounded-md border cursor-pointer
                 ${i === page
-                  ? "bg-violet-600 text-white"
+                  ? "bg-[#4F1C51] text-white"
                   : "bg-white "}`} >
               {i + 1}
             </button>
@@ -113,7 +116,7 @@ function TableEventList({ code = "cit", events = [] , addEvent, updateEvent}) {
             disabled={page === pageCount - 1}
            className=" mx-1 flex items-center rounded-md border disabled:opacity-40"
           >
-            <span className="material-symbols-outlined">chevron_right</span>
+            <span className="material-symbols-outlined cursor-pointer">chevron_right</span>
 
           </button>
 

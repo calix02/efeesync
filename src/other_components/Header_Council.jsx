@@ -45,7 +45,7 @@ function Header_Council(props) {
 
   return (
   <>
-    <header className={` flex  bg-white fixed top-0 w-screen h-[80px] lg:z-30 z-80 items-center border-b-3 ${borderColor}`}>
+    <header className={` flex  bg-white text-[#621668] fixed top-0 w-screen h-20 lg:z-20 md:z-40 z-60  items-center border-b-3 ${borderColor}`}>
       <span hidden>{props.code}</span>
       <span className="flex items-center  gap-3 ml-2">
         <span className='lg:hidden block'>
@@ -60,18 +60,18 @@ function Header_Council(props) {
         <h2 className="lg:text-2xl md:text-lg text-sm  font-bold">{props.titleCouncil}</h2>
       </span>
 
-      <span className="flex lg:gap-5 absolute right-8">
+      <span className="flex lg:gap-3 absolute right-8">
 
       <span className='lg:block hidden'>
-        <i  className="fa-solid fa-moon lg:text-xl cursor-pointer"></i>
+        <i  className="fa-solid fa-moon lg:text-xl cursor-pointer hover:bg-[#621668] transiton duration-150 rounded-full p-1.5 hover:text-white"></i>
       </span>
 
       <span>
-        <i onClick={() => {clickedBell(); notification.toggle();}} className="fa-solid fa-bell lg:text-xl text-sm cursor-pointer"></i>
+        <i onClick={() => {clickedBell(); notification.toggle();}} className="fa-solid fa-bell lg:text-xl hover:bg-[#621668] transiton duration-150 rounded-full p-1.5 hover:text-white  text-sm cursor-pointer"></i>
       </span>
 
         <span className="hidden lg:block">
-          <i onClick={() =>{clickedAccBar(); account.toggle();}}  className="fa-solid fa-circle-user lg:text-xl text-sm cursor-pointer"></i>
+          <i onClick={() =>{clickedAccBar(); account.toggle();}}  className="fa-solid fa-circle-user lg:text-xl hover:bg-[#621668] transiton duration-150 rounded-full p-1.5 hover:text-white text-sm cursor-pointer"></i>
         </span>
       </span>
 
@@ -85,7 +85,7 @@ function Header_Council(props) {
     {/* Sidebar*/}
     {sidebar.isVisible && (
       <>
-        <div className="fixed inset-0 bg-[#00000062] z-40 pointer-events-auto">
+        <div className="fixed inset-0 bg-[#00000062] z-20 pointer-events-auto">
           {/* Overlay */}
         </div>
         <CITSidebar eFee={EfeeViolet} ref={sideRef} onAnimationEnd={sidebar.handleEnd} animate={sidebar.animation} onClose={() => sidebar.setAnimation("fade-out")} />

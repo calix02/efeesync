@@ -1,4 +1,6 @@
 import{BrowserRouter as Router, Routes,Route} from 'react-router-dom';
+import ProtectedLayout from './ProtectedLayout.jsx';
+import GuestRoute from './GuestRoute.jsx';
 import LogIn from './LogIn.jsx';
 
 /* ------------------------- Error Pages ----------------------------- */
@@ -43,45 +45,52 @@ function App() {
     
     <Router>
       <Routes>
-        <Route path="/" element={<LogIn/>}/>
-        <Route path="/login" element={<LogIn/>}/>
+        <Route element={<GuestRoute />}>
+          <Route path="/" element={<LogIn/>}/>
+          <Route path="/login" element={<LogIn/>}/>
+        </Route>
         <Route path="/unauthorized" element={<Unauthorized />} />
 /* ----------------------------- Osas -------------------------------- */
-        <Route path="/osas" element={<OsasDashboard/>}/>
-        <Route path="/osas/dashboard" element={<OsasDashboard/>}/>
-        <Route path="/osas/college" element={<College/>}/>
-        <Route path="/osas/program" element={<Program/>}/>
-        <Route path="/osas/organisation" element={<Organisation/>}/>
-        <Route path="/osas/student" element={<Student/>}/>
-        <Route path="/osas/account" element={<Account/>}/>
-        <Route path="/osas/setting" element={<Setting/>}/>
+        <Route element={<ProtectedLayout allowedRoles={["admin"]} />}>
+          <Route path="/osas" element={<OsasDashboard/>}/>
+          <Route path="/osas/dashboard" element={<OsasDashboard/>}/>
+          <Route path="/osas/college" element={<College/>}/>
+          <Route path="/osas/program" element={<Program/>}/>
+          <Route path="/osas/organisation" element={<Organisation/>}/>
+          <Route path="/osas/student" element={<Student/>}/>
+          <Route path="/osas/account" element={<Account/>}/>
+          <Route path="/osas/setting" element={<Setting/>}/>
+        </Route>
 /* ----------------------------- Student -------------------------------- */
-        <Route path="/student" element={<StudentDashboard/>}/>
-        <Route path="/student/dashboard" element={<StudentDashboard/>}/>
-        <Route path="/student/contribution" element={<Contribution/>}/>
-        <Route path="/student/attendance" element={<Attendance/>}/>
-        <Route path="/student/sanction" element={<SanctionStudent/>}/>
-        <Route path="/student/excuse" element={<ExcuseLetterStudent/>}/>
-        <Route path="/student/shifting" element={<ShiftingRequest/>}/>
-        <Route path="/student/financial" element={<FinancialReport/>}/>
-        <Route path="/student/accomplishment" element={<AccomplishmentReport/>}/>
-        <Route path="/student/payment" element={<Payment/>}/>
-        <Route path="/student/settings" element={<SettingsStudent/>}/>
+        <Route element={<ProtectedLayout allowedRoles={["student"]} />}>
+          <Route path="/student" element={<StudentDashboard/>}/>
+          <Route path="/student/dashboard" element={<StudentDashboard/>}/>
+          <Route path="/student/contribution" element={<Contribution/>}/>
+          <Route path="/student/attendance" element={<Attendance/>}/>
+          <Route path="/student/sanction" element={<SanctionStudent/>}/>
+          <Route path="/student/excuse" element={<ExcuseLetterStudent/>}/>
+          <Route path="/student/shifting" element={<ShiftingRequest/>}/>
+          <Route path="/student/financial" element={<FinancialReport/>}/>
+          <Route path="/student/accomplishment" element={<AccomplishmentReport/>}/>
+          <Route path="/student/payment" element={<Payment/>}/>
+          <Route path="/student/settings" element={<SettingsStudent/>}/>
+        </Route>
 /* ----------------------------- Treasurer -------------------------------- */
-        <Route path="/org" element={<TreasurerDashboard/>}/>
-        <Route path="/org/dashboard" element={<TreasurerDashboard/>}/>
-        <Route path="/org/student" element={<TreasurerStudent/>}/>
-        <Route path="/org/eventlist" element={<TreasurerEventList/>}/>
-        <Route path="/org/eventcontribution" element={<TreasurerEventContribution/>}/>
-        <Route path="/org/attendance" element={<TreasurerAttendance/>}/>
-        <Route path="/org/financial" element={<TreasurerFinancial/>}/>
-        <Route path="/org/accomplishment" element={<TreasurerAccomplishment/>}/>
-        <Route path="/org/payment-transaction" element={<PaymentTransaction/>}/>
-        <Route path="/org/sanction" element={<TreasurerSanction/>}/>
-        <Route path="/org/excuse" element={<TreasurerExcuse/>}/>
-        <Route path="/org/shifting-approval" element={<ShiftingApproval/>}/>
-        <Route path="/org/settings" element={<TreasurerSettings/>}/>
-
+        <Route element={<ProtectedLayout allowedRoles={["treasurer"]} />}>
+          <Route path="/org" element={<TreasurerDashboard/>}/>
+          <Route path="/org/dashboard" element={<TreasurerDashboard/>}/>
+          <Route path="/org/student" element={<TreasurerStudent/>}/>
+          <Route path="/org/eventlist" element={<TreasurerEventList/>}/>
+          <Route path="/org/eventcontribution" element={<TreasurerEventContribution/>}/>
+          <Route path="/org/attendance" element={<TreasurerAttendance/>}/>
+          <Route path="/org/financial" element={<TreasurerFinancial/>}/>
+          <Route path="/org/accomplishment" element={<TreasurerAccomplishment/>}/>
+          <Route path="/org/payment-transaction" element={<PaymentTransaction/>}/>
+          <Route path="/org/sanction" element={<TreasurerSanction/>}/>
+          <Route path="/org/excuse" element={<TreasurerExcuse/>}/>
+          <Route path="/org/shifting-approval" element={<ShiftingApproval/>}/>
+          <Route path="/org/settings" element={<TreasurerSettings/>}/>
+        </Route>
         <Route path="*" element={<NotFound />} />
       </Routes>
     </Router>

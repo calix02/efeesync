@@ -5,7 +5,9 @@ import { useAuth } from "./AuthContext.jsx";
 export default function ProtectedLayout({ allowedRoles = [] }) {
   const { user, loading } = useAuth();
 
-  if (loading) return <div>Loading...</div>;
+  if (loading) {
+    return <div>Loading...</div>;
+  }
 
   if (!user) {
     return <Navigate to="/login" replace />;

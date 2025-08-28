@@ -3,38 +3,55 @@ import School from './assets/CBSUA-Image.png';
 import Logo from './assets/Final_Logo.png'
 import Cbsua from './assets/cbsua.png';
 import React, {useState} from 'react';
+import apiUrl from "./apiUrl.js";
 
 function LogIn(){
 
     const navigate = useNavigate();
     const [userRole, setUserRole] = useState(null);
 
-    const handleLogIn = async () => {
+    const [emailData, setEmail] = useState("");
+    const [passwordData, setPassword] = useState("");
+
+
+    const changeEmail = (e) =>{
+        setEmail(e.target.value);
+
+    }
+    const changePassword = (e) =>{
+        setPassword(e.target.value);
+
+    }
+
+    const submit = async (e) => {
+        e.preventDefault();
+        const loginData = {
+            "email": emailData,
+            "password": passwordData
+        };
         try {
-            const res = await fetch("/api/verify-login", {
+            const res = await fetch(apiUrl + "/login", {
+                method: "POST",
                 credentials: "include",
+                body: JSON.stringify(loginData)
             });
 
-            const data = await res.json();
-
-            if (data.status === "success" && data.current_user_id > 0) {
-                setUserRole(data); // store logged-in user
+            const response = await res.json();
+            if (response.status === "success") {
+                if (response.data != null) {
+                    setUserRole(response.data.current_role);
+                }
             } else {
-                setUserRole(null); // not logged in
+                setUserRole(null);
             }
+            alert(response.message);
+            window.location.reload();
         } catch (err) {
-            console.error("Auth fetch failed:", err);
+            alert("Login failed");
             setUserRole(null);
         }
-
-        if(userRole === "admin") {
-             navigate("/osas/dashboard");
-        } else if(userRole === "cit") {
-            navigate("/org/dashboard")
-        } else if(userRole === "student") {
-            navigate("/student/dashboard");
-        }
     }
+
     return(
         <div className="flex lg:flex-row flex-col w-screen h-screen">
             <div className=" relative lg:w-[50%] w-[100%] lg:flex lg:items-center lg:h-screen h-60 bg-gradient-to-t from-[#174515c1] to-white">
@@ -55,12 +72,12 @@ function LogIn(){
                         <h2 className=" mt-6 text-[#174515] font-bold text-2xl">Welcome to eFeeSync</h2>
                     </div>
                     <div className=" flex flex-col justify-center mt-4 ">
-                        <form className="px-6 lg:px-40 md:px-50" action="">
+                        <form className="px-6 lg:px-40 md:px-50" >
                             <label className="font-semibold text-md" htmlFor="">Email:</label><br />
-                            <input type="email" className="bg-white mb-2 border-2 font-semibold text-md border-[#000] w-[100%] px-2 py-2 rounded-md" /><br />
+                            <input type="email" onChange={changeEmail} value={emailData}  className="bg-white mb-2 border-2 font-semibold text-md border-[#000] w-[100%] px-2 py-2 rounded-md" /><br />
                             <label className="font-semibold text-md" htmlFor="">Password:</label><br />
-                            <input type="password" className="bg-white mb-2 border-2 font-semibold text-md border-[#000] w-[100%] px-2 py-2 rounded-md" /><br /><br />
-                            <button onClick={ handleLogIn} className="bg-[#174515] rounded-md cursor-pointer py-2 w-[100%] text-white">Sign In</button>
+                            <input type="password" onChange={changePassword} value={passwordData} className="bg-white mb-2 border-2 font-semibold text-md border-[#000] w-[100%] px-2 py-2 rounded-md" /><br /><br />
+                            <button onClick={submit} className="bg-[#174515] rounded-md cursor-pointer py-2 w-[100%] text-white">Sign In</button>
                             <center>
                                 <p className="mt-3 text-sm text-[#414040c4]">Forgot Password?</p>
                             </center>

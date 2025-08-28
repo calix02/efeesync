@@ -1,25 +1,46 @@
 import { Link } from 'react-router-dom';
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import EfeeViolet from '../assets/violetlogo.png'
 import AccountCard from './AccountCard';
-import CITSidebar from '../Treasurer/Sidebar.jsx';
+import CITSidebar from '../treasurer/Sidebar.jsx';
 import useAnimatedToggle from '../hooks/useAnimatedToggle.js';
 import NotificationCard from './NotificationCard.jsx';
+import OsasSidebar from "../osas/Sidebar.jsx";
+import Crim from "../assets/CRIM.png";
+import Osas from "../assets/osas.png";
+import It from "../assets/CIT.png";
+import Educ from "../assets/COE.png";
+import Esaf from "../assets/ESAF.png";
+import Indus from "../assets/COT.png";
 
 import '../animate.css';
 
 function Header_Council(props) {
-/* ------------------------- Border Color by Council ----------------------------- */
+/* ------------------------- Color  ----------------------------- */
+ 
 
    const borderColors = {
-    cit: "border-[#621668]",
+    cit: "border-[#621668] text-[#621668]",
     coe: "border-[#0E2148]",
     coc: "border-[#3A0519]",
     cot: "border-[#FFD95F] text-[#000]",
     eap: "border-[#4B352A]",
-    osas: "border-[#174515]",
+    osas: "border-[#174515] text-[#174515]",
   };
   const borderColor = borderColors[props.code] || "border-red";
+  
+  const logos ={
+    coc : Crim,
+    cit: It,
+    coe:Educ,
+    esaf: Esaf,
+    cot: Indus,
+    osas: Osas,
+    
+
+  };
+  const logo = logos[props.code] || Educ;
+
 
 /* ------------------------- Animated States ----------------------------- */
   const account = useAnimatedToggle();
@@ -45,23 +66,23 @@ function Header_Council(props) {
 
   return (
   <>
-    <header className={` flex  bg-white text-[#621668] fixed top-0 w-screen h-20 lg:z-20 md:z-40 z-60  items-center border-b-3 ${borderColor}`}>
+    <header className={` flex  bg-white fixed top-0 w-screen h-20 lg:z-20 md:z-40 z-60  items-center border-b-3 ${borderColor}`}>
       <span hidden>{props.code}</span>
       <span className="flex items-center  gap-3 ml-2">
         <span className='lg:hidden block'>
           <i onClick={()=>{clickedAccBar(); sidebar.toggle();} } className="fa-solid fa-bars text-sm cursor-pointer"></i>
         </span>
-        <span className='lg:ml-18'>
-          <img src={props.logoCouncil} className='lg:w-18 md:w-14 w-12' alt="logo"/>
+        <span className='lg:ml-14'>
+          <img src={logo} className='lg:w-28 md:w-14 w-12' alt="logo"/>
         </span>
       </span>
       
-      <span className="lg:ml-5 ml-1">
+      <span >
         <h2 className="lg:text-2xl md:text-lg text-sm  font-bold">{props.titleCouncil}</h2>
       </span>
 
       <span className="flex lg:gap-3 absolute right-8">
-
+        
       <span className='lg:block hidden'>
         <i  className="fa-solid fa-moon lg:text-xl cursor-pointer hover:bg-[#621668] transiton duration-150 rounded-full p-1.5 hover:text-white"></i>
       </span>
@@ -88,7 +109,9 @@ function Header_Council(props) {
         <div className="fixed inset-0 bg-[#00000062] z-20 pointer-events-auto">
           {/* Overlay */}
         </div>
-        <CITSidebar eFee={EfeeViolet} ref={sideRef} onAnimationEnd={sidebar.handleEnd} animate={sidebar.animation} onClose={() => sidebar.setAnimation("fade-out")} />
+       
+          <CITSidebar eFee={EfeeViolet} ref={sideRef} onAnimationEnd={sidebar.handleEnd} animate={sidebar.animation} onClose={() => sidebar.setAnimation("fade-out")} />
+       
       </>
     )
       
@@ -96,11 +119,8 @@ function Header_Council(props) {
     {notification.isVisible &&(
       <NotificationCard ref={notifRef} onAnimationEnd={notification.handleEnd} animate={notification.animation} />
     )
-
     }
     </>
-     
-    
   );
 }
 

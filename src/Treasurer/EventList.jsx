@@ -5,7 +5,6 @@ import AddEventListCard from '../other_components/AddEventListCard.jsx';
 import UpdateEventCard from '../other_components/UpdateEventCard.jsx';
 import React, {useRef} from 'react';
 import useAnimatedToggle from '../hooks/useAnimatedToggle.js';
-import it from '../assets/it.png';
 import EfeeViolet from '../assets/violetlogo.png'
 import "../animate.css";
 
@@ -44,7 +43,7 @@ function CITEventList(){
         )
             
         }
-            <CITHeader logoCouncil={it} titleCouncil = "College Of Information Teachnology" abb="CIT Council" />
+            <CITHeader code="cit" titleCouncil = "College Of Information Teachnology" abb="CIT Council" />
              <div className="w-screen h-screen bg-[#fafafa] absolute z-[-1] overflow-y-auto overflow-x-auto lg:px-6 md:px-10 px-3">
                 <div className="lg:mt-30 mt-25 lg:ml-70 lg:flex md:flex  md:justify-between   lg:justify-between">
                     <h2 className="text-2xl font-[family-name:Futura Bold] font-semibold">Event List</h2>

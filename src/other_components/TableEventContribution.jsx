@@ -64,7 +64,7 @@ function TableEventContribution({ code = "cit", events = [], addEvent, updateEve
 
   /* -------------------------------- Render ------------------------------- */
   return (
-    <div className={`w-full ${animate} flex flex-col gap-6  lg:text-sm text-xs`}>
+    <div className={`w-full ${animate} flex flex-col gap-6  font-[family-name:Arial] lg:text-sm text-xs`}>
       {/* ===================== EVENT TABLE ===================== */}
       {selectedEventIndex === null && (
         <>
@@ -141,16 +141,16 @@ function TableEventContribution({ code = "cit", events = [], addEvent, updateEve
           </>
           )}
 
-      {/* ===================== ATTENDANCE TABLE ===================== */}
+      {/* ===================== CONTRIBUTION TABLE ===================== */}
       {selectedEvent && (
-        <div className="lg:ml-[300px] bg-white text-black flex-grow p-5 mx-5 mt-3 rounded-[10px] shadow-[2px_2px_2px_grey]">
+        <div className="lg:ml-70 bg-white text-black flex-grow lg:p-5 md:p-5 py-5 px-2 mt-3 lg:text-sm md:text-sm text-xs rounded-lg shadow-[2px_2px_2px_grey]">
           <div className="flex justify-between items-center mb-4">
-            <h2 className="text-xl font-bold text-[#3a2791]">
+            <h2 className="lg:text-xl md:text-xl text-lg font-bold text-[#621668]">
               Contribution – {selectedEvent.eventName}
             </h2>
             <button
               onClick={() => setSelectedEventIndex(null)}
-              className="bg-[#3a2791] text-white px-4 py-1 rounded-md"
+              className="bg-[#621668] text-white lg:px-4 md:px-4 px-2 py-1 rounded-md"
             >
               Back to Events
             </button>
@@ -197,20 +197,21 @@ function TableEventContribution({ code = "cit", events = [], addEvent, updateEve
 
           {/* Pagination for attendance */}
           <div className="mt-4 flex justify-center gap-2">
-            <button onClick={goAttendeePrev} disabled={attendeePage === 0} className="px-2 border rounded disabled:opacity-40">
-              Prev
+            <button onClick={goAttendeePrev} disabled={attendeePage === 0} className=" border rounded disabled:opacity-40">
+              <span className="material-symbols-outlined">chevron_left</span>
             </button>
             {Array.from({ length: attendeePageCount }, (_, i) => (
               <button
                 key={i}
                 onClick={() => setAttendeePage(i)}
-                className={`px-2 border rounded ${i === attendeePage ? "bg-violet-600 text-white" : "bg-white"}`}
+                className={`px-2 border rounded ${i === attendeePage ? "bg-[#621668] text-white" : "bg-white"}`}
               >
                 {i + 1}
               </button>
             ))}
-            <button onClick={goAttendeeNext} disabled={attendeePage === attendeePageCount - 1} className="px-2 border rounded disabled:opacity-40">
-              Next
+            <button onClick={goAttendeeNext} disabled={attendeePage === attendeePageCount - 1} className=" border rounded disabled:opacity-40">
+              <span className="material-symbols-outlined">chevron_right</span>
+
             </button>
           </div>
         </div>

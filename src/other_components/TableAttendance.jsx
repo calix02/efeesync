@@ -20,7 +20,7 @@ function TableAttendance({ code = "cit", events = [], addEvent, updateEvent }) {
     sanctionType: `Monetary`,
     sanctionFee: `18`,
     attendance: Array.from({ length: 32 }, (_, j) => ({
-      name: `Mark Alvarado`,
+      name: `Mark Angelo Alvarado jrats`,
       yearSection: `3A`,
       morningIn: `Present`,
       morningOut: `Present`,
@@ -28,6 +28,8 @@ function TableAttendance({ code = "cit", events = [], addEvent, updateEvent }) {
       afternoonOut: `Present`
     }))
   }));
+  
+
 
   const data = events.length ? events : fallback;
 
@@ -162,14 +164,14 @@ function TableAttendance({ code = "cit", events = [], addEvent, updateEvent }) {
 
       {/* ===================== ATTENDANCE TABLE ===================== */}
       {selectedEvent && (
-        <div className="lg:ml-70 relative bg-white text-black flex-grow p-5 mx-5 mt-3 rounded-lg shadow-[2px_2px_2px_grey]">
+        <div className="lg:ml-70 relative bg-white text-black font-[family-name:Arial] lg:text-sm text-xs flex-grow lg:p-5 md:p-5 py-5 px-2  mt-3 rounded-lg shadow-[2px_2px_2px_grey]">
           <div className="flex justify-between items-center mb-4">
-            <h2 className="text-xl font-bold text-[#621668]">
+            <h2 className="lg:text-xl text-lg font-bold text-[#621668]">
               Attendance – {selectedEvent.eventName}
             </h2>
             <button
               onClick={() => setSelectedEventIndex(null)}
-              className="bg-[#621668] cursor-pointer text-white px-4 py-1 rounded-md"
+              className="bg-[#621668] cursor-pointer text-white lg:px-4 px-2 py-1 rounded-md"
             >
               Back to Events
             </button>
@@ -194,6 +196,7 @@ function TableAttendance({ code = "cit", events = [], addEvent, updateEvent }) {
                   <td>
                     <input type="checkbox" />
                 </td>
+                
                   <td>{attendee.name}</td>
                   <td>{attendee.yearSection}</td>
                   <td className="text-[#119e3e]">{attendee.morningIn}</td>

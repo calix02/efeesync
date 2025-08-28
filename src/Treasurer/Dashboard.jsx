@@ -7,7 +7,7 @@ function CITCouncil(){
     
     return(
         <>
-            <CITHeader code="cit" logoCouncil={it} titleCouncil = "College Of Information Teachnology" abb="CIT Council" />
+            <CITHeader code="cit"  titleCouncil = "College Of Information Teachnology" abb="CIT Council" />
             <DashboardContent/>
             <div className='lg:block hidden' >
                  <CITSidebar eFee={EfeeViolet}/>

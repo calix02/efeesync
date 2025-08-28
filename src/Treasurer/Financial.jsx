@@ -2,10 +2,15 @@ import CITHeader from '../other_components/Header_Council.jsx';
 import CITSidebar from './Sidebar.jsx';
 import FinancialCard from '../other_components/FinancialCard.jsx';
 import FinancialTable from '../other_components/FinancialTable.jsx';
-import it from '../assets/it.png';
+import "../animate.css";
 import EfeeViolet from '../assets/violetlogo.png'
 function CITFinancial(){
-     const cashInFlow = Array.from({ length: 5 }, (_, i) => ({
+    const animate = "card-In";
+    const animateR = "right-In";
+    const animateL = "left-In";
+
+
+     const cashInFlow = Array.from({ length: 16 }, (_, i) => ({
         date: `11-22-25`,
         event: `Baraylihan`,
         fee: "350",
@@ -17,12 +22,13 @@ function CITFinancial(){
     })); 
     return(
         <>
-            <CITHeader logoCouncil={it} titleCouncil = "College Of Information Teachnology" abb="CIT Council" />
-             <div className="w-screen h-screen bg-[#fafafa] absolute z-[-1] overflow-y-auto overflow-x-auto ">
-                <div className="mt-[110px] lg:ml-[280px]">
-                    <h2 className="text-[26px] font-semibold ml-[20px]">Financial Report</h2>
+            <CITHeader code="cit" titleCouncil = "College Of Information Teachnology" abb="CIT Council" />
+             <div className="w-screen h-screen bg-[#fafafa] absolute z-[-1] overflow-y-auto overflow-x-auto lg:px-6 md:px-10 px-3">
+                <div className="lg:mt-30 mt-25 lg:ml-70">
+                    <h2 className="text-2xl font-medium font-[family-name:Futura Bold]">Financial Report</h2>
+
                 </div>
-                <div className=' flex lg:flex-row flex-col lg:ml-[280px] px-10  gap-4 lg:justify-center items-center mt-[20px]'>
+                <div className={` ${animate} lg:flex lg:flex-row grid grid-cols-2  lg:ml-70 lg:gap-6 gap-3 lg:justify-center items-center mt-4`}>
                     <FinancialCard title="Cash Inflow" amount="P200 000.00" bgColor="bg-[#FFD8CC]"/>
                     <FinancialCard title="Cash Outflow" amount="P100 000.00" bgColor="bg-[#FCBBD8]"/>
                     <FinancialCard title="Cash On Hand" amount="P50 000.00" bgColor="bg-[#ECCEFC]"/>
@@ -30,7 +36,7 @@ function CITFinancial(){
                     <FinancialCard title="Starting Balance" amount="P10 000.00" bgColor="bg-[#D4E4FF]"/>
                     <FinancialCard title="Ending Balance" amount="P0.00" bgColor="bg-[#CCEBFF]"/>
                 </div>
-                <div className='lg:ml-[280px] mt-[20px] gap-4 flex lg:flex-row flex-col items-center justify-center'>
+                <div className={` ${animate} lg:ml-70 lg:mt-6 mt-3 lg:gap-6 gap-3 flex lg:flex-row flex-col items-center justify-center`}>
                     <FinancialTable title="Cash Inflow" financialData={cashInFlow}/>
                     <FinancialTable title="Cash Outflow" financialData={cashOutFlow}/>
 
@@ -41,8 +47,6 @@ function CITFinancial(){
                 <CITSidebar eFee={EfeeViolet}/>
             </div>
         </>
-       
-
     );
 }
 export default CITFinancial;

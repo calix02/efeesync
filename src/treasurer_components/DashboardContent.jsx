@@ -30,7 +30,7 @@ function CITDashboard(){
             <div className="lg:mt-30 mt-25 lg:ml-70">
                 <h2 className="text-2xl font-medium font-[family-name:Futura Bold] ml-6">Dashboard</h2>
             </div>
-            <div className="lg:flex lg:flex-row lg:justify-center lg:items-center lg:px-6 md:px-10 px-3 grid grid-cols-2 mt-4 lg:ml-70 lg:gap-6 gap-[20px]">
+            <div className="lg:flex lg:flex-row lg:justify-center lg:items-center lg:px-6 md:px-10 px-3 grid grid-cols-2 mt-4 lg:ml-70 lg:gap-6 gap-4">
                <TreasurerCard desc="Number of Events" value="15" icon={calendar}/>
                <TreasurerCard desc="Number of Students" value="700" icon={cap}/>
                <TreasurerCard desc="Fees Collected" value="P100,000" icon={coin}/>

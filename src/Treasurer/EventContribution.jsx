@@ -5,7 +5,6 @@ import UpdateEventCard from '../other_components/UpdateEventCard.jsx';
 import TableEventContribution from '../other_components/TableEventContribution.jsx';
 import React, {use, useRef} from 'react';
 import useAnimatedToggle from '../hooks/useAnimatedToggle.js';
-import it from '../assets/it.png';
 import "../animate.css";
 import EfeeViolet from '../assets/violetlogo.png'
 
@@ -47,7 +46,7 @@ const animateL = "left-In";
         )
             
         }
-            <CITHeader logoCouncil={it} titleCouncil = "College Of Information Teachnology" abb="CIT Council" />
+            <CITHeader code="cit" titleCouncil = "College Of Information Teachnology" abb="CIT Council" />
              <div className="w-screen h-screen bg-[#fafafa] absolute z-[-1] overflow-y-auto overflow-x-auto lg:px-6 md:px-10 px-3">
                 <div className="lg:mt-30 mt-25 lg:ml-70 lg:flex md:flex  justify-between">
                     <h2 className="text-2xl font-medium font-[family-name:Futura Bold]">Event Contribution</h2>

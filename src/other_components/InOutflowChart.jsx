@@ -51,16 +51,16 @@ function InOutflowChart() {
   const [selectedAcademicYear, setSelectedAcademicYear] = useState('Academic Year');
 
   return (
-    <div className='lg:w-160 w-[350px] p-[20px] m-auto'>
-      <div className='flex justify-between'>
+    <div className='lg:w-160 md:w-120 w-80 p-5 m-auto'>
+      <div className='lg:flex justify-between'>
         <h2 className='font-semibold text-lg'>Inflow and Outflow Trends</h2>
         <span className='grid grid-cols-2 gap-4 text-sm'>
-            <select className='w-30 border-1 border-[#000] rounded-md shadow-[2px_2px_3px_grey]'>
+            <select className='w-30 text-xs cursor-pointer border-1 border-[#000] rounded-md shadow-[2px_2px_3px_grey]'>
                 <option>
                     Academic Year
                 </option>
             </select>
-             <select className='w-30 border-1 border-[#000] rounded-md shadow-[2px_2px_3px_grey]'>
+             <select className='w-30 text-xs cursor-pointer border-1 border-[#000] rounded-md shadow-[2px_2px_3px_grey]'>
                 <option>
                     Semester
                 </option>

@@ -1,8 +1,8 @@
 import OsasLogo from '../assets/osas.png';
-import Header from '../other_components/Header_Council.jsx';
+import Header from './Header.jsx';
 import Sidebar from './Sidebar.jsx';
 import EfeeOsas from '../assets/Final_logo.png';
-import TableStudentOsas from '../other_components/TableStudentOsas.jsx';
+import TableStudentOsas from '../osas_components/TableStudentOsas.jsx';
 import AddStudentOsasCard from '../other_components/AddStudentOsasCard.jsx';
 import UpdateStudentOsasCard from '../other_components/UpdateStudentOsasCard.jsx';
 import React, {useRef} from 'react';
@@ -13,6 +13,8 @@ import useAnimatedToggle from '../hooks/useAnimatedToggle.js';
 
 
 function Student(){
+    const animateL = "left-In";
+    const animateR = "right-In";
 /* ------------------------- Animated States ----------------------------- */
     const addStudent = useAnimatedToggle();
     const updateStudent = useAnimatedToggle();
@@ -48,37 +50,36 @@ function Student(){
 
         }
         <Header code="osas" logoCouncil={OsasLogo} titleCouncil = "Office of Student Affairs and Services"/>
-             <div className="w-screen h-screen bg-[#fafafa] absolute z-[-1] overflow-y-auto overflow-x-auto ">
-                <div className='lg:ml-[290px] mt-[110px] lg:flex lg:justify-between px-[10px]'>
-                    <h2 className='text-[26px] font-semibold'>Manage Students</h2>
-                    <div className=' lg:flex lg:mr-8 lg:gap-2.5 lg:mt-0 mt-[10px] items-center'>
-                        <input className='lg:w-[320px] w-[100%] p-2 bg-white rounded-[10px] border-2 font-semibold border-[#174515] block' type="text" placeholder='Search Student' />
-                        <div className='relative lg:mt-0 mt-[10px]'>
+             <div className="w-screen h-screen bg-[#fafafa] absolute z-[-1] overflow-y-auto overflow-x-auto lg:px-6 md:px-10 px-3">
+                 <div className='lg:ml-70 lg:mt-30 mt-25 lg:flex md:flex md:justify-between lg:justify-between '>
+                    <h2 className="text-2xl font-medium font-[family-name:Futura Bold]">Manage Students</h2>
+                    <div className={` lg:flex md:flex ${animateR}  lg:gap-2.5 md:gap-2.5 text-md font-[family-name:Helvetica] lg:mt-0 md:mt-0 mt-4 lg:px-0 md:px-0 px-3 items-center`}>
+                        <input className='lg:w-85 w-[100%] p-1.5 bg-white rounded-md border-2  border-[#174515] block' type="text" placeholder='Search Student' />
+                        <div className='relative lg:mt-0 md:mt-0 mt-3'>
                             <input className='bg-amber-300 lg:w-[150px] w-[100%] h-[35px] block z-[1]  cursor-pointer opacity-0' type="file" />
-                            <button className='bg-[#174515] h-[35px] lg:w-[150px] w-[100%] px-[15px] flex items-center justify-center cursor-pointer rounded-[10px] text-white absolute z-[-1] top-0'>
+                            <button className='bg-[#174515] p-1.5 lg:w-38 w-[100%] flex items-center justify-center cursor-pointer rounded-md  text-white absolute z-[-1] top-0'>
                                 <span className="material-symbols-outlined">download</span>Import CSV
                             </button>
-                        </div>
-                       
+                        </div>  
                     </div> 
 
                 </div>
-                 <div className=' w-[100%] lg:mt-[10px] '>
-                    <div className='lg:ml-[300px] flex lg:justify-start justify-center gap-2.5'>
-                         <select className='bg-white w-40 border-1 border-[#174515] py-[2px] font-semibold text-[#174515] rounded-[5px] text-[14px] text-center'  name="" id="">
-                            <option value="">Program Code</option>
+                  <div className=' w-[100%] mt-3 '>
+                    <div className={`lg:ml-70 ${animateL} flex lg:justify-start md:justify-start font-[family-name:Arial]  justify-center gap-2.5`}>
+                         <select className='bg-white lg:w-25  w-20 text-xs transition duration-100 hover:scale-100 hover:bg-[#174515] hover:text-white cursor-pointer border-1 border-[#174515] py-1  text-[#174515] rounded-md text-center'  name="" id="">
+                            <option value="">Sort by</option>
                             <option value="">hey</option>
 
                         </select>
-                        <select className='bg-white w-40 border-1 border-[#174515] py-[2px] font-semibold text-[#174515] rounded-[5px] text-[14px] text-center'  name="" id="">
-                            <option value="">Organization Code</option>
+                         <select className='bg-white lg:w-25 w-20 text-xs transition duration-100 hover:scale-100 hover:bg-[#174515] hover:text-white cursor-pointer border-1 border-[#174515] py-1  text-[#174515] rounded-md text-center'  name="" id="">
+                            <option value="">Year</option>
                             <option value="">hey</option>
 
                         </select>
-                        <button className='bg-white w-[100px] border-1 border-[#174515] h-[30px] font-semibold text-[#174515] cursor-pointer rounded-[5px] text-[14px] text-center flex justify-center items-center'><span class="material-symbols-outlined">print</span>Print</button>
+                        <button className='bg-white lg:w-25 w-20 flex items-center justify-center text-xs transition duration-100 hover:scale-100 hover:bg-[#174515] hover:text-white cursor-pointer border-1 border-[#174515]  text-[#174515] rounded-md text-center'><span class="material-symbols-outlined">print</span>Print</button>
 
+                          
                     </div>
-
                 </div>
              <TableStudentOsas update={updateStudent.toggle} add={addStudent.toggle}/>
 

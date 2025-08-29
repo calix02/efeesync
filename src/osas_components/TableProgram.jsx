@@ -1,11 +1,13 @@
 import { useState, useMemo } from "react";
+import "../animate.css";
 
 /**
  * TableStudent
  * @param {string} code       – org code ("cit", "coe", …) to color the header text
- * @param {Array}  students   – array of { id, name, yearSection }
+ * @param {Array}  programs   – array of { id, name, yearSection }
  */
-function TableStudentOsas({ code = "osas", students = [] , update,add}) {
+function TableProgram({ code = "osas", programs = [] , update}) {
+  const animate = "card-In";
   /* --------------------------------- colors -------------------------------- */
   const textColor =
     code === "cit" ? "text-[#4F1C51]"
@@ -19,14 +21,13 @@ function TableStudentOsas({ code = "osas", students = [] , update,add}) {
 
   /* ---------------------------- sample fallback ---------------------------- */
   const fallback = Array.from({ length: 5 }, (_, i) => ({
-    studID: `22-1029`,
-    studName: `Alwyn Sarap Nabor`,
-    college: `CIT`,
-    program: `BSIT`,
+    programCode: `BSIT`,
+    name: `Bachelor of Science in Information Technology`,
+    collegeCode: `CIT`,
     
   }));
 
-  const data = students.length ? students : fallback;
+  const data = programs.length ? programs : fallback;
   
 
   /* ----------------------------- pagination -------------------------------- */
@@ -45,16 +46,15 @@ function TableStudentOsas({ code = "osas", students = [] , update,add}) {
   /* -------------------------------- render --------------------------------- */
   return (
   
-    <div className="w-full flex flex-col gap-6">
+    <div className={`w-full ${animate} flex flex-col gap-6`}>
       {/* table wrapper */}
-      <div className="lg:ml-[300px] bg-white border-1 border-[#174515] text-black flex-grow p-5 mx-5 mt-3 rounded-[10px] shadow-[2px_2px_2px_grey]">
+      <div className="lg:ml-70 font-[family-name:Arial] lg:text-sm text-xs bg-white border-1 border-[#174515] text-black flex-grow p-5  mt-3 rounded-lg shadow-[2px_2px_2px_grey]">
         <table className="w-full text-center ">
           <thead>
             <tr className={`border-b-2 border-[#adadad] text-[#000]`}>
-              <th>Student ID</th>
-              <th>Student Name</th>
-              <th>College </th>
-              <th>Program</th>
+              <th>Program Code</th>
+              <th>Program Name</th>
+              <th>College Code</th>
               <th>Action</th>
             </tr>
           </thead>
@@ -62,18 +62,15 @@ function TableStudentOsas({ code = "osas", students = [] , update,add}) {
           <tbody>
             {pageData.map((s, idx) => (
               <tr key={idx} className="border-b border-[#0505057a] ">
-                <td>{s.studID}</td>
-                <td>{s.studName}</td>
-                <td>{s.college}</td>
-                <td>{s.program}</td>
-
-
+                <td>{s.programCode}</td>
+                <td>{s.name}</td>
+                <td>{s.collegeCode}</td>
 
                 <td className="flex lg:flex-row flex-col gap-2 justify-center py-2">
-                  <span onClick={update} className="material-symbols-outlined cursor-pointer text-[#174515] bg-white  shadow-[2px_2px_1px_grey] rounded-[5px] border border-[#174515] px-[2px]">
+                  <span onClick={update} className="material-symbols-outlined cursor-pointer text-[#174515] bg-white  shadow-[2px_2px_1px_grey] rounded-sm border border-[#174515] px-1">
                     edit_square
                   </span>
-                  <span className="material-symbols-outlined bg-white cursor-pointer text-[#d10707] shadow-[2px_2px_2px_grey] rounded-[5px] border border-[#d10707] px-[2px]">
+                  <span className="material-symbols-outlined bg-white cursor-pointer text-[#d10707] shadow-[2px_2px_2px_grey] rounded-sm border border-[#d10707] px-1">
                     delete
                   </span>
                 </td>
@@ -83,13 +80,13 @@ function TableStudentOsas({ code = "osas", students = [] , update,add}) {
         </table>
       </div>
         {/* pagination controls */}
-        <div className=" relative lg:ml-[270px] mt-[-10px] flex flex-col-reverse justify-center items-center">
-            <p className='text-[#174515] lg:absolute left-9'>Showing of 600</p>  
+        <div className=" relative lg:ml-70 mt-[-10px] flex flex-col-reverse justify-center items-center">
+            <p className='text-[#174515] font-[family-name:Arial] lg:text-sm text-xs lg:absolute left-9'>Showing of 600</p>  
         <span className="flex">
              <button
             onClick={goPrev}
             disabled={page === 0}
-            className=" mx-1 flex items-center rounded-md border disabled:opacity-40"
+            className=" mx-1 flex cursor-pointer items-center rounded-md border disabled:opacity-40"
           >
             <span className="material-symbols-outlined">chevron_left</span>
 
@@ -99,7 +96,7 @@ function TableStudentOsas({ code = "osas", students = [] , update,add}) {
             <button
               key={i}
               onClick={() => setPage(i)}
-              className={`px-2 mx-1 rounded-md border
+              className={`px-2 mx-1 cursor-pointer rounded-md border
                 ${i === page
                   ? "bg-[#174515] text-white"
                   : "bg-white "}`} >
@@ -110,15 +107,13 @@ function TableStudentOsas({ code = "osas", students = [] , update,add}) {
           <button
             onClick={goNext}
             disabled={page === pageCount - 1}
-           className=" mx-1 flex items-center rounded-md border disabled:opacity-40"
+           className=" mx-1 flex cursor-pointer items-center rounded-md border disabled:opacity-40"
           >
             <span className="material-symbols-outlined">chevron_right</span>
 
           </button>
 
         </span>
-            <i onClick={add}  className="fa-solid fa-circle-plus text-[50px] absolute right-[40px] top-[-40px] cursor-pointer text-[#157112] bg-white rounded-full "></i>
-
         </div>
     </div>
    
@@ -126,4 +121,4 @@ function TableStudentOsas({ code = "osas", students = [] , update,add}) {
 }
 
 
-export default TableStudentOsas;
+export default TableProgram;

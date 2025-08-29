@@ -9,7 +9,7 @@ function Card_Admin(props){
         : props.title === "CITSC" ? 'bg-[#ECCEFC] text-[#5C0C73]'
         : 'bg-[white]'
     return(
-         <div className={` relative border-2 rounded-lg w-90 h-45 overflow-x-hidden ${bgColor} shadow-[2px_2px_3px_grey]`}>
+         <div className={` relative border-2 rounded-lg w-[100%] h-45 overflow-x-hidden ${bgColor} shadow-[2px_2px_3px_grey]`}>
                 <img className='absolute w-62 opacity-50 right-[-110px]' src={props.logo} alt="" />
                 <span className="flex items-center">
                     <img src={props.logo} alt="" className="w-20" />

@@ -6,7 +6,9 @@ export default function ProtectedLayout({ allowedRoles = [] }) {
   const { user, loading } = useAuth();
 
   if (loading) {
-    return <div>Loading...</div>;
+    return <div>Loading...</div>
+      
+   
   }
 
   if (!user) {

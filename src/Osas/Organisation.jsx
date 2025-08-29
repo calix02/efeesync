@@ -1,8 +1,8 @@
 import OsasLogo from '../assets/osas.png';
-import Header from '../other_components/Header_Council.jsx';
+import Header from './Header.jsx';
 import Sidebar from './Sidebar.jsx';
 import EfeeOsas from '../assets/Final_logo.png';
-import TableOrganization from '../other_components/TableOrganization.jsx';
+import TableOrganization from '../osas_components/TableOrganization.jsx';
 import AddOrganizationCard from '../other_components/AddOrganizationCard.jsx';
 import UpdateOrganizationCard from '../other_components/UpdateOrganizationCard.jsx';
 import React, {useRef} from 'react';
@@ -45,10 +45,10 @@ function Organisation(){
         )
         }
         <Header code="osas" logoCouncil={OsasLogo} titleCouncil = "Office of Student Affairs and Services"/>
-             <div className="w-screen h-screen bg-[#fafafa] absolute z-[-1] overflow-y-auto overflow-x-auto ">
-                <div className='lg:ml-73 mt-27 lg:flex lg:justify-between items-center px-5'>
-                    <h2 className='text-[26px] font-semibold'>Manage Organization</h2>
-                    <button onClick={addOrg.toggle} className='bg-[#174515] w-40 py-1 text-sm flex justify-center items-center text-white rounded-md'>
+             <div className="w-screen h-screen bg-[#fafafa] absolute z-[-1] overflow-y-auto overflow-x-auto lg:px-6 md:px-10 px-3">
+                <div className='lg:ml-70 lg:mt-30 mt-25 lg:flex lg:justify-between items-center '>
+                    <h2 className="text-2xl font-medium font-[family-name:Futura Bold]">Manage Organization</h2>
+                    <button onClick={addOrg.toggle} className='bg-[#174515] w-40 py-1 text-sm cursor-pointer flex justify-center items-center text-white rounded-md'>
                         <span className="material-symbols-outlined px-1">add</span>Add Organization
                     </button>
                     

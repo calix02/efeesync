@@ -1,5 +1,5 @@
 import OsasLogo from '../assets/osas.png';
-import Header from '../other_components/Header_Council.jsx';
+import Header from './Header.jsx';
 import Sidebar from './Sidebar.jsx';
 import EfeeOsas from '../assets/Final_logo.png';
 import AccountSetting from '../other_components/AccountSetting.jsx';

@@ -24,7 +24,7 @@ const Sidebar = React.forwardRef(({eFee, animate, onAnimationEnd,onClose},ref) =
         <div ref={ref} onAnimationEnd={onAnimationEnd} className={`w-70 h-screen shadow-[3px_2px_1px_#174515] ${animate} border-b-20 border-[#174515] lg:z-1 z-50 fixed bg-white`}>
             <div className='mt-[110px]'>
                 <span onClick={onClose} className='lg:hidden'>
-                    <span className="material-symbols-outlined absolute right-1.5 top-23 cursor-pointer text-[#621668]">close</span>
+                    <span className="material-symbols-outlined absolute right-1.5 top-23 cursor-pointer text-[#174515]">close</span>
                 </span>
                 <span className='flex justify-center items-center gap-3'>
                     <img className='w-[60px]' src={eFee} alt="" />
@@ -42,7 +42,7 @@ const Sidebar = React.forwardRef(({eFee, animate, onAnimationEnd,onClose},ref) =
                 <div className="absolute bottom-2 w-full px-3 lg:hidden block">
                     <NavLink code="osas" navLink = "#" iconName="moon_stars" navName="Dark Mode"  />
                       <Link to="/student" onClick={logout} className={`flex items-center font-[family-name:Helvetica] transition duration-150 p-2.5 text-md  rounded-md hover:text-white hover:shadow-[3px_2px_2px_grey`}>
-                        <span className="material-symbols-outlined px-2.5">log-out</span>
+                        <span className="material-symbols-outlined px-2.5">logout</span>
                             <span>Log Out</span>
                         <span hidden >osas</span>
                     </Link>

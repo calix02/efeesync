@@ -14,14 +14,8 @@ function LogIn(){
     const [passwordData, setPassword] = useState("");
 
 
-    const changeEmail = (e) =>{
-        setEmail(e.target.value);
-
-    }
-    const changePassword = (e) =>{
-        setPassword(e.target.value);
-
-    }
+    const changeEmail = (e) => setEmail(e.target.value);
+    const changePassword = (e) => setPassword(e.target.value);
 
     const submit = async (e) => {
         e.preventDefault();
@@ -64,7 +58,6 @@ function LogIn(){
                         </span>
                     </div>
                 </div>
-
             <div className="bg-white lg:w-[50%] w-[100%] flex h-screen justify-center items-center">
                 <div className="w-[100%] lg:mt-0 mt-[-230px]">
                     <div className="flex flex-col items-center">

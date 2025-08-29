@@ -98,7 +98,7 @@ function Header_Council(props) {
 
       {/* Account Card */}
       { account.isVisible &&(
-          <AccountCard ref={accRef} onAnimationEnd={account.handleEnd} animate={account.animation} />
+          <AccountCard ref={accRef} code="osas" onAnimationEnd={account.handleEnd} animate={account.animation} />
         )    
       }
     </header>

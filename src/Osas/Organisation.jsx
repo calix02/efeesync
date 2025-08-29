@@ -3,9 +3,9 @@ import Header from './Header.jsx';
 import Sidebar from './Sidebar.jsx';
 import EfeeOsas from '../assets/Final_logo.png';
 import TableOrganization from '../osas_components/TableOrganization.jsx';
-import AddOrganizationCard from '../other_components/AddOrganizationCard.jsx';
-import UpdateOrganizationCard from '../other_components/UpdateOrganizationCard.jsx';
-import React, {useRef} from 'react';
+import AddOrganizationCard from '../osas_components/AddOrganizationCard.jsx';
+import UpdateOrganizationCard from '../osas_components/UpdateOrganizationCard.jsx';
+import React, {useState,useRef} from 'react';
 import useAnimatedToggle from '../hooks/useAnimatedToggle.js';
 import '../animate.css';
 
@@ -20,6 +20,8 @@ function Organisation(){
     const addRef = useRef(null);
     const updateRef = useRef(null);
 
+    const [selectedOrg, setSelectedOrg] = useState(null);
+
 
 
 
@@ -28,7 +30,7 @@ function Organisation(){
         <>
         {addOrg.isVisible &&(
             <>
-                 <div className="fixed inset-0 bg-[#00000062] z-40 pointer-events-auto">
+                 <div className="fixed inset-0 bg-[#00000062] lg:z-40 md:z-50 z-70 pointer-events-auto">
                     {/* Overlay */}
                 </div>
                 <AddOrganizationCard ref={addRef} onAnimationEnd={addOrg.handleEnd} onClose={() => addOrg.setAnimation("fade-out")} animate={addOrg.animation} />
@@ -37,10 +39,10 @@ function Organisation(){
         }
         {updateOrg.isVisible &&(
              <>  
-                 <div className="fixed inset-0 bg-[#00000062] z-40 pointer-events-auto">
+                 <div className="fixed inset-0 bg-[#00000062] lg:z-40 md:z-50 z-70 pointer-events-auto">
                     {/* Overlay */}
                 </div>
-                <UpdateOrganizationCard ref={updateRef} onAnimationEnd={updateOrg.handleEnd} onClose={() => updateOrg.setAnimation("fade-out")} animate={updateOrg.animation} />
+                <UpdateOrganizationCard ref={updateRef} data={selectedOrg} onAnimationEnd={updateOrg.handleEnd} onClose={() => updateOrg.setAnimation("fade-out")} animate={updateOrg.animation} />
             </>
         )
         }
@@ -54,7 +56,11 @@ function Organisation(){
                     
                 </div>
               
-             <TableOrganization update={updateOrg.toggle}/>
+             <TableOrganization update={(row) =>{
+                setSelectedOrg(row);
+                updateOrg.toggle();
+
+             }}/>
 
              </div>
 

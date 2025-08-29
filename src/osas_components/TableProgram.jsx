@@ -67,7 +67,7 @@ function TableProgram({ code = "osas", programs = [] , update}) {
                 <td>{s.collegeCode}</td>
 
                 <td className="flex lg:flex-row flex-col gap-2 justify-center py-2">
-                  <span onClick={update} className="material-symbols-outlined cursor-pointer text-[#174515] bg-white  shadow-[2px_2px_1px_grey] rounded-sm border border-[#174515] px-1">
+                  <span onClick={() => update(s)} className="material-symbols-outlined cursor-pointer text-[#174515] bg-white  shadow-[2px_2px_1px_grey] rounded-sm border border-[#174515] px-1">
                     edit_square
                   </span>
                   <span className="material-symbols-outlined bg-white cursor-pointer text-[#d10707] shadow-[2px_2px_2px_grey] rounded-sm border border-[#d10707] px-1">

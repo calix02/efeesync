@@ -1,6 +1,6 @@
 import CITHeader from '../other_components/Header_Council.jsx';
 import CITSidebar from './Sidebar.jsx';
-import AddStudentCard from '../other_components/AddStudentCard.jsx';
+import AddStudentCard from '../treasurer_components/AddStudentCard.jsx';
 import TableStudent from '../treasurer_components/TableStudent.jsx';
 import UpdateStudentCard from '../other_components/UpdateStudentCard.jsx';
 import EfeeViolet from '../assets/violetlogo.png'

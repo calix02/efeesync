@@ -2,10 +2,10 @@ import OsasLogo from '../assets/osas.png';
 import Sidebar from './Sidebar.jsx';
 import EfeeOsas from '../assets/Final_logo.png';
 import TableProgram from '../osas_components/TableProgram.jsx';
-import AddProgramCard from '../other_components/AddProgramCard.jsx';
-import UpdateProgramCard from '../other_components/UpdateProgramCard.jsx';
+import AddProgramCard from '../osas_components/AddProgramCard.jsx';
+import UpdateProgramCard from '../osas_components/UpdateProgramCard.jsx';
 import Header from './Header.jsx';
-import React, {useRef} from 'react';
+import React, {useState,useRef} from 'react';
 import useAnimatedToggle from '../hooks/useAnimatedToggle.js';
 import '../animate.css';
 
@@ -20,13 +20,15 @@ function Program(){
 
     const addRef = useRef(null);
     const updateRef = useRef(null);
+
+    const [selectedProgram, setSelectedProgram] = useState(null);
  
 
     return(
         <>
         {addProgram.isVisible &&(
              <>
-                 <div className="fixed inset-0 bg-[#00000062] z-40 pointer-events-auto">
+                 <div className="fixed inset-0 bg-[#00000062] lg:z-40 md:z-50 z-70 pointer-events-auto">
                     {/* Overlay */}
                 </div>
                 <AddProgramCard ref={addRef} onAnimationEnd={addProgram.handleEnd} onClose={() => addProgram.setAnimation("fade-out")} animate={addProgram.animation} />
@@ -37,10 +39,10 @@ function Program(){
         }
         {updateProgram.isVisible &&(
             <>  
-                 <div className="fixed inset-0 bg-[#00000062] z-40 pointer-events-auto">
+                 <div className="fixed inset-0 bg-[#00000062] lg:z-40 md:z-50 z-70 pointer-events-auto">
                     {/* Overlay */}
                 </div>
-                <UpdateProgramCard ref={updateRef} onAnimationEnd={updateProgram.handleEnd} onClose={() => updateProgram.setAnimation("fade-out")} animate={updateProgram.animation} />
+                <UpdateProgramCard ref={updateRef} data={selectedProgram} onAnimationEnd={updateProgram.handleEnd} onClose={() => updateProgram.setAnimation("fade-out")} animate={updateProgram.animation} />
 
             </>
 
@@ -72,7 +74,10 @@ function Program(){
                           
                     </div>
                 </div>
-             <TableProgram update={updateProgram.toggle}/>
+             <TableProgram update={(row) => {
+                setSelectedProgram(row);
+                updateProgram.toggle();
+                }}/>
 
              </div>
 

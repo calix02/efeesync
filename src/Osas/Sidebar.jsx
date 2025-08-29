@@ -41,7 +41,7 @@ const Sidebar = React.forwardRef(({eFee, animate, onAnimationEnd,onClose},ref) =
                 </nav>
                 <div className="absolute bottom-2 w-full px-3 lg:hidden block">
                     <NavLink code="osas" navLink = "#" iconName="moon_stars" navName="Dark Mode"  />
-                      <Link to="/student" onClick={logout} className={`flex items-center font-[family-name:Helvetica] transition duration-150 p-2.5 text-md  rounded-md hover:text-white hover:shadow-[3px_2px_2px_grey`}>
+                      <Link onClick={logout} className={`flex items-center font-[family-name:Helvetica] transition duration-150 p-2.5 text-md hover:bg-[#174515]  rounded-md hover:text-white hover:shadow-[3px_2px_2px_grey`}>
                         <span className="material-symbols-outlined px-2.5">logout</span>
                             <span>Log Out</span>
                         <span hidden >osas</span>

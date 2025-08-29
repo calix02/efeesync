@@ -3,9 +3,9 @@ import Header from './Header.jsx';
 import Sidebar from './Sidebar.jsx';
 import EfeeOsas from '../assets/Final_logo.png';
 import TableStudentOsas from '../osas_components/TableStudentOsas.jsx';
-import AddStudentOsasCard from '../other_components/AddStudentOsasCard.jsx';
-import UpdateStudentOsasCard from '../other_components/UpdateStudentOsasCard.jsx';
-import React, {useRef} from 'react';
+import AddStudentOsasCard from '../osas_components/AddStudentOsasCard.jsx';
+import UpdateStudentOsasCard from '../osas_components/UpdateStudentOsasCard.jsx';
+import React, {useState,useRef} from 'react';
 import '../animate.css';
 import useAnimatedToggle from '../hooks/useAnimatedToggle.js';
 
@@ -21,6 +21,8 @@ function Student(){
 
     const addRef = useRef(null);
     const updateRef = useRef(null);
+
+    const [selectedStudent, setSelectedStudent] = useState(null);
 
    
     return(
@@ -41,7 +43,7 @@ function Student(){
                  <div className="fixed inset-0 bg-[#00000062] z-40 pointer-events-auto">
                     {/* Overlay */}
                 </div>
-                <UpdateStudentOsasCard ref={updateRef} onAnimationEnd={updateStudent.handleEnd} onClose={() => updateStudent.setAnimation("fade-out")} animate={updateStudent.animation} />
+                <UpdateStudentOsasCard data={selectedStudent} ref={updateRef} onAnimationEnd={updateStudent.handleEnd} onClose={() => updateStudent.setAnimation("fade-out")} animate={updateStudent.animation} />
 
             </>
 
@@ -76,12 +78,15 @@ function Student(){
                             <option value="">hey</option>
 
                         </select>
-                        <button className='bg-white lg:w-25 w-20 flex items-center justify-center text-xs transition duration-100 hover:scale-100 hover:bg-[#174515] hover:text-white cursor-pointer border-1 border-[#174515]  text-[#174515] rounded-md text-center'><span class="material-symbols-outlined">print</span>Print</button>
+                        <button className='bg-white lg:w-25 w-20 flex items-center justify-center text-xs transition duration-100 hover:scale-100 hover:bg-[#174515] hover:text-white cursor-pointer border-1 border-[#174515]  text-[#174515] rounded-md text-center'><span className="material-symbols-outlined">print</span>Print</button>
 
                           
                     </div>
                 </div>
-             <TableStudentOsas update={updateStudent.toggle} add={addStudent.toggle}/>
+             <TableStudentOsas update={(row) =>{
+                setSelectedStudent(row);
+                updateStudent.toggle();
+             }} add={addStudent.toggle}/>
 
              </div>
 

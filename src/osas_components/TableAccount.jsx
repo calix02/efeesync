@@ -1,4 +1,5 @@
 import { useState, useMemo } from "react";
+import "../animate.css";
 
 /**
  * TableStudent
@@ -6,6 +7,7 @@ import { useState, useMemo } from "react";
  * @param {Array}  accounts   – array of { id, name, yearSection }
  */
 function TableAccount({ code = "osas", accounts = [] , update}) {
+  const animate = "card-In";
   /* --------------------------------- colors -------------------------------- */
   const textColor =
     code === "cit" ? "text-[#4F1C51]"
@@ -45,7 +47,7 @@ function TableAccount({ code = "osas", accounts = [] , update}) {
   /* -------------------------------- render --------------------------------- */
   return (
   
-    <div className="w-full flex flex-col gap-6 ">
+    <div className={`w-full ${animate} flex flex-col gap-6 `}>
       {/* table wrapper */}
       <div className="lg:ml-70 font-[family-name:Arial] lg:text-sm text-xs bg-white border-1 border-[#174515] text-black flex-grow p-5  mt-3 rounded-lg shadow-[2px_2px_2px_grey]">
         <table className="w-full text-center ">

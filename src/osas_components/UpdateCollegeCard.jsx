@@ -36,7 +36,7 @@ const UpdateCollegeCard = React.forwardRef(({animate, onAnimationEnd,onClose,dat
                 <input type="text" onChange={(e) =>setCollegeName(e.target.value)} value={collegeName} className="border-2 px-2 border-[#174515] h-8 rounded-md w-[100%] mb-4" /> <br />
                  
             </div>
-                <button onClick={()=> {updateCollege(); onClose();}} className="bg-[#174515] w-[100%] rounded-md text-white h-8">Update Student</button>
+                <button onClick={()=> {updateCollege(); onClose();}} className="bg-[#174515] w-[100%] rounded-md text-white h-8">Update College</button>
         </div>
        
     );

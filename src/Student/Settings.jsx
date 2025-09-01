@@ -1,9 +1,9 @@
 import Sidebar from "./Sidebar.jsx";
 import Header from "./Header.jsx";
 import SettingCard from "../student_components/SettingCard.jsx";
-import UploadProfile from "../student_components/UploadProfile.jsx";
+import UploadProfile from "../other_components/UploadProfile.jsx";
 import UpdateInfo from "../student_components/UpdateInfo.jsx";
-import ChangePassword from "../student_components/ChangePassword.jsx";
+import ChangePassword from "../other_components/ChangePassword.jsx";
 import QRCode from "../student_components/QRCode.jsx";
 import EfeeViolet from '../assets/violetlogo.png';
 import React, {useRef} from 'react';

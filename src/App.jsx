@@ -40,7 +40,6 @@ import ShiftingApproval from './treasurer/ShiftingApproval.jsx';
 import PaymentTransaction from './treasurer/PaymentTransaction.jsx';
 import './index.css'
 function App() {
- 
   return (
     
     <Router>

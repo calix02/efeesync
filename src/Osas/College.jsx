@@ -5,12 +5,12 @@ import EfeeOsas from '../assets/Final_logo.png';
 import TableCollege from '../osas_components/TableCollege.jsx';
 import AddCollegeCard from '../osas_components/AddCollegeCard.jsx';
 import UpdateCollegeCard from '../osas_components/UpdateCollegeCard.jsx';
-import React, {useState,useRef} from 'react';
+import React, {useState,useRef, useEffect} from 'react';
 import useAnimatedToggle from '../hooks/useAnimatedToggle.js';
 import '../animate.css';
 
 
-function College(){
+function College() {
 /* ------------------------- Animated States ----------------------------- */
     const addCollege = useAnimatedToggle();
     const updateCollege = useAnimatedToggle();
@@ -19,7 +19,25 @@ function College(){
     const updateRef = useRef(null);
 
     const [selectedCollege, setSelectedCollege] = useState(null);
+    const [colleges, setColleges] = useState({});
 
+    const fetchColleges = async () => {
+        try {
+            const res = await fetch("/api/departments", {
+                credentials: "include"
+            });
+            const response = await res.json();
+            if (response.status === "success") {
+                setColleges(response.data);
+            }
+        } catch (err) {
+            //alert("Fetch failed");
+        }
+    }
+
+    useEffect(()=> {
+        fetchColleges();
+    }, []);
 
     return(
         <>
@@ -28,7 +46,7 @@ function College(){
                  <div className="fixed inset-0 bg-[#00000062]  lg:z-40 md:z-50 z-70 pointer-events-auto">
                     {/* Overlay */}
                 </div>
-                <AddCollegeCard ref={addRef} onAnimationEnd={addCollege.handleEnd} onClose={() => addCollege.setAnimation("fade-out")} animate={addCollege.animation} />
+                <AddCollegeCard ref={addRef} reloadColleges={fetchColleges} onAnimationEnd={addCollege.handleEnd} onClose={() => addCollege.setAnimation("fade-out")} animate={addCollege.animation} />
             </>
 
         )
@@ -39,7 +57,7 @@ function College(){
                  <div className="fixed inset-0 bg-[#00000062] lg:z-40 md:z-50 z-70  pointer-events-auto">
                     {/* Overlay */}
                 </div>
-                <UpdateCollegeCard ref={updateRef} data={selectedCollege} onAnimationEnd={updateCollege.handleEnd} onClose={() => updateCollege.setAnimation("fade-out")} animate={updateCollege.animation} />
+                <UpdateCollegeCard ref={updateRef} reloadColleges={fetchColleges} data={selectedCollege} onAnimationEnd={updateCollege.handleEnd} onClose={() => updateCollege.setAnimation("fade-out")} animate={updateCollege.animation} />
 
             </>
 
@@ -54,7 +72,7 @@ function College(){
                         <span className="material-symbols-outlined px-1">add</span>Add Colleges
                     </button>
                 </div>
-             <TableCollege update={(row) =>{
+             <TableCollege colleges={colleges} update={(row) =>{
                 setSelectedCollege(row);
                 updateCollege.toggle();
              }}/>

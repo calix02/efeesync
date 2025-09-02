@@ -1,6 +1,5 @@
 import {Link} from 'react-router-dom';
 import React from 'react';
-import apiUrl from "./../apiUrl.js";
 
 const AccountCard = React.forwardRef(({ animate, onAnimationEnd,code}, ref) => {
 /* ------------------------- Color ----------------------------- */
@@ -18,7 +17,7 @@ const AccountCard = React.forwardRef(({ animate, onAnimationEnd,code}, ref) => {
 
     const logout = async () => {
         try {
-            const res = await fetch(apiUrl + "/logout", {
+            const res = await fetch("/api/logout", {
                 method: "POST",
                 credentials: "include"
             });

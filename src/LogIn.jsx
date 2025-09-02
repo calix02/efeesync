@@ -3,7 +3,6 @@ import School from './assets/CBSUA-Image.png';
 import Logo from './assets/Final_Logo.png'
 import Cbsua from './assets/cbsua.png';
 import React, {useState} from 'react';
-import apiUrl from "./apiUrl.js";
 
 function LogIn(){
 
@@ -24,7 +23,7 @@ function LogIn(){
             "password": passwordData
         };
         try {
-            const res = await fetch(apiUrl + "/login", {
+            const res = await fetch("/api/login", {
                 method: "POST",
                 credentials: "include",
                 body: JSON.stringify(loginData)

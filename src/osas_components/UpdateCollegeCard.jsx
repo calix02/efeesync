@@ -1,23 +1,47 @@
 import React, {useState} from "react";
-const UpdateCollegeCard = React.forwardRef(({animate, onAnimationEnd,onClose,data}, ref) =>{
-    const [collegeCode, setCollegeCode] = useState(data?.code || "");
-        const [collegeName, setCollegeName] = useState(data?.name || "");
+
+const UpdateCollegeCard = React.forwardRef(({animate, onAnimationEnd,onClose,data,reloadColleges}, ref) =>{
+    const [collegeCode, setCollegeCode] = useState(data?.department_code || "");
+    const [collegeName, setCollegeName] = useState(data?.department_name || "");
+    const [collegeId, setCollegeId] = useState(data?.department_id || "");
     
-         React.useEffect(() => {
+    React.useEffect(() => {
         if (data) {
-            setCollegeCode(data.code);
-            setCollegeName(data.name);
+            setCollegeCode(data.department_code);
+            setCollegeName(data.department_name);
+            setCollegeId(data.department_id);
         }
     }, [data]);
-    
-        const updateCollege = () =>{
-            
-            alert("College Code:" + collegeCode +
-                "\nCollege Name:" + collegeName
-            );
-           
-    
+
+    const departmentData = {
+        "new_department_code": collegeCode,
+        "new_department_name": collegeName,
+        "new_department_color": '#0000ff'
+    }
+
+    const updateCollege = async () =>{
+        try {
+            const res = await fetch("/api/departments/" + collegeId, {
+                method: "PUT",
+                credentials: "include",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(departmentData)
+            });
+
+            const response = await res.json();
+            if (response.status === "success") {
+                alert("success");
+                reloadColleges();
+            } else {
+                alert("Failed: " + response.message);
+            }
+        } catch (err) {
+            alert("Fetch failed: " + err);
         }
+    }
+
 
 
     return( 

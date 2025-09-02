@@ -64,10 +64,10 @@ function TableCollege({ code = "osas", colleges = [] , update}) {
           <tbody>
             {pageData.map((s, idx) => (
               <tr key={idx} className="border-b border-[#0505057a] ">
-                <td>{s.code}</td>
-                <td>{s.name}</td>
-                <td>{s.population}</td>
-                <td>{s.programCount}</td>
+                <td>{s.department_code}</td>
+                <td>{s.department_name}</td>
+                <td>{s.student_population}</td>
+                <td>{s.program_count}</td>
 
                 <td className="flex lg:flex-row flex-col gap-2 justify-center py-2">
                   <span onClick={() =>update(s)} className="material-symbols-outlined cursor-pointer text-[#174515] bg-white  shadow-[2px_2px_1px_grey] rounded-sm border border-[#174515] px-1">

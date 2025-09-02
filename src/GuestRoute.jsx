@@ -2,7 +2,8 @@
 import { Navigate, Outlet } from "react-router-dom";
 import { useAuth } from "./AuthContext";
 import { useEffect, useState } from "react";
-import Malupiton from "./assets/malupiton.jpg";
+import React from "react";
+import Logo from "./assets/Final_Logo.png";
 
 export default function GuestRoute() {
   const { user, loading } = useAuth();
@@ -12,7 +13,7 @@ export default function GuestRoute() {
     let timer;
     if (!loading) {
       // add delay before hiding loading screen
-      timer = setTimeout(() => setDelayedLoading(false), 1200); // 1.2s delay
+      timer = setTimeout(() => setDelayedLoading(false), 2000); // 1.2s delay
     }
     return () => clearTimeout(timer);
   }, [loading]);
@@ -20,9 +21,10 @@ export default function GuestRoute() {
   // Show loading screen while auth is fetching OR during delay
   if (loading || delayedLoading) {
     return (
-      <div className="w-screen h-screen flex flex-col justify-center items-center">
-        <img src={Malupiton} className="w-40 animate-pulse" alt="Loading..." />
-        <p className="text-xl font-semibold mt-3">Wait lang ngani!!!</p>
+      <div className="fixed inset-0 flex flex-col items-center justify-center bg-white z-50">
+        <img src={Logo} alt="App Logo" className="w-24 h-24 mb-6 animate-bounce"/>
+        <div className="w-12 h-12 border-4 border-green-600 border-t-transparent rounded-full animate-spin"></div>
+        <p className="mt-4 text-lg font-semibold text-gray-700 animate-pulse"> Loading, please wait...</p>
       </div>
     );
   }

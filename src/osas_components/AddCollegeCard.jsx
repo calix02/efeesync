@@ -1,13 +1,37 @@
-import React,{useState} from "react";
-const AddCollegeCard = React.forwardRef(({animate, onAnimationEnd,onClose}, ref) =>{
+import React,{useEffect, useState} from "react";
+
+const AddCollegeCard = React.forwardRef(({animate, onAnimationEnd,onClose, reloadColleges}, ref) =>{
     const [collegeCode, setCollegeCode] = useState("");
     const [collegeName, setCollegeName] = useState("");
 
     const changeCollegeCode = (e) => setCollegeCode(e.target.value);
     const changeCollegeName = (e) => setCollegeName(e.target.value);
 
-    const addCollege = () =>{
-        alert("College Code:" + collegeCode + "\nCollege Name:" + collegeName);
+    const departmentData = {
+        "department_code": collegeCode,
+        "department_name": collegeName,
+        "department_color": '#0000ff'
+    }
+    const addCollege = async () => {
+        reloadColleges();
+        try {
+            const res = await fetch("/api/departments", {
+                method: "POST",
+                credentials: "include",
+                body: JSON.stringify(departmentData)
+            });
+
+            const response = await res.json();
+
+            // Result
+            if (response.status === "success") {
+                alert("success");
+            } else {
+                alert("Failed: " + response.message);
+            }
+        } catch (err) {
+            // alert("Fetch failed");
+        }
     }
     return( 
         <div ref={ref}   className={` ${animate} font-[family-name:Arial] lg:text-sm text-xs  lg:w-100 w-80 h-68 px-6 bg-white shadow-[2px_2px_#174515,-2px_-2px_white] rounded-lg absolute z-80 inset-0 mx-auto mt-50 `}

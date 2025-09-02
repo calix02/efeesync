@@ -1,5 +1,4 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
-import apiUrl from './apiUrl.js';
 
 const AuthContext = createContext();
 
@@ -10,7 +9,7 @@ export function AuthProvider({ children }) {
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const res = await fetch(apiUrl + "/verify-login", {
+        const res = await fetch("/api/verify-login", {
           credentials: "include",
         });
 

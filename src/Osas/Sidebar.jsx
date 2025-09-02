@@ -20,16 +20,16 @@ const Sidebar = React.forwardRef(({eFee, animate, onAnimationEnd,onClose},ref) =
     }
    
     return(
-        <div ref={ref} onAnimationEnd={onAnimationEnd} className={`w-70 h-screen shadow-[3px_2px_1px_#174515] ${animate} border-b-20 border-[#174515] lg:z-1 z-50 fixed bg-white`}>
-            <div className='mt-[110px]'>
+        <div ref={ref} onAnimationEnd={onAnimationEnd} className={`w-64 h-screen border-r-3  ${animate} border-b-20 border-[#174515] lg:z-1 z-50 fixed bg-white`}>
+            <div className='mt-[90px]'>
                 <span onClick={onClose} className='lg:hidden'>
                     <span className="material-symbols-outlined absolute right-1.5 top-23 cursor-pointer text-[#174515]">close</span>
                 </span>
                 <span className='flex justify-center items-center gap-3'>
-                    <img className='w-[60px]' src={eFee} alt="" />
-                    <span className='text-center font-bold text-[22px] block text-[#174515]'>eFeeSync</span>
+                    <img className='h-10' src={eFee} alt="" />
+                    <span className='text-center font-bold font-poppins text-[18px] block text-[#174515]'>eFeeSync</span>
                 </span>
-                <nav className='pt-9 mx-3  '>
+                <nav className='pt-5 mx-3  '>
                     <NavLink code="osas" navLink = "/osas/dashboard" iconName="dashboard" navName="Dashboard"/>
                     <NavLink code="osas" navLink = "/osas/college" iconName="account_balance" navName="College"/>
                     <NavLink code="osas" navLink = "/osas/program" iconName="school" navName="Program"/>

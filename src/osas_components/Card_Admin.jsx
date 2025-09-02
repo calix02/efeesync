@@ -9,23 +9,23 @@ function Card_Admin(props){
         : props.title === "CITSC" ? 'bg-[#ECCEFC] text-[#5C0C73]'
         : 'bg-[white]'
     return(
-         <div className={` relative border-2 rounded-lg w-[100%] h-45 overflow-x-hidden ${bgColor} shadow-[2px_2px_3px_grey]`}>
+         <div className={` relative  rounded-sm h-40 shadow-gray-200 overflow-hidden ${bgColor}`}>
                 <img className='absolute w-62 opacity-50 right-[-110px]' src={props.logo} alt="" />
                 <span className="flex items-center">
-                    <img src={props.logo} alt="" className="w-20" />
-                    <p className="font-bold text-lg ">{props.title}</p>
+                    <img src={props.logo} alt="" className="w-18 mt-2" />
+                    <p className="font-bold font-poppins mt-2 text-lg ">{props.title}</p>
                 </span>
                 <div className='flex justify-between px-8 items-center'>
-                    <span className='font-bold text-md text-[#000]'>Total Budget</span>
-                    <div className='w-40 bg-white py-2 text-center rounded-md z-10 text-xl font-bold'>P{props.budget}</div>
+                    <span className='font-bold font-inter text-md text-[#000]'>Total Budget</span>
+                    <div className='w-40 bg-white py-1 text-center rounded-md z-10 text-xl font-bold font-poppins'>₱ {props.budget}</div>
                 </div>
                 <div className='flex text-[#000] justify-between px-8 items-center mt-3'>
-                    <span className='text-sm '>Cash on Hand:</span>
-                    <div className='w-40 text-center font-bold text-sm'>P{props.cashHand}</div>
+                    <span className='text-sm font-inter '>Cash on Hand:</span>
+                    <div className='w-40 text-left font-inter font-bold text-sm'>₱ {props.cashHand}</div>
                 </div>
                  <div className='flex text-[#000] justify-between px-8 items-center mt-1'>
-                    <span className='text-sm '>Cash in Bank:</span>
-                    <div className='w-40 text-center font-bold text-sm'>P{props.cashBank}</div>
+                    <span className='text-sm font-inter '>Cash in Bank:</span>
+                    <div className='w-40 text-left font-bold font-inter text-sm'>₱ {props.cashBank}</div>
                 </div>
         </div>
     );

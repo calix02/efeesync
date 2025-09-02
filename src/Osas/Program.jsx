@@ -13,6 +13,7 @@ import '../animate.css';
 
 
 function Program(){
+    document.title = "Program";
     const animateL = "left-In";
 /* ------------------------- Animated States ----------------------------- */
     const addProgram = useAnimatedToggle();

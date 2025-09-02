@@ -14,6 +14,7 @@ import UploadEfee from '../osas_components/UploadEfee.jsx';
 import React,{useState,useRef} from 'react';
 
 function Setting(){
+    document.title = "Setting";
     const profile = useAnimatedToggle();
     const changePassword = useAnimatedToggle();
     const information = useAnimatedToggle();

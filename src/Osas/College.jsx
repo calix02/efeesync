@@ -11,6 +11,7 @@ import '../animate.css';
 
 
 function College() {
+    document.title = "College";
 /* ------------------------- Animated States ----------------------------- */
     const addCollege = useAnimatedToggle();
     const updateCollege = useAnimatedToggle();
@@ -72,7 +73,7 @@ function College() {
                         <span className="material-symbols-outlined px-1">add</span>Add Colleges
                     </button>
                 </div>
-             <TableCollege colleges={colleges} update={(row) =>{
+             <TableCollege reloadColleges={fetchColleges} colleges={colleges} update={(row) =>{
                 setSelectedCollege(row);
                 updateCollege.toggle();
              }}/>

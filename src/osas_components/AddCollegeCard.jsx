@@ -13,7 +13,6 @@ const AddCollegeCard = React.forwardRef(({animate, onAnimationEnd,onClose, reloa
         "department_color": '#0000ff'
     }
     const addCollege = async () => {
-        reloadColleges();
         try {
             const res = await fetch("/api/departments", {
                 method: "POST",
@@ -25,6 +24,7 @@ const AddCollegeCard = React.forwardRef(({animate, onAnimationEnd,onClose, reloa
 
             // Result
             if (response.status === "success") {
+                reloadColleges();
                 alert("success");
             } else {
                 alert("Failed: " + response.message);

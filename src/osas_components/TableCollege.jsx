@@ -6,7 +6,7 @@ import "../animate.css";
  * @param {string} code       – org code ("cit", "coe", …) to color the header text
  * @param {Array}  colleges   – array of { id, name, yearSection }
  */
-function TableCollege({ code = "osas", colleges = [] , update}) {
+function TableCollege({ code = "osas", colleges = [] , update,reloadColleges}) {
   const animate = "card-In";
   /* --------------------------------- colors -------------------------------- */
   const textColor =
@@ -20,16 +20,16 @@ function TableCollege({ code = "osas", colleges = [] , update}) {
 
 
   /* ---------------------------- sample fallback ---------------------------- */
-  const fallback = Array.from({ length: 5 }, (_, i) => ({
-    code: `CITSC`,
-    name: `College of Information Technology`,
-    population: `473`,
-    programCount: `3`,
+  const fallback = [
+    {
+    code: `No data`,
+    name: `No data`,
+    population: `N/A`,
+    programCount: `N/A`,
     
-  }));
+  }];
 
-  const data = colleges.length ? colleges : fallback;
-  
+  const data = colleges.length > 1 ? colleges : fallback;
 
   /* ----------------------------- pagination -------------------------------- */
   const PAGE_SIZE = 10;
@@ -43,6 +43,30 @@ function TableCollege({ code = "osas", colleges = [] , update}) {
 
   const goPrev = () => setPage(Math.max(0, page - 1));
   const goNext = () => setPage(Math.min(pageCount - 1, page + 1));
+
+  const deleteCollege = async (s) => {
+    
+    if (confirm("Delete this college?")) {
+      try {
+          const res = await fetch("/api/departments/" + s.department_id, {
+              method: "DELETE",
+              credentials: "include",
+              headers: {
+                  "Content-Type": "application/json"
+              }
+          });
+          const response = await res.json();
+          if (response.status === "success") {
+              alert("success");
+              reloadColleges();
+          } else {
+              alert("Failed: " + response.message);
+          }
+      } catch (err) {
+          alert("Fetch failed: " + err);
+      }
+    }
+  };
 
   /* -------------------------------- render --------------------------------- */
   return (
@@ -73,7 +97,7 @@ function TableCollege({ code = "osas", colleges = [] , update}) {
                   <span onClick={() =>update(s)} className="material-symbols-outlined cursor-pointer text-[#174515] bg-white  shadow-[2px_2px_1px_grey] rounded-sm border border-[#174515] px-1">
                     edit_square
                   </span>
-                  <span className="material-symbols-outlined bg-white cursor-pointer text-[#d10707] shadow-[2px_2px_2px_grey] rounded-sm border border-[#d10707] px-1">
+                  <span onClick={() => deleteCollege(s)} className="material-symbols-outlined bg-white cursor-pointer text-[#d10707] shadow-[2px_2px_2px_grey] rounded-sm border border-[#d10707] px-1">
                     delete
                   </span>
                 </td>

@@ -17,6 +17,8 @@ import it from '../assets/CIT.png';
 import "../animate.css";
 
 function Dashboard(){
+    document.title = "Dashboard";
+    
     const animate = "card-In";
     const animateL = "left-In";
     const animateR = "right-In";
@@ -42,8 +44,8 @@ function Dashboard(){
         <>
         <Header code="osas" logoCouncil={OsasLogo} titleCouncil = "Office of Student Affairs and Services"/>
         <div className="w-screen h-screen bg-[#F8F8F8] absolute z-[-1] overflow-y-auto overflow-x-auto lg:px-6 md:px-10 px-3">
-            <div className="lg:mt-30 mt-25 lg:ml-70">
-                <h2 className="text-2xl font-medium font-[family-name:Futura Bold]">Welcome, Admin!</h2>
+            <div className="lg:mt-24 mt-24 lg:ml-68">
+                <h2 className="text-lg sm:text-md md:text-2xl lg:text-2xl text-[#145712] font-bold font-poppins">Welcome, Admin!</h2>
             </div>
             <div className={`lg:flex lg:flex-row lg:justify-center lg:items-center ${animate} grid grid-cols-2 mt-4 gap-6 lg:ml-70`}>
               <CardOsas title="Number of Colleges" count="5" pic={building}/>

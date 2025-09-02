@@ -66,19 +66,19 @@ function Header_Council(props) {
 
   return (
   <>
-    <header className={` flex  bg-white fixed top-0 w-screen h-20 lg:z-20 md:z-40 z-60  items-center border-b-3 ${borderColor}`}>
+    <header className={` flex  bg-white fixed top-0 w-screen h-18 lg:z-20 md:z-40 z-60  items-center border-b-4 shadow-md ${borderColor}`}>
       <span hidden>{props.code}</span>
       <span className="flex items-center  gap-3 ml-2">
         <span className='lg:hidden block'>
           <i onClick={()=>{clickedAccBar(); sidebar.toggle();} } className="fa-solid fa-bars text-sm cursor-pointer"></i>
         </span>
         <span className='lg:ml-14'>
-          <img src={logo} className='lg:w-28 md:w-14 w-12' alt="logo"/>
+          <img src={logo} className='lg:w-16 md:w-14 w-12' alt="logo"/>
         </span>
       </span>
       
       <span >
-        <h2 className="lg:text-2xl md:text-lg text-sm  font-bold">{props.titleCouncil}</h2>
+        <h2 className="lg:text-2xl md:text-lg text-sm  font-bold font-poppins ml-2">{props.titleCouncil}</h2>
       </span>
 
       <span className="flex lg:gap-3 absolute right-8">

@@ -13,6 +13,7 @@ import '../animate.css';
 
 
 function Organisation(){
+    document.title = "Organization";
 /* ------------------------- Animated States ----------------------------- */
     const addOrg = useAnimatedToggle();
     const updateOrg = useAnimatedToggle();

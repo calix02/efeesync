@@ -13,6 +13,7 @@ import useAnimatedToggle from '../hooks/useAnimatedToggle.js';
 
 
 function Student(){
+    document.title = "Student";
     const animateL = "left-In";
     const animateR = "right-In";
 /* ------------------------- Animated States ----------------------------- */

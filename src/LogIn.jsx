@@ -2,6 +2,7 @@ import { useNavigate } from "react-router-dom";
 import School from './assets/CBSUA-Image.png';
 import Logo from './assets/Final_Logo.png'
 import Cbsua from './assets/cbsua.png';
+import { successAlert, errorAlert } from "./utils/alert.js"; 
 import React, {useState} from 'react';
 
 function LogIn(){
@@ -33,15 +34,22 @@ function LogIn(){
             if (response.status === "success") {
                 if (response.data != null) {
                     setUserRole(response.data.current_role);
+                    successAlert("You have logged in successfully!").then((result) =>{
+                        if(result.isConfirmed){
+                            window.location.reload();
+                        }
+                    });
                 }
             } else {
                 setUserRole(null);
+                errorAlert(response.message || "Invalid email or password.");
+                return;
             }
-            alert(response.message);
-            window.location.reload();
+           
         } catch (err) {
-            alert("Login failed");
             setUserRole(null);
+            errorAlert("Login failed. Please try again.");
+            return;
         }
     }
 

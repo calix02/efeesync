@@ -1,5 +1,6 @@
 import {Link} from 'react-router-dom';
 import React from 'react';
+import {confirmAlert,successAlert, errorAlert} from "../utils/alert.js";
 
 const AccountCard = React.forwardRef(({ animate, onAnimationEnd,code}, ref) => {
 /* ------------------------- Color ----------------------------- */
@@ -14,22 +15,28 @@ const AccountCard = React.forwardRef(({ animate, onAnimationEnd,code}, ref) => {
     const color = colors[code] || "text-[#000]";
     
 
-
-    const logout = async () => {
-        try {
-            const res = await fetch("/api/logout", {
-                method: "POST",
-                credentials: "include"
+        const logout = () => {
+            confirmAlert("You really want to Log out?").then( async (result) =>{
+                if(result.isConfirmed){
+                    try {
+                        const res = await fetch("/api/logout", {
+                        method: "POST",
+                        credentials: "include"
+                    });
+                        const response = await res.json();
+                        if (response.status === "success") {
+                            successAlert(response.message).then((result) =>{
+                                if(result.isConfirmed){
+                                    window.location.reload();
+                                }
+                            });
+                        }
+                    }catch (err) {
+                        errorAlert("An error occured: " + response.message);
+                    }
+                }
             });
-            const response = await res.json();
-            if (response.status === "success") {
-                alert(response.message);
-                window.location.reload();
-            }
-        } catch (err) {
-            alert("An error occured: " + response.message);
         }
-    }
     return(
         <div ref={ref}  className={`${animate} px-5 py-2 rounded-lg bg-white border-1 border-black shadow-[2px_2px_grey] z-50 absolute right-10 top-15 grid items-center  `} 
         onAnimationEnd={onAnimationEnd}>

@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-
+import { successAlert, errorAlert } from "../utils/alert";
 const UpdateCollegeCard = React.forwardRef(({animate, onAnimationEnd,onClose,data,reloadColleges}, ref) =>{
     const [collegeCode, setCollegeCode] = useState(data?.department_code || "");
     const [collegeName, setCollegeName] = useState(data?.department_name || "");
@@ -32,13 +32,16 @@ const UpdateCollegeCard = React.forwardRef(({animate, onAnimationEnd,onClose,dat
 
             const response = await res.json();
             if (response.status === "success") {
-                alert("success");
-                reloadColleges();
+                successAlert("Succesfully Update").then((result) =>{
+                    if(result.isConfirmed){
+                        reloadColleges();
+                    }
+                });
             } else {
-                alert("Failed: " + response.message);
+                errorAlert("Failed: " + response.message);
             }
         } catch (err) {
-            alert("Fetch failed: " + err);
+            errorAlert("Fetch failed: " + er);
         }
     }
 
@@ -53,14 +56,20 @@ const UpdateCollegeCard = React.forwardRef(({animate, onAnimationEnd,onClose,dat
             <div className="mt-5 border-b-4 border-[#174515]">
                 <span className="text-[#174515] font-semibold lg:text-xl text-lg">Update College</span>
             </div>
-            <div className="mt-6">
-                <label>College Code:</label><br />
-                <input type="text" onChange={(e) =>setCollegeCode(e.target.value)} value={collegeCode} className="border-2 px-2 border-[#174515] h-8 rounded-md w-[100%] mb-4" /> <br />
-                <label>College Name:</label><br />
-                <input type="text" onChange={(e) =>setCollegeName(e.target.value)} value={collegeName} className="border-2 px-2 border-[#174515] h-8 rounded-md w-[100%] mb-4" /> <br />
-                 
-            </div>
-                <button onClick={()=> {updateCollege(); onClose();}} className="bg-[#174515] w-[100%] rounded-md text-white h-8">Update College</button>
+            <form onSubmit={(e) =>{
+                e.preventDefault();
+                updateCollege();
+                onClose();
+            }}>
+                <div className="mt-6">
+                    <label>College Code:</label><br />
+                    <input type="text" onChange={(e) =>setCollegeCode(e.target.value)} value={collegeCode} className="border-2 px-2 border-[#174515] h-8 rounded-md w-[100%] mb-4" /> <br />
+                    <label>College Name:</label><br />
+                    <input type="text" onChange={(e) =>setCollegeName(e.target.value)} value={collegeName} className="border-2 px-2 border-[#174515] h-8 rounded-md w-[100%] mb-4" /> <br />
+                    
+                </div>
+                <button type="submit"  className="bg-[#174515] w-[100%] rounded-md text-white h-8">Update College</button>
+            </form>
         </div>
        
     );

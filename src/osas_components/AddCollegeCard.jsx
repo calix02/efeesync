@@ -1,4 +1,5 @@
 import React,{useEffect, useState} from "react";
+import { successAlert, errorAlert } from "../utils/alert";
 
 const AddCollegeCard = React.forwardRef(({animate, onAnimationEnd,onClose, reloadColleges}, ref) =>{
     const [collegeCode, setCollegeCode] = useState("");
@@ -24,13 +25,16 @@ const AddCollegeCard = React.forwardRef(({animate, onAnimationEnd,onClose, reloa
 
             // Result
             if (response.status === "success") {
-                reloadColleges();
-                alert("success");
+                successAlert("Succesfully added College").then((result) =>{
+                    if(result.isConfirmed){
+                        reloadColleges();
+                    }
+                });
             } else {
-                alert("Failed: " + response.message);
+                errorAlert("Failed: " + response.message);
             }
         } catch (err) {
-            // alert("Fetch failed");
+                errorAlert("Failed: " + response.message);
         }
     }
     return( 
@@ -42,15 +46,21 @@ const AddCollegeCard = React.forwardRef(({animate, onAnimationEnd,onClose, reloa
             <div className="mt-4 border-b-4 border-[#174515]">
                 <span className="text-[#174515] font-semibold lg:text-xl text-lg">Add College</span>
             </div>
-            <div className="mt-6">
-                <label>College Code:</label><br />
-                <input type="text" onChange={changeCollegeCode} value={collegeCode} className="border-2 border-[#174515] px-2 h-8 rounded-md w-[100%] mb-4" /> <br />
-                <label>College Name:</label><br />
-                <input type="text" onChange={changeCollegeName} value={collegeName} className="border-2 border-[#174515] px-2 h-8 rounded-md w-[100%] mb-4" /> <br />
-                 
-            </div>
-            
-                <button onClick={() => {onClose(); addCollege();}} className="bg-[#174515] w-[100%] h-8 cursor-pointer rounded-md text-white ">Add College</button>
+            <form onSubmit={(e) =>{
+                e.preventDefault();
+                onClose();
+                addCollege();
+
+            }} >
+                <div className="mt-6">
+                    <label>College Code:</label><br />
+                    <input type="text" onChange={changeCollegeCode} value={collegeCode} className="border-2 border-[#174515] px-2 h-8 rounded-md w-[100%] mb-4" /> <br />
+                    <label>College Name:</label><br />
+                    <input type="text" onChange={changeCollegeName} value={collegeName} className="border-2 border-[#174515] px-2 h-8 rounded-md w-[100%] mb-4" /> <br />
+                    
+                </div>
+                <button type="submit"  className="bg-[#174515] w-[100%] h-8 cursor-pointer rounded-md text-white ">Add College</button>
+            </form>
             
         </div>
        

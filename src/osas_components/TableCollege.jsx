@@ -1,4 +1,5 @@
 import { useState, useMemo } from "react";
+import { confirmAlert, errorAlert, okayAlert } from "../utils/alert";
 import "../animate.css";
 
 /**
@@ -44,10 +45,10 @@ function TableCollege({ code = "osas", colleges = [] , update,reloadColleges}) {
   const goPrev = () => setPage(Math.max(0, page - 1));
   const goNext = () => setPage(Math.min(pageCount - 1, page + 1));
 
-  const deleteCollege = async (s) => {
-    
-    if (confirm("Delete this college?")) {
-      try {
+  const deleteCollege = (s) => {
+    confirmAlert("It will delete permanently").then( async (result) =>{
+      if(result.isConfirmed){
+        try {
           const res = await fetch("/api/departments/" + s.department_id, {
               method: "DELETE",
               credentials: "include",
@@ -57,7 +58,7 @@ function TableCollege({ code = "osas", colleges = [] , update,reloadColleges}) {
           });
           const response = await res.json();
           if (response.status === "success") {
-              alert("success");
+              okayAlert("Deleted!");
               reloadColleges();
           } else {
               alert("Failed: " + response.message);
@@ -65,7 +66,9 @@ function TableCollege({ code = "osas", colleges = [] , update,reloadColleges}) {
       } catch (err) {
           alert("Fetch failed: " + err);
       }
-    }
+
+      }
+    });
   };
 
   /* -------------------------------- render --------------------------------- */

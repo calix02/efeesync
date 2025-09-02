@@ -1,22 +1,34 @@
 import {Link} from 'react-router-dom';
 import NavLink from '../other_components/NavLink.jsx';
 import React from 'react';
+import { confirmAlert, successAlert, errorAlert } from '../utils/alert.js';
 
 const Sidebar = React.forwardRef(({eFee, animate, onAnimationEnd,onClose},ref) =>{
     
-    const logout = async () => {
-        try {
-            const res = await fetch("/api/logout", {
-                method: "POST",
-                credentials: "include"
-            });
-            const response = await res.json();
-            if (response.status === "success") {
-                alert(response.message);
+    const logout = () => {
+        confirmAlert("You really want to Log out?").then( async (result) =>{
+            if(result.isConfirmed){
+                try {
+                    const res = await fetch("/api/logout", {
+                    method: "POST",
+                    credentials: "include"
+                });
+                    const response = await res.json();
+                    if (response.status === "success") {
+                        successAlert(response.message).then((result) =>{
+                            if(result.isConfirmed){
+                                window.location.reload();
+                            }
+                        });
+                    }
+                }catch (err) {
+                    errorAlert("An error occured: " + response.message);
+                }
+
             }
-        } catch (err) {
-            alert("An error occured: " + response.message);
-        }
+        });
+
+       
     }
    
     return(

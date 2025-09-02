@@ -1,9 +1,31 @@
 import {Link} from 'react-router-dom';
 import NavLink from '../other_components/NavLink.jsx';
 import DropDownNav from '../other_components/DropDownNav.jsx';
+import {confirmAlert,successAlert, errorAlert} from "../utils/alert.js";
 import React from 'react';
 const Sidebar = React.forwardRef(({eFee, animate, onAnimationEnd,onClose},ref) =>{
-   
+    const logout = () => {
+           confirmAlert("You really want to Log out?").then( async (result) =>{
+               if(result.isConfirmed){
+                   try {
+                       const res = await fetch("/api/logout", {
+                       method: "POST",
+                       credentials: "include"
+                   });
+                       const response = await res.json();
+                       if (response.status === "success") {
+                           successAlert(response.message).then((result) =>{
+                               if(result.isConfirmed){
+                                   window.location.reload();
+                               }
+                           });
+                       }
+                   }catch (err) {
+                               errorAlert("An error occured: " + response.message);
+                   }
+               }
+           });
+       }
     return(
         <div ref={ref} onAnimationEnd={onAnimationEnd} className={`w-70 h-screen shadow-[3px_2px_1px_#621668] ${animate} border-b-20 border-[#621668] lg:z-1 z-50 fixed bg-white`}>
             <div className='mt-[110px]'>
@@ -26,7 +48,11 @@ const Sidebar = React.forwardRef(({eFee, animate, onAnimationEnd,onClose},ref) =
                 </nav>
                 <div className="absolute bottom-2 w-full px-3 lg:hidden block">
                     <NavLink code="cit" navLink = "#" iconName="moon_stars" navName="Dark Mode"  />
-                    <NavLink code="cit" navLink = "/" iconName="logout" navName="Log Out"/>
+                    <Link onClick={logout} className={`flex items-center font-[family-name:Helvetica] transition duration-150 p-2.5 text-md hover:bg-[#621668]  rounded-md hover:text-white hover:shadow-[3px_2px_2px_grey`}>
+                        <span className="material-symbols-outlined px-2.5">logout</span>
+                        <span>Log Out</span>
+                        <span hidden >cit</span>
+                    </Link>
                 </div>
             </div>
         </div>

@@ -1,4 +1,5 @@
 import { useState, useMemo } from "react";
+import { confirmAlert, errorAlert, okayAlert } from "../utils/alert";
 import "../animate.css";
 
 /**
@@ -6,7 +7,7 @@ import "../animate.css";
  * @param {string} code       – org code ("cit", "coe", …) to color the header text
  * @param {Array}  organizations   – array of { id, name, yearSection }
  */
-function TableOrganisation({ code = "osas", organizations = [] , update}) {
+function TableOrganisation({ code = "osas", organizations = [] , update, reloadOrgs}) {
   const animate = "card-In";
   /* --------------------------------- colors -------------------------------- */
   const textColor =
@@ -20,15 +21,40 @@ function TableOrganisation({ code = "osas", organizations = [] , update}) {
 
 
   /* ---------------------------- sample fallback ---------------------------- */
-  const fallback = Array.from({ length: 5 }, (_, i) => ({
-    orgCode: `CITSC`,
-    orgName: `Bachelor of Science in Information `,
-    assCollege: `CIT`,
-    
-  }));
+  const fallback = [
+    {
+    organization_code: `CITSC`,
+    organization_ame: `College of Information Technology Student Council`,
+    department_code: `CIT`,
+    }
+  ];
 
   const data = organizations.length ? organizations : fallback;
-  
+
+  const deleteOrg = (s) => {
+    confirmAlert("It will delete permanently").then( async (result) =>{
+      if(result.isConfirmed){
+        try {
+          const res = await fetch("/api/organizations/" + s.organization_id, {
+              method: "DELETE",
+              credentials: "include",
+              headers: {
+                  "Content-Type": "application/json"
+              }
+          });
+          const response = await res.json();
+          if (response.status === "success") {
+              reloadOrgs();
+              okayAlert("Deleted!");
+          } else {
+              errorAlert("Failed: " + response.message);
+          }
+      } catch (err) {
+          errorAlert("Failed: " + err);
+      }
+      }
+    });
+  };
 
   /* ----------------------------- pagination -------------------------------- */
   const PAGE_SIZE = 10;
@@ -62,15 +88,14 @@ function TableOrganisation({ code = "osas", organizations = [] , update}) {
           <tbody>
             {pageData.map((s, idx) => (
               <tr key={idx} className="border-b border-[#0505057a] ">
-                <td>{s.orgCode}</td>
-                <td>{s.orgName}</td>
-                <td>{s.assCollege}</td>
-
+                <td>{s.organization_code}</td>
+                <td>{s.organization_name}</td>
+                <td>{s.department_code}</td>
                 <td className="flex lg:flex-row flex-col gap-2 justify-center py-2">
                   <span onClick={() =>update(s)} className="material-symbols-outlined cursor-pointer text-[#174515] bg-white  shadow-[2px_2px_1px_grey] rounded-sm border border-[#174515] px-1">
                     edit_square
                   </span>
-                  <span className="material-symbols-outlined bg-white cursor-pointer text-[#d10707] shadow-[2px_2px_2px_grey] rounded-sm border border-[#d10707] px-1">
+                  <span onClick={() => deleteOrg(s)} className="material-symbols-outlined bg-white cursor-pointer text-[#d10707] shadow-[2px_2px_2px_grey] rounded-sm border border-[#d10707] px-1">
                     delete
                   </span>
                 </td>

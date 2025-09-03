@@ -54,9 +54,9 @@ const AddCollegeCard = React.forwardRef(({animate, onAnimationEnd,onClose, reloa
             }} >
                 <div className="mt-6">
                     <label>College Code:</label><br />
-                    <input type="text" onChange={changeCollegeCode} value={collegeCode} className="border-2 border-[#174515] px-2 h-8 rounded-md w-[100%] mb-4" /> <br />
+                    <input type="text" onChange={changeCollegeCode} value={collegeCode} className="border-2 border-[#174515] px-2 h-8 rounded-md w-[100%] mb-4" required/> <br />
                     <label>College Name:</label><br />
-                    <input type="text" onChange={changeCollegeName} value={collegeName} className="border-2 border-[#174515] px-2 h-8 rounded-md w-[100%] mb-4" /> <br />
+                    <input type="text" onChange={changeCollegeName} value={collegeName} className="border-2 border-[#174515] px-2 h-8 rounded-md w-[100%] mb-4" required/> <br />
                     
                 </div>
                 <button type="submit"  className="bg-[#174515] w-[100%] h-8 cursor-pointer rounded-md text-white ">Add College</button>

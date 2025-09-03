@@ -7,7 +7,7 @@ import "../animate.css";
  * @param {string} code       – org code ("cit", "coe", …) to color the header text
  * @param {Array}  colleges   – array of { id, name, yearSection }
  */
-function TableCollege({ code = "osas", colleges = [] , update,reloadColleges}) {
+function TableCollege({ code = "osas", colleges = [] , update, reloadColleges}) {
   const animate = "card-In";
   /* --------------------------------- colors -------------------------------- */
   const textColor =
@@ -23,10 +23,10 @@ function TableCollege({ code = "osas", colleges = [] , update,reloadColleges}) {
   /* ---------------------------- sample fallback ---------------------------- */
   const fallback = [
     {
-    code: `No data`,
-    name: `No data`,
-    population: `N/A`,
-    programCount: `N/A`,
+    department_code: `No data`,
+    department_name: `No data`,
+    student_population: `N/A`,
+    program_count: `N/A`,
     
   }];
 

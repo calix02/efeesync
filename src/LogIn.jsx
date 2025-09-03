@@ -1,4 +1,3 @@
-import { useNavigate } from "react-router-dom";
 import School from './assets/CBSUA-Image.png';
 import Logo from './assets/Final_Logo.png'
 import Cbsua from './assets/cbsua.png';
@@ -7,7 +6,6 @@ import React, {useState} from 'react';
 
 function LogIn(){
 
-    const navigate = useNavigate();
     const [userRole, setUserRole] = useState(null);
 
     const [emailData, setEmail] = useState("");

@@ -78,7 +78,7 @@ function Header_Council(props) {
       </span>
       
       <span >
-        <h2 className="lg:text-2xl md:text-lg text-sm  font-bold">{props.titleCouncil}</h2>
+        <h2 className="lg:text-2xl md:text-lg text-sm  font-bold font-poppins ml-2">{props.titleCouncil}</h2>
       </span>
 
       <span className="flex lg:gap-3 absolute right-8">

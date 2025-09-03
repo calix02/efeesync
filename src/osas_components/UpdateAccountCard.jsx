@@ -31,6 +31,11 @@ const UpdateAccountCard = React.forwardRef(({animate, onAnimationEnd,onClose,dat
             <div className="mt-6 border-b-4 border-[#174515]">
                 <span className="text-[#174515] font-semibold text-2xl">Update Treasurer</span>
             </div>
+            <form onSubmit={(e) =>{
+                e.preventDefault();
+                updateTreasurer();
+                onClose();
+            }} >
             <div className="mt-[15px]">
                 <label>Organization</label><br />
                 <input type="text" onChange={(e)=>setOrg(e.target.value)} value={org} className="border-2 px-2 border-[#174515] h-8 rounded-md w-[100%] mb-4" /> <br />
@@ -41,8 +46,8 @@ const UpdateAccountCard = React.forwardRef(({animate, onAnimationEnd,onClose,dat
                  <label>College:</label><br />
                 <input type="text" onChange={(e)=>setCollege(e.target.value)} value={college} className="border-2 px-2 border-[#174515] h-8 rounded-md w-[100%] mb-4" /> <br />
             </div>
-            
-                <button onClick={() =>{onClose(); updateTreasurer();}} className="bg-[#174515] w-[100%] rounded-md text-white h-8">Add Treasurer</button>
+                <button type="submit" className="bg-[#174515] w-[100%] rounded-md text-white h-8">Add Treasurer</button>
+            </form>
             
         </div>
        

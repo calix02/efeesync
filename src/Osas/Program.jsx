@@ -5,7 +5,7 @@ import TableProgram from '../osas_components/TableProgram.jsx';
 import AddProgramCard from '../osas_components/AddProgramCard.jsx';
 import UpdateProgramCard from '../osas_components/UpdateProgramCard.jsx';
 import Header from './Header.jsx';
-import React, {useState,useRef} from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import useAnimatedToggle from '../hooks/useAnimatedToggle.js';
 import '../animate.css';
 
@@ -23,7 +23,25 @@ function Program(){
     const updateRef = useRef(null);
 
     const [selectedProgram, setSelectedProgram] = useState(null);
- 
+    const [programs, setPrograms] = useState([]);
+
+    const fetchPrograms = async () => {
+        try {
+            const res = await fetch("/api/programs", {
+                credentials: "include"
+            });
+            const response = await res.json();
+            if (response.status === "success") {
+                setPrograms(response.data);
+            }
+        } catch (err) {
+            //alert("Fetch failed");
+        }
+    }
+
+    useEffect(()=> {
+        fetchPrograms();
+    }, []);
 
     return(
         <>
@@ -32,7 +50,7 @@ function Program(){
                  <div className="fixed inset-0 bg-[#00000062] lg:z-40 md:z-50 z-70 pointer-events-auto">
                     {/* Overlay */}
                 </div>
-                <AddProgramCard ref={addRef} onAnimationEnd={addProgram.handleEnd} onClose={() => addProgram.setAnimation("fade-out")} animate={addProgram.animation} />
+                <AddProgramCard reloadPrograms={fetchPrograms} ref={addRef} onAnimationEnd={addProgram.handleEnd} onClose={() => addProgram.setAnimation("fade-out")} animate={addProgram.animation} />
             </>
 
         )
@@ -43,7 +61,7 @@ function Program(){
                  <div className="fixed inset-0 bg-[#00000062] lg:z-40 md:z-50 z-70 pointer-events-auto">
                     {/* Overlay */}
                 </div>
-                <UpdateProgramCard ref={updateRef} data={selectedProgram} onAnimationEnd={updateProgram.handleEnd} onClose={() => updateProgram.setAnimation("fade-out")} animate={updateProgram.animation} />
+                <UpdateProgramCard reloadPrograms={fetchPrograms} ref={updateRef} data={selectedProgram} onAnimationEnd={updateProgram.handleEnd} onClose={() => updateProgram.setAnimation("fade-out")} animate={updateProgram.animation} />
 
             </>
 
@@ -75,7 +93,7 @@ function Program(){
                           
                     </div>
                 </div>
-             <TableProgram update={(row) => {
+             <TableProgram programs={programs} reloadPrograms={fetchPrograms} update={(row) => {
                 setSelectedProgram(row);
                 updateProgram.toggle();
                 }}/>

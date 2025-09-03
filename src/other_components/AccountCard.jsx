@@ -1,8 +1,9 @@
 import {Link} from 'react-router-dom';
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import {confirmAlert,successAlert, errorAlert} from "../utils/alert.js";
 
 const AccountCard = React.forwardRef(({ animate, onAnimationEnd,code}, ref) => {
+    const [user, setUser] = useState([]);
 /* ------------------------- Color ----------------------------- */
     const colors = {
         cit: "text-[#621668] ",
@@ -13,8 +14,25 @@ const AccountCard = React.forwardRef(({ animate, onAnimationEnd,code}, ref) => {
         osas: "text-[#174515]"
     }
     const color = colors[code] || "text-[#000]";
-    
 
+    const fetchUser = async () => {
+        try {
+            const res = await fetch("/api/users/current", {
+                credentials: "include"
+            });
+            const response = await res.json();
+            if (response.status === "success") {
+                setUser((response.data)[0]);
+            }
+        } catch (err) {
+            //alert("Fetch failed");
+        }
+    }
+
+    useEffect(()=> {
+        fetchUser();
+    }, []);
+    
         const logout = () => {
             confirmAlert("You really want to Log out?").then( async (result) =>{
                 if(result.isConfirmed){
@@ -42,13 +60,13 @@ const AccountCard = React.forwardRef(({ animate, onAnimationEnd,code}, ref) => {
         onAnimationEnd={onAnimationEnd}>
             <span hidden >{code}</span>
             <center>
-                <span className="flex gap-[5px] items-center border-b-2 border-[#545454] w-[200px] mt-[5px]">
+                <span className="flex gap-[5px] items-center border-b-2 border-[#545454] px-4 mt-[5px]">
                 <span>
                     <span className="material-symbols-outlined">account_circle</span>
                 </span>
                 <span className="text-start leading-2.5">
-                    <h2 className={`font-bold ${color}`}>ROLANDO NIERVA III <br />
-                    <span className="text-[9px]">citstreasurer@cbsua.edu.ph</span>
+                    <h2 className={`font-bold ${color}`}>{user.first_name + " " + user.middle_initial + ". " + user.last_name} <br />
+                    <span className="text-[9px]">{user.institutional_email}</span>
                     </h2>
                 </span>
             </span>

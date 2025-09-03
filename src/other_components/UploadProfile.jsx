@@ -28,11 +28,15 @@ const UploadProfile = React.forwardRef(({animate, onAnimationEnd,onClose,code,on
         onAnimationEnd={onAnimationEnd}>
             <span hidden>{code}</span>
             <div className="mt-3 relative">
-                <span onClick={onClose} className="material-symbols-outlined absolute cursor-pointer right-0.5 cursor-pointer">disabled_by_default</span>
+                <span onClick={onClose} className="material-symbols-outlined absolute  right-0.5 cursor-pointer">disabled_by_default</span>
             </div>
             <div className="mt-8 border-b-4 ">
                 <span className=" font-semibold lg:text-xl text-lg">Update Profile</span>
             </div>
+            <form onSubmit={(e) =>{
+                e.preventDefault();
+                handleUpdate();
+            }}>
             <div className="mt-5">
                
                  <label>Upload Photo:</label><br />
@@ -54,7 +58,8 @@ const UploadProfile = React.forwardRef(({animate, onAnimationEnd,onClose,code,on
                  
             </div>
             
-                <button onClick={handleUpdate} disabled={!file}  className={`${color} cursor-pointer w-[100%] text-white rounded-md h-8`}>Update Profile</button>
+                <button type="submit" disabled={!file}  className={`${color} cursor-pointer w-[100%] text-white rounded-md h-8`}>Update Profile</button>
+            </form>
             
         </div>
        

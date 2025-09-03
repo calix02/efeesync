@@ -27,6 +27,11 @@ const UpdateStudentOsasCard = React.forwardRef(({animate, onAnimationEnd,onClose
             <div className="mt-6 border-b-4 border-[#174515]">
                 <span className="text-[#174515] font-semibold lg:text-xl text-lg">Update Student</span>
             </div>
+            <form onSubmit={(e)=>{
+                e.preventDefault();
+                updateStudent();
+                onClose();
+            }}>
             <div className="mt-6">
                 <label>Student ID:</label><br />
                 <input type="text" onChange={(e) =>setStudId(e.target.value)} value={studId} className="border-2 px-2 border-[#174515] h-8 rounded-md w-[100%] mb-4" /> <br />
@@ -37,8 +42,8 @@ const UpdateStudentOsasCard = React.forwardRef(({animate, onAnimationEnd,onClose
                  <label>Program:</label><br />
                 <input type="text" onChange={(e) =>setProgram(e.target.value)} value={program} className="border-2 px-2 border-[#174515] h-8 rounded-md w-[100%] mb-4" /> <br />
             </div>
-            
-                <button onClick={() =>{onClose(); updateStudent();}} className="bg-[#174515] w-[100%] rounded-md text-white h-8">Update Student</button>
+                <button type="submit" className="bg-[#174515] w-[100%] rounded-md text-white h-8">Update Student</button>
+            </form>
         </div>
        
     );

@@ -5,7 +5,7 @@ import EfeeOsas from '../assets/Final_logo.png';
 import TableOrganization from '../osas_components/TableOrganization.jsx';
 import AddOrganizationCard from '../osas_components/AddOrganizationCard.jsx';
 import UpdateOrganizationCard from '../osas_components/UpdateOrganizationCard.jsx';
-import React, {useState,useRef} from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import useAnimatedToggle from '../hooks/useAnimatedToggle.js';
 import '../animate.css';
 
@@ -22,11 +22,26 @@ function Organisation(){
     const updateRef = useRef(null);
 
     const [selectedOrg, setSelectedOrg] = useState(null);
+    const [orgs, setOrgs] = useState([]);
 
+    const fetchOrgs = async () => {
+        try {
+            const res = await fetch("/api/organizations", {
+                credentials: "include"
+            });
+            const response = await res.json();
+            if (response.status === "success") {
+                setOrgs(response.data);
+            }
+        } catch (err) {
+            // alert("Fetch failed");
+        }
+    }
 
+    useEffect(()=> {
+        fetchOrgs();
+    }, []);
 
-
-   
     return(
         <>
         {addOrg.isVisible &&(
@@ -34,7 +49,7 @@ function Organisation(){
                  <div className="fixed inset-0 bg-[#00000062] lg:z-40 md:z-50 z-70 pointer-events-auto">
                     {/* Overlay */}
                 </div>
-                <AddOrganizationCard ref={addRef} onAnimationEnd={addOrg.handleEnd} onClose={() => addOrg.setAnimation("fade-out")} animate={addOrg.animation} />
+                <AddOrganizationCard reloadOrgs={fetchOrgs} organizations={orgs} ref={addRef} onAnimationEnd={addOrg.handleEnd} onClose={() => addOrg.setAnimation("fade-out")} animate={addOrg.animation} />
             </>
         )
         }
@@ -43,7 +58,7 @@ function Organisation(){
                  <div className="fixed inset-0 bg-[#00000062] lg:z-40 md:z-50 z-70 pointer-events-auto">
                     {/* Overlay */}
                 </div>
-                <UpdateOrganizationCard ref={updateRef} data={selectedOrg} onAnimationEnd={updateOrg.handleEnd} onClose={() => updateOrg.setAnimation("fade-out")} animate={updateOrg.animation} />
+                <UpdateOrganizationCard reloadOrgs={fetchOrgs} organizations={orgs} ref={updateRef} data={selectedOrg} onAnimationEnd={updateOrg.handleEnd} onClose={() => updateOrg.setAnimation("fade-out")} animate={updateOrg.animation} />
             </>
         )
         }
@@ -57,10 +72,9 @@ function Organisation(){
                     
                 </div>
               
-             <TableOrganization update={(row) =>{
+             <TableOrganization reloadOrgs={fetchOrgs} organizations={orgs} update={(row) =>{
                 setSelectedOrg(row);
                 updateOrg.toggle();
-
              }}/>
 
              </div>

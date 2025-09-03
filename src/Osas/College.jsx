@@ -20,7 +20,7 @@ function College() {
     const updateRef = useRef(null);
 
     const [selectedCollege, setSelectedCollege] = useState(null);
-    const [colleges, setColleges] = useState({});
+    const [colleges, setColleges] = useState([]);
 
     const fetchColleges = async () => {
         try {

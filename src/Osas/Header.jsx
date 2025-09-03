@@ -109,9 +109,7 @@ function Header_Council(props) {
         <div className="fixed inset-0 bg-[#00000062] z-20 pointer-events-auto">
           {/* Overlay */}
         </div>
-       
           <Sidebar eFee={EfeeOsas} ref={sideRef} onAnimationEnd={sidebar.handleEnd} animate={sidebar.animation} onClose={() => sidebar.setAnimation("fade-out")} />
-       
       </>
     )
       

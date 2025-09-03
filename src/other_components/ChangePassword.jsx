@@ -15,6 +15,10 @@ const ChangePassword = React.forwardRef(({animate, onAnimationEnd,onClose,code},
             <div className="mt-6 border-b-4 ">
                 <span className=" font-semibold lg:text-xl text-lg">Change Password</span>
             </div>
+            <form onSubmit={(e) =>{
+                e.preventDefault();
+
+            }}>
             <div className="mt-6">
                 <label>Old Password:</label><br />
                 <input type="text" className="border-2 px-2 text-[#000] h-8 rounded-md w-[100%] mb-4" /> <br />
@@ -25,7 +29,8 @@ const ChangePassword = React.forwardRef(({animate, onAnimationEnd,onClose,code},
                  
             </div>
             
-                <button className={` ${color} cursor-pointer w-[100%] rounded-md text-white h-8`}>Change Pasword</button>
+                <button type="submit" className={` ${color} cursor-pointer w-[100%] rounded-md text-white h-8`}>Change Pasword</button>
+            </form>
             
         </div>
        

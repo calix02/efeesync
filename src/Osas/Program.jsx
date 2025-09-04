@@ -71,15 +71,15 @@ function Program(){
         }
         <Header code="osas" logoCouncil={OsasLogo} titleCouncil = "Office of Student Affairs and Services"/>
              <div className="w-screen h-screen bg-[#fafafa] absolute z-[-1] overflow-y-auto overflow-x-auto lg:px-6 md:px-10 px-3">
-                <div className='lg:ml-70 lg:mt-30 mt-25 lg:flex lg:justify-between items-center'>
-                    <h2 className="text-2xl font-[family-name:Futura Bold] font-semibold">Manage Program</h2>
-                    <button onClick={addProgram.toggle} className='bg-[#174515] cursor-pointer w-40 py-1 text-sm flex justify-center items-center text-white rounded-md'>
+                <div className='lg:ml-68 text-[#145712] lg:mt-30 mt-25 lg:flex lg:justify-between items-center'>
+                    <h2 className="text-2xl font-[family-name:Futura Bold] font-semibold font-poppins">Manage Program</h2>
+                    <button onClick={addProgram.toggle} className='bg-[#174515] lg:mr-4 font-poppins cursor-pointer w-40 py-1 text-sm flex justify-center items-center text-white rounded-md'>
                         <span className="material-symbols-outlined px-1">add</span>Add Program
                     </button>
                     
                 </div>
                  <div className=' w-[100%] mt-3 '>
-                    <div className={`lg:ml-70 ${animateL} flex lg:justify-start md:justify-start font-[family-name:Arial]  justify-center gap-2.5`}>
+                    <div className={`lg:ml-68 ${animateL} flex lg:justify-start md:justify-start font-[family-name:Arial]  justify-center gap-2.5`}>
                          <select className='bg-white lg:w-25  w-20 text-xs transition duration-100 hover:scale-100 hover:bg-[#174515] hover:text-white cursor-pointer border-1 border-[#174515] py-1  text-[#174515] rounded-md text-center'  name="" id="">
                             <option value="">Sort by</option>
                             <option value="">hey</option>

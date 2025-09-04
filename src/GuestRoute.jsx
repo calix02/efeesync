@@ -24,7 +24,7 @@ export default function GuestRoute() {
       <div className="fixed inset-0 flex flex-col items-center justify-center bg-white z-50">
         <img src={Logo} alt="App Logo" className="w-24 h-24 mb-6 animate-bounce"/>
         <div className="w-12 h-12 border-4 border-green-600 border-t-transparent rounded-full animate-spin"></div>
-        <p className="mt-4 text-lg font-semibold text-gray-700 animate-pulse"> Loading, please wait...</p>
+        <p className="mt-4 text-lg font-semibold font-inter text-gray-700 animate-pulse"> Loading, please wait...</p>
       </div>
     );
   }

@@ -64,9 +64,9 @@ function Organisation(){
         }
         <Header code="osas" logoCouncil={OsasLogo} titleCouncil = "Office of Student Affairs and Services"/>
              <div className="w-screen h-screen bg-[#fafafa] absolute z-[-1] overflow-y-auto overflow-x-auto lg:px-6 md:px-10 px-3">
-                <div className='lg:ml-70 lg:mt-30 mt-25 lg:flex lg:justify-between items-center '>
-                    <h2 className="text-2xl font-medium font-[family-name:Futura Bold]">Manage Organization</h2>
-                    <button onClick={addOrg.toggle} className='bg-[#174515] w-40 py-1 text-sm cursor-pointer flex justify-center items-center text-white rounded-md'>
+                <div className='lg:ml-68 text-[#145712] lg:mt-30 mt-25 lg:flex lg:justify-between items-center '>
+                    <h2 className="text-2xl font-semibold font-poppins">Manage Organization</h2>
+                    <button onClick={addOrg.toggle} className='bg-[#174515] lg:mr-4 font-poppins w-40 py-1 text-sm cursor-pointer flex justify-center items-center text-white rounded-md'>
                         <span className="material-symbols-outlined px-1">add</span>Add Organization
                     </button>
                     

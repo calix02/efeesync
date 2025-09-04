@@ -39,6 +39,7 @@ function AccountSetting({upload,accName,accRole,accEmail,profile,changePass,chan
                             </span>
                         </form>
                     </div>
+                    
             </div>
             <div className='flex lg:justify-end md:justify-end justify-center lg:text-sm md:text-sm text-xs mt-3 gap-3'
             >

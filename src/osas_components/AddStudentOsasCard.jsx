@@ -1,21 +1,70 @@
 import React, {useState} from "react";
-const AddStudentOsasCard = React.forwardRef(({animate, onAnimationEnd,onClose}, ref) =>{
+import { successAlert, errorAlert } from "../utils/alert";
+
+const AddStudentOsasCard = React.forwardRef(({animate, onAnimationEnd,onClose,colleges,reloadStudents}, ref) =>{
     const [studId, setStudId] = useState("");
-    const [name, setName] = useState("");
+    const [firstName, setFirstName] = useState("");
+    const [mi, setMI] = useState("");
+    const [section,setSection] = useState("");
+    const [lastName, setLastName] = useState("");
     const [college, setCollege] = useState("");
     const [program, setProgram] = useState("");
 
-    const changeStudId = (e) => setStudId(e.target.value);
-    const changeName = (e) => setName(e.target.value);
-    const changeCollege = (e) => setCollege(e.target.value);
-    const changeProgram = (e) => setProgram(e.target.value);
+    const [programs, setPrograms] = useState([]);
+    const fetchPrograms = async (department_code) => {
+        try {
+            const res = await fetch("/api/departments/code/" + department_code + "/programs", {
+                credentials: "include"
+            });
+            const response = await res.json();
+            if (response.status === "success") {
+                setPrograms(response.data);
+                if (response.data.length > 0) {
+                    setProgram(response.data[0].program_id);
+                } else {
+                    setProgram(""); // reset if no programs
+                }
+            }
+        } catch (err) {
+            // alert("Fetch failed");
+        }
+       
+    }
 
-    const addStudent = () =>{
-        alert ("Student ID: " + studId + "\nName: " + name + "\nCollege: " + college + "\nProgram: " + program);
+    const studentData = {
+        "student_number_id": studId,
+        "student_section": section,
+        "first_name": firstName,
+        "last_name": lastName,
+        "student_current_program": program
+    }
+
+    if (mi !== "") {
+        studentData.middle_initial = mi;
+    }
+
+    const addStudent = async () =>{
+        try {
+            const res = await fetch("/api/students", {
+                method: "POST",
+                credentials: "include",
+                body: JSON.stringify(studentData)
+            });
+            const response = await res.json();
+            // Result
+            if (response.status === "success") {
+                reloadStudents();
+                successAlert("Succesfully added student");
+            } else {
+                errorAlert("Failed: " + response.message);
+            }
+        } catch (err) {
+                errorAlert("Failed: " + err);
+        }
     }
 
     return( 
-        <div ref={ref}   className={` ${animate} lg:w-100 w-80 h-105 px-8 bg-white shadow-[2px_2px_#174515,-2px_-2px_white] rounded-lg absolute z-50 inset-0 mx-auto mt-40 `}
+        <div ref={ref}   className={` ${animate} lg:w-100 w-80 h-157 px-8 bg-white shadow-[2px_2px_#174515,-2px_-2px_white] rounded-lg absolute z-50 inset-0 mx-auto mt-15 `}
         onAnimationEnd={onAnimationEnd}>
             <div className="mt-3 relative">
                 <span onClick={onClose} className="material-symbols-outlined absolute right-0.5 cursor-pointer">disabled_by_default</span>
@@ -30,13 +79,30 @@ const AddStudentOsasCard = React.forwardRef(({animate, onAnimationEnd,onClose}, 
             }}>
             <div className="mt-6">
                 <label>Student ID:</label><br />
-                <input type="text" onChange={changeStudId} value={studId} className="border-2 px-2 border-[#174515] h-8 rounded-md w-[100%] mb-4" /> <br />
-                <label>Student Name:</label><br />
-                <input type="text" onChange={changeName} value={name} className="border-2 px-2 border-[#174515] h-8 rounded-md w-[100%] mb-4" /> <br />
-                 <label>College:</label><br />
-                <input type="text" onChange={changeCollege} value={college} className="border-2 px-2 border-[#174515] h-8 rounded-md w-[100%] mb-4" /> <br />
+                <input type="text" onChange={(e) =>setStudId(e.target.value)} required value={studId} className="border-2 px-2 border-[#174515] h-8 rounded-md w-[100%] mb-4" /> <br />
+                <label>Last Name:</label><br />
+                <input type="text" onChange={(e) =>setLastName(e.target.value)} required value={lastName} className="border-2 px-2 border-[#174515] h-8 rounded-md w-[100%] mb-4" /> <br />
+                 <label>First Name:</label><br />
+                <input type="text" onChange={(e) =>setFirstName(e.target.value)} required value={firstName} className="border-2 px-2 border-[#174515] h-8 rounded-md w-[100%] mb-4" /> <br />
+                <label>Middle Initial:</label><br />
+                <input type="text" onChange={(e) =>setMI(e.target.value)} value={mi} className="border-2 px-2 border-[#174515] h-8 rounded-md w-[100%] mb-4" /> <br />
+                <label>Section:</label><br />
+                <input type="text" onChange={(e) =>setSection(e.target.value)} value={section} className="border-2 px-2 border-[#174515] h-8 rounded-md w-[100%] mb-4" /> <br />
+                <label>College:</label><br />
+                <select defaultValue="" value={college} onChange={(e) => {setCollege(e.target.value); fetchPrograms(e.target.value) }} required className="border-2 px-2 border-[#174515] h-8 rounded-md w-[100%] mb-4"  name="" id="">
+                    <option value="" hidden>
+                        Select a college
+                    </option>
+                    { colleges.map((s) => (
+                        <option key={s.department_id} value={s.department_code}>{s.department_name}</option>
+                    ))}
+                </select>
                  <label>Program:</label><br />
-                <input type="text" onChange={changeProgram} value={program} className="border-2 px-2 border-[#174515] h-8 rounded-md w-[100%] mb-4" /> <br />
+                  <select value={program} onChange={(e) => setProgram(e.target.value) } required className="border-2 px-2 border-[#174515] h-8 rounded-md w-[100%] mb-4"  name="" id="">
+                    { programs.map((s) => (
+                        <option key={s.program_id} value={s.program_id}>{s.program_name}</option>
+                    )) }
+                </select>
             </div>
                 <button type="submit" className="bg-[#174515] w-[100%] rounded-md text-white h-8">Add Student</button>
             </form>

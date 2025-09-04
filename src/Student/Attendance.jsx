@@ -22,7 +22,7 @@ function Attendance(){
             
         </div>
              <div className='lg:block hidden' >
-                 <Sidebar eFee={EfeeViolet}/>
+                 <Sidebar eFee={EfeeViolet} code="cit"/>
             </div>
 
         </>

@@ -1,6 +1,8 @@
+import "../animate.css";
 function Unsettled(){
+    const animate = "right-In";
     return(
-         <div className="w-95 h-118  bg-white px-6 border-3 text-[#F1A917] border-[#F1A917] rounded-lg shadow-[2px_2px_3px_grey]">
+         <div className={` ${animate} w-95 h-118  bg-white px-6 border-3 text-[#F1A917] border-[#F1A917] rounded-lg shadow-[2px_2px_3px_grey]`}>
             <div className="border-b-4 border-[#F1A917] p-1.5 mt-2">
                 <span className="text-xl font-semibold">Unsettled</span>
             </div>

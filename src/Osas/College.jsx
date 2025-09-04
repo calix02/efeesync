@@ -67,9 +67,9 @@ function College() {
         }
         <Header code="osas" logoCouncil={OsasLogo} titleCouncil = "Office of Student Affairs and Services"/>
              <div className="w-screen h-screen bg-[#fafafa] absolute z-[-1] overflow-y-auto overflow-x-auto lg:px-6 md:px-10 px-3 ">
-                <div className='lg:ml-70 lg:mt-30 mt-25 lg:flex lg:justify-between items-center'>
-                    <h2 className="text-2xl font-medium font-[family-name:Futura Bold]">Manage Colleges</h2>
-                    <button onClick={addCollege.toggle} className='bg-[#174515] cursor-pointer w-40 py-1 text-sm flex justify-center items-center text-white rounded-md'>
+                <div className='lg:ml-68 lg:mr-4 lg:mt-30 mt-25 lg:flex lg:justify-between items-center'>
+                    <h2 className="text-2xl font-semibold font-poppins text-[#145712]">Manage Colleges</h2>
+                    <button onClick={addCollege.toggle} className='bg-[#174515] cursor-pointer w-40 py-1 text-sm font-poppins flex justify-center items-center text-white rounded-md'>
                         <span className="material-symbols-outlined px-1">add</span>Add Colleges
                     </button>
                 </div>

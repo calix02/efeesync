@@ -5,7 +5,7 @@ import EfeeOsas from '../assets/Final_logo.png';
 import TableStudentOsas from '../osas_components/TableStudentOsas.jsx';
 import AddStudentOsasCard from '../osas_components/AddStudentOsasCard.jsx';
 import UpdateStudentOsasCard from '../osas_components/UpdateStudentOsasCard.jsx';
-import React, {useState,useRef} from 'react';
+import React, {useState,useEffect,useRef} from 'react';
 import '../animate.css';
 import useAnimatedToggle from '../hooks/useAnimatedToggle.js';
 
@@ -24,7 +24,41 @@ function Student(){
     const updateRef = useRef(null);
 
     const [selectedStudent, setSelectedStudent] = useState(null);
+    const [colleges, setColleges] = useState([]);
+    const [students, setStudents] = useState([]);
 
+    const fetchStudents = async () => {
+        try {
+            const res = await fetch("/api/students", {
+                credentials: "include"
+            });
+            const response = await res.json();
+            if (response.status === "success") {
+                setStudents(response.data);
+            }
+        } catch (err) {
+            // alert("Fetch failed");
+        }
+    }
+
+    const fetchColleges = async () => {
+        try {
+            const res = await fetch("/api/departments", {
+                credentials: "include"
+            });
+            const response = await res.json();
+            if (response.status === "success") {
+                setColleges(response.data);
+            }
+        } catch (err) {
+            // alert("Fetch failed");
+        }
+    }
+
+    useEffect(()=> {
+        fetchColleges();
+        fetchStudents();
+    }, []);
    
     return(
         <>
@@ -33,7 +67,7 @@ function Student(){
                  <div className="fixed inset-0 bg-[#00000062] z-40 pointer-events-auto">
                     {/* Overlay */}
                 </div>
-                <AddStudentOsasCard ref={addRef} onAnimationEnd={addStudent.handleEnd} onClose={() => addStudent.setAnimation("fade-out")} animate={addStudent.animation} />
+                <AddStudentOsasCard reloadStudents={fetchStudents} colleges={colleges} ref={addRef} onAnimationEnd={addStudent.handleEnd} onClose={() => addStudent.setAnimation("fade-out")} animate={addStudent.animation} />
             </>
 
         )
@@ -44,7 +78,7 @@ function Student(){
                  <div className="fixed inset-0 bg-[#00000062] z-40 pointer-events-auto">
                     {/* Overlay */}
                 </div>
-                <UpdateStudentOsasCard data={selectedStudent} ref={updateRef} onAnimationEnd={updateStudent.handleEnd} onClose={() => updateStudent.setAnimation("fade-out")} animate={updateStudent.animation} />
+                <UpdateStudentOsasCard reloadStudents={fetchStudents} colleges={colleges} data={selectedStudent} ref={updateRef} onAnimationEnd={updateStudent.handleEnd} onClose={() => updateStudent.setAnimation("fade-out")} animate={updateStudent.animation} />
 
             </>
 
@@ -54,13 +88,13 @@ function Student(){
         }
         <Header code="osas" logoCouncil={OsasLogo} titleCouncil = "Office of Student Affairs and Services"/>
              <div className="w-screen h-screen bg-[#fafafa] absolute z-[-1] overflow-y-auto overflow-x-auto lg:px-6 md:px-10 px-3">
-                 <div className='lg:ml-70 lg:mt-30 mt-25 lg:flex md:flex md:justify-between lg:justify-between '>
-                    <h2 className="text-2xl font-medium font-[family-name:Futura Bold]">Manage Students</h2>
+                 <div className='lg:ml-68 lg:mt-30 mt-25 lg:flex md:flex md:justify-between lg:justify-between '>
+                    <h2 className="text-2xl font-semibold text-[#145712] font-poppins">Manage Students</h2>
                     <div className={` lg:flex md:flex ${animateR}  lg:gap-2.5 md:gap-2.5 text-md font-[family-name:Helvetica] lg:mt-0 md:mt-0 mt-4 lg:px-0 md:px-0 px-3 items-center`}>
                         <input className='lg:w-85 w-[100%] p-1.5 bg-white rounded-md border-2  border-[#174515] block' type="text" placeholder='Search Student' />
-                        <div className='relative lg:mt-0 md:mt-0 mt-3'>
+                        <div className='relative lg:mt-0 md:mt-0 mt-3 lg:mr-4'>
                             <input className='bg-amber-300 lg:w-[150px] w-[100%] h-[35px] block z-[1]  cursor-pointer opacity-0' type="file" />
-                            <button className='bg-[#174515] p-1.5 lg:w-38 w-[100%] flex items-center justify-center cursor-pointer rounded-md  text-white absolute z-[-1] top-0'>
+                            <button className='bg-[#174515] p-1.5 lg:w-38 font-poppins w-[100%] flex items-center justify-center cursor-pointer rounded-md  text-white absolute z-[-1] top-0'>
                                 <span className="material-symbols-outlined">download</span>Import CSV
                             </button>
                         </div>  
@@ -84,7 +118,7 @@ function Student(){
                           
                     </div>
                 </div>
-             <TableStudentOsas update={(row) =>{
+             <TableStudentOsas students={students} update={(row) =>{
                 setSelectedStudent(row);
                 updateStudent.toggle();
              }} add={addStudent.toggle}/>

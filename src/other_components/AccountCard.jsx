@@ -22,10 +22,10 @@ const AccountCard = React.forwardRef(({ animate, onAnimationEnd,code}, ref) => {
             });
             const response = await res.json();
             if (response.status === "success") {
-                setUser((response.data)[0]);
+                setUser(response.data);
             }
         } catch (err) {
-            //alert("Fetch failed");
+            errorAlert("Failed to fetch");
         }
     }
 
@@ -65,7 +65,7 @@ const AccountCard = React.forwardRef(({ animate, onAnimationEnd,code}, ref) => {
                     <span className="material-symbols-outlined">account_circle</span>
                 </span>
                 <span className="text-start leading-2.5">
-                    <h2 className={`font-bold ${color}`}>{user.first_name + " " + user.middle_initial + ". " + user.last_name} <br />
+                    <h2 className={`font-bold ${color}`}>{user.full_name} <br />
                     <span className="text-[9px]">{user.institutional_email}</span>
                     </h2>
                 </span>

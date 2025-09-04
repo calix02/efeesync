@@ -29,14 +29,14 @@ const CITSidebar = React.forwardRef(({eFee, animate, onAnimationEnd,onClose},ref
     }
    
     return(
-        <div ref={ref} onAnimationEnd={onAnimationEnd} className={`w-70 h-screen text-[#621668] border-r-3 border-[#621668] ${animate} border-b-20 border-[#4e0746] lg:z-10 md:z-30  z-40 fixed bg-white`}>
-            <div className='mt-35'>
+        <div ref={ref} onAnimationEnd={onAnimationEnd} className={`w-70 h-screen overflow-y-scroll text-[#621668] border-r-3 border-[#621668] ${animate} border-b-20 border-[#4e0746] lg:z-10 md:z-30  z-40 fixed bg-white`}>
+            <div className='mt-[118px]'>
                 <span onClick={onClose} className='lg:hidden'>
                     <span className="material-symbols-outlined absolute right-1.5 top-23 cursor-pointer text-[#621668]">close</span>
                 </span>
-                <span className='flex relative justify-center items-center'>
-                    <img className='w-10 absolute left-15' src={eFee} alt="" />
-                    <h2 className='text-center absolute right-18 font-semibold font-[family-name:Cambria] text-2xl block'>eFeeSync</h2>
+                <span className='flex justify-center items-center gap-3'>
+                    <img className='h-10 ' src={eFee} alt="" />
+                    <h2 className='text-center font-semibold font-[family-name:Cambria] text-2xl block'>eFeeSync</h2>
                 </span>
                 <nav className='pt-10 mx-3  '>
                     <NavLink code="cit" navLink = "/org/dashboard" iconName="dashboard" navName="Dashboard"/>

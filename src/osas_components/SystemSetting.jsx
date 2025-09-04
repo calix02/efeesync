@@ -7,8 +7,8 @@ function SystemSetting({upload,logo,title,efeeLogo,updateEfeeLogo,systemName}){
             <h3 className='text-sm font-[family-name:Helvetica] font-semibold'>System Settings</h3>
             <div className="w-[100%] px-10 font-[family-name:Arial] lg:text-sm py-10 border-1 border-[#000] mt-2 rounded-lg">
                 <div className="w-[100%] border-b-4 border-[#635C5C30] py-6 flex lg:flex-row md:flex-row flex-col items-center justify-between">
-                    <span className="flex items-center">
-                        <img className="w-40 mt-[-35px]" src={logo} alt="" />
+                    <span className="flex gap-9 items-center">
+                        <img className="w-30 mt-[-35px] rounded-full" src={logo} alt="" />
                         <span>
                             <h2 className="lg:text-2xl md:text-2xl text-xl ">{title}</h2>
                             <span className="lg:flex md:flex gap-5 mt-6 items-center">

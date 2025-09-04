@@ -3,7 +3,17 @@ import NavLink from '../other_components/NavLink.jsx';
 import DropDownNav from '../other_components/DropDownNav.jsx';
 import {confirmAlert,successAlert, errorAlert} from "../utils/alert.js";
 import React from 'react';
-const Sidebar = React.forwardRef(({eFee, animate, onAnimationEnd,onClose},ref) =>{
+const Sidebar = React.forwardRef(({eFee, animate,code, onAnimationEnd,onClose},ref) =>{
+    const colors ={
+        cit: "text-[#621668] border-[#621668]",
+        coe: "text-[#0E2148] border-[#0E2148]",
+        coc: "text-[#720808] border-[#720808]",
+        cot: "text-[#FFD95F] border-[#FFD95F]",
+        eap: "text-[#4B352A] border-[#4B352A]",
+        osas: "text-[#174515] border-[#174515]",
+    } 
+    const Color = colors[code] || "text-[#000]"
+
     const logout = () => {
            confirmAlert("You really want to Log out?").then( async (result) =>{
                if(result.isConfirmed){
@@ -27,14 +37,15 @@ const Sidebar = React.forwardRef(({eFee, animate, onAnimationEnd,onClose},ref) =
            });
        }
     return(
-        <div ref={ref} onAnimationEnd={onAnimationEnd} className={`w-70 h-screen shadow-[3px_2px_1px_#621668] ${animate} border-b-20 border-[#621668] lg:z-1 z-50 fixed bg-white`}>
-            <div className='mt-[110px]'>
+        <div ref={ref} onAnimationEnd={onAnimationEnd} className={`w-70 h-screen shadow-[3px_2px_1px_#621668] ${Color} ${animate} border-b-20 lg:z-1 z-50 fixed bg-white`}>
+            <div className='mt-[118px]'>
                 <span onClick={onClose} className='lg:hidden'>
                     <span className="material-symbols-outlined absolute right-1.5 top-23 cursor-pointer text-[#621668]">close</span>
+                    <span hidden >{code}</span>
                 </span>
                 <span className='flex justify-center items-center gap-3'>
-                    <img className='w-[60px]' src={eFee} alt="" />
-                    <span className='text-center font-bold text-[22px] block text-[#621668]'>eFeeSync</span>
+                    <img className='h-10' src={eFee} alt="" />
+                    <span className='text-center font-bold text-[22px] block '>eFeeSync</span>
                 </span>
                 <nav className='pt-9 mx-3  '>
                     <NavLink code="cit" navLink = "/student/dashboard" iconName="dashboard" navName="Dashboard"/>

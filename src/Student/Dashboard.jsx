@@ -9,14 +9,14 @@ import "../animate.css";
 
 
 function Dashboard(){
-       const animateL = "left-In";
-       const animateR = "right-In";
-        const animate = "card-In";
+    const animateL = "left-In";
+    const animateR = "right-In";
+    const animate = "card-In";
 
 
-        const calendar = <i className="fa-solid fa-calendar-days z-[-1] opacity-50"></i>
-        const coin = <i className="fa-solid fa-coins z-[-1] opacity-50"></i>
-        const cash = <i className="fa-solid fa-money-bills z-[-1] opacity-50"></i>
+    const calendar = <i className="fa-solid fa-calendar-days z-[-1] opacity-50"></i>
+    const coin = <i className="fa-solid fa-coins z-[-1] opacity-50"></i>
+    const cash = <i className="fa-solid fa-money-bills z-[-1] opacity-50"></i>
     
     return(
         <>
@@ -30,7 +30,6 @@ function Dashboard(){
                 <CardStudent title="Number of Unpaid Contributions" value="3" icon ={coin}/>
                 <CardStudent title="Number of Unsettled Contributions" value="7" icon ={cash}/>
                 <CardStudent title="Number of Active Sanctions" value="2" icon ={calendar}/>
-
             </div>
             <div className={`  lg:ml-70 flex justify-center gap-6`}>
                  <div className={` ${animateL} w-[100%] h-100 bg-white shadow-[2px_2px_3px_#434343,-2px_-2px_3px_#ebe4e4] px-5 border-[#ebe4e4] mt-8 rounded-lg overflow-y-scroll`}>
@@ -48,7 +47,7 @@ function Dashboard(){
             </div>
         </div>
              <div className='lg:block hidden' >
-                 <Sidebar eFee={EfeeViolet}/>
+                 <Sidebar eFee={EfeeViolet} code="cit"/>
             </div>
 
         </>

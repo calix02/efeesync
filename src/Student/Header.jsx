@@ -7,8 +7,8 @@ import NotificationCard from '../other_components/NotificationCard.jsx';
 import '../animate.css';
 
 function Header(props) {
-   const borderColor =
-   props.code === "cit" ? 'border-[#621668]' 
+   const Color =
+   props.code === "cit" ? 'border-[#621668] text-[#621668]' 
    :props.code === "coe" ? 'border-[#0E2148]'
    :props.code === "coc" ? 'border-[#3A0519]'
    :props.code === "cot" ? 'border-[#FFD95F] text-[#000]'
@@ -82,7 +82,7 @@ function Header(props) {
 
   return (
   <>
-    <header className={` flex  bg-white fixed top-0 w-screen h-[80px] lg:z-30 z-80 items-center border-b-3 ${borderColor} `}>
+    <header className={` flex  bg-white fixed top-0 w-screen h-[80px] lg:z-30 z-80 items-center border-b-3 ${Color} `}>
       <span hidden>{props.code}</span>
       <span className="flex items-center  gap-3 ml-2">
         <span className='lg:hidden block'>
@@ -100,19 +100,19 @@ function Header(props) {
       <span className="flex lg:gap-5 absolute right-8">
 
       <span className='lg:block hidden'>
-        <i className="fa-solid fa-moon lg:text-xl"></i>
+        <i className="fa-solid fa-moon lg:text-xl cursor-pointer"></i>
       </span>
 
       <span>
-        <i onClick={clickedBell} className="fa-solid fa-bell lg:text-xl text-sm"></i>
+        <i onClick={clickedBell} className="fa-solid fa-bell lg:text-xl text-sm cursor-pointer"></i>
       </span>
 
         <span className="hidden lg:block">
-          <i onClick={clickedAcc}  className="fa-solid fa-circle-user lg:text-xl text-sm"></i>
+          <i onClick={clickedAcc}  className="fa-solid fa-circle-user lg:text-xl text-sm cursor-pointer"></i>
         </span>
       </span>
       { showAccount &&
-        <AccountCard ref={accRef} onAnimationEnd={handleAccAnimation} animate={accAnimation} />
+        <AccountCard ref={accRef} code="cit" onAnimationEnd={handleAccAnimation} animate={accAnimation} />
         
       }
 

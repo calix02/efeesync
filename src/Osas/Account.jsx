@@ -5,7 +5,7 @@ import EfeeOsas from '../assets/Final_logo.png';
 import TableAccount from '../osas_components/TableAccount.jsx';
 import AddAccountCard from '../osas_components/AddAccountCard.jsx';
 import UpdateAccountCard from '../osas_components/UpdateAccountCard.jsx';
-import React, {useState,useRef} from 'react';
+import React, {useState, useRef} from 'react';
 import useAnimatedToggle from '../hooks/useAnimatedToggle.js';
 import '../animate.css';
 
@@ -18,7 +18,7 @@ function Account(){
     const updateRef = useRef(null);
 
     const [selectedAccount, setSelectedAccount] = useState(null);
-    
+
     return(
         <>
         {addTreasurer.isVisible &&(
@@ -44,7 +44,7 @@ function Account(){
         <Header code="osas" logoCouncil={OsasLogo} titleCouncil = "Office of Student Affairs and Services"/>
              <div className="w-screen h-screen bg-[#fafafa] absolute z-[-1] overflow-y-auto overflow-x-auto lg:px-6 md:px-10 px-3 ">
                  <div className='lg:ml-70 lg:mt-30 mt-25 lg:flex lg:justify-between items-center'>
-                    <h2 className="text-2xl font-medium font-[family-name:Futura Bold]">Manage Accounts</h2>
+                    <h2 className="text-2xl font-semibold text-[#145712] font-poppins">Manage Accounts</h2>
                     <button onClick={addTreasurer.toggle} className='bg-[#174515] cursor-pointer w-40 py-1 text-sm flex justify-center items-center text-white rounded-md'>
                         <span className="material-symbols-outlined px-1">add</span>Add Treasurer
                     </button>

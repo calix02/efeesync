@@ -75,7 +75,7 @@ function TableProgram({ code = "osas", programs = [] , update, reloadPrograms}) 
   
     <div className={`w-full ${animate} flex flex-col gap-6`}>
       {/* table wrapper */}
-      <div className="lg:ml-70 font-[family-name:Arial] lg:text-sm text-xs bg-white border-1 border-[#174515] text-black flex-grow p-5  mt-3 rounded-lg shadow-[2px_2px_2px_grey]">
+      <div className="lg:ml-68 lg:mr-4 font-[family-name:Arial] lg:text-sm text-xs bg-white border-1 border-[#174515] text-black flex-grow p-5  mt-3 rounded-lg shadow-[2px_2px_2px_grey]">
         <table className="w-full text-center ">
           <thead>
             <tr className={`border-b-2 border-[#adadad] text-[#000]`}>

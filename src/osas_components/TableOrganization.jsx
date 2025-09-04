@@ -74,7 +74,7 @@ function TableOrganisation({ code = "osas", organizations = [] , update, reloadO
   
     <div className={`w-full ${animate} flex flex-col gap-6`}>
       {/* table wrapper */}
-      <div className="lg:ml-70 bg-white border-1 border-[#174515] text-black flex-grow p-5 mt-3 rounded-lg shadow-[2px_2px_2px_grey]">
+      <div className="lg:ml-68 lg:mr-4 bg-white border-1 border-[#174515] text-black flex-grow p-5 mt-3 rounded-lg shadow-[2px_2px_2px_grey]">
         <table className="w-full text-center ">
           <thead>
             <tr className={`border-b-2 border-[#adadad] text-[#000]`}>

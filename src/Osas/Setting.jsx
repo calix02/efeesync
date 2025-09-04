@@ -11,7 +11,7 @@ import PersonalInformation from '../osas_components/PersonalInformation.jsx';
 import DefaultProfile from '../assets/default.png';
 import UploadLogo from '../osas_components/UploadLogo.jsx';
 import UploadEfee from '../osas_components/UploadEfee.jsx';
-import React,{useState,useRef} from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 
 function Setting(){
     document.title = "Setting";
@@ -20,42 +20,65 @@ function Setting(){
     const information = useAnimatedToggle();
     const logo = useAnimatedToggle();
     const efee = useAnimatedToggle();
-
+    
     const profileRef = useRef(null);
     const passwordRef = useRef(null);
     const infoRef = useRef(null);
     const logoRef = useRef(null);
     const efeeRef = useRef(null);
-
     
     const [profileImage, setProfileImage] = useState(DefaultProfile);
     const [logoOsas, setLogoOsas] = useState(OsasLogo);
     const [efeeLogo, setEfeeLogo] = useState(EfeeOsas);
-
+    
     const [title, setTitle] = useState({
         organizationName: "Office of Student Affairs and Services",
         systemName : "eFeeSync",
     });
 
-   
-
-
     const [accountData, setAccountData] = useState({
-    name: "CHARMAYN N. NATE",
-    role: "Admin",
-    email: "charmayn.nate@cbsua.edu.ph",
-  });
+        full_name: "",
+        firstName: "",
+        middleName: "",
+        lastName: "",
+        role: "",
+        email: "",
+    });
+
+    const fetchUser = async () => {
+        try {
+            const res = await fetch("/api/users/current", {
+                credentials: "include"
+            });
+            const response = await res.json();
+            if (response.status === "success") {
+                setAccountData({
+                    full_name: response.data.full_name,
+                    firstName: response.data.first_name,
+                    middleName: response.data.middle_initial,
+                    lastName: response.data.last_name,
+                    role: response.data.role_name,
+                    email: response.data.institutional_email,
+                });
+            }
+        } catch (err) {
+            alert("Failed to fetch user data");
+        }
+    }
+
+    useEffect(()=> {
+        fetchUser();
+    }, []);
 
    const handleInfoUpdate = (newData) => {
-    setAccountData(newData);      // update state in parent
-    information.setAnimation("fade-out");
-  };
-  const handleTitleUpdate = (newData) => {
-    setTitle((prev) => ({ ...prev, ...newData }));
-    logo.setAnimation("fade-out");
-};
+        setAccountData(newData);      // update state in parent
+        information.setAnimation("fade-out");
+    };
 
- 
+    const handleTitleUpdate = (newData) => {
+        setTitle((prev) => ({ ...prev, ...newData }));
+        logo.setAnimation("fade-out");
+    };
 
     const handleProfileUpdate = (file) => {
         const reader = new FileReader();
@@ -152,7 +175,7 @@ function Setting(){
                 </div>
                 <div className='w-[100%] mt-3 '>
                     <div className='lg:ml-70 lg:px-8 '>
-                        <AccountSetting upload={profile.toggle} changeInfo={information.toggle} changePass={changePassword.toggle}  profile={profileImage} accName={accountData.name} accRole={accountData.role} accEmail={accountData.email}/>
+                        <AccountSetting upload={profile.toggle} changeInfo={information.toggle} changePass={changePassword.toggle}  profile={profileImage} accName={accountData.full_name} accRole={accountData.role} accEmail={accountData.email}/>
                         <SystemSetting upload={logo.toggle} updateEfeeLogo={efee.toggle} logo={logoOsas} efeeLogo={efeeLogo} title={title.organizationName} systemName={title.systemName}/>
                     </div>
                 </div>

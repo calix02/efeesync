@@ -127,7 +127,7 @@ function Header(props) {
     }
     {showNotification &&
 
-      <NotificationCard ref={notifRef} onAnimationEnd={handleNotifAnimation} animate={notifAnimation} />
+      <NotificationCard ref={notifRef} code="cit" onAnimationEnd={handleNotifAnimation} animate={notifAnimation} />
     }
     
 

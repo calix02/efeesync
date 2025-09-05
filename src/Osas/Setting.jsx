@@ -115,51 +115,51 @@ function Setting(){
         <>
         {profile.isVisible &&(
             <>
-                <div className="fixed inset-0 bg-[#00000062] z-40 pointer-events-auto">
+                <div className="fixed inset-0 bg-[#00000062] flex justify-center items-center lg:z-40 md:z-50 z-70 pointer-events-auto">
                     {/* Overlay */}
+                    <UploadProfile code="osas" ref={profileRef}  onAnimationEnd={profile.handleEnd} onClose={() => profile.setAnimation("fade-out")} animate={profile.animation}  onUpdate={handleProfileUpdate} />  
+
                 </div>
-                <UploadProfile code="osas" ref={profileRef}  onAnimationEnd={profile.handleEnd} onClose={() => profile.setAnimation("fade-out")} animate={profile.animation}  onUpdate={handleProfileUpdate} />  
             </>
         )
 
         }
         {logo.isVisible &&(
             <>
-                <div className="fixed inset-0 bg-[#00000062] z-40 pointer-events-auto">
+                <div className="fixed inset-0 bg-[#00000062] flex justify-center items-center lg:z-40 md:z-50 z-70 pointer-events-auto">
                     {/* Overlay */}
+                    <UploadLogo code="osas" data={title} ref={logoRef} onUpdateTitle={handleTitleUpdate}  onAnimationEnd={logo.handleEnd} onClose={() => logo.setAnimation("fade-out")} animate={logo.animation}  onUpdate={handleLogoUpdate} />  
                 </div>
-                <UploadLogo code="osas" data={title} ref={logoRef} onUpdateTitle={handleTitleUpdate}  onAnimationEnd={logo.handleEnd} onClose={() => logo.setAnimation("fade-out")} animate={logo.animation}  onUpdate={handleLogoUpdate} />  
             </>
         )
 
         }
         {efee.isVisible &&(
             <>
-                <div className="fixed inset-0 bg-[#00000062] z-40 pointer-events-auto">
+                <div className="fixed inset-0 bg-[#00000062] flex items-center justify-center lg:z-40 md:z-50 z-70 pointer-events-auto">
                     {/* Overlay */}
+                    <UploadEfee code="osas" data={title} ref={efeeRef} onUpdateTitle={handleTitleUpdate}  onAnimationEnd={efee.handleEnd} onClose={() => efee.setAnimation("fade-out")} animate={efee.animation}  onUpdate={handleEfeeUpdate} />  
                 </div>
-                <UploadEfee code="osas" data={title} ref={efeeRef} onUpdateTitle={handleTitleUpdate}  onAnimationEnd={efee.handleEnd} onClose={() => efee.setAnimation("fade-out")} animate={efee.animation}  onUpdate={handleEfeeUpdate} />  
             </>
         )
 
         }
         {changePassword.isVisible &&(
             <>
-                <div className="fixed inset-0 bg-[#00000062] z-40 pointer-events-auto">
+                <div className="fixed inset-0 bg-[#00000062] flex justify-center items-center lg:z-40 md:z-50 z-70 pointer-events-auto">
                     {/* Overlay */}
+                    <ChangePassword ref={passwordRef} code="osas" onAnimationEnd={changePassword.handleEnd} onClose={() => changePassword.setAnimation("fade-out")} animate={changePassword.animation} />  
                 </div>
-                <ChangePassword ref={passwordRef} code="osas" onAnimationEnd={changePassword.handleEnd} onClose={() => changePassword.setAnimation("fade-out")} animate={changePassword.animation} />  
             </>
-
          )
             
         }
         {information.isVisible &&(
             <>
-                <div className="fixed inset-0 bg-[#00000062] z-40 pointer-events-auto">
+                <div className="fixed inset-0 bg-[#00000062] flex justify-center items-center lg:z-40 md:z-50 z-70 pointer-events-auto">
                     {/* Overlay */}
+                    <PersonalInformation ref={infoRef} code="osas" data={accountData} onUpdate={handleInfoUpdate} onAnimationEnd={information.handleEnd} onClose={() => information.setAnimation("fade-out")} animate={information.animation} />  
                 </div>
-                <PersonalInformation ref={infoRef} code="osas" data={accountData} onUpdate={handleInfoUpdate} onAnimationEnd={information.handleEnd} onClose={() => information.setAnimation("fade-out")} animate={information.animation} />  
             </>
 
          )
@@ -170,8 +170,8 @@ function Setting(){
         
         <Header code="osas" logoCouncil={OsasLogo} titleCouncil = "Office of Student Affairs and Services"/>
          <div className="w-screen h-screen bg-[#fafafa] absolute z-[-1] overflow-y-auto overflow-x-auto lg:px-6 md:px-10 px-3 ">
-                <div className="mt-[110px] lg:ml-[280px]">
-                    <h2 className="text-2xl font-medium font-[family-name:Futura Bold]">Manage Settings</h2>
+                <div className="lg:mt-30 mt-25 lg:ml-68">
+                    <h2 className="text-2xl font-semibold font-poppins">Manage Settings</h2>
                 </div>
                 <div className='w-[100%] mt-3 '>
                     <div className='lg:ml-70 lg:px-8 '>

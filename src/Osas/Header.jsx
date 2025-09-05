@@ -115,7 +115,7 @@ function Header_Council(props) {
       
     }
     {notification.isVisible &&(
-      <NotificationCard ref={notifRef} onAnimationEnd={notification.handleEnd} animate={notification.animation} />
+      <NotificationCard ref={notifRef} code="osas" onAnimationEnd={notification.handleEnd} animate={notification.animation} />
     )
     }
     </>

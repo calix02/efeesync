@@ -1,4 +1,5 @@
 import React, {useState} from "react";
+import { errorAlert } from "../utils/alert";
 const UploadProfile = React.forwardRef(({animate, onAnimationEnd,onClose,code,onUpdate}, ref) =>{
     const colors ={
         osas: "text-[#174515] bg-[#174515] border-[#174515]",
@@ -11,7 +12,11 @@ const UploadProfile = React.forwardRef(({animate, onAnimationEnd,onClose,code,on
 
      const handleFileChange = (e) => {
       const selected = e.target.files[0];
-      if (selected) {
+      if(selected && !/\.(png|jpe?g|svg)$/i.test(selected.name)){
+        errorAlert("Only png,svg,jpeg are allowed");
+        e.target.value = "";
+
+      }else if (selected) {
         setFile(selected);
         setPreview(URL.createObjectURL(selected)); // show preview
       }
@@ -24,7 +29,7 @@ const UploadProfile = React.forwardRef(({animate, onAnimationEnd,onClose,code,on
     };
 
     return( 
-        <div ref={ref}   className={` ${animate} ${color} font-[family-name:Arial] lg:text-sm text-xs lg:w-100 w-80 h-95 px-6 bg-white shadow-[2px_2px_grey,-2px_-2px_white] rounded-lg absolute z-[80] inset-0 mx-auto mt-40 `}
+        <div ref={ref}   className={` ${animate} ${color} font-[family-name:Arial] lg:text-sm text-xs lg:w-100 w-80 h-95 px-6 bg-white shadow-[2px_2px_grey,-2px_-2px_white] rounded-lg  z-[80] inset-0 mx-auto  `}
         onAnimationEnd={onAnimationEnd}>
             <span hidden>{code}</span>
             <div className="mt-3 relative">
@@ -51,7 +56,7 @@ const UploadProfile = React.forwardRef(({animate, onAnimationEnd,onClose,code,on
                     )}
                     <div className=" relative w-[100%] mt-2 flex justify-center">
                         <button className="w-25 h-8 cursor-pointer  border-1 rounded-md  absolute">Browse</button>
-                        <input type="file" onChange={handleFileChange} className="bg-amber-200 cursor-pointer py-1 z-[1] w-30 opacity-0 " />
+                        <input type="file" accept=".png .svg .jpeg .jpg" onChange={handleFileChange} className="bg-amber-200 cursor-pointer py-1 z-[1] w-30 opacity-0 " />
                     </div>
                </div>
                 

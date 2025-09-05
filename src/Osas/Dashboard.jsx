@@ -43,7 +43,7 @@ function Dashboard(){
     return(
         <>
         <Header code="osas" logoCouncil={OsasLogo} titleCouncil = "Office of Student Affairs and Services"/>
-        <div className="w-screen h-screen bg-[#F8F8F8] absolute z-[-1] overflow-y-auto overflow-x-auto lg:px-6 md:px-10 px-3">
+        <div className="w-screen h-screen bg-[#F8F8F8]  absolute z-[-1] overflow-y-auto overflow-x-auto lg:px-6 md:px-10 px-3">
             <div className="lg:mt-24 mt-24 lg:ml-68">
                 <h2 className="text-lg sm:text-md md:text-2xl lg:text-2xl text-[#145712] font-bold font-poppins">Welcome, Admin!</h2>
             </div>

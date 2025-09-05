@@ -7,11 +7,11 @@ function SystemSetting({upload,logo,title,efeeLogo,updateEfeeLogo,systemName}){
             <h3 className='text-sm font-[family-name:Helvetica] font-semibold'>System Settings</h3>
             <div className="w-[100%] px-10 font-[family-name:Arial] lg:text-sm py-10 border-1 border-[#000] mt-2 rounded-lg">
                 <div className="w-[100%] border-b-4 border-[#635C5C30] py-6 flex lg:flex-row md:flex-row flex-col items-center justify-between">
-                    <span className="flex gap-9 items-center">
+                    <span className="flex lg:flex-row md:flex-row flex-col text-center  gap-9 items-center">
                         <img className="w-30 mt-[-35px] rounded-full" src={logo} alt="" />
                         <span>
                             <h2 className="lg:text-2xl md:text-2xl text-xl ">{title}</h2>
-                            <span className="lg:flex md:flex gap-5 mt-6 items-center">
+                            <span className="flex gap-5 mt-6 items-center">
                             <p className="text-[#625555]">System Color</p>
                             <div className="w-6 h-6 rounded-full bg-[#174515]"></div>
 
@@ -24,7 +24,7 @@ function SystemSetting({upload,logo,title,efeeLogo,updateEfeeLogo,systemName}){
                     
                 </div>
                  <div className="w-[100%] flex lg:flex-row md:flex-row flex-col justify-between items-center rounded-lg mt-2 ">
-                    <span className="flex  gap-10 items-center ml-10">
+                    <span className="flex gap-10 items-center lg:ml-7">
                         <img src={efeeLogo} className="w-20" alt="" />
                         <p className="font-semibold text-md text-[#174515]">{systemName}</p>
                     </span>

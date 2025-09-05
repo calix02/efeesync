@@ -55,9 +55,9 @@ function LogIn(){
         <div className="flex lg:flex-row flex-col w-screen h-screen">
             <div className=" relative lg:w-[50%] w-[100%] lg:flex lg:items-center lg:h-screen h-60 bg-gradient-to-t from-[#174515c1] to-white">
                 <img className="absolute bottom-0 left-0 lg:h-120 w-[100%] z-[-1]" src={School} alt="" />
-                    <div className=" relative lg:mt-0 mt-4 lg:ml-0 ml-[15px] flex lg:items-center items-start  h-[200px] w-[100%]">
-                        <img className="lg:absolute lg:left-30 lg:w-60 w-10" src={Logo} alt="" />         
-                        <span className="lg:absolute lg:right-30">
+                    <div className=" lg:mt-0 mt-4 lg:ml-0 ml-[15px] flex lg:justify-center lg:items-center items-start  h-[200px] w-[100%]">
+                        <img className=" lg:w-60 w-10" src={Logo} alt="" />         
+                        <span>
                             <h1 className="lg:text-6xl text-[#075207] font-bold font-poppins  lg:mt-0 mt-3" >eFeeSync</h1>
                             <p className="text-white mt-2 lg:block hidden font-inter" >"Fees in Sync. Trust in Sight"</p>
                         </span>

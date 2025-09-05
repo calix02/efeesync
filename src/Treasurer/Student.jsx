@@ -4,21 +4,34 @@ import AddStudentCard from '../treasurer_components/AddStudentCard.jsx';
 import TableStudent from '../treasurer_components/TableStudent.jsx';
 import UpdateStudentCard from '../other_components/UpdateStudentCard.jsx';
 import EfeeViolet from '../assets/violetlogo.png'
-import React, {useRef} from 'react';
+import React, {useState,useRef} from 'react';
 import useAnimatedToggle from '../hooks/useAnimatedToggle.js';
+import { errorAlert,successAlert } from '../utils/alert.js';
 import '../animate.css';
 
 function CITStudent(){
     const animateR = "right-In";
     const animateL = "left-In";
 
-
-
      const studData = Array.from({ length: 13 }, (_, i) => ({
         id: `22-${1000 + i}`,
         name: `Mark Alvarado ${i + 1}`,
         yearSection: "3A",
     }));
+
+    const [file, setFile] = useState(null);
+
+    const handleFile = (e) =>{
+        const selected = e.target.files[0];
+        if(selected && !selected.name.endsWith(".csv")){
+            errorAlert("Only CSV file are allowed");
+            e.target.value = "";
+
+        }else if(selected){
+            successAlert("Succesfully Imported CSV File");
+        }
+
+    }
 
 /* ------------------------- Animated States ----------------------------- */
     const addStudent = useAnimatedToggle();
@@ -60,7 +73,7 @@ function CITStudent(){
                     <div className={` lg:flex md:flex ${animateR}  lg:gap-2.5 md:gap-2.5 text-md font-[family-name:Helvetica] lg:mt-0 md:mt-0 mt-4 lg:px-0 md:px-0 px-3 items-center`}>
                         <input className='lg:w-85 w-[100%] p-1.5 bg-white rounded-md border-2  border-[#8A2791] block' type="text" placeholder='Search Student' />
                         <div className='relative lg:mt-0 md:mt-0 mt-3'>
-                            <input className='bg-amber-300 lg:w-[150px] w-[100%] h-[35px] block z-[1]  cursor-pointer opacity-0' type="file" />
+                            <input className='bg-amber-300 lg:w-[150px] w-[100%] h-[35px] block z-[1]  cursor-pointer opacity-0' type="file" accept='.csv' onChange={handleFile} />
                             <button className='bg-[#8A2791] p-1.5 lg:w-38 w-[100%] flex items-center justify-center cursor-pointer rounded-md  text-white absolute z-[-1] top-0'>
                                 <span className="material-symbols-outlined">download</span>Import CSV
                             </button>

@@ -1,5 +1,16 @@
 @import "tailwindcss";
 
+/* global.css */
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.hide-scrollbar {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;     /* Firefox */
+}
+
+
 @theme{
     --font-poppins: "Poppins", sans-serif;
     --font-inter: "Inter", sans-serif;

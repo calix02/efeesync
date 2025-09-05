@@ -11,7 +11,8 @@ const AccountCard = React.forwardRef(({ animate, onAnimationEnd,code}, ref) => {
         coc: "text-[#3A0519]",
         cot: "text-[#FFD95F] ",
         eap: "text-[#4B352A]",
-        osas: "text-[#174515]"
+        osas: "text-[#174515]",
+        ssc: "text-[#174515]"
     }
     const color = colors[code] || "text-[#000]";
 
@@ -56,7 +57,7 @@ const AccountCard = React.forwardRef(({ animate, onAnimationEnd,code}, ref) => {
             });
         }
     return(
-        <div ref={ref}  className={`${animate} px-5 py-2 rounded-lg bg-white border-1 border-black shadow-[2px_2px_grey] z-50 absolute right-10 top-15 grid items-center  `} 
+        <div ref={ref}  className={`${animate} ${color} px-5 py-2 rounded-lg bg-white border-1 border-black shadow-[2px_2px_grey] z-50 absolute right-10 top-15 grid items-center  `} 
         onAnimationEnd={onAnimationEnd}>
             <span hidden >{code}</span>
             <center>
@@ -65,7 +66,7 @@ const AccountCard = React.forwardRef(({ animate, onAnimationEnd,code}, ref) => {
                     <span className="material-symbols-outlined">account_circle</span>
                 </span>
                 <span className="text-start leading-2.5">
-                    <h2 className={`font-bold ${color}`}>{user.full_name} <br />
+                    <h2 className={`font-bold`}>{user.full_name} <br />
                     <span className="text-[9px]">{user.institutional_email}</span>
                     </h2>
                 </span>

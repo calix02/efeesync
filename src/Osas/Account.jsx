@@ -23,7 +23,7 @@ function Account(){
         <>
         {addTreasurer.isVisible &&(
              <>
-                 <div className="fixed inset-0 bg-[#00000062] z-40 pointer-events-auto">
+                 <div className="fixed inset-0 bg-[#00000062] lg:z-40 md:z-50 z-70 pointer-events-auto">
                     {/* Overlay */}
                 </div>
                 <AddAccountCard ref={addRef} onAnimationEnd={addTreasurer.handleEnd} onClose={() => addTreasurer.setAnimation("fade-out")} animate={addTreasurer.animation} />
@@ -33,7 +33,7 @@ function Account(){
         }
         {updateTreasurer.isVisible &&(
             <>  
-                 <div className="fixed inset-0 bg-[#00000062] z-40 pointer-events-auto">
+                 <div className="fixed inset-0 bg-[#00000062] lg:z-40 md:z-50 z-70 pointer-events-auto">
                     {/* Overlay */}
                 </div>
                 <UpdateAccountCard data={selectedAccount} ref={updateRef} onAnimationEnd={updateTreasurer.handleEnd} onClose={() => updateTreasurer.setAnimation("fade-out")} animate={updateTreasurer.animation} />

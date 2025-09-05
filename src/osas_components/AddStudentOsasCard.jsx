@@ -89,7 +89,7 @@ const AddStudentOsasCard = React.forwardRef(({animate, onAnimationEnd,onClose,co
                 <label>Section:</label><br />
                 <input type="text" onChange={(e) =>setSection(e.target.value)} value={section} className="border-2 px-2 border-[#174515] h-8 rounded-md w-[100%] mb-4" /> <br />
                 <label>College:</label><br />
-                <select defaultValue="" value={college} onChange={(e) => {setCollege(e.target.value); fetchPrograms(e.target.value) }} required className="border-2 px-2 border-[#174515] h-8 rounded-md w-[100%] mb-4"  name="" id="">
+                <select defaultValue="" value={college} onChange={(e) => {setCollege(e.target.value); fetchPrograms(e.target.value) }} required className="border-2 px-2 cursor-pointer border-[#174515] h-8 rounded-md w-[100%] mb-4"  name="" id="">
                     <option value="" hidden>
                         Select a college
                     </option>
@@ -98,13 +98,13 @@ const AddStudentOsasCard = React.forwardRef(({animate, onAnimationEnd,onClose,co
                     ))}
                 </select>
                  <label>Program:</label><br />
-                  <select value={program} onChange={(e) => setProgram(e.target.value) } required className="border-2 px-2 border-[#174515] h-8 rounded-md w-[100%] mb-4"  name="" id="">
+                  <select value={program} onChange={(e) => setProgram(e.target.value) } required className="border-2 px-2 border-[#174515] cursor-pointer h-8 rounded-md w-[100%] mb-4"  name="" id="">
                     { programs.map((s) => (
                         <option key={s.program_id} value={s.program_id}>{s.program_name}</option>
                     )) }
                 </select>
             </div>
-                <button type="submit" className="bg-[#174515] w-[100%] rounded-md text-white h-8">Add Student</button>
+                <button type="submit" className="bg-[#174515] cursor-pointer w-[100%] rounded-md text-white h-8">Add Student</button>
             </form>
         </div>
     );

@@ -67,7 +67,7 @@ function TableStudent({ code = "cit", students = [] , show, update}) {
                 <td>{s.name}</td>
                 <td>{s.yearSection}</td>
                 <td className="flex lg:flex-row flex-col gap-2 justify-center py-2">
-                  <span onClick={update} className="material-symbols-outlined cursor-pointer text-[#8A2791] bg-white  shadow-[2px_2px_1px_grey] rounded-[5px] border border-[#8A2791] px-[2px]">
+                  <span onClick={() => update(s)} className="material-symbols-outlined cursor-pointer text-[#8A2791] bg-white  shadow-[2px_2px_1px_grey] rounded-[5px] border border-[#8A2791] px-[2px]">
                     edit_square
                   </span>
                   <span className="material-symbols-outlined bg-white cursor-pointer text-[#d10707] shadow-[2px_2px_2px_grey] rounded-sm border border-[#d10707] ">

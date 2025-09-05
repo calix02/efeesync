@@ -38,7 +38,7 @@ const UploadEfee = React.forwardRef(({animate, onAnimationEnd,onClose,code,data,
     };
 
     return( 
-        <div ref={ref}   className={` ${animate} ${color} font-[family-name:Arial] lg:text-sm text-xs lg:w-100 w-80 h-110 px-6 bg-white shadow-[2px_2px_grey,-2px_-2px_white] rounded-lg absolute z-[80] inset-0 mx-auto mt-30 `}
+        <div ref={ref}   className={` ${animate} ${color} font-[family-name:Arial] lg:text-sm text-xs lg:w-100 w-80 h-110 px-6 bg-white shadow-[2px_2px_grey,-2px_-2px_white] rounded-lg  z-[80] inset-0 mx-auto `}
         onAnimationEnd={onAnimationEnd}>
             <span hidden>{code}</span>
             <div className="mt-3 relative">

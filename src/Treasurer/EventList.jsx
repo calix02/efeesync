@@ -3,7 +3,7 @@ import CITSidebar from './Sidebar.jsx';
 import TableEventList from '../other_components/TableEventList.jsx';
 import AddEventListCard from '../other_components/AddEventListCard.jsx';
 import UpdateEventCard from '../other_components/UpdateEventCard.jsx';
-import React, {useRef} from 'react';
+import React, {useRef, useState} from 'react';
 import useAnimatedToggle from '../hooks/useAnimatedToggle.js';
 import EfeeViolet from '../assets/violetlogo.png'
 import "../animate.css";
@@ -19,26 +19,28 @@ function CITEventList(){
 
     const addRef = useRef(null);
     const updateRef = useRef(null);
+
+    const [selectedEvent, setSelectedEvent] = useState(null);
  
     return(
         <>
          {addEvent.isVisible &&(
             <>
                     {/* Add Event */}
-                <div className="fixed inset-0 bg-[#00000062] lg:z-40 md:z-50 z-70 pointer-events-auto">
+                <div className="fixed inset-0 flex justify-center items-center bg-[#00000062] lg:z-40 md:z-50 z-70 pointer-events-auto">
                     {/* Overlay */}
+                    <AddEventListCard ref={addRef} onAnimationEnd={addEvent.handleEnd} animate={addEvent.animation} onClose={() => addEvent.setAnimation("fade-out")} />
                 </div>
-                <AddEventListCard ref={addRef} onAnimationEnd={addEvent.handleEnd} animate={addEvent.animation} onClose={() => addEvent.setAnimation("fade-out")} />
             </>
          )
             
         }
         {updateEvent.isVisible &&(
             <>
-                <div className="fixed inset-0 bg-[#00000062] lg:z-40 md:z-50 z-70 pointer-events-auto">
+                <div className="fixed inset-0 flex justify-center items-center bg-[#00000062] lg:z-40 md:z-50 z-70 pointer-events-auto">
                     {/* Overlay */}
+                    <UpdateEventCard ref={updateRef} data={selectedEvent} onAnimationEnd={updateEvent.handleEnd} animate={updateEvent.animation} onClose={() => updateEvent.setAnimation("fade-out")} />
                 </div>
-                <UpdateEventCard ref={updateRef} onAnimationEnd={updateEvent.handleEnd} animate={updateEvent.animation} onClose={() => updateEvent.setAnimation("fade-out")} />
             </>
         )
             
@@ -73,7 +75,10 @@ function CITEventList(){
                         
                     </div>
 
-                <TableEventList addEvent={addEvent.toggle} updateEvent={updateEvent.toggle}/>
+                <TableEventList addEvent={addEvent.toggle} updateEvent={(row) =>{
+                    updateEvent.toggle();
+                    setSelectedEvent(row);
+                }}/>
                 </div>
             </div>
             <div className='hidden lg:block'>

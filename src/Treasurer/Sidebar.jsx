@@ -29,7 +29,7 @@ const CITSidebar = React.forwardRef(({eFee, animate, onAnimationEnd,onClose},ref
     }
    
     return(
-        <div ref={ref} onAnimationEnd={onAnimationEnd} className={`w-70 h-screen overflow-y-scroll text-[#621668] border-r-3 border-[#621668] ${animate} border-b-20 border-[#4e0746] lg:z-10 md:z-30  z-40 fixed bg-white`}>
+        <div ref={ref} onAnimationEnd={onAnimationEnd} className={`w-70 h-screen overflow-y-scroll hide-scrollbar text-[#621668] border-r-3 border-[#621668] ${animate} border-b-20 border-[#4e0746] lg:z-10 md:z-30  z-40 fixed bg-white`}>
             <div className='mt-[118px]'>
                 <span onClick={onClose} className='lg:hidden'>
                     <span className="material-symbols-outlined absolute right-1.5 top-23 cursor-pointer text-[#621668]">close</span>

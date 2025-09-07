@@ -22,7 +22,9 @@ function TableStudent({ code = "cit", students = [] , show, update}) {
   /* ---------------------------- sample fallback ---------------------------- */
   const fallback = Array.from({ length: 0 }, (_, i) => ({
     id: `No Record`,
-    name: `Mark Alv ${i + 1}`,
+    firstName: `Mark `,
+    middleName: `M.`,
+    lastName: `Alvarado ${i + 1}`,
     yearSection: "3A",
   }));
 
@@ -64,7 +66,7 @@ function TableStudent({ code = "cit", students = [] , show, update}) {
               <tr key={idx} className="border-b border-[#0505057a] ">
                 <td><input type="checkbox" /></td>
                 <td>{s.id}</td>
-                <td>{s.name}</td>
+                <td>{s.firstName + " " + s.middleName + " " + s.lastName }</td>
                 <td>{s.yearSection}</td>
                 <td className="flex lg:flex-row flex-col gap-2 justify-center py-2">
                   <span onClick={() => update(s)} className="material-symbols-outlined cursor-pointer text-[#8A2791] bg-white  shadow-[2px_2px_1px_grey] rounded-[5px] border border-[#8A2791] px-[2px]">

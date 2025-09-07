@@ -17,7 +17,8 @@ function TableEventContribution({ code = "cit", events = [], addEvent, updateEve
   const fallback = Array.from({ length: 5 }, (_, i) => ({
     eventName: `Year-End-Party`,
     targetYear: `1,2,3,4`,
-    eventDate: `7/11/25`,
+    dateFrom: `7/11/25`,
+    dateTo: ``,
     eventFee: `400`,
     attendance: Array.from({ length: 8 }, (_, j) => ({
       studID: `22-1029`,
@@ -86,7 +87,7 @@ function TableEventContribution({ code = "cit", events = [], addEvent, updateEve
                   <td><input type="checkbox" /></td>
                   <td>{s.eventName}</td>
                   <td>{s.targetYear}</td>
-                  <td>{s.eventDate}</td>
+                  <td>{s.dateFrom + " " + s.dateTo}</td>
                   <td>{s.eventFee}</td>
                   <td className="flex lg:flex-row flex-col gap-2 justify-center py-2">
                     <span
@@ -99,7 +100,7 @@ function TableEventContribution({ code = "cit", events = [], addEvent, updateEve
                       visibility
                     </span>
                     <span
-                      onClick={updateEvent}
+                      onClick={() => updateEvent(s)}
                       className="material-symbols-outlined cursor-pointer text-[#8A2791] bg-white shadow-[2px_2px_1px_grey] rounded-[5px] border border-[#8A2791] px-[2px]"
                     >
                       edit_square

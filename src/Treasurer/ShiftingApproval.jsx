@@ -10,7 +10,6 @@ function ShiftingApproval() {
     const animateR = "right-In";
     return (
         <>
-
             <CITHeader logoCouncil={it} titleCouncil="College Of Information Teachnology" abb="CIT Council" />
 
             <div className="w-screen h-screen bg-[#fafafa] absolute z-[-1] overflow-y-auto overflow-x-auto lg:px-6 md:px-10 px-3">

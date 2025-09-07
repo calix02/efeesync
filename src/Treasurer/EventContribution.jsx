@@ -1,9 +1,9 @@
 import CITHeader from '../other_components/Header_Council.jsx';
 import CITSidebar from './Sidebar.jsx';
 import AddEventContributionCard from '../other_components/AddEventContributionCard.jsx';
-import UpdateEventCard from '../other_components/UpdateEventCard.jsx';
+import UpdateEventContributionCard from '../treasurer_components/UpdateEventContribution.jsx';
 import TableEventContribution from '../other_components/TableEventContribution.jsx';
-import React, {use, useRef} from 'react';
+import React, {useState, useRef} from 'react';
 import useAnimatedToggle from '../hooks/useAnimatedToggle.js';
 import "../animate.css";
 import EfeeViolet from '../assets/violetlogo.png'
@@ -19,6 +19,8 @@ const animateL = "left-In";
 
     const addRef = useRef(null);
     const updateRef = useRef(null);
+
+    const[selectedEvent, setSelectedEvent] = useState(null);
 
 
     
@@ -41,7 +43,7 @@ const animateL = "left-In";
                 <div className="fixed inset-0 bg-[#00000062] lg:z-40 md:z-50 z-70 pointer-events-auto">
                     {/* Overlay */}
                 </div>
-                <UpdateEventCard ref={updateRef} onAnimationEnd={updateContribution.handleEnd} animate={updateContribution.animation} onClose={() => updateContribution.setAnimation("fade-out")} />
+                <UpdateEventContributionCard ref={updateRef} data={selectedEvent} onAnimationEnd={updateContribution.handleEnd} animate={updateContribution.animation} onClose={() => updateContribution.setAnimation("fade-out")} />
             </>
         )
             
@@ -75,7 +77,10 @@ const animateL = "left-In";
                     </div>
 
                 </div>
-                <TableEventContribution addEvent={addContribution.toggle} updateEvent={updateContribution.toggle}/>
+                <TableEventContribution addEvent={addContribution.toggle} updateEvent={(row) =>{
+                    setSelectedEvent(row);
+                    updateContribution.toggle();
+                    }}/>
 
             </div>
             <div className='hidden lg:block'>

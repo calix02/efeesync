@@ -15,7 +15,9 @@ function CITStudent(){
 
      const studData = Array.from({ length: 13 }, (_, i) => ({
         id: `22-${1000 + i}`,
-        name: `Mark Alvarado ${i + 1}`,
+        firstName: `Mark `,
+        middleName: `M.`,
+        lastName: `Alvarado ${i + 1}`,
         yearSection: "3A",
     }));
 
@@ -33,6 +35,8 @@ function CITStudent(){
 
     }
 
+    const [selectedStudent, setSelectedStudent] = useState(null);
+
 /* ------------------------- Animated States ----------------------------- */
     const addStudent = useAnimatedToggle();
     const updateStudent = useAnimatedToggle();
@@ -45,10 +49,10 @@ function CITStudent(){
         {addStudent.isVisible &&(
             <>
                 {/* Add Student*/}
-                <div className="fixed inset-0 bg-[#00000062]  lg:z-40 md:z-50 z-70 pointer-events-auto">
+                <div className="fixed inset-0 flex justify-center items-center bg-[#00000062]  lg:z-40 md:z-50 z-70 pointer-events-auto">
                     {/* Overlay */}
+                    <AddStudentCard ref={addRef} onAnimationEnd={addStudent.handleEnd} animate={addStudent.animation} onClose={() => addStudent.setAnimation("fade-out")} />
                 </div>
-                <AddStudentCard ref={addRef} onAnimationEnd={addStudent.handleEnd} animate={addStudent.animation} onClose={() => addStudent.setAnimation("fade-out")} />
             </>
 
         )
@@ -57,10 +61,10 @@ function CITStudent(){
          {updateStudent.isVisible &&(
             <>
                 {/* Update Student */}
-                <div className="fixed inset-0 bg-[#00000062] lg:z-40 md:z-50 z-70 pointer-events-auto">
+                <div className="fixed inset-0 bg-[#00000062] flex justify-center items-center lg:z-40 md:z-50 z-70 pointer-events-auto">
                     {/* Overlay */}
+                    <UpdateStudentCard ref={updateRef} data={selectedStudent} onAnimationEnd={updateStudent.handleEnd} animate={updateStudent.animation} onClose={() => updateStudent.setAnimation("fade-out")} />
                 </div>
-                <UpdateStudentCard ref={updateRef} onAnimationEnd={updateStudent.handleEnd} animate={updateStudent.animation} onClose={() => updateStudent.setAnimation("fade-out")} />
             </>
 
          )
@@ -108,7 +112,11 @@ function CITStudent(){
                     </div>
 
                 </div>
-                <TableStudent students={studData} show={addStudent.toggle} update={updateStudent.toggle} />      
+                <TableStudent students={studData} show={addStudent.toggle} update={(row) =>{
+                    setSelectedStudent(row);
+                    updateStudent.toggle();
+
+                }} />      
 
                              
                

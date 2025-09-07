@@ -23,8 +23,10 @@ function TableEventList({ code = "cit", events = [] , addEvent, updateEvent}) {
   /* ---------------------------- sample fallback ---------------------------- */
   const fallback = Array.from({ length: 12 }, (_, i) => ({
     eventName: `Year-End-Party`,
-    targetYear: `1,2,3,4`,
-    eventDate: `7/11/25`,
+    eventDesc: `Basta may Baraylihan`,
+    targetYear: `1,3,4`,
+    dateFrom: `9/14/25`,
+    dateTo: `7/11/25`,
     eventType: `Attendance`,
   }));
 
@@ -55,6 +57,7 @@ function TableEventList({ code = "cit", events = [] , addEvent, updateEvent}) {
             <tr className={`border-b-2 border-[#adadad] ${textColor}`}>
               <th><input type="checkbox" /></th>
               <th>Event Name</th>
+              <th>Event Description</th>
               <th>Target Year</th>
               <th>Event Date</th>
               <th>Event Type</th>
@@ -67,13 +70,14 @@ function TableEventList({ code = "cit", events = [] , addEvent, updateEvent}) {
               <tr key={idx} className="border-b border-[#0505057a] ">
                 <td><input type="checkbox" /></td>
                 <td>{s.eventName}</td>
+                <td>{s.eventDesc}</td>
                 <td>{s.targetYear}</td>
-                <td>{s.eventDate}</td>
+                <td>{s.dateTo + "" + s.dateFrom}</td>
                 <td>{s.eventType}</td>
 
                 <td className="flex lg:flex-row flex-col gap-2 justify-center py-2">
                     <span className="material-symbols-outlined cursor-pointer  shadow-[2px_2px_1px_grey] rounded-[5px] text-[#3a2791] border border-[#3a2791] px-[2px]">visibility</span>
-                  <span onClick={updateEvent} className="material-symbols-outlined cursor-pointer text-[#8A2791] bg-white  shadow-[2px_2px_1px_grey] rounded-[5px] border border-[#8A2791] px-[2px]">
+                  <span onClick={() => updateEvent(s)} className="material-symbols-outlined cursor-pointer text-[#8A2791] bg-white  shadow-[2px_2px_1px_grey] rounded-[5px] border border-[#8A2791] px-[2px]">
                     edit_square
                   </span>
                   <span className="material-symbols-outlined bg-white cursor-pointer text-[#d10707] shadow-[2px_2px_2px_grey] rounded-[5px] border border-[#d10707] px-[2px]">

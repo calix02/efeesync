@@ -18,10 +18,10 @@ function CITAccomplishment(){
         {/* Add Accomplishment Card */}
         {addAccomplishment.isVisible &&(
              <>
-             <div className="fixed inset-0 bg-[#00000062] lg:z-40 md:z-50 z-70 pointer-events-auto">
-                    {/* Overlay */}
-                </div>
+             <div className="fixed flex justify-center items-center inset-0 bg-[#00000062] lg:z-40 md:z-50 z-70 pointer-events-auto">
+                {/* Overlay */}
                 <AddAccomplishmentCard ref={ref} onAnimationEnd={addAccomplishment.handleEnd} animate={addAccomplishment.animation} onClose={() => addAccomplishment.setAnimation("fade-out")} />
+            </div>
             </>
         )
            

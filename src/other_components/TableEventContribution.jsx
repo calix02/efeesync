@@ -1,7 +1,7 @@
 import { useState, useMemo } from "react";
 import "../animate.css";
 
-function TableEventContribution({ code = "cit", events = [], addEvent, updateEvent }) {
+function TableEventContribution({ code = "cit", events = [], addEvent, updateEvent,updateContribution }) {
 /* ------------------------ animation ------------------------- */
   const animate = "card-In";
 
@@ -183,7 +183,7 @@ function TableEventContribution({ code = "cit", events = [], addEvent, updateEve
                   <td className="text-[#119e3e]">{attendee.totalFees}</td>
                   <td className="text-[#119e3e]">{attendee.balance}</td>
                   <td className="flex justify-center gap-1 py-1">
-                    <span className="material-symbols-outlined cursor-pointer text-[#8A2791] bg-white shadow-[2px_2px_1px_grey] rounded-sm border border-[#8A2791] px-1">
+                    <span onClick={() => updateContribution(attendee)} className="material-symbols-outlined cursor-pointer text-[#8A2791] bg-white shadow-[2px_2px_1px_grey] rounded-sm border border-[#8A2791] px-1">
                       edit_square
                     </span>
                      <span className="material-symbols-outlined bg-white cursor-pointer text-[#d10707] shadow-[2px_2px_2px_grey] rounded-[5px] border border-[#d10707] px-[2px]">

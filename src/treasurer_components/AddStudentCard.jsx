@@ -42,15 +42,15 @@ const AddStudentCard = React.forwardRef(({animate, onAnimationEnd,onClose}, ref)
             }} >
             <div className="mt-4">
                 <label>Student ID:</label><br />
-                <input type="text" onChange={changeStudentID} value={studentId}  className=" px-2 border-2 border-[#8A2791] h-8 rounded-md w-[100%] mb-4" /> <br />
+                <input type="text" onChange={changeStudentID} required value={studentId}  className=" px-2 border-2 border-[#8A2791] h-8 rounded-md w-[100%] mb-4" /> <br />
                 <label>Last Name:</label><br />
-                <input type="text" onChange={changeLastName} value={lastName}  className=" px-2 border-2 border-[#8A2791] h-8 rounded-md w-[100%] mb-4" /> <br />
+                <input type="text" onChange={changeLastName} required value={lastName}  className=" px-2 border-2 border-[#8A2791] h-8 rounded-md w-[100%] mb-4" /> <br />
                  <label>First Name:</label><br />
-                <input type="text" onChange={changeFirstName} value={firstName}  className=" px-2 border-2 border-[#8A2791] h-8 rounded-md w-[100%] mb-4" /> <br />
+                <input type="text" onChange={changeFirstName} required value={firstName}  className=" px-2 border-2 border-[#8A2791] h-8 rounded-md w-[100%] mb-4" /> <br />
                  <label>Middle Initial:</label><br />
                 <input type="text" onChange={changeMiddle} value={middle}  className=" px-2 border-2 border-[#8A2791] h-8 rounded-md w-[100%] mb-4" /> <br />
                 <label>Year &amp;  Section:</label><br />
-                <input type="text" onChange={changeYearSection} value={yearSection} className=" px-2 border-2 border-[#8A2791] h-8 rounded-md w-[100%] mb-4" /> <br />
+                <input type="text" onChange={changeYearSection} required value={yearSection} className=" px-2 border-2 border-[#8A2791] h-8 rounded-md w-[100%] mb-4" /> <br />
             </div>
             
                 <button  className="bg-[#561b5a] w-[100%] cursor-pointer rounded-md text-white h-8">Add Student</button>

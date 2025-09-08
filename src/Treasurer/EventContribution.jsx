@@ -3,6 +3,7 @@ import CITSidebar from './Sidebar.jsx';
 import AddEventContributionCard from '../other_components/AddEventContributionCard.jsx';
 import UpdateEventContributionCard from '../treasurer_components/UpdateEventContribution.jsx';
 import TableEventContribution from '../other_components/TableEventContribution.jsx';
+import UpdateSpecificEventContribution from '../treasurer_components/UpdateSpecificEventContribution.jsx';
 import React, {useState, useRef} from 'react';
 import useAnimatedToggle from '../hooks/useAnimatedToggle.js';
 import "../animate.css";
@@ -16,11 +17,14 @@ const animateL = "left-In";
 /* ------------------------- Animated States ----------------------------- */
     const addContribution = useAnimatedToggle();
     const updateContribution = useAnimatedToggle();
+    const specificContribution = useAnimatedToggle();
 
     const addRef = useRef(null);
     const updateRef = useRef(null);
+    const specificRef = useRef(null);
 
     const[selectedEvent, setSelectedEvent] = useState(null);
+    const[selectedAttendee, setSelectedAttendee] = useState(null);
 
 
     
@@ -29,10 +33,9 @@ const animateL = "left-In";
          {addContribution.isVisible &&(
              <>
                 {/* Add Contribution*/}
-                <div className="fixed inset-0 bg-[#00000062] lg:z-40 md:z-50 z-70 pointer-events-auto">
-                    {/* Overlay */}
+                <div className="fixed inset-0 flex justify-center items-center bg-[#00000062] lg:z-40 md:z-50 z-70 pointer-events-auto">
+                    <AddEventContributionCard ref={addRef} onAnimationEnd={addContribution.handleEnd} animate={addContribution.animation} onClose={() => addContribution.setAnimation("fade-out")} />   
                 </div>
-                <AddEventContributionCard ref={addRef} onAnimationEnd={addContribution.handleEnd} animate={addContribution.animation} onClose={() => addContribution.setAnimation("fade-out")} />
             </>
          )
            
@@ -40,13 +43,22 @@ const animateL = "left-In";
         {updateContribution.isVisible &&(
             <>
                 {/* Update Contribution */}
-                <div className="fixed inset-0 bg-[#00000062] lg:z-40 md:z-50 z-70 pointer-events-auto">
+                <div className="fixed inset-0 flex justify-center items-center bg-[#00000062] lg:z-40 md:z-50 z-70 pointer-events-auto">
                     {/* Overlay */}
+                    <UpdateEventContributionCard ref={updateRef} data={selectedEvent} onAnimationEnd={updateContribution.handleEnd} animate={updateContribution.animation} onClose={() => updateContribution.setAnimation("fade-out")} />
                 </div>
-                <UpdateEventContributionCard ref={updateRef} data={selectedEvent} onAnimationEnd={updateContribution.handleEnd} animate={updateContribution.animation} onClose={() => updateContribution.setAnimation("fade-out")} />
             </>
         )
             
+        }
+        {specificContribution.isVisible &&(
+            <div className="fixed inset-0 flex justify-center items-center bg-[#00000062] lg:z-40 md:z-50 z-70 pointer-events-auto">
+                {/* Overlay */}
+                <UpdateSpecificEventContribution ref={specificRef} data={selectedAttendee} onAnimationEnd={specificContribution.handleEnd} animate={specificContribution.animation} onClose={() => specificContribution.setAnimation("fade-out")} />
+            </div>
+
+        )
+
         }
             <CITHeader code="cit" titleCouncil = "College Of Information Teachnology" abb="CIT Council" />
              <div className="w-screen h-screen bg-[#fafafa] absolute z-[-1] overflow-y-auto overflow-x-auto lg:px-6 md:px-10 px-3">
@@ -77,10 +89,14 @@ const animateL = "left-In";
                     </div>
 
                 </div>
-                <TableEventContribution addEvent={addContribution.toggle} updateEvent={(row) =>{
-                    setSelectedEvent(row);
-                    updateContribution.toggle();
-                    }}/>
+                <TableEventContribution addEvent={addContribution.toggle} updateContribution={(row) =>{
+                 setSelectedAttendee(row);
+                 specificContribution.toggle();   
+                }} 
+                updateEvent={(row) =>{
+                setSelectedEvent(row);
+                updateContribution.toggle();
+                }}/>
 
             </div>
             <div className='hidden lg:block'>

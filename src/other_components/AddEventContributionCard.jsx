@@ -38,7 +38,7 @@ const AddEventContributionCard = React.forwardRef(({animate, onAnimationEnd,onCl
 
 
     return( 
-        <div ref={ref}   className={` ${animate} lg:w-100 md:w-100 w-80 h-115 px-6 font-[family-name:Arial] lg:text-sm bg-white shadow-[2px_2px_#8A2791,-2px_-2px_white] rounded-lg absolute z-80 inset-0 mx-auto mt-30 `}
+        <div ref={ref}   className={` ${animate} lg:w-100 md:w-100 w-80 h-115 px-6 font-[family-name:Arial] lg:text-sm bg-white shadow-[2px_2px_#8A2791,-2px_-2px_white] rounded-lg  z-80 inset-0 mx-auto `}
         onAnimationEnd={onAnimationEnd}>
             <div className="mt-3 relative">
                 <span onClick={onClose} className="material-symbols-outlined absolute right-0.5 cursor-pointer">disabled_by_default</span>
@@ -53,9 +53,9 @@ const AddEventContributionCard = React.forwardRef(({animate, onAnimationEnd,onCl
             }}>
             <div className="mt-4">
                 <label>Event Name:</label><br />
-                <input type="text" onChange={changeEventName} value={eventName} required  className="border-2 border-[#8A2791] h-8 rounded-md w-[100%] mb-3" /> <br />
+                <input type="text" onChange={changeEventName} value={eventName} required  className="border-2 px-2 border-[#8A2791] h-8 rounded-md w-[100%] mb-3" /> <br />
                  <label>Event Description:</label><br />
-                 <textarea name="" id="" onChange={changeEventDesc} value={eventDesc} required  className="border-2 border-[#8A2791] h-8 rounded-md w-[100%] mb-2"></textarea>
+                 <textarea name="" id="" onChange={changeEventDesc} value={eventDesc} required  className="border-2 px-2 border-[#8A2791] h-8 rounded-md w-[100%] mb-2"></textarea>
                  <label htmlFor="">Target Year</label>
                  <div className="flex gap-2 h-8 rounded-md lg:text-sm text-xs border-[#8A2791] w-100% border-2 justify-center items-center" >
                     {years.map((year) => (
@@ -80,7 +80,7 @@ const AddEventContributionCard = React.forwardRef(({animate, onAnimationEnd,onCl
 
                  </div>
                 <label htmlFor="">Event Fee</label><br />
-                <input type="text" onChange={changeEventFee} value={eventFee} required className="border-2 border-[#8A2791] h-8 rounded-md w-[100%] mb-3" /> <br />
+                <input type="text" onChange={changeEventFee} value={eventFee} required className="border-2 px-2 border-[#8A2791] h-8 rounded-md w-[100%] mb-3" /> <br />
             </div>
             <div className="relative mt-3">
                 <button type="submit" className="bg-[#8A2791] rounded-md text-white w-[100%] h-8 absolute right-0">Add Event</button>

@@ -78,7 +78,7 @@ function TableMonetarySanction({ code = "cit", sanctions = [], collectSanction }
 
 
                 <td className="flex lg:flex-row flex-col gap-2 justify-center py-2">
-                  <span onClick={collectSanction} className="material-symbols-outlined cursor-pointer text-[#65A810] bg-white  shadow-[2px_2px_1px_grey] rounded-md border border-[#65A810] px-1">
+                  <span onClick={() => collectSanction(s)} className="material-symbols-outlined cursor-pointer text-[#65A810] bg-white  shadow-[2px_2px_1px_grey] rounded-md border border-[#65A810] px-1">
                     payments
                   </span>
                 </td>

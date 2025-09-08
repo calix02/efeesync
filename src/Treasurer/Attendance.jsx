@@ -26,10 +26,11 @@ const animateL = "left-In";
          {addEvent.isVisible &&(
              <>
                 {/* Add Event*/}
-                <div className="fixed inset-0 bg-[#00000062] lg:z-40 md:z-50 z-70 pointer-events-auto">
+                <div className="fixed flex items-center justify-center inset-0 bg-[#00000062] lg:z-40 md:z-50 z-70 pointer-events-auto">
                     {/* Overlay */}
+                    <AddEventListCard ref={addRef} onAnimationEnd={addEvent.handleEnd} animate={addEvent.animation} onClose={() => addEvent.setAnimation("fade-out")} />
+
                 </div>
-                <AddEventListCard ref={addRef} onAnimationEnd={addEvent.handleEnd} animate={addEvent.animation} onClose={() => addEvent.setAnimation("fade-out")} />
             </>
          )
            

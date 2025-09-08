@@ -8,7 +8,7 @@ function AccountSetting({upload,accName,accRole,accEmail,profile,changePass,chan
             <div className="w-full bg-white mt-2 border-1 border-[#000] py-8 rounded-xl lg:px-10 md:px-10 px-2 flex lg:flex-row md:flex-row flex-col lg:justify-between md:justify-between items-center">
                     <span className="flex lg:flex-row md:flex-row flex-col items-center lg:gap-6 md:gap-6 gap-3">
                         <span className="relative">
-                            <img className='lg:w-25 md:w-25 w-15 lg:h-25 md:h-25 h-15 rounded-full border-2 border-[#313131]' src={profile} alt="" />
+                            <img className='w-25  h-25  rounded-full border-2 border-[#313131]' src={profile} alt="" />
                             <button onClick={upload} className=' absolute h-7 w-7 flex justify-center items-center text-white rounded-full bg-[#174515]  bottom-1 right-1 cursor-pointer'><i className="fa-solid fa-pen-to-square text-md "></i></button>
                         </span>
                        <div className="flex flex-col lg:text-justify md:text-justify text-center ">
@@ -21,8 +21,8 @@ function AccountSetting({upload,accName,accRole,accEmail,profile,changePass,chan
                     <button onClick={changeInfo} className='lg:w-18 md:w-18 cursor-pointer hover:bg-[#174515] transition duration-100 hover:text-white w-24 border-1 border-black py-0.5 rounded-lg lg:text-sm md:text-sm text-xs mt-4 flex gap-1 items-center justify-center'><i className="fa-solid fa-pen"></i>Edit</button>
                     </span>
             </div>
-            <div className="flex justify-end mt-3">
-                <button onClick={changePass} className='lg:w-50 md:w-50 w-35 cursor-pointer hover:bg-[#174515] transition duration-100 hover:text-white rounded-lg flex gap-2 justify-center items-center py-0.75 border-1 border-[#625555]'><i className="fa-solid fa-key"></i>Change Password</button>
+            <div className="flex lg:justify-end justify-center mt-3">
+                <button onClick={changePass} className='px-4 cursor-pointer hover:bg-[#174515] transition duration-100 hover:text-white rounded-lg flex gap-2 justify-center items-center py-0.75 border-1 border-[#625555]'><i className="fa-solid fa-key"></i>Change Password</button>
             </div>
             {/* 
             <h3 className='text-sm font-[family-name:Helvetica] font-semibold mt-6'>Personal Information</h3>

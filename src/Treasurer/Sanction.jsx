@@ -15,16 +15,18 @@ function CITSanction() {
     const sanctionRef = useRef(null);
 
     const [selectedSanction, setSelectedSanction] = useState("Monetary Sanction");
+    const [selectedStudent, setSelectedStudent] = useState(null);
 
     return (
         <>
         {sanctionCollect.isVisible &&(
              <>
             {/* Sanction Collection */}
-             <div className="fixed inset-0 bg-[#00000062] z-40 pointer-events-auto">
+             <div className="fixed flex justify-center items-center inset-0 bg-[#00000062] z-40 pointer-events-auto">
                     {/* Overlay */}
-                </div>
-            <SanctionCollect ref={sanctionRef} onAnimationEnd={sanctionCollect.handleEnd} animate={sanctionCollect.animation} onClose={() => sanctionCollect.setAnimation("fade-out")} />
+                <SanctionCollect ref={sanctionRef} data={selectedStudent} onAnimationEnd={sanctionCollect.handleEnd} animate={sanctionCollect.animation} onClose={() => sanctionCollect.setAnimation("fade-out")} />
+
+            </div>
             </>
         )
            
@@ -65,7 +67,9 @@ function CITSanction() {
                     {selectedSanction === "Community Service" ? (
                         <TableCommunityService code="cit" />
                     ) : (
-                        <TableMonetarySanction collectSanction={sanctionCollect.toggle} code="cit" />
+                        <TableMonetarySanction collectSanction={(row) =>{
+                            setSelectedStudent(row);
+                            sanctionCollect.toggle();}} code="cit" />
                     )}
                 </div>
             </div>

@@ -23,10 +23,10 @@ function Account(){
         <>
         {addTreasurer.isVisible &&(
              <>
-                 <div className="fixed inset-0 bg-[#00000062] lg:z-40 md:z-50 z-70 pointer-events-auto">
+                 <div className="fixed inset-0 flex justify-center items-center bg-[#00000062] lg:z-40 md:z-50 z-70 pointer-events-auto">
                     {/* Overlay */}
+                    <AddAccountCard ref={addRef} onAnimationEnd={addTreasurer.handleEnd} onClose={() => addTreasurer.setAnimation("fade-out")} animate={addTreasurer.animation} />
                 </div>
-                <AddAccountCard ref={addRef} onAnimationEnd={addTreasurer.handleEnd} onClose={() => addTreasurer.setAnimation("fade-out")} animate={addTreasurer.animation} />
             </>
         )
            

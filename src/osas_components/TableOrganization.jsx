@@ -23,9 +23,9 @@ function TableOrganisation({ code = "osas", organizations = [] , update, reloadO
   /* ---------------------------- sample fallback ---------------------------- */
   const fallback = [
     {
-    organization_code: `CITSC`,
-    organization_ame: `College of Information Technology Student Council`,
-    department_code: `CIT`,
+    organization_code: `No data`,
+    organization_name: `No data`,
+    department_code: `No data`,
     }
   ];
 

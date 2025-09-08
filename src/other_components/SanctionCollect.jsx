@@ -33,8 +33,6 @@ const SanctionCollect = React.forwardRef(({animate, onAnimationEnd,onClose,data}
 
     }
 
-    
-
 
     return( 
         <div ref={ref}   className={` ${animate} font-[family-name:Arial] lg:text-sm text-xs lg:w-100 w-80  h-148 px-6 bg-white shadow-[2px_2px_#8A2791,-2px_-2px_white] rounded-lg  z-80 inset-0 mx-auto  `}

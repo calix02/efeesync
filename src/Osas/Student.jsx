@@ -131,7 +131,7 @@ function Student(){
                           
                     </div>
                 </div>
-             <TableStudentOsas students={students} update={(row) =>{
+             <TableStudentOsas reloadStudents={fetchStudents} students={students} update={(row) =>{
                 setSelectedStudent(row);
                 updateStudent.toggle();
              }} add={addStudent.toggle}/>

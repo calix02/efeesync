@@ -15,6 +15,7 @@ import cotsc from '../assets/COT.png';
 import esaf from '../assets/ESAF.png';
 import it from '../assets/CIT.png';
 import "../animate.css";
+import { useState, useEffect } from 'react';
 
 function Dashboard(){
     document.title = "Dashboard";
@@ -23,18 +24,41 @@ function Dashboard(){
     const animateL = "left-In";
     const animateR = "right-In";
 
+    const [dashboardData, setDashboardData] = useState({
+        "total_departments": "-",
+        "total_organizations": "-",
+        "total_programs": "-",
+        "total_students": "-"
+    });
+    const fetchDashboard = async () => {
+        try {
+            const res = await fetch("/api/admin/dashboard", {
+                credentials: "include"
+            });
+            const response = await res.json();
+            if (response.status === "success") {
+                setDashboardData(response.data);
+            }
+        } catch (err) {
+            errorAlert("Fetch Failed");
+        }
+    }
+    useEffect(() => {
+        fetchDashboard();
+    }, []);
+
     const data = {
-    labels: ['CCSC', 'CESC', 'COTSC', 'SCEAP','CITSC'],
-    datasets: [
-      {
-        label: 'CITizens',
-        data: [900, 1200, 800, 700,670],
-        backgroundColor: ['#FCBBD8', '#D4E4FF', '#F6FFB1', '#FFD8CC','#ECCEFC'],
-        borderWidth: 0,
-        cutout: '50%'
-      }
-    ]
-  };
+        labels: ['CCSC', 'CESC', 'COTSC', 'SCEAP','CITSC'],
+        datasets: [
+        {
+            label: 'CITizens',
+            data: [900, 1200, 800, 700,670],
+            backgroundColor: ['#FCBBD8', '#D4E4FF', '#F6FFB1', '#FFD8CC','#ECCEFC'],
+            borderWidth: 0,
+            cutout: '50%'
+        }
+        ]
+    };
     const building = <i className="fa-solid fa-building-columns"></i>
     const council = <i className="fa-solid fa-sitemap"></i>
     const program = <i className="fa-solid fa-graduation-cap"></i>
@@ -48,10 +72,10 @@ function Dashboard(){
                 <h2 className="text-lg sm:text-md md:text-2xl lg:text-2xl text-[#145712] font-bold font-poppins">Welcome, Admin!</h2>
             </div>
             <div className={`lg:flex lg:flex-row lg:justify-center lg:items-center ${animate} grid grid-cols-2 mt-4 gap-6 lg:ml-70`}>
-              <CardOsas title="Number of Colleges" count="5" pic={building}/>
-              <CardOsas title="Number of Councils" count="6" pic={council}/>
-              <CardOsas title="Number of Programs" count="3" pic={program}/>
-              <CardOsas title="Number of Students" count="6000" pic={student}/>
+              <CardOsas title="Number of Colleges" count={dashboardData.total_departments} pic={building}/>
+              <CardOsas title="Number of Councils" count={dashboardData.total_organizations} pic={council}/>
+              <CardOsas title="Number of Programs" count={dashboardData.total_programs} pic={program}/>
+              <CardOsas title="Number of Students" count={dashboardData.total_students} pic={student}/>
             </div>
             <div className={`lg:ml-70 mt-6 ${animate} grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 justify-center gap-6`}>
                 <Card_Admin logo={ssc} title="SSC" budget="67 000.00" cashHand={1262} cashBank={6638}/>

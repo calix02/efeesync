@@ -23,9 +23,9 @@ function TableProgram({ code = "osas", programs = [] , update, reloadPrograms}) 
   /* ---------------------------- sample fallback ---------------------------- */
   const fallback = [
     {
-    program_code: `BSIT`,
-    program_name: `Bachelor of Science in Information Technology`,
-    department_code: `CIT`,
+    program_code: `No data`,
+    program_name: `No data`,
+    department_code: `No data`,
     
   }
   ];

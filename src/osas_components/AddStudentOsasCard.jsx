@@ -79,15 +79,15 @@ const AddStudentOsasCard = React.forwardRef(({animate, onAnimationEnd,onClose,co
             }}>
             <div className="mt-6">
                 <label>Student ID:</label><br />
-                <input type="text" onChange={(e) =>setStudId(e.target.value)} required value={studId} className="border-2 px-2 border-[#174515] h-8 rounded-md w-[100%] mb-4" /> <br />
+                <input type="text" onChange={(e) =>setStudId(e.target.value)} required value={studId} className="border-2 px-2 border-[#174515] h-8 rounded-md w-[100%] mb-4" maxLength={7}/> <br />
                 <label>Last Name:</label><br />
                 <input type="text" onChange={(e) =>setLastName(e.target.value)} required value={lastName} className="border-2 px-2 border-[#174515] h-8 rounded-md w-[100%] mb-4" /> <br />
                  <label>First Name:</label><br />
                 <input type="text" onChange={(e) =>setFirstName(e.target.value)} required value={firstName} className="border-2 px-2 border-[#174515] h-8 rounded-md w-[100%] mb-4" /> <br />
                 <label>Middle Initial:</label><br />
-                <input type="text" onChange={(e) =>setMI(e.target.value)} value={mi} className="border-2 px-2 border-[#174515] h-8 rounded-md w-[100%] mb-4" /> <br />
+                <input type="text" onChange={(e) =>setMI(e.target.value)} value={mi} className="border-2 px-2 border-[#174515] h-8 rounded-md w-[100%] mb-4" maxLength={3}/> <br />
                 <label>Section:</label><br />
-                <input type="text" onChange={(e) =>setSection(e.target.value)} value={section} className="border-2 px-2 border-[#174515] h-8 rounded-md w-[100%] mb-4" /> <br />
+                <input type="text" onChange={(e) =>setSection(e.target.value)} value={section} className="border-2 px-2 border-[#174515] h-8 rounded-md w-[100%] mb-4" maxLength={3}/> <br />
                 <label>College:</label><br />
                 <select defaultValue="" value={college} onChange={(e) => {setCollege(e.target.value); fetchPrograms(e.target.value) }} required className="border-2 px-2 cursor-pointer border-[#174515] h-8 rounded-md w-[100%] mb-4"  name="" id="">
                     <option value="" hidden>

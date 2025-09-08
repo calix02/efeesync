@@ -1,4 +1,5 @@
 import { useState, useMemo } from "react";
+import { confirmAlert, errorAlert, okayAlert } from "../utils/alert";
 import "../animate.css";
 
 /**
@@ -6,7 +7,7 @@ import "../animate.css";
  * @param {string} code       – org code ("cit", "coe", …) to color the header text
  * @param {Array}  students   – array of { id, name, yearSection }
  */
-function TableStudentOsas({ code = "osas", students = [] , update,add}) {
+function TableStudentOsas({ code = "osas", students = [] , update,add,reloadStudents}) {
   const animate = "card-In";
   /* --------------------------------- colors -------------------------------- */
   const textColor =
@@ -21,15 +22,40 @@ function TableStudentOsas({ code = "osas", students = [] , update,add}) {
   /* ---------------------------- sample fallback ---------------------------- */
   const fallback = [
     {
-    studID: `22-1029`,
-    studName: `Alwyn Nabor`,
-    college: `CIT`,
-    program: `BSIT`,
+    student_number_id: `No data`,
+    full_name: `No data`,
+    student_section: `No data`,
+    department_code: `No data`,
+    program_code: `No data`,
   }
   ];
 
   const data = students.length ? students : fallback;
   
+  const deleteStudent = (s) => {
+    confirmAlert("It will delete permanently").then( async (result) =>{
+          if(result.isConfirmed){
+            try {
+              const res = await fetch("/api/students/" + s.student_id, {
+                  method: "DELETE",
+                  credentials: "include",
+                  headers: {
+                      "Content-Type": "application/json"
+                  }
+              });
+              const response = await res.json();
+              if (response.status === "success") {
+                  okayAlert("Deleted!");
+                  reloadStudents();
+              } else {
+                  alert("Failed: " + response.message);
+              }
+          } catch (err) {
+              alert("Fetch failed: " + err);
+          }
+          }
+        });
+  }
 
   /* ----------------------------- pagination -------------------------------- */
   const PAGE_SIZE = 10;
@@ -77,7 +103,7 @@ function TableStudentOsas({ code = "osas", students = [] , update,add}) {
                   <span onClick={() => update(s)} className="material-symbols-outlined cursor-pointer text-[#174515] bg-white  shadow-[2px_2px_1px_grey] rounded-sm border border-[#174515] px-1">
                     edit_square
                   </span>
-                  <span className="material-symbols-outlined bg-white cursor-pointer text-[#d10707] shadow-[2px_2px_2px_grey] rounded-sm border border-[#d10707] px-1">
+                  <span onClick={() => deleteStudent(s)} className="material-symbols-outlined bg-white cursor-pointer text-[#d10707] shadow-[2px_2px_2px_grey] rounded-sm border border-[#d10707] px-1">
                     delete
                   </span>
                 </td>

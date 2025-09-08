@@ -25,19 +25,19 @@ function Dashboard(){
             <div className="lg:mt-30 mt-25 lg:ml-70">
                 <h2 className="text-2xl font-[family-name:Futura Bold] font-semibold">Welcome Yummy Bobis!</h2>
             </div>
-            <div className={` ${animate} lg:ml-70 flex justify-center gap-6 mt-6`}>
+            <div className={` ${animate} lg:ml-70 lg:flex lg:justify-center grid grid-cols-2 gap-6 mt-6`}>
                 <CardStudent title="Number of Paid Contributions" value="5" icon ={calendar}/>
                 <CardStudent title="Number of Unpaid Contributions" value="3" icon ={coin}/>
                 <CardStudent title="Number of Unsettled Contributions" value="7" icon ={cash}/>
                 <CardStudent title="Number of Active Sanctions" value="2" icon ={calendar}/>
             </div>
-            <div className={`  lg:ml-70 flex justify-center gap-6`}>
-                 <div className={` ${animateL} w-[100%] h-100 bg-white shadow-[2px_2px_3px_#434343,-2px_-2px_3px_#ebe4e4] px-5 border-[#ebe4e4] mt-8 rounded-lg overflow-y-scroll`}>
+            <div className={`  lg:ml-70 lg:flex lg:justify-center gap-6`}>
+                 <div className={` ${animateL} w-[100%] h-100 bg-white shadow-[2px_2px_3px_#434343,-2px_-2px_3px_#ebe4e4] px-5 border-[#ebe4e4] mt-8 rounded-lg overflow-y-scroll hide-scrollbar`}>
                     <h2 className="font-[family-name:Verdana] text-md font-semibold mt-3">Upcoming Events</h2>
                     <UpcomingEvents month="Dec" day="25" event="Year-End Party" desc="Christmas Celebration of IT Department" target="1st Year - 4th Year" type="Attendance - Contribution"/>
                     <UpcomingEvents month="May" day="5" event="Tribute To Senior" desc="A tribute to the graduates." target="1st Year - 4th Year" type="Attendance - Contribution"/>
                 </div>
-                <div className={` ${animateR}  w-[100%] h-100 bg-white shadow-[2px_2px_3px_#434343,-2px_-2px_3px_#ebe4e4] px-5 border-[#ebe4e4] mt-8 rounded-lg overflow-y-scroll`}>
+                <div className={` ${animateR}  w-[100%] h-100 bg-white shadow-[2px_2px_3px_#434343,-2px_-2px_3px_#ebe4e4] px-5 border-[#ebe4e4] mt-8 rounded-lg overflow-y-scroll hide-scrollbar`}>
                     <h2 className="font-[family-name:Verdana] text-md font-semibold mt-3 ml-2">Announcements</h2>
                     <Announcement announcement= "General Assembly: All IT students are required to attend. Attendance is a must!"/>
                     <Announcement announcement= "General Assembly: All IT students are required to attend. Attendance is a must!"/>

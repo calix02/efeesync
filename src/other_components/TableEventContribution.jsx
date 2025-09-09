@@ -7,12 +7,12 @@ function TableEventContribution({ code = "cit", events = [], addEvent, updateEve
 
   const textColor =
     code === "cit" ? "text-[#4F1C51]"
-      : code === "coe" ? "text-[#0E2148]"
-        : code === "coc" ? "text-[#3A0519]"
-          : code === "cot" ? "text-[#FFD95F]"
-            : code === "eap" ? "text-[#4B352A]"
-              : code === "osas" ? "text-[#27391C]"
-                : "text-blue";
+    : code === "coe" ? "text-[#0E2148]"
+    : code === "coc" ? "text-[#3A0519]"
+    : code === "cot" ? "text-[#FFD95F]"
+    : code === "eap" ? "text-[#4B352A]"
+    : code === "osas" ? "text-[#27391C]"
+    : "text-black";
 
   const fallback = Array.from({ length: 5 }, (_, i) => ({
     eventName: `Year-End-Party`,
@@ -69,7 +69,7 @@ function TableEventContribution({ code = "cit", events = [], addEvent, updateEve
       {/* ===================== EVENT TABLE ===================== */}
       {selectedEventIndex === null && (
         <>
-        <div className={`lg:ml-70 bg-white   border-1 font-[family-name:Arial] border-[#d8d8d8] text-black flex-grow p-5  mt-3 rounded-lg shadow-[2px_2px_2px_grey]`}>
+        <div className={`lg:ml-70 bg-white border-3 font-[family-name:Arial] border-[#d8d8d8] text-black flex-grow p-5  mt-3 rounded-lg shadow-[2px_2px_2px_grey]`}>
           <table className="w-full text-center">
             <thead>
               <tr className={`border-b-2 border-[#000] ${textColor}`}>
@@ -151,7 +151,7 @@ function TableEventContribution({ code = "cit", events = [], addEvent, updateEve
             </h2>
             <button
               onClick={() => setSelectedEventIndex(null)}
-              className="bg-[#621668] text-white lg:px-4 md:px-4 px-2 py-1 rounded-md"
+              className="bg-[#621668] text-white cursor-pointer hover:bg-white hover:scale-103 transition duration-200  hover:shadow-[2px_2px_3px_#621668] hover:text-[#621668] hover:border-[#621668] border-1 lg:px-4 md:px-4 px-2 py-1 rounded-md"
             >
               Back to Events
             </button>
@@ -179,10 +179,10 @@ function TableEventContribution({ code = "cit", events = [], addEvent, updateEve
                   <td>{attendee.studID}</td>
                   <td>{attendee.name}</td>
                   <td>{attendee.yearSection}</td>
-                  <td className="text-[#119e3e]">{attendee.contriDate}</td>
-                  <td className="text-[#119e3e]">{attendee.totalFees}</td>
-                  <td className="text-[#119e3e]">{attendee.balance}</td>
-                  <td className="flex justify-center gap-1 py-1">
+                  <td >{attendee.contriDate}</td>
+                  <td >{attendee.totalFees}</td>
+                  <td >{attendee.balance}</td>
+                  <td className="flex justify-center gap-1 py-1.5">
                     <span onClick={() => updateContribution(attendee)} className="material-symbols-outlined cursor-pointer text-[#8A2791] bg-white shadow-[2px_2px_1px_grey] rounded-sm border border-[#8A2791] px-1">
                       edit_square
                     </span>

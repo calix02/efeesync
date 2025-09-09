@@ -4,7 +4,7 @@ import AddStudentCard from '../treasurer_components/AddStudentCard.jsx';
 import TableStudent from '../treasurer_components/TableStudent.jsx';
 import UpdateStudentCard from '../other_components/UpdateStudentCard.jsx';
 import EfeeViolet from '../assets/violetlogo.png'
-import React, {useState,useRef} from 'react';
+import React, {useState,useRef, useEffect} from 'react';
 import useAnimatedToggle from '../hooks/useAnimatedToggle.js';
 import { errorAlert,successAlert } from '../utils/alert.js';
 import '../animate.css';
@@ -12,6 +12,26 @@ import '../animate.css';
 function CITStudent(){
     const animateR = "right-In";
     const animateL = "left-In";
+
+    const [currentUserData, setCurrentUserData] = useState([]);
+    
+      const fetchCurrentUser = async () => {
+         try {
+             const res = await fetch("/api/users/current", {
+                 credentials: "include"
+             });
+             const response = await res.json();
+             if (response.status === "success") {
+                 setCurrentUserData(response.data);
+             }
+         } catch (err) {
+             errorAlert("Fetch Failed");
+         }
+      }
+      useEffect(() => {
+        fetchCurrentUser();
+        console.log(currentUserData);
+      }, []);
 
      const studData = Array.from({ length: 13 }, (_, i) => ({
         id: `22-${1000 + i}`,
@@ -70,7 +90,7 @@ function CITStudent(){
          )
             
         }
-            <CITHeader code="cit" titleCouncil = "College Of Information Teachnology" abb="CIT Council" />
+            <CITHeader code={currentUserData?.department_code} titleCouncil ={currentUserData?.organization_name} abb="CIT Council" />
              <div className="w-screen h-screen bg-[#fafafa] absolute z-[-1] overflow-y-auto overflow-x-auto lg:px-6 md:px-10 px-3">
                 <div className='lg:ml-70 lg:mt-30 mt-25 lg:flex md:flex md:justify-between lg:justify-between '>
                     <h2 className="text-2xl font-medium font-[family-name:Futura Bold]">Manage Students</h2>

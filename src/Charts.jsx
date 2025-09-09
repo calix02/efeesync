@@ -13,18 +13,7 @@ import { Bar } from 'react-chartjs-2';
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
-function Charts({title}) {
-  const data = {
-    labels: ['CITSC', 'SCEAP', 'COTSC', 'CESC','CCSC'],
-    datasets: [
-      {
-        data: [200,127,300,430,690],
-        backgroundColor: ['#d492f9','#FFD8CC','#F6FFB1','#D4E4FF','#FCBBD8']
-      },
-       
-     
-    ]
-  };
+function Charts({title,data}) {
 
   const options = {
     responsive: true,

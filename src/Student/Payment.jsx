@@ -6,7 +6,7 @@ import ProofPayment from "../student_components/ProofPayment.jsx";
 import EditPayment from "../student_components/EditPayment.jsx";
 import EfeeViolet from '../assets/violetlogo.png';
 import it from '../assets/it.png';
-import React, {useRef} from 'react';
+import React, {useRef, useState, useEffect} from 'react';
 import useAnimatedToggle from "../hooks/useAnimatedToggle.js";
 import '../animate.css';
 
@@ -21,6 +21,26 @@ function Payment(){
     const paymentRef = useRef(null);
     const proofRef = useRef(null);
     const editRef = useRef(null);
+
+    const [currentUserData, setCurrentUserData] = useState([]);
+            
+            const fetchCurrentUser = async () => {
+                try {
+                    const res = await fetch("/api/users/current", {
+                        credentials: "include"
+                    });
+                    const response = await res.json();
+                    if (response.status === "success") {
+                        setCurrentUserData(response.data);
+                    }
+                } catch (err) {
+                    errorAlert("Fetch Failed");
+                }
+            }
+            useEffect(() => {
+                fetchCurrentUser();
+                console.log(currentUserData);
+            }, []);
 
     return(
         <>
@@ -51,7 +71,7 @@ function Payment(){
             </>
          )   
         }
-        <Header code="cit" logoCouncil={it} titleCouncil = "College of Information Technology"/>
+        <Header code={currentUserData?.department_code} titleCouncil ={currentUserData?.organization_name}/>
         <div className="w-screen h-screen bg-[#F8F8F8] absolute z-[-1] overflow-y-auto overflow-x-auto ">
              <div className="mt-[110px] lg:ml-70 flex justify-between px-6">
                 <h2 className="text-2xl font-semibold ">My Payments</h2>
@@ -62,10 +82,6 @@ function Payment(){
                 <PaymentStatusCard status="Received" view={proofPayment.toggle} edit={editPayment.toggle} />
                 <PaymentStatusCard status="Pending" view={proofPayment.toggle} edit={editPayment.toggle} />
                 <PaymentStatusCard status="Received" view={proofPayment.toggle} edit={editPayment.toggle} />
-
-
-                
-
             </div>
         </div>
              <div className='lg:block hidden' >

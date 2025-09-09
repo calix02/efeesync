@@ -1,16 +1,16 @@
 import { useState, useMemo } from "react";
 import "../animate.css";
 
-function TableAttendance({ code = "cit", events = [], addEvent, updateEvent }) {
+function TableAttendance({ code = "cit", events = [], addEvent, updateEvent, addAttendee, updateAttendee }) {
   const animate = "card-In";
   const textColor =
     code === "cit" ? "text-[#4F1C51]"
-      : code === "coe" ? "text-[#0E2148]"
-        : code === "coc" ? "text-[#3A0519]"
-          : code === "cot" ? "text-[#FFD95F]"
-            : code === "eap" ? "text-[#4B352A]"
-              : code === "osas" ? "text-[#27391C]"
-                : "text-blue";
+    :code === "coe" ? "text-[#0E2148]"
+    : code === "coc" ? "text-[#3A0519]"
+    : code === "cot" ? "text-[#FFD95F]"
+    : code === "eap" ? "text-[#4B352A]"
+    : code === "osas" ? "text-[#27391C]"
+    : "text-blue";
 
   const fallback = Array.from({ length: 5 }, (_, i) => ({
     eventName: `Year-End-Party`,
@@ -22,9 +22,9 @@ function TableAttendance({ code = "cit", events = [], addEvent, updateEvent }) {
     attendance: Array.from({ length: 32 }, (_, j) => ({
       name: `Mark Angelo Alvarado jrats`,
       yearSection: `3A`,
-      morningIn: `Present`,
+      morningIn: `Excuse`,
       morningOut: `Present`,
-      afternoonIn: `Present`,
+      afternoonIn: `Absent`,
       afternoonOut: `Present`
     }))
   }));
@@ -70,7 +70,7 @@ function TableAttendance({ code = "cit", events = [], addEvent, updateEvent }) {
       {/* ===================== EVENT TABLE ===================== */}
       {selectedEventIndex === null && (
         <>
-        <div className="lg:ml-70 bg-white lg:text-sm text-xs font-[font-family:Arial] text-black flex-grow p-5 mt-3 rounded-lg shadow-[2px_2px_2px_grey]">
+        <div className={` ${animate} lg:ml-70 bg-white lg:text-sm text-xs font-[font-family:Arial] text-black flex-grow p-5 mt-3 rounded-lg shadow-[2px_2px_2px_grey]`}>
           <table className="w-full text-center">
             <thead>
               <tr className={`border-b-2 border-[#000] ${textColor}`}>
@@ -138,7 +138,7 @@ function TableAttendance({ code = "cit", events = [], addEvent, updateEvent }) {
          
         </div>
       
-        <div className=" relative lg:ml-[270px] mt-[-10px] flex flex-col-reverse justify-center items-center">
+        <div className={`${animate} relative lg:ml-[270px] mt-[-10px] flex flex-col-reverse justify-center items-center`}>
             <p className="text-[#8A2791] lg:absolute left-9">Showing of 600</p>
             <div className="flex">
               <button onClick={goPrev} disabled={page === 0} className="mx-1 cursor-pointer flex items-center rounded-md border disabled:opacity-40">
@@ -164,15 +164,14 @@ function TableAttendance({ code = "cit", events = [], addEvent, updateEvent }) {
 
       {/* ===================== ATTENDANCE TABLE ===================== */}
       {selectedEvent && (
-        <div className="lg:ml-70 relative bg-white text-black font-[family-name:Arial] lg:text-sm text-xs flex-grow lg:p-5 md:p-5 py-5 px-2  mt-3 rounded-lg shadow-[2px_2px_2px_grey]">
+        <div className={` ${animate} lg:ml-70 relative bg-white text-black font-[family-name:Arial] lg:text-sm text-xs flex-grow lg:p-5 md:p-5 py-5 px-2  mt-3 rounded-lg shadow-[2px_2px_2px_grey]`}>
           <div className="flex justify-between items-center mb-4">
             <h2 className="lg:text-xl text-lg font-bold text-[#621668]">
               Attendance – {selectedEvent.eventName}
             </h2>
             <button
               onClick={() => setSelectedEventIndex(null)}
-              className="bg-[#621668] cursor-pointer text-white lg:px-4 px-2 py-1 rounded-md"
-            >
+              className="bg-[#621668] hover:bg-white hover:scale-103 transition duration-200  hover:shadow-[2px_2px_3px_#621668] hover:text-[#621668] hover:border-[#621668] border-1 cursor-pointer text-white lg:px-4 px-2 py-1 rounded-md">
               Back to Events
             </button>
           </div>
@@ -199,12 +198,12 @@ function TableAttendance({ code = "cit", events = [], addEvent, updateEvent }) {
                 
                   <td>{attendee.name}</td>
                   <td>{attendee.yearSection}</td>
-                  <td className="text-[#119e3e]">{attendee.morningIn}</td>
-                  <td className="text-[#119e3e]">{attendee.morningOut}</td>
-                  <td className="text-[#119e3e]">{attendee.afternoonIn}</td>
-                  <td className="text-[#119e3e]">{attendee.afternoonOut}</td>
-                  <td>
-                    <span
+                  <td className={`${attendee.morningIn === "Present" && ("text-[#099620]") || attendee.morningIn === "Absent" &&("text-[#c91010]") || attendee.morningIn === "Excuse" &&("text-[#b1760a]")}`}>{attendee.morningIn}</td>
+                  <td className={`${attendee.morningOut === "Present" && ("text-[#099620]") || attendee.morningOut === "Absent" &&("text-[#c91010]") || attendee.morningOut === "Excuse" &&("text-[#b1760a]")}`}>{attendee.morningOut}</td>
+                  <td className={`${attendee.afternoonIn === "Present" && ("text-[#099620]") || attendee.afternoonIn === "Absent" &&("text-[#c91010]") || attendee.afternoonIn === "Excuse" &&("text-[#b1760a]")}`}>{attendee.afternoonIn}</td>
+                  <td className={`${attendee.afternoonOut === "Present" && ("text-[#099620]") || attendee.afternoonOut === "Absent" &&("text-[#c91010]") || attendee.afternoonOut === "Excuse" &&("text-[#b1760a]")}`}>{attendee.afternoonOut}</td>
+                  <td className="py-1 flex justify-center gap-1">
+                    <span onClick={() =>  updateAttendee(attendee)}
                     
                       className="material-symbols-outlined cursor-pointer text-[#8A2791] bg-white shadow-[2px_2px_1px_grey] rounded-[5px] border border-[#8A2791] px-[2px]"
                     >
@@ -235,13 +234,13 @@ function TableAttendance({ code = "cit", events = [], addEvent, updateEvent }) {
                 {i + 1}
               </button>
             ))}
-            <button onClick={goAttendeeNext} disabled={attendeePage === attendeePageCount - 1} className="cursor-pointer border rounded disabled:opacity-40">
-              <span className="material-symbols-outlined">chevron_right</span>
+            <button disabled={attendeePage === attendeePageCount - 1} className="cursor-pointer border rounded disabled:opacity-40">
+              <span  className="material-symbols-outlined">chevron_right</span>
 
             </button>
             
           </div>
-            <i  className="fa-solid fa-circle-plus text-5xl right-4 absolute  cursor-pointer text-[#157112] bg-white rounded-full "></i>
+            <i onClick={addAttendee}  className="fa-solid fa-circle-plus text-5xl right-4 absolute  cursor-pointer text-[#157112] bg-white rounded-full "></i>
 
         </div>
       )}

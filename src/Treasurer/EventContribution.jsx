@@ -4,7 +4,7 @@ import AddEventContributionCard from '../other_components/AddEventContributionCa
 import UpdateEventContributionCard from '../treasurer_components/UpdateEventContribution.jsx';
 import TableEventContribution from '../other_components/TableEventContribution.jsx';
 import UpdateSpecificEventContribution from '../treasurer_components/UpdateSpecificEventContribution.jsx';
-import React, {useState, useRef} from 'react';
+import React, {useState, useRef,useEffect} from 'react';
 import useAnimatedToggle from '../hooks/useAnimatedToggle.js';
 import "../animate.css";
 import EfeeViolet from '../assets/violetlogo.png'
@@ -25,6 +25,25 @@ const animateL = "left-In";
 
     const[selectedEvent, setSelectedEvent] = useState(null);
     const[selectedAttendee, setSelectedAttendee] = useState(null);
+    const [currentUserData, setCurrentUserData] = useState([]);
+        
+    const fetchCurrentUser = async () => {
+       try {
+           const res = await fetch("/api/users/current", {
+               credentials: "include"
+           });
+           const response = await res.json();
+           if (response.status === "success") {
+               setCurrentUserData(response.data);
+           }
+       } catch (err) {
+           errorAlert("Fetch Failed");
+       }
+    }
+    useEffect(() => {
+      fetchCurrentUser();
+      console.log(currentUserData);
+    }, []);
 
 
     
@@ -60,7 +79,7 @@ const animateL = "left-In";
         )
 
         }
-            <CITHeader code="cit" titleCouncil = "College Of Information Teachnology" abb="CIT Council" />
+            <CITHeader code={currentUserData?.department_code} titleCouncil = {currentUserData?.organization_name} abb="CIT Council" />
              <div className="w-screen h-screen bg-[#fafafa] absolute z-[-1] overflow-y-auto overflow-x-auto lg:px-6 md:px-10 px-3">
                 <div className="lg:mt-30 mt-25 lg:ml-70 lg:flex md:flex  justify-between">
                     <h2 className="text-2xl font-medium font-[family-name:Futura Bold]">Event Contribution</h2>

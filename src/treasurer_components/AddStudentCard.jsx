@@ -53,7 +53,7 @@ const AddStudentCard = React.forwardRef(({animate, onAnimationEnd,onClose}, ref)
                 <input type="text" onChange={changeYearSection} required value={yearSection} className=" px-2 border-2 border-[#8A2791] h-8 rounded-md w-[100%] mb-4" /> <br />
             </div>
             
-                <button  className="bg-[#561b5a] w-[100%] cursor-pointer rounded-md text-white h-8">Add Student</button>
+                <button type="submit"  className="bg-[#561b5a] w-[100%] cursor-pointer rounded-md text-white h-8">Add Student</button>
             </form>
         </div>
        

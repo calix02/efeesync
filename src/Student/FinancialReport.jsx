@@ -3,6 +3,7 @@ import Header from "./Header.jsx";
 import EfeeViolet from '../assets/violetlogo.png';
 import FinancialTable from "../student_components/FinancialTable.jsx";
 import FinancialCard from "../student_components/FinancialCard.jsx";
+import {useState, useEffect} from "react";
 import it from '../assets/it.png';
 
 
@@ -16,11 +17,31 @@ function FinancialReport(){
         date: `11-22-25`,
         event: `IT Week`,
         fee: "400",
-    })); 
+    }));
+    
+    const [currentUserData, setCurrentUserData] = useState([]);
+            
+            const fetchCurrentUser = async () => {
+                try {
+                    const res = await fetch("/api/users/current", {
+                        credentials: "include"
+                    });
+                    const response = await res.json();
+                    if (response.status === "success") {
+                        setCurrentUserData(response.data);
+                    }
+                } catch (err) {
+                    errorAlert("Fetch Failed");
+                }
+            }
+            useEffect(() => {
+                fetchCurrentUser();
+                console.log(currentUserData);
+            }, []);
        
     return(
         <>
-        <Header code="cit" logoCouncil={it} titleCouncil = "College of Information Technology"/>
+        <Header code={currentUserData?.department_code} titleCouncil = {currentUserData?.organization_name}/>
         <div className="w-screen h-screen bg-[#F8F8F8] absolute z-[-1] overflow-y-auto overflow-x-auto ">
             <div className="mt-[110px] lg:ml-70">
                 <h2 className="text-2xl font-semibold ml-6">Financial Report</h2>

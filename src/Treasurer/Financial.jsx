@@ -2,6 +2,7 @@ import CITHeader from '../other_components/Header_Council.jsx';
 import CITSidebar from './Sidebar.jsx';
 import FinancialCard from '../other_components/FinancialCard.jsx';
 import FinancialTable from '../other_components/FinancialTable.jsx';
+import {useState, useEffect} from 'react';
 import "../animate.css";
 import EfeeViolet from '../assets/violetlogo.png'
 function CITFinancial(){
@@ -19,10 +20,30 @@ function CITFinancial(){
         date: `11-22-25`,
         event: `IT Week`,
         fee: "400",
-    })); 
+    }));
+    
+    const [currentUserData, setCurrentUserData] = useState([]);
+        
+          const fetchCurrentUser = async () => {
+             try {
+                 const res = await fetch("/api/users/current", {
+                     credentials: "include"
+                 });
+                 const response = await res.json();
+                 if (response.status === "success") {
+                     setCurrentUserData(response.data);
+                 }
+             } catch (err) {
+                 errorAlert("Fetch Failed");
+             }
+          }
+          useEffect(() => {
+            fetchCurrentUser();
+            console.log(currentUserData);
+          }, []);
     return(
         <>
-            <CITHeader code="cit" titleCouncil = "College Of Information Teachnology" abb="CIT Council" />
+            <CITHeader code={currentUserData?.department_code} titleCouncil = {currentUserData?.organization_name} abb="CIT Council" />
              <div className="w-screen h-screen bg-[#fafafa] absolute z-[-1] overflow-y-auto overflow-x-auto lg:px-6 md:px-10 px-3">
                 <div className="lg:mt-30 mt-25 lg:ml-70">
                     <h2 className="text-2xl font-medium font-[family-name:Futura Bold]">Financial Report</h2>

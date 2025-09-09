@@ -41,6 +41,7 @@ function Setting(){
         firstName: "",
         middleName: "",
         lastName: "",
+        roleId: "",
         role: "",
         email: "",
     });
@@ -57,6 +58,7 @@ function Setting(){
                     firstName: response.data.first_name,
                     middleName: response.data.middle_initial,
                     lastName: response.data.last_name,
+                    roleId: response.data.role_id,
                     role: response.data.role_name,
                     email: response.data.institutional_email,
                 });

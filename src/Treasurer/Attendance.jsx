@@ -3,7 +3,9 @@ import CITSidebar from './Sidebar.jsx';
 import TableAttendance from '../other_components/TableAttendance.jsx';
 import AddEventListCard from '../other_components/AddEventListCard.jsx';
 import UpdateEventCard from '../other_components/UpdateEventCard.jsx';
-import React, {useRef} from 'react';
+import AttendanceCard from '../treasurer_components/AttendanceCard.jsx';
+import UpdateAttendanceCard from '../treasurer_components/UpdateAttendanceCard.jsx';
+import React, {useRef,useState,useEffect} from 'react';
 import useAnimatedToggle from '../hooks/useAnimatedToggle.js';
 import EfeeViolet from '../assets/violetlogo.png'
 import "../animate.css"
@@ -16,9 +18,35 @@ const animateL = "left-In";
 /* ------------------------- Animated States ----------------------------- */
     const addEvent = useAnimatedToggle();
     const updateEvent = useAnimatedToggle();
+    const addAttendee = useAnimatedToggle();
+    const updateAttendee = useAnimatedToggle();
 
     const addRef = useRef(null);
     const updateRef = useRef(null);
+    const attendeeRef = useRef(null);
+    const updateAttendeeRef = useRef(null);
+
+    const [selectedAttendee, setSelectedAttendee] = useState(null);
+
+    const [currentUserData, setCurrentUserData] = useState([]);
+        
+        const fetchCurrentUser = async () => {
+            try {
+                const res = await fetch("/api/users/current", {
+                    credentials: "include"
+                });
+                const response = await res.json();
+                if (response.status === "success") {
+                    setCurrentUserData(response.data);
+                }
+            } catch (err) {
+                errorAlert("Fetch Failed");
+            }
+        }
+        useEffect(() => {
+            fetchCurrentUser();
+            console.log(currentUserData);
+        }, []);
 
     return(
         <>
@@ -29,7 +57,6 @@ const animateL = "left-In";
                 <div className="fixed flex items-center justify-center inset-0 bg-[#00000062] lg:z-40 md:z-50 z-70 pointer-events-auto">
                     {/* Overlay */}
                     <AddEventListCard ref={addRef} onAnimationEnd={addEvent.handleEnd} animate={addEvent.animation} onClose={() => addEvent.setAnimation("fade-out")} />
-
                 </div>
             </>
          )
@@ -38,15 +65,32 @@ const animateL = "left-In";
         {updateEvent.isVisible &&(
             <>
                 {/* Update Event */}
-                <div className="fixed inset-0 bg-[#00000062] lg:z-40 md:z-50 z-70 pointer-events-auto">
+                <div className="fixed inset-0 flex justify-center items-center bg-[#00000062] lg:z-40 md:z-50 z-70 pointer-events-auto">
                     {/* Overlay */}
+                    <UpdateEventCard ref={updateRef} onAnimationEnd={updateEvent.handleEnd} animate={updateEvent.animation} onClose={() => updateEvent.setAnimation("fade-out")} />
+
                 </div>
-                <UpdateEventCard ref={updateRef} onAnimationEnd={updateEvent.handleEnd} animate={updateEvent.animation} onClose={() => updateEvent.setAnimation("fade-out")} />
             </>
         )
             
         }
-            <CITHeader code="cit" titleCouncil = "College Of Information Teachnology" abb="CIT Council" />
+        {addAttendee.isVisible &&(
+             <div className="fixed inset-0 flex justify-center items-center bg-[#00000062] lg:z-40 md:z-50 z-70 pointer-events-auto">
+                {/* Overlay */}
+                <AttendanceCard ref={attendeeRef} onAnimationEnd={addAttendee.handleEnd} animate={addAttendee.animation} onClose={() => addAttendee.setAnimation("fade-out")} />
+            </div>
+
+        )}
+        {updateAttendee.isVisible &&(
+            <div className="fixed inset-0 flex justify-center items-center bg-[#00000062] lg:z-40 md:z-50 z-70 pointer-events-auto">
+                {/* Overlay */}
+                <UpdateAttendanceCard ref={updateAttendeeRef} data={selectedAttendee} onAnimationEnd={updateAttendee.handleEnd} animate={updateAttendee.animation} onClose={() => updateAttendee.setAnimation("fade-out")} />
+            </div>
+
+        )
+
+        }
+            <CITHeader code={currentUserData?.department_code} titleCouncil = {currentUserData?.organization_name} abb="CIT Council" />
              <div className="w-screen h-screen bg-[#fafafa] absolute z-[-1] overflow-y-auto overflow-x-auto lg:px-6 md:px-10 px-3 ">
                 <div className="lg:mt-30 mt-25 lg:ml-70 lg:flex md:flex  justify-between">
                     <h2 className="text-2xl font-medium font-[family-name:Futura Bold]">Manage Attendance</h2>
@@ -73,7 +117,11 @@ const animateL = "left-In";
                         </select>
                          <button className='bg-white lg:w-25 w-20 transition duration-100 hover:scale-100 hover:bg-[#621668] hover:text-white text-xs cursor-pointer flex justify-center gap-1 border-1 border-[#8A2791] py-1  text-[#8A2791] rounded-md text-center'><i className="fa-solid fa-print"></i>Print</button>
                     </div>
-                <TableAttendance addEvent={addEvent.toggle} updateEvent={updateEvent.toggle}/>
+                <TableAttendance addEvent={addEvent.toggle} updateEvent={updateEvent.toggle} addAttendee={addAttendee.toggle} 
+                updateAttendee={(row) =>{
+                    setSelectedAttendee(row);
+                    updateAttendee.toggle();
+                }}/>
 
                 </div>
             </div>

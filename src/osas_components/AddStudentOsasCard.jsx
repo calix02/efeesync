@@ -64,7 +64,7 @@ const AddStudentOsasCard = React.forwardRef(({animate, onAnimationEnd,onClose,co
     }
 
     return( 
-        <div ref={ref}   className={` ${animate} lg:w-100 w-80 h-157 px-8 bg-white shadow-[2px_2px_#174515,-2px_-2px_white] rounded-lg absolute z-50 inset-0 mx-auto mt-15 `}
+        <div ref={ref}   className={` ${animate} lg:w-100 w-80 h-160 px-8 bg-white shadow-[2px_2px_#174515,-2px_-2px_white] rounded-lg absolute z-50 inset-0 mx-auto mt-15 `}
         onAnimationEnd={onAnimationEnd}>
             <div className="mt-3 relative">
                 <span onClick={onClose} className="material-symbols-outlined absolute right-0.5 cursor-pointer">disabled_by_default</span>

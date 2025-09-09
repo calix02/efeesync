@@ -4,12 +4,32 @@ import AccomplishPic from '../assets/general.jpg';
 import AccomplishmentCard from '../other_components/AccomplishmentCard.jsx';
 import AddAccomplishmentCard from '../other_components/AddAccomplishmentCard.jsx';
 import EfeeViolet from '../assets/violetlogo.png'
-import React, {useRef} from 'react';
+import React, {useRef, useState, useEffect} from 'react';
 import useAnimatedToggle from '../hooks/useAnimatedToggle.js';
 function CITAccomplishment(){
 /* ------------------------- Animated States ----------------------------- */
     const addAccomplishment = useAnimatedToggle();
     const ref = useRef(null);
+
+    const [currentUserData, setCurrentUserData] = useState([]);
+        
+          const fetchCurrentUser = async () => {
+             try {
+                 const res = await fetch("/api/users/current", {
+                     credentials: "include"
+                 });
+                 const response = await res.json();
+                 if (response.status === "success") {
+                     setCurrentUserData(response.data);
+                 }
+             } catch (err) {
+                 errorAlert("Fetch Failed");
+             }
+          }
+          useEffect(() => {
+            fetchCurrentUser();
+            console.log(currentUserData);
+          }, []);
    
 
     return(
@@ -26,7 +46,7 @@ function CITAccomplishment(){
         )
            
         }
-            <CITHeader code="cit" titleCouncil = "College Of Information Teachnology" abb="CIT Council" />
+            <CITHeader code={currentUserData?.department_code} titleCouncil = {currentUserData?.organization_name} abb="CIT Council" />
              <div className="w-screen h-screen bg-[#fafafa] absolute z-[-1] overflow-y-auto overflow-x-auto lg:px-6 md:px-10 px-3">
                 <div className=" lg:ml-70 lg:mt-30 mt-25 relative lg:flex md:flex justify-between">
                     <h2 className="text-2xl font-medium font-[family-name:Futura Bold]">Accomplishment Report</h2>

@@ -2,7 +2,7 @@ import Sidebar from "./Sidebar.jsx";
 import Header from "./Header.jsx";
 import ExcuseStatusCard from "../student_components/ExcuseStatusCard.jsx";
 import EfeeViolet from '../assets/violetlogo.png';
-import React, {useRef} from 'react';
+import React, {useRef,useState, useEffect} from 'react';
 import SendExcuse from "../student_components/SendExcuse.jsx";
 import EditExcuse from "../student_components/EditExcuse.jsx";
 import Letter from '../student_components/Letter.jsx';
@@ -21,9 +21,26 @@ function ExcuseLetter(){
     const letterRef = useRef(null);
     const editRef = useRef(null);
 
-
+    const [currentUserData, setCurrentUserData] = useState([]);
+            
+            const fetchCurrentUser = async () => {
+                try {
+                    const res = await fetch("/api/users/current", {
+                        credentials: "include"
+                    });
+                    const response = await res.json();
+                    if (response.status === "success") {
+                        setCurrentUserData(response.data);
+                    }
+                } catch (err) {
+                    errorAlert("Fetch Failed");
+                }
+            }
+            useEffect(() => {
+                fetchCurrentUser();
+                console.log(currentUserData);
+            }, []);
     
-
     return(
         <>
         {sendExcuse.isVisible &&(
@@ -61,7 +78,7 @@ function ExcuseLetter(){
         
 
         }
-        <Header code="cit" logoCouncil={it} titleCouncil = "College of Information Technology"/>
+        <Header code={currentUserData?.department_code} titleCouncil = {currentUserData?.organization_name}/>
         <div className="w-screen h-screen bg-[#F8F8F8] absolute z-[-1] overflow-y-auto overflow-x-auto ">
             <div className="mt-[110px] lg:ml-70 flex justify-between px-6">
                 <h2 className="text-2xl font-semibold ">Excuse Letter Request</h2>

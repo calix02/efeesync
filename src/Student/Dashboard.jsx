@@ -4,7 +4,7 @@ import EfeeViolet from '../assets/violetlogo.png';
 import CardStudent from "../student_components/CardStudent.jsx";
 import Announcement from '../student_components/Announcement.jsx';
 import UpcomingEvents from "../student_components/UpcomingEvents.jsx";
-import it from '../assets/it.png';
+import { useState, useEffect } from "react";
 import "../animate.css";
 
 
@@ -17,10 +17,31 @@ function Dashboard(){
     const calendar = <i className="fa-solid fa-calendar-days z-[-1] opacity-50"></i>
     const coin = <i className="fa-solid fa-coins z-[-1] opacity-50"></i>
     const cash = <i className="fa-solid fa-money-bills z-[-1] opacity-50"></i>
+
+    const [currentUserData, setCurrentUserData] = useState([]);
+        
+        const fetchCurrentUser = async () => {
+            try {
+                const res = await fetch("/api/users/current", {
+                    credentials: "include"
+                });
+                const response = await res.json();
+                if (response.status === "success") {
+                    setCurrentUserData(response.data);
+                }
+            } catch (err) {
+                errorAlert("Fetch Failed");
+            }
+        }
+        useEffect(() => {
+            fetchCurrentUser();
+            console.log(currentUserData);
+        }, []);
+    
     
     return(
         <>
-        <Header code="cit" logoCouncil={it} titleCouncil = "College of Information Technology"/>
+        <Header code={currentUserData?.department_code} titleCouncil ={currentUserData?.organization_name}/>
         <div className="w-screen h-screen bg-[#F8F8F8] absolute z-[-1] overflow-y-auto overflow-x-auto lg:px-6 md:px-10 px-3 ">
             <div className="lg:mt-30 mt-25 lg:ml-70">
                 <h2 className="text-2xl font-[family-name:Futura Bold] font-semibold">Welcome Yummy Bobis!</h2>

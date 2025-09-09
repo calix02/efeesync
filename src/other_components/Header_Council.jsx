@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import EfeeViolet from '../assets/violetlogo.png'
 import AccountCard from './AccountCard';
 import CITSidebar from '../treasurer/Sidebar.jsx';
@@ -17,29 +17,26 @@ import '../animate.css';
 
 function Header_Council(props) {
 /* ------------------------- Color  ----------------------------- */
- 
 
    const borderColors = {
-    cit: "border-[#621668] text-[#621668]",
-    coe: "border-[#0E2148]",
-    coc: "border-[#3A0519]",
-    cot: "border-[#FFD95F] text-[#000]",
-    eap: "border-[#4B352A]",
-    osas: "border-[#174515] text-[#174515]",
+    CIT: "border-[#621668] text-[#621668]",
+    COE: "border-[#0E2148] text-[#0E2148]",
+    COC: "border-[#3A0519] text-[#3A0519]",
+    COT: "border-[#FFD95F] text-[#FFD95F]",
+    SCEAP: "border-[#4B352A] text-[#4B352A]",
+    OSAS: "border-[#174515] text-[#174515]",
   };
-  const borderColor = borderColors[props.code] || "border-red";
+  const borderColor = borderColors[props.code] || "border-black text-black";
   
-  const logos ={
-    coc : Crim,
-    cit: It,
-    coe:Educ,
-    esaf: Esaf,
-    cot: Indus,
-    osas: Osas,
-    
-
+  const logos = {
+    COC : Crim,
+    CIT: It,
+    COE:Educ, 
+    ESAF: Esaf,
+    COT: Indus,
+    OSAS: Osas,
   };
-  const logo = logos[props.code] || Educ;
+  const logo = logos[props.code] || " ";
 
 
 /* ------------------------- Animated States ----------------------------- */
@@ -73,7 +70,7 @@ function Header_Council(props) {
           <i onClick={()=>{clickedAccBar(); sidebar.toggle();} } className="fa-solid fa-bars text-sm cursor-pointer"></i>
         </span>
         <span className='lg:ml-14'>
-          <img src={logo} className='lg:w-28 md:w-14 w-12' alt="logo"/>
+          <img src={logo} className='lg:w-28 md:w-26 w-20' alt="logo"/>
         </span>
       </span>
       

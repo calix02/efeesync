@@ -31,6 +31,10 @@ function TableEventList({ code = "cit", events = [] , addEvent, updateEvent}) {
   }));
 
   const data = events.length ? events : fallback;
+
+  const [selectedEventIndex, setSelectedEventIndex] = useState(null);
+
+
   
 
   /* ----------------------------- pagination -------------------------------- */
@@ -43,6 +47,9 @@ function TableEventList({ code = "cit", events = [] , addEvent, updateEvent}) {
     [page, data]
   );
 
+  const selectedEvent = selectedEventIndex !== null ? pageData[selectedEventIndex] : null;
+
+
   const goPrev = () => setPage(Math.max(0, page - 1));
   const goNext = () => setPage(Math.min(pageCount - 1, page + 1));
 
@@ -51,11 +58,13 @@ function TableEventList({ code = "cit", events = [] , addEvent, updateEvent}) {
   
     <div className={`w-full ${animate} flex flex-col gap-6 lg:text-sm text-xs font-[family-name:Arial]`}>
       {/* table wrapper */}
+      {selectedEventIndex === null && (
+        <>
       <div className={`lg:ml-70  bg-white text-black flex-grow p-5 mt-3 rounded-lg shadow-[2px_2px_2px_grey]`}>
         <table className="w-full text-center ">
           <thead>
-            <tr className={`border-b-2 border-[#adadad] ${textColor}`}>
-              <th><input type="checkbox" /></th>
+            <tr className={`border-b-2 rounded-lg  border-[#adadad] ${textColor}`}>
+              <th className="py-2"><input type="checkbox" /></th>
               <th>Event Name</th>
               <th>Event Description</th>
               <th>Target Year</th>
@@ -72,11 +81,11 @@ function TableEventList({ code = "cit", events = [] , addEvent, updateEvent}) {
                 <td>{s.eventName}</td>
                 <td>{s.eventDesc}</td>
                 <td>{s.targetYear}</td>
-                <td>{s.dateTo + "" + s.dateFrom}</td>
+                <td>{s.dateTo + " - " + s.dateFrom}</td>
                 <td>{s.eventType}</td>
 
-                <td className="flex lg:flex-row flex-col gap-2 justify-center py-2">
-                    <span className="material-symbols-outlined cursor-pointer  shadow-[2px_2px_1px_grey] rounded-[5px] text-[#3a2791] border border-[#3a2791] px-[2px]">visibility</span>
+                <td className="flex lg:flex-row flex-col gap-2 justify-center py-1.5">
+                    <span onClick={()=> setSelectedEventIndex(idx)} className="material-symbols-outlined cursor-pointer  shadow-[2px_2px_1px_grey] rounded-[5px] text-[#3a2791] border border-[#3a2791] px-[2px]">visibility</span>
                   <span onClick={() => updateEvent(s)} className="material-symbols-outlined cursor-pointer text-[#8A2791] bg-white  shadow-[2px_2px_1px_grey] rounded-[5px] border border-[#8A2791] px-[2px]">
                     edit_square
                   </span>
@@ -127,6 +136,14 @@ function TableEventList({ code = "cit", events = [] , addEvent, updateEvent}) {
         </span>
             <i onClick={addEvent}  className="fa-solid fa-circle-plus text-[50px] absolute right-[40px] top-[-40px] cursor-pointer text-[#157112] bg-white rounded-full "></i>
         </div>
+        </>
+        )};
+        {selectedEvent &&(
+          <div className="lg:ml-70 w-[100%] ">
+            <div className="">{selectedEvent.eventName}</div>
+             
+          </div>
+        )}
     </div>
    
   );

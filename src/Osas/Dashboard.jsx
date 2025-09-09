@@ -5,7 +5,7 @@ import OsasLogo from '../assets/osas.png';
 import CardOsas from '../other_components/CardOsas.jsx';
 import Card_Admin from '../osas_components/Card_Admin.jsx';
 import CouncilGraph from '../other_components/Graph.jsx';
-import ChartSanction from '../Charts.jsx';
+import Chart from '../Charts.jsx';
 import StudentTreasurerCard from '../other_components/StudentTreasurerCard.jsx';
 import InOutFlowChart from '../other_components/InOutflowChart.jsx';
 import ssc from '../assets/ssc.png';
@@ -28,7 +28,9 @@ function Dashboard(){
         "total_departments": "-",
         "total_organizations": "-",
         "total_programs": "-",
-        "total_students": "-"
+        "total_students": "-",
+        "sanctions_collected_per_org": [],
+        "total_population_per_department": []
     });
     const fetchDashboard = async () => {
         try {
@@ -47,18 +49,35 @@ function Dashboard(){
         fetchDashboard();
     }, []);
 
-    const data = {
-        labels: ['CCSC', 'CESC', 'COTSC', 'SCEAP','CITSC'],
+    const deptData = dashboardData.total_population_per_department;
+    const labels = deptData.map(dept => dept.department_code);
+    const data = deptData.map(dept => dept.total_students);
+    const total_population = { 
+        labels: labels,
+        datasets: [
+            {
+                label: 'CITizens',
+                data: data,
+                backgroundColor: ['#FCBBD8', '#D4E4FF', '#F6FFB1', '#FFD8CC','#ECCEFC'],
+                borderWidth: 0,
+                cutout: '50%'
+            }
+        ]
+    };
+
+    const sanctionData = dashboardData.sanctions_collected_per_org;
+    const labels_sanction = sanctionData.map(org => org.organization_code);
+    const data_sanction = sanctionData.map(org => parseFloat(org.total_sanctions_collected)); 
+    const sanctions_collected_per_org = { 
+        labels: labels_sanction,
         datasets: [
         {
-            label: 'CITizens',
-            data: [900, 1200, 800, 700,670],
-            backgroundColor: ['#FCBBD8', '#D4E4FF', '#F6FFB1', '#FFD8CC','#ECCEFC'],
-            borderWidth: 0,
-            cutout: '50%'
+            data: data_sanction,
+            backgroundColor: ['#d492f9','#FFD8CC','#F6FFB1','#D4E4FF','#FCBBD8']
         }
         ]
     };
+
     const building = <i className="fa-solid fa-building-columns"></i>
     const council = <i className="fa-solid fa-sitemap"></i>
     const program = <i className="fa-solid fa-graduation-cap"></i>
@@ -87,10 +106,10 @@ function Dashboard(){
             </div>
             <div className='lg:ml-70 mt-6 flex lg:flex-row flex-col gap-6'>
                 <div className={`lg:w-[40%] flex justify-center ${animateL} border-1 bg-white border-[#000] rounded-lg shadow-[2px_2px_2px_grey]`}>
-                    <CouncilGraph data={data} graphTitle="Total Student Population" />
+                    <CouncilGraph data={total_population} graphTitle="Total Student Population" />
                 </div>
                 <div className={`bg-white border-1 border-[#000] ${animateR} rounded-lg lg:w-[60%] flex justify-center items-center`}>
-                    <ChartSanction title="Total Sanctions Collected"/>
+                    <Chart data={sanctions_collected_per_org} title="Total Sanctions Collected"/>
                 </div>
             </div>
             <div className='lg:ml-70 mt-6 lg:flex gap-6'>

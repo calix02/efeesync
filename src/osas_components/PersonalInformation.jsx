@@ -3,17 +3,33 @@ const PersonalInformation = React.forwardRef(({animate, onAnimationEnd,onClose,c
     const [firstName,setFirstName] = useState(data?.firstName || ""); 
     const [middleName, setMiddleName] = useState (data?.middleName || "");
     const [lastName, setLastName] = useState(data?.lastName || "");
-    const [role,setRole] = useState(data?.role || ""); 
-    const [email,setEmail] = useState(data?.email || ""); 
+    const [roleId,setRoleId] = useState(data?.roleId || ""); 
+    const [email,setEmail] = useState(data?.email || "");
+    const [roles, setRoles] = useState([]);
+    
+    const fetchRoles = async () => {
+        try {
+            const res = await fetch("/api/roles", {
+                credentials: "include"
+            });
+            const response = await res.json();
+            if (response.status === "success") {
+                setRoles(response.data);
+            }
+        } catch (err) {
+            //alert("Fetch failed");
+        }
+    }
 
     React.useEffect(()=>{
         if(data){
             setFirstName(data.firstName);
             setMiddleName(data.middleName);
             setLastName(data.lastName);
-            setRole(data.role);
+            setRoleId(data.roleId);
             setEmail(data.email);
         }
+        fetchRoles();
     },[data]);
 
     const handleSubmit = () => {
@@ -21,7 +37,7 @@ const PersonalInformation = React.forwardRef(({animate, onAnimationEnd,onClose,c
         firstName: firstName,
         middleName: middleName,
         lastName: lastName,
-        role: role,
+        role: roleId,
         email: email,
       });
     };
@@ -48,21 +64,19 @@ const PersonalInformation = React.forwardRef(({animate, onAnimationEnd,onClose,c
             }}>
             <div className="mt-6">
                 <label>First Name:</label><br />
-                <input type="text" onChange={(e)=>setFirstName(e.target.value)} value={firstName}  className="border-2 px-2 text-[#000] h-8 rounded-md w-[100%] mb-4" /> <br />
-                 <label>Midlle Name:</label><br />
-                <input type="text" onChange={(e)=>setMiddleName(e.target.value)} value={middleName}  className="border-2 px-2 text-[#000] h-8 rounded-md w-[100%] mb-4" /> <br /> 
+                <input type="text" onChange={(e)=>setFirstName(e.target.value)} value={firstName}  className="border-2 px-2 text-[#000] h-8 rounded-md w-[100%] mb-4" required/> <br />
+                <label>Midlle Name:</label><br />
+                <input type="text" onChange={(e)=>setMiddleName(e.target.value)} value={middleName}  className="border-2 px-2 text-[#000] h-8 rounded-md w-[100%] mb-4" required/> <br /> 
                 <label>Last Name:</label><br />
-                <input type="text" onChange={(e)=>setLastName(e.target.value)} value={lastName}  className="border-2 px-2 text-[#000] h-8 rounded-md w-[100%] mb-4" /> <br />
+                <input type="text" onChange={(e)=>setLastName(e.target.value)} value={lastName} required className="border-2 px-2 text-[#000] h-8 rounded-md w-[100%] mb-4" /> <br />
                 <label>Role:</label><br />
-                <select name="" onChange={(e)=>setRole(e.target.value)} value={role} id="" className="border-2 px-2 text-[#000] cursor-pointer h-8 rounded-md w-[100%] mb-4">
-                    <option value=""></option>
-                    <option value="Admin">Admin</option>
-                    <option value="Treasurer">Treasurer</option>
-                    <option value="Student">Student</option>
+                <select name="" onChange={(e)=>setRoleId(e.target.value)} value={roleId} required className="border-2 px-2 text-[#000] cursor-pointer h-8 rounded-md w-[100%] mb-4">
+                    { roles.map((s) => (
+                        <option key={s.role_id} value={s.role_id}>{s.role_name}</option>
+                    ))}
                 </select>
                  <label>Institutional Email:</label><br />
-                <input type="text" onChange={(e) =>setEmail(e.target.value)} value={email} className="border-2 px-2 text-[#000]  h-8 rounded-md w-[100%] mb-4" /> <br />
-                 
+                <input type="text" onChange={(e) =>setEmail(e.target.value)} value={email} className="border-2 px-2 text-[#000]  h-8 rounded-md w-[100%] mb-4" required/> <br />
             </div>
             
                 <button type="submit" className={` ${color} cursor-pointer w-[100%] rounded-md text-white h-8`}>Update Information</button>

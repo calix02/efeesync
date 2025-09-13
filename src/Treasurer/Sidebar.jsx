@@ -30,19 +30,18 @@ const CITSidebar = React.forwardRef(({eFee, animate, onAnimationEnd,onClose},ref
    
     return(
         <div ref={ref} onAnimationEnd={onAnimationEnd} className={`w-70 h-screen overflow-y-scroll hide-scrollbar text-[#621668] border-r-3 border-[#621668] ${animate} border-b-20 border-[#4e0746] lg:z-10 md:z-30  z-40 fixed bg-white`}>
-            <div className='mt-[118px]'>
+            <div className='mt-[95px]'>
                 <span onClick={onClose} className='lg:hidden'>
                     <span className="material-symbols-outlined absolute right-1.5 top-23 cursor-pointer text-[#621668]">close</span>
                 </span>
                 <span className='flex justify-center items-center gap-3'>
-                    <img className='h-10 ' src={eFee} alt="" />
-                    <h2 className='text-center font-semibold font-[family-name:Cambria] text-2xl block'>eFeeSync</h2>
+                    <img className='h-10' src={eFee} alt="" />
+                    <h2 className='text-center font-semibold text-[18px] font-poppins text-2xl block'>eFeeSync</h2>
                 </span>
-                <nav className='pt-10 mx-3  '>
+                <nav className='pt-5 mx-3'>
                     <NavLink code="cit" navLink = "/org/dashboard" iconName="dashboard" navName="Dashboard"/>
                     <NavLink code="cit" navLink = "/org/student" iconName="person" navName="Student"/>
                     <NavLink code="cit" navLink = "/org/eventlist" iconName="event_note" navName="Event List"/>
-                    <DropDownNav code="cit" subNavLink1 = "/org/eventcontribution" subNavLink2 = "/org/attendance" iconName="calendar_month" navName="Event Management" iconName1 = "event_upcoming" subNavName1 = "Event Contributions" iconName2 = "edit_calendar" subNavName2 = "Event Attendance"/>
                     <DropDownNav code="cit" subNavLink1 = "/org/financial" subNavLink2 = "/org/accomplishment" iconName="assignment" navName="Reports" iconName1 = "article" subNavName1 = "Financial Report" iconName2 = "fact_check" subNavName2 = "Accomplishment Report"/>
                     <NavLink code="cit" navLink = "/org/payment-transaction" iconName="credit_card" navName="Payment Transactions"/>
                     <NavLink code="cit" navLink = "/org/sanction" iconName="event_busy" navName="Sanctions"/>

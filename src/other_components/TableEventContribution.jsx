@@ -1,7 +1,7 @@
 import { useState, useMemo } from "react";
 import "../animate.css";
 
-function TableEventContribution({ code = "cit", events = [], addEvent, updateEvent,updateContribution }) {
+function TableEventContribution({ code = "cit", events = [],updateContribution,view }) {
 /* ------------------------ animation ------------------------- */
   const animate = "card-In";
 
@@ -14,20 +14,12 @@ function TableEventContribution({ code = "cit", events = [], addEvent, updateEve
     : code === "osas" ? "text-[#27391C]"
     : "text-black";
 
-  const fallback = Array.from({ length: 5 }, (_, i) => ({
+  const fallback = Array.from({ length: 12 }, (_, i) => ({
+    id: i,
     eventName: `Year-End-Party`,
-    targetYear: `1,2,3,4`,
     dateFrom: `7/11/25`,
     dateTo: ``,
     eventFee: `400`,
-    attendance: Array.from({ length: 8 }, (_, j) => ({
-      studID: `22-1029`,
-      name: `Mark Alvarado`,
-      yearSection: `3A`,
-      contriDate: `12-23-24`,
-      totalFees: `400`,
-      balance: `50`,
-    }))
   }));
 
   const data = events.length ? events : fallback;
@@ -69,13 +61,13 @@ function TableEventContribution({ code = "cit", events = [], addEvent, updateEve
       {/* ===================== EVENT TABLE ===================== */}
       {selectedEventIndex === null && (
         <>
-        <div className={`lg:ml-70 bg-white border-3 font-[family-name:Arial] border-[#d8d8d8] text-black flex-grow p-5  mt-3 rounded-lg shadow-[2px_2px_2px_grey]`}>
+        <div className={`lg:ml-70 bg-white border-1 font-[family-name:Arial] border-[#d8d8d8] text-black flex-grow p-5  mt-3 rounded-lg shadow-[2px_2px_2px_grey]`}>
           <table className="w-full text-center">
             <thead>
               <tr className={`border-b-2 border-[#000] ${textColor}`}>
                 <th><input type="checkbox" /></th>
+                <th hidden>Id</th>
                 <th>Event Name</th>
-                <th>Target Year</th>
                 <th>Event Date</th>
                 <th>Event Fee</th>
                 <th>Action</th>
@@ -85,27 +77,19 @@ function TableEventContribution({ code = "cit", events = [], addEvent, updateEve
               {pageData.map((s, idx) => (
                 <tr key={idx} className="border-b border-[#0505057a]">
                   <td><input type="checkbox" /></td>
+                  <td hidden>{s.id}</td>
                   <td>{s.eventName}</td>
-                  <td>{s.targetYear}</td>
                   <td>{s.dateFrom + " " + s.dateTo}</td>
                   <td>{s.eventFee}</td>
-                  <td className="flex lg:flex-row flex-col gap-2 justify-center py-2">
-                    <span
-                      onClick={() => {
-                        setSelectedEventIndex(idx);
-                        setAttendeePage(0); // reset attendee pagination
-                      }}
+                  <td className="flex lg:flex-row flex-col gap-2 justify-center py-3">
+                    <span onClick={ () => view(s)} title="View Participants Contribution"
+                     
                       className="material-symbols-outlined cursor-pointer shadow-[2px_2px_1px_grey] rounded-[5px] text-[#3a2791] border border-[#3a2791] px-[2px]"
                     >
                       visibility
                     </span>
-                    <span
-                      onClick={() => updateEvent(s)}
-                      className="material-symbols-outlined cursor-pointer text-[#8A2791] bg-white shadow-[2px_2px_1px_grey] rounded-[5px] border border-[#8A2791] px-[2px]"
-                    >
-                      edit_square
-                    </span>
-                    <span className="material-symbols-outlined bg-white cursor-pointer text-[#d10707] shadow-[2px_2px_2px_grey] rounded-[5px] border border-[#d10707] px-[2px]">
+                   
+                    <span title="Delete Event" className="material-symbols-outlined bg-white cursor-pointer text-[#d10707] shadow-[2px_2px_2px_grey] rounded-[5px] border border-[#d10707] px-[2px]">
                       delete
                     </span>
                   </td>
@@ -121,102 +105,27 @@ function TableEventContribution({ code = "cit", events = [], addEvent, updateEve
         <div className=" relative lg:ml-[270px] mt-[-10px] flex flex-col-reverse justify-center items-center">
             <p className="text-[#8A2791] lg:absolute left-9">Showing of 600</p>
             <div className="flex">
-              <button onClick={goPrev} disabled={page === 0} className="mx-1 flex items-center rounded-md border disabled:opacity-40">
+              <button onClick={goPrev} disabled={page === 0} className="mx-1 flex items-center rounded-md cursor-pointer border disabled:opacity-40">
                 <span className="material-symbols-outlined">chevron_left</span>
               </button>
               {Array.from({ length: pageCount }, (_, i) => (
                 <button
                   key={i}
                   onClick={() => setPage(i)}
-                  className={`px-2 mx-1 rounded-md border ${i === page ? "bg-violet-600 text-white" : "bg-white"}`}
+                  className={`px-2 mx-1 cursor-pointer rounded-md border ${i === page ? "bg-[#4F1C51] text-white" : "bg-white"}`}
                 >
                   {i + 1}
                 </button>
               ))}
               <button onClick={goNext} disabled={page === pageCount - 1} className="mx-1 flex items-center rounded-md border disabled:opacity-40">
-                <span className="material-symbols-outlined">chevron_right</span>
+                <span className="material-symbols-outlined cursor-pointer">chevron_right</span>
               </button>
             </div>
-            <i onClick={addEvent} className="fa-solid fa-circle-plus text-[50px] absolute right-[40px] top-[-40px] cursor-pointer text-[#157112] bg-white rounded-full"></i>
           </div>
           </>
           )}
 
-      {/* ===================== CONTRIBUTION TABLE ===================== */}
-      {selectedEvent && (
-        <div className="lg:ml-70 bg-white text-black flex-grow lg:p-5 md:p-5 py-5 px-2 mt-3 lg:text-sm md:text-sm text-xs rounded-lg shadow-[2px_2px_2px_grey]">
-          <div className="flex justify-between items-center mb-4">
-            <h2 className="lg:text-xl md:text-xl text-lg font-bold text-[#621668]">
-              Contribution – {selectedEvent.eventName}
-            </h2>
-            <button
-              onClick={() => setSelectedEventIndex(null)}
-              className="bg-[#621668] text-white cursor-pointer hover:bg-white hover:scale-103 transition duration-200  hover:shadow-[2px_2px_3px_#621668] hover:text-[#621668] hover:border-[#621668] border-1 lg:px-4 md:px-4 px-2 py-1 rounded-md"
-            >
-              Back to Events
-            </button>
-          </div>
-
-          <table className="w-full text-center ">
-            <thead>
-              <tr className="border-b-2 font-semibold">
-                <th><input type="checkbox" /></th>
-                <th>Student ID</th>
-                <th>Student Name</th>
-                <th>Year & Section</th>
-                <th>Contribution Date</th>
-                <th>Total Fees</th>
-                <th>Balance</th>
-                <th>Action</th>
-              </tr>
-            </thead>
-            <tbody>
-              {attendeePageData.map((attendee, i) => (
-                <tr key={i} className="border-b border-[#adadad]">
-                  <td>
-                    <input type="checkbox" />
-                </td>
-                  <td>{attendee.studID}</td>
-                  <td>{attendee.name}</td>
-                  <td>{attendee.yearSection}</td>
-                  <td >{attendee.contriDate}</td>
-                  <td >{attendee.totalFees}</td>
-                  <td >{attendee.balance}</td>
-                  <td className="flex justify-center gap-1 py-1.5">
-                    <span onClick={() => updateContribution(attendee)} className="material-symbols-outlined cursor-pointer text-[#8A2791] bg-white shadow-[2px_2px_1px_grey] rounded-sm border border-[#8A2791] px-1">
-                      edit_square
-                    </span>
-                     <span className="material-symbols-outlined bg-white cursor-pointer text-[#d10707] shadow-[2px_2px_2px_grey] rounded-[5px] border border-[#d10707] px-[2px]">
-                      delete
-                    </span>
-                  </td>
-
-                </tr>
-              ))}
-            </tbody>
-          </table>
-
-          {/* Pagination for attendance */}
-          <div className="mt-4 flex justify-center gap-2">
-            <button onClick={goAttendeePrev} disabled={attendeePage === 0} className=" border rounded disabled:opacity-40">
-              <span className="material-symbols-outlined">chevron_left</span>
-            </button>
-            {Array.from({ length: attendeePageCount }, (_, i) => (
-              <button
-                key={i}
-                onClick={() => setAttendeePage(i)}
-                className={`px-2 border rounded ${i === attendeePage ? "bg-[#621668] text-white" : "bg-white"}`}
-              >
-                {i + 1}
-              </button>
-            ))}
-            <button onClick={goAttendeeNext} disabled={attendeePage === attendeePageCount - 1} className=" border rounded disabled:opacity-40">
-              <span className="material-symbols-outlined">chevron_right</span>
-
-            </button>
-          </div>
-        </div>
-      )}
+     
     </div>
   );
 }

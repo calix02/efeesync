@@ -10,10 +10,7 @@
   scrollbar-width: none;     /* Firefox */
 }
 
-
 @theme{
     --font-poppins: "Poppins", sans-serif;
     --font-inter: "Inter", sans-serif;
-
-
 }

@@ -24,7 +24,15 @@ export const errorAlert = (message) => {
     confirmButtonText: "OK",
   });
 };
-
+export const okAlert = (message) =>{
+  return Swal.fire({
+  position: "center",
+  icon: "success",
+  title: "Your work has been saved",
+  showConfirmButton: false,
+  timer: 3000
+});
+}
 
 export const confirmAlert = (message, callback) => {
   return Swal.fire({

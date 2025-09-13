@@ -1,4 +1,5 @@
 import { useState, useMemo } from "react";
+import {Link} from 'react-router-dom';
 import "../animate.css";
 
 /**
@@ -6,7 +7,7 @@ import "../animate.css";
  * @param {string} code       – org code ("cit", "coe", …) to color the header text
  * @param {Array}  events   – array of { id, name, yearSection }
  */
-function TableEventList({ code = "cit", events = [] , addEvent, updateEvent}) {
+function TableEventList({ code = "cit", events = [] , addEvent, updateEvent,view}) {
   /* --------------------------------- animation -------------------------------- */
   const animate = "card-In";
   /* --------------------------------- colors -------------------------------- */
@@ -23,12 +24,18 @@ function TableEventList({ code = "cit", events = [] , addEvent, updateEvent}) {
   /* ---------------------------- sample fallback ---------------------------- */
   const fallback = Array.from({ length: 12 }, (_, i) => ({
     eventName: `Year-End-Party`,
-    eventDesc: `Basta may Baraylihan`,
+    eventDesc: `Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.`,
     targetYear: `1,3,4`,
-    dateFrom: `9/14/25`,
+    dateFrom: `7/8/25`,
     dateTo: `7/11/25`,
-    eventType: `Attendance`,
-  }));
+    eventType: `Contribution`,
+    eventFee: `400`,
+    eventLog: Array.from({length: 2}, (_,id) =>({
+        day: `Day ` + id
+      }))
+
+    }
+  ));
 
   const data = events.length ? events : fallback;
 
@@ -38,7 +45,7 @@ function TableEventList({ code = "cit", events = [] , addEvent, updateEvent}) {
   
 
   /* ----------------------------- pagination -------------------------------- */
-  const PAGE_SIZE = 10;
+  const PAGE_SIZE = 7;
   const [page, setPage] = useState(0);          // 0‑based
   const pageCount = Math.ceil(data.length / PAGE_SIZE);
 
@@ -66,8 +73,8 @@ function TableEventList({ code = "cit", events = [] , addEvent, updateEvent}) {
             <tr className={`border-b-2 rounded-lg  border-[#adadad] ${textColor}`}>
               <th className="py-2"><input type="checkbox" /></th>
               <th>Event Name</th>
-              <th>Event Description</th>
-              <th>Target Year</th>
+              <th hidden>Event Description</th>
+              <th hidden>Target Year</th>
               <th>Event Date</th>
               <th>Event Type</th>
               <th>Action</th>
@@ -79,17 +86,18 @@ function TableEventList({ code = "cit", events = [] , addEvent, updateEvent}) {
               <tr key={idx} className="border-b border-[#0505057a] ">
                 <td><input type="checkbox" /></td>
                 <td>{s.eventName}</td>
-                <td>{s.eventDesc}</td>
-                <td>{s.targetYear}</td>
+                <td hidden >{s.eventDesc}</td>
+                <td hidden>{s.eventFee}</td>
+                <td hidden>{s.targetYear}</td>
                 <td>{s.dateTo + " - " + s.dateFrom}</td>
                 <td>{s.eventType}</td>
-
-                <td className="flex lg:flex-row flex-col gap-2 justify-center py-1.5">
-                    <span onClick={()=> setSelectedEventIndex(idx)} className="material-symbols-outlined cursor-pointer  shadow-[2px_2px_1px_grey] rounded-[5px] text-[#3a2791] border border-[#3a2791] px-[2px]">visibility</span>
-                  <span onClick={() => updateEvent(s)} className="material-symbols-outlined cursor-pointer text-[#8A2791] bg-white  shadow-[2px_2px_1px_grey] rounded-[5px] border border-[#8A2791] px-[2px]">
+                
+                <td  className="flex lg:flex-row flex-col gap-2 justify-center py-3">
+                    <span title="View Event Details" onClick={() => view(s)} className="material-symbols-outlined cursor-pointer  shadow-[2px_2px_1px_grey] rounded-[5px] text-[#3a2791] border border-[#3a2791] px-[2px]">visibility</span>
+                  <span title="Update Event" onClick={() => updateEvent(s)} className="material-symbols-outlined cursor-pointer text-[#8A2791] bg-white  shadow-[2px_2px_1px_grey] rounded-[5px] border border-[#8A2791] px-[2px]">
                     edit_square
                   </span>
-                  <span className="material-symbols-outlined bg-white cursor-pointer text-[#d10707] shadow-[2px_2px_2px_grey] rounded-[5px] border border-[#d10707] px-[2px]">
+                  <span title="Delete Event" className="material-symbols-outlined bg-white cursor-pointer text-[#d10707] shadow-[2px_2px_2px_grey] rounded-[5px] border border-[#d10707] px-[2px]">
                     delete
                   </span>
                   
@@ -138,12 +146,6 @@ function TableEventList({ code = "cit", events = [] , addEvent, updateEvent}) {
         </div>
         </>
         )};
-        {selectedEvent &&(
-          <div className="lg:ml-70 w-[100%] ">
-            <div className="">{selectedEvent.eventName}</div>
-             
-          </div>
-        )}
     </div>
    
   );

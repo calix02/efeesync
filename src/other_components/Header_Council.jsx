@@ -70,7 +70,7 @@ function Header_Council(props) {
           <i onClick={()=>{clickedAccBar(); sidebar.toggle();} } className="fa-solid fa-bars text-sm cursor-pointer"></i>
         </span>
         <span className='lg:ml-14'>
-          <img src={logo} className='lg:w-28 md:w-26 w-20' alt="logo"/>
+          <img src={logo} className='h-16  mr-2 ' alt="logo"/>
         </span>
       </span>
       

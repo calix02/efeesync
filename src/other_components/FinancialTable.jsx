@@ -14,7 +14,7 @@ function FinancialTable({title, financialData =[]}) {
                 </span>
             </div>
             <form className="mt-3 mx-4" action="">
-                <div className="overflow-y-scroll max-h-80">
+                <div className="overflow-y-scroll hide-scrollbar max-h-80">
                     <table className="w-full text-center">
                         <thead>
                             <tr className="text-sm border-b-2 border-[#6c6c6c67]">

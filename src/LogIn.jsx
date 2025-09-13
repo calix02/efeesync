@@ -1,7 +1,8 @@
 import School from './assets/CBSUA-Image.png';
 import Logo from './assets/Final_Logo.png'
 import Cbsua from './assets/cbsua.png';
-import { successAlert, errorAlert } from "./utils/alert.js"; 
+import LogInOption from './other_components/LogInOption.jsx';
+import { okAlert, errorAlert } from "./utils/alert.js"; 
 import React, {useState} from 'react';
 
 function LogIn(){
@@ -10,7 +11,7 @@ function LogIn(){
 
     const [emailData, setEmail] = useState("");
     const [passwordData, setPassword] = useState("");
-
+    const [showLogInOption, setShowLogInOption] = useState(false);
 
     const changeEmail = (e) => setEmail(e.target.value);
     const changePassword = (e) => setPassword(e.target.value);
@@ -32,11 +33,7 @@ function LogIn(){
             if (response.status === "success") {
                 if (response.data != null) {
                     setUserRole(response.data.current_role);
-                    successAlert("You have logged in successfully!").then((result) =>{
-                        if(result.isConfirmed){
-                            window.location.reload();
-                        }
-                    });
+                        window.location.reload();   
                 }
             } else {
                 setUserRole(null);
@@ -50,8 +47,17 @@ function LogIn(){
             return;
         }
     }
+   
+
 
     return(
+        <>
+         {showLogInOption === true &&(
+            <div className="fixed inset-0 flex justify-center items-center bg-[#00000062] lg:z-40 md:z-50 z-70 pointer-events-auto">
+             <LogInOption/>
+            </div>
+        
+            )}
         <div className="flex lg:flex-row flex-col w-screen h-screen">
             <div className=" relative lg:w-[50%] w-[100%] lg:flex lg:items-center lg:h-screen h-60 bg-gradient-to-t from-[#174515c1] to-white">
                 <img className="absolute bottom-0 left-0 lg:h-120 w-[100%] z-[-1]" src={School} alt="" />
@@ -84,6 +90,7 @@ function LogIn(){
                 </div>  
             </div>
         </div>
+        </>
     );
 }
 export default LogIn;

@@ -1,9 +1,11 @@
+import {Link} from 'react-router-dom';
 import CITHeader from '../other_components/Header_Council.jsx';
 import CITSidebar from './Sidebar.jsx';
 import TableAttendance from '../other_components/TableAttendance.jsx';
 import AddEventListCard from '../other_components/AddEventListCard.jsx';
 import UpdateEventCard from '../other_components/UpdateEventCard.jsx';
 import AttendanceCard from '../treasurer_components/AttendanceCard.jsx';
+import ScanAttendance from '../treasurer_components/ScanAttendance.jsx';
 import UpdateAttendanceCard from '../treasurer_components/UpdateAttendanceCard.jsx';
 import React, {useRef,useState,useEffect} from 'react';
 import useAnimatedToggle from '../hooks/useAnimatedToggle.js';
@@ -16,12 +18,12 @@ const animateR = "right-In";
 const animateL = "left-In";
 
 /* ------------------------- Animated States ----------------------------- */
-    const addEvent = useAnimatedToggle();
+    const scanAttendee = useAnimatedToggle();
     const updateEvent = useAnimatedToggle();
     const addAttendee = useAnimatedToggle();
     const updateAttendee = useAnimatedToggle();
 
-    const addRef = useRef(null);
+    const scanRef = useRef(null);
     const updateRef = useRef(null);
     const attendeeRef = useRef(null);
     const updateAttendeeRef = useRef(null);
@@ -51,17 +53,7 @@ const animateL = "left-In";
     return(
         <>
 
-         {addEvent.isVisible &&(
-             <>
-                {/* Add Event*/}
-                <div className="fixed flex items-center justify-center inset-0 bg-[#00000062] lg:z-40 md:z-50 z-70 pointer-events-auto">
-                    {/* Overlay */}
-                    <AddEventListCard ref={addRef} onAnimationEnd={addEvent.handleEnd} animate={addEvent.animation} onClose={() => addEvent.setAnimation("fade-out")} />
-                </div>
-            </>
-         )
-           
-        }
+        
         {updateEvent.isVisible &&(
             <>
                 {/* Update Event */}
@@ -74,18 +66,21 @@ const animateL = "left-In";
         )
             
         }
-        {addAttendee.isVisible &&(
-             <div className="fixed inset-0 flex justify-center items-center bg-[#00000062] lg:z-40 md:z-50 z-70 pointer-events-auto">
-                {/* Overlay */}
-                <AttendanceCard ref={attendeeRef} onAnimationEnd={addAttendee.handleEnd} animate={addAttendee.animation} onClose={() => addAttendee.setAnimation("fade-out")} />
-            </div>
-
-        )}
+       
         {updateAttendee.isVisible &&(
             <div className="fixed inset-0 flex justify-center items-center bg-[#00000062] lg:z-40 md:z-50 z-70 pointer-events-auto">
                 {/* Overlay */}
                 <UpdateAttendanceCard ref={updateAttendeeRef} data={selectedAttendee} onAnimationEnd={updateAttendee.handleEnd} animate={updateAttendee.animation} onClose={() => updateAttendee.setAnimation("fade-out")} />
             </div>
+
+        )
+
+        }
+        {scanAttendee.isVisible &&(
+            <div className="fixed inset-0 flex justify-center items-center bg-[#00000062] lg:z-40 md:z-50 z-70 pointer-events-auto">
+            <ScanAttendance ref={scanRef} onAnimationEnd={scanAttendee.handleEnd} animate={scanAttendee.animation} onClose={() => scanAttendee.setAnimation("fade-out")}/>
+            </div>
+            
 
         )
 
@@ -117,11 +112,12 @@ const animateL = "left-In";
                         </select>
                          <button className='bg-white lg:w-25 w-20 transition duration-100 hover:scale-100 hover:bg-[#621668] hover:text-white text-xs cursor-pointer flex justify-center gap-1 border-1 border-[#8A2791] py-1  text-[#8A2791] rounded-md text-center'><i className="fa-solid fa-print"></i>Print</button>
                     </div>
-                <TableAttendance addEvent={addEvent.toggle} updateEvent={updateEvent.toggle} addAttendee={addAttendee.toggle} 
-                updateAttendee={(row) =>{
-                    setSelectedAttendee(row);
-                    updateAttendee.toggle();
-                }}/>
+                    <div className="lg:ml-70 text-[font-family:Arial] lg:text-sm text-xs mt-3 flex justify-end">
+                        <Link to="/org/eventlist">
+                            <button className='bg-[#621668] text-center hover:bg-white hover:border-[#621668] hover:text-[#621668] hover:scale-102 hover:shadow-[2px_2px_3px_grey] duration-200 transition py-1 rounded-md cursor-pointer px-3 text-white border-1 border-[#804d84]'>Back to Eventlist</button>
+                        </Link>
+                    </div>
+                <TableAttendance  updateEvent={updateEvent.toggle} scanAttendee={scanAttendee.toggle} />
 
                 </div>
             </div>

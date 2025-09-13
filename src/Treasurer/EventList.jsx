@@ -1,6 +1,8 @@
 import CITHeader from '../other_components/Header_Council.jsx';
+import {Link} from 'react-router-dom';
 import CITSidebar from './Sidebar.jsx';
 import TableEventList from '../other_components/TableEventList.jsx';
+import EventDetails from '../treasurer_components/EventDetails.jsx';
 import AddEventListCard from '../other_components/AddEventListCard.jsx';
 import UpdateEventCard from '../other_components/UpdateEventCard.jsx';
 import React, {useRef, useState, useEffect} from 'react';
@@ -16,9 +18,13 @@ function CITEventList(){
 /* ------------------------- Animated States ----------------------------- */
     const addEvent = useAnimatedToggle();
     const updateEvent = useAnimatedToggle();
+    const viewEventDetails = useAnimatedToggle();
+    const addFee = useAnimatedToggle();
 
     const addRef = useRef(null);
     const updateRef = useRef(null);
+    const viewDetailsRef = useRef(null);
+    const addFeeRef = useRef(null);
 
     const [selectedEvent, setSelectedEvent] = useState(null);
 
@@ -50,7 +56,7 @@ function CITEventList(){
                     {/* Add Event */}
                 <div className="fixed inset-0 flex justify-center items-center bg-[#00000062] lg:z-40 md:z-50 z-70 pointer-events-auto">
                     {/* Overlay */}
-                    <AddEventListCard ref={addRef} onAnimationEnd={addEvent.handleEnd} animate={addEvent.animation} onClose={() => addEvent.setAnimation("fade-out")} />
+                    <AddEventListCard ref={addRef} addFee={addFee.toggle} onAnimationEnd={addEvent.handleEnd} animate={addEvent.animation} onClose={() => addEvent.setAnimation("fade-out")} />
                 </div>
             </>
          )
@@ -66,37 +72,56 @@ function CITEventList(){
         )
             
         }
+        {viewEventDetails.isVisible &&(
+                <div className="fixed inset-0 flex justify-center items-center bg-[#00000062] lg:z-40 md:z-50 z-70 pointer-events-auto">
+                    <EventDetails ref={viewDetailsRef} data={selectedEvent} onAnimationEnd={viewEventDetails.handleEnd} animate={viewEventDetails.animation} onClose={() => viewEventDetails.setAnimation("fade-out")}/>
+
+                </div>
+            
+        )
+
+        }
+    
             <CITHeader code={currentUserData?.department_code} titleCouncil = {currentUserData?.organization_name} abb="CIT Council" />
-             <div className="w-screen h-screen bg-[#fafafa] absolute z-[-1] overflow-y-auto overflow-x-auto lg:px-6 md:px-10 px-3">
+             <div className="w-screen hide-scrollbar h-screen bg-[#fafafa] absolute z-[-1] overflow-y-auto overflow-x-auto lg:px-6 md:px-10 px-3">
                 <div className="lg:mt-30 mt-25 lg:ml-70 lg:flex md:flex  md:justify-between   lg:justify-between">
-                    <h2 className="text-2xl font-[family-name:Futura Bold] font-semibold">Event List</h2>
+                    <h2 className="text-2xl font-[family-name:Futura Bold] font-semibold">Manage Events</h2>
                     <div className={`flex ${animateR} items-center lg:px-0 md:px-0 px-3`}>
                     <input className='lg:w-85 md:w-85 w-[100%] p-1.5 bg-white rounded-md border-2 lg:mt-0 md:mt-0 mt-4   border-[#8A2791] block' type="text" placeholder='Search Student' />
                     </div>
                 </div>
                 <div className=' w-[100%] mt-3 '>
-                    <div className={`lg:ml-70 ${animateL} flex lg:justify-start md:justify-start font-[family-name:Arial]  justify-center gap-2.5`}>
-                         <select className='bg-white lg:w-25  w-20 text-xs transition duration-100 hover:scale-100 hover:bg-[#621668] hover:text-white cursor-pointer border-1 border-[#8A2791] py-1  text-[#8A2791] rounded-md text-center'  name="" id="">
-                            <option value="">Sort by</option>
+                    <div className={`lg:ml-70 ${animateL} flex lg:justify-start md:justify-start font-[family-name:Arial]  justify-start gap-2.5`}>
+                        
+                         <select className='bg-white lg:w-25 w-20 text-xs transition duration-100 hover:scale-100 hover:bg-[#621668] hover:text-white cursor-pointer border-1 border-[#8A2791] py-1  text-[#8A2791] rounded-md text-center'  title='Sort by Date' name="" id="">
+                            <option value="">Date</option>
                             <option value="">hey</option>
 
                         </select>
-                         <select className='bg-white lg:w-25 w-20 text-xs transition duration-100 hover:scale-100 hover:bg-[#621668] hover:text-white cursor-pointer border-1 border-[#8A2791] py-1  text-[#8A2791] rounded-md text-center'  name="" id="">
+                          <select title='Sort by Target Year' className='bg-white lg:w-25 w-20 text-xs transition duration-100 hover:scale-100 hover:bg-[#621668] hover:text-white cursor-pointer border-1 border-[#8A2791] py-1  text-[#8A2791] rounded-md text-center'  name="" id="">
                             <option value="">Year</option>
                             <option value="">hey</option>
 
                         </select>
-                          <select className='bg-white lg:w-25 w-20 text-xs transition duration-100 hover:scale-100 hover:bg-[#621668] hover:text-white cursor-pointer border-1 border-[#8A2791] py-1  text-[#8A2791] rounded-md text-center'  name="" id="">
-                            <option value="">Section</option>
-                            <option value="">hey</option>
-
-                        </select>
-                         <button className='bg-white lg:w-25 w-20 transition duration-100 hover:scale-100 hover:bg-[#621668] hover:text-white text-xs cursor-pointer flex justify-center gap-1 border-1 border-[#8A2791] py-1  text-[#8A2791] rounded-md text-center'><i className="fa-solid fa-print"></i>Print</button>
+                         <button title='Print Event List' className='bg-white lg:w-25 w-20 transition duration-100 hover:scale-100 hover:bg-[#621668] hover:text-white text-xs cursor-pointer flex justify-center gap-1 border-1 border-[#8A2791] py-1  text-[#8A2791] rounded-md text-center'><i className="fa-solid fa-print"></i>Print</button>
                          
                         
                     </div>
+                    <div className="lg:ml-70 flex gap-2 justify-end lg:text-sm text-xs font-[family-name:Arial] lg:mt-1 mt-3">
+                        <Link to="/org/eventcontribution">
+                            <button title='Navigate to Event with Contribution' className='bg-[#621668] hover:bg-white hover:border-[#621668] hover:text-[#621668] hover:scale-102 hover:shadow-[2px_2px_3px_grey] duration-200 transition py-1 rounded-md cursor-pointer px-3 text-white border-1 border-[#804d84]'>Event Contribution</button>
+                        </Link>
+                        <Link to="/org/attendance">
+                            <button title='Navigate to Event With Attendance' className='bg-[#621668]  hover:bg-white hover:border-[#621668] hover:text-[#621668] hover:scale-102 hover:shadow-[2px_2px_3px_grey] duration-200 transition py-1 rounded-md cursor-pointer px-3 text-white border-1 border-[#804d84]'>Event Attendance</button>
+                        </Link>
 
-                <TableEventList addEvent={addEvent.toggle} updateEvent={(row) =>{
+                    </div>
+
+                <TableEventList addEvent={addEvent.toggle} 
+                view={(row) =>{
+                    viewEventDetails.toggle();
+                    setSelectedEvent(row);
+                }} updateEvent={(row) =>{
                     updateEvent.toggle();
                     setSelectedEvent(row);
                 }}/>

@@ -10,9 +10,9 @@ function Card_Admin(props){
         : 'bg-[white]'
     return(
          <div className={` relative  rounded-sm h-40 shadow-gray-200 overflow-hidden ${bgColor}`}>
-                <img className='absolute w-62 opacity-50 right-[-110px]' src={props.logo} alt="" />
-                <span className="flex items-center">
-                    <img src={props.logo} alt="" className="w-18 mt-2" />
+                <img className='absolute w-35 opacity-50 right-[-70px] top-2' src={props.logo} alt="" />
+                <span className="flex gap-2 items-center">
+                    <img src={props.logo} alt="" className="w-12 mt-2 ml-2" />
                     <p className="font-bold font-poppins mt-2 text-lg ">{props.title}</p>
                 </span>
                 <div className='flex justify-between px-8 items-center'>

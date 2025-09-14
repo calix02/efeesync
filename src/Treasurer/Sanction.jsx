@@ -83,7 +83,6 @@ function CITSanction() {
                         </select>
                     </div>
 
-                    {/* Conditional rendering */}
                     {selectedSanction === "Community Service" ? (
                         <TableCommunityService code="cit" />
                     ) : (

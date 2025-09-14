@@ -69,7 +69,7 @@ function TableAttendance({ code = "cit", events = [], addEvent, updateEvent, sca
   const goNext = () => setPage(Math.min(pageCount - 1, page + 1));
 
   /* ----------------------- Attendance Pagination ------------------------- */
-  const ATTENDEE_PAGE_SIZE = 10;
+  const ATTENDEE_PAGE_SIZE = 8;
   const [attendeePage, setAttendeePage] = useState(0);
 
   const selectedEvent = selectedEventIndex !== null ? pageData[selectedEventIndex] : null;
@@ -270,7 +270,7 @@ function TableAttendance({ code = "cit", events = [], addEvent, updateEvent, sca
             </button>
             
           </div>
-          <div onClick={scanAttendee} title="Scan QR Code"className="h-15 cursor-pointer w-15 absolute right-4  flex justify-center items-center bg-[#621668] rounded-full">
+          <div onClick={scanAttendee} title="Scan QR Code"className="h-15 cursor-pointer w-15 absolute right-4 bottom-3 flex justify-center items-center bg-[#621668] rounded-full">
             <i className="fa-solid fa-qrcode text-3xl text-white "></i>
           </div>
         </div>

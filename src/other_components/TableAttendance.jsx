@@ -1,7 +1,7 @@
 import { useState, useMemo } from "react";
 import "../animate.css";
 
-function TableAttendance({ code = "cit", events = [], addEvent, updateEvent, scanAttendee}) {
+function TableAttendance({ code = "cit", events = [], scanAttendee,view}) {
   const animate = "card-In";
   const textColor =
     code === "cit" ? "text-[#4F1C51]"
@@ -13,7 +13,7 @@ function TableAttendance({ code = "cit", events = [], addEvent, updateEvent, sca
     : "text-blue";
 
   const fallback = Array.from({ length: 5 }, (_, i) => ({
-    eventName: `Year-End-Party`,
+    eventName: `Year-End-Party ${i + 1}`,
     targetYear: `1,2,3,4`,
     eventDate: `7/11/25`,
     eventLog: `View Logs`,
@@ -131,20 +131,12 @@ function TableAttendance({ code = "cit", events = [], addEvent, updateEvent, sca
                   <td>{s.sanctionFee}</td>
                   <td className="flex lg:flex-row flex-col gap-2 justify-center py-2">
                     <span
-                      onClick={() => {
-                        setSelectedEventIndex(idx);
-                        setAttendeePage(0); // reset attendee pagination
-                      }}
+                     onClick={ () => view(s)} 
                       className="material-symbols-outlined cursor-pointer shadow-[2px_2px_1px_grey] rounded-md text-[#3a2791] border border-[#3a2791] px-1"
-                    title="View Participants">
+                    title="View Attendee">
                       visibility
                     </span>
-                    <span
-                      onClick={updateEvent}
-                      className="material-symbols-outlined cursor-pointer text-[#8A2791] bg-white shadow-[2px_2px_1px_grey] rounded-md border border-[#8A2791] px-[2px]"
-                    title="Update Event">
-                      edit_square
-                    </span>
+                   
                     <span className="material-symbols-outlined bg-white cursor-pointer text-[#d10707] shadow-[2px_2px_2px_grey] rounded-[5px] border border-[#d10707] px-[2px]" title="Delete Event">
                       delete
                     </span>
@@ -177,104 +169,10 @@ function TableAttendance({ code = "cit", events = [], addEvent, updateEvent, sca
                 <span className="material-symbols-outlined">chevron_right</span>
               </button>
             </div>
-            <i onClick={addEvent} className="fa-solid fa-circle-plus text-[50px] absolute right-[40px] top-[-40px] cursor-pointer text-[#157112] bg-white rounded-full"></i>
           </div>
           </>
           )}
 
-      {/* ===================== ATTENDANCE TABLE ===================== */}
-      {selectedEvent && (
-        <div className={` ${animate} lg:ml-70 relative bg-white text-black font-[family-name:Arial] lg:text-sm text-xs flex-grow lg:p-5 md:p-5 py-5 px-2  mt-3 rounded-lg shadow-[2px_2px_2px_grey]`}>
-          <div className="flex justify-between items-center mb-4">
-          </div>
-
-          <table className="w-full text-center ">
-            <thead>
-              <tr className="border-b-2 font-semibold">
-                <th><input type="checkbox" /></th>
-                <th>Student Name</th>
-                <th>Year & Section</th>
-                <th>Morning In</th>
-                <th>Morning Out</th>
-                <th>Afternoon In</th>
-                <th>Afternoon Out</th>
-              </tr>
-            </thead>
-            <tbody>
-              {attendeePageData.map((attendee, i) => (
-                <tr key={i} className="border-b border-[#adadad]">
-                  <td>
-                    <input type="checkbox" />
-                </td>
-                
-                  <td className="py-3">{attendee.name}</td>
-                  <td>{attendee.yearSection}</td>
-                  <td className={`${mIn === "Present" && ("text-[#099620]") || mIn === "Absent" &&("text-[#c91010]") || mIn === "Excuse" &&("text-[#b1760a]")}`}>
-                    <select name="" value={mIn} onChange={handleMIN}  >
-                      <option value="">Select Status</option>
-                      <option value="Absent">Absent</option>
-                      <option value="Present">Present</option>
-                      <option value="Excuse">Excuse</option>
-                    </select>
-                  </td>
-                  <td className={`${mOut === "Present" && ("text-[#099620]") || mOut === "Absent" &&("text-[#c91010]") || mOut === "Excuse" &&("text-[#b1760a]")}`}>
-                     <select name="" value={mOut} onChange={handleMout}  >
-                      <option value="">Select Status</option>
-                      <option value="Absent">Absent</option>
-                      <option value="Present">Present</option>
-                      <option value="Excuse">Excuse</option>
-                    </select>
-
-                  </td>
-                  <td className={`${aIn === "Present" && ("text-[#099620]") || aIn === "Absent" &&("text-[#c91010]") || aIn === "Excuse" &&("text-[#b1760a]")}`}>
-                     <select name="" value={aIn} onChange={handleAIn}  >
-                      <option value="">Select Status</option>
-                      <option value="Absent">Absent</option>
-                      <option value="Present">Present</option>
-                      <option value="Excuse">Excuse</option>
-                    </select>
-                  </td>
-                  <td className={`${aOut === "Present" && ("text-[#099620]") || aOut === "Absent" &&("text-[#c91010]") || aOut === "Excuse" &&("text-[#b1760a]")}`}>
-                   <select name="" value={aOut} onChange={handleAOut}  >
-                      <option value="">Select Status</option>
-                      <option value="Absent">Absent</option>
-                      <option value="Present">Present</option>
-                      <option value="Excuse">Excuse</option>
-                    </select>
-                  </td>
-                 
-
-                </tr>
-              ))}
-            </tbody>
-          </table>
-
-          {/* Pagination for attendance */}
-          <div className="mt-4 flex justify-center gap-2">
-            <button onClick={goAttendeePrev} disabled={attendeePage === 0} className=" cursor-pointer border rounded disabled:opacity-40">
-              <span className="material-symbols-outlined">chevron_left</span>
-
-            </button>
-            {Array.from({ length: attendeePageCount }, (_, i) => (
-              <button
-                key={i}
-                onClick={() => setAttendeePage(i)}
-                className={`px-2 border cursor-pointer rounded ${i === attendeePage ? "bg-[#621668] text-white" : "bg-white"}`}
-              >
-                {i + 1}
-              </button>
-            ))}
-            <button disabled={attendeePage === attendeePageCount - 1} className="cursor-pointer border rounded disabled:opacity-40">
-              <span  className="material-symbols-outlined">chevron_right</span>
-
-            </button>
-            
-          </div>
-          <div onClick={scanAttendee} title="Scan QR Code"className="h-15 cursor-pointer w-15 absolute right-4 bottom-3 flex justify-center items-center bg-[#621668] rounded-full">
-            <i className="fa-solid fa-qrcode text-3xl text-white "></i>
-          </div>
-        </div>
-      )}
     </div>
   );
 }

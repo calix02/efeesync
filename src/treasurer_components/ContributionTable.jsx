@@ -5,7 +5,8 @@ import "../animate.css";
 function ContributionTable({ code, events = [] }) {
   const animate = "card-In";
 
-  const[amount, setAmount] = useState("");
+  const [amount, setAmount] = useState("");
+  const [activeRowIndex, setActiveRowIndex] = useState(null);
 
   const handleChange = (e) => setAmount(e.target.value);
 
@@ -18,38 +19,37 @@ function ContributionTable({ code, events = [] }) {
     : code === "osas" ? "text-[#27391C]"
     : "text-black";
 
-  const fallback = Array.from({ length: 5 }, (_, i) => ({
+  const fallback = Array.from({ length: 12 }, (_, i) => ({
     id: i,
-    studentID: `22-1029`,
-    studentName: `Mark Alvarado`,
+    studentID: `22-102${i}`,
+    studentName: `Mark Alvarado ${i + 1}`,
     yearSection: `4A`,
     eventFee: `400`,
-    balance: `0`,
+    balance: `${i % 2 === 0 ? 0 : 200}`,
   }));
 
   const data = events.length ? events : fallback;
-  const handleSubmit = () =>{
-    
-    successAlert(amount)
-    setActiveRowIndex();
-    setAmount(0);
-  }
 
-  /* ------------------------ Track only the clicked row ------------------------- */
-  const [activeRowIndex, setActiveRowIndex] = useState(null);
+  const handleSubmit = () => {
+    successAlert(amount);
+    setActiveRowIndex(null);
+    setAmount("");
+  };
 
   const clickedPartial = (idx) => {
     setActiveRowIndex(activeRowIndex === idx ? null : idx);
   };
 
-  /* ------------------------ Pagination ------------------------- */
-  const PAGE_SIZE = 10;
+  /* ---------------- Pagination ---------------- */
+  const PAGE_SIZE = 8;
   const [page, setPage] = useState(0);
   const pageCount = Math.ceil(data.length / PAGE_SIZE);
+
   const pageData = useMemo(
     () => data.slice(page * PAGE_SIZE, page * PAGE_SIZE + PAGE_SIZE),
     [page, data]
   );
+
   const goPrev = () => setPage(Math.max(0, page - 1));
   const goNext = () => setPage(Math.min(pageCount - 1, page + 1));
 
@@ -70,47 +70,84 @@ function ContributionTable({ code, events = [] }) {
             </tr>
           </thead>
           <tbody>
-            {pageData.map((s, idx) => (
-              <tr key={idx} className="border-b border-[#0505057a]">
-                <td><input type="checkbox" /></td>
-                <td hidden>{s.id}</td>
-                <td>{s.studentID}</td>
-                <td>{s.studentName}</td>
-                <td>{s.yearSection}</td>
-                <td>{s.eventFee}</td>
-                <td>{s.balance}</td>
-                <td className="flex gap-2 justify-center font-semibold text-xs py-3">
-                  {activeRowIndex !== idx ? (
-                    <>
-                      <button className="cursor-pointer w-15 border-1 py-1 rounded-sm border-[#65A810] text-[#65A810]">
-                        Full
-                      </button>
-                      <button
-                        onClick={() => clickedPartial(idx)}
-                        className="cursor-pointer w-15 border-1 rounded-sm border-[#EAB308] text-[#EAB308]"
-                      >
-                        Partial
-                      </button>
-                    </>
-                  ) : (
-                    <form onSubmit={(e)=>{
-                        e.preventDefault();
-                        handleSubmit();
-                        }} action="">
-                        <input className="w-30 border-1 py-1 border-[#000] px-1 rounded-sm"
-                      type="text" onChange={handleChange} value={amount}
-                      placeholder="Enter amt"
-                    />
-                    <button hidden type="submit">Submit</button>
+            {pageData.map((s, idx) => {
+              const globalIndex = page * PAGE_SIZE + idx;
 
-                    </form>
-                    
-                  )}
-                </td>
-              </tr>
-            ))}
+              return (
+                <tr key={s.id} className="border-b border-[#0505057a]">
+                  <td><input type="checkbox" /></td>
+                  <td hidden>{s.id}</td>
+                  <td>{s.studentID}</td>
+                  <td>{s.studentName}</td>
+                  <td>{s.yearSection}</td>
+                  <td>{s.eventFee}</td>
+                  <td>{s.balance}</td>
+                  <td className="flex gap-2 justify-center font-semibold text-xs py-3">
+                    {activeRowIndex !== globalIndex ? (
+                      <>
+                        <button className="cursor-pointer w-15 border-1 py-1 rounded-sm border-[#65A810] text-[#65A810]">
+                          Full
+                        </button>
+                        <button
+                          onClick={() => clickedPartial(globalIndex)}
+                          className="cursor-pointer w-15 border-1 rounded-sm border-[#EAB308] text-[#EAB308]">
+                          Partial
+                        </button>
+                      </>
+                    ) : (
+                      <form
+                        onSubmit={(e) => {
+                          e.preventDefault();
+                          handleSubmit();
+                        }}
+                      >
+                        <input
+                          className="w-30 border-1 py-1 border-[#000] px-1 rounded-sm"
+                          type="text"
+                          onChange={handleChange}
+                          value={amount}
+                          placeholder="Enter amount"
+                        />
+                        <button hidden type="submit">Submit</button>
+                      </form>
+                    )}
+                  </td>
+                </tr>
+              );
+            })}
           </tbody>
         </table>
+
+        {/* Pagination Controls */}
+        <div className="mt-4 flex justify-center gap-2">
+          <button
+            onClick={goPrev}
+            disabled={page === 0}
+            className="cursor-pointer flex justify-center items-center border rounded disabled:opacity-40"
+          >
+            <span className="material-symbols-outlined">chevron_left</span>
+          </button>
+
+          {Array.from({ length: pageCount }, (_, i) => (
+            <button
+              key={i}
+              onClick={() => setPage(i)}
+              className={`px-2 border cursor-pointer rounded flex justify-center items-center ${
+                i === page ? "bg-[#621668] text-white" : "bg-white"
+              }`}
+            >
+              {i + 1}
+            </button>
+          ))}
+
+          <button
+            onClick={goNext}
+            disabled={page === pageCount - 1}
+            className="cursor-pointer border flex justify-center items-center rounded disabled:opacity-40"
+          >
+            <span className="material-symbols-outlined">chevron_right</span>
+          </button>
+        </div>
       </div>
     </div>
   );

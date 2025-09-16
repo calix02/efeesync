@@ -7,21 +7,20 @@ import React, {useState} from 'react';
 
 function LogIn(){
 
-    const [userRole, setUserRole] = useState(null);
-
     const [emailData, setEmail] = useState("");
     const [passwordData, setPassword] = useState("");
     const [showLogInOption, setShowLogInOption] = useState(false);
+    const [availableRoles, setAvailableRoles] = useState([]);
 
     const changeEmail = (e) => setEmail(e.target.value);
     const changePassword = (e) => setPassword(e.target.value);
 
-    const submit = async (e) => {
-        e.preventDefault();
-        const loginData = {
-            "email": emailData,
-            "password": passwordData
-        };
+    const loginData = {
+        "email": emailData,
+        "password": passwordData
+    };
+
+    const performLoginWithoutRole = async () => {
         try {
             const res = await fetch("/api/login", {
                 method: "POST",
@@ -32,17 +31,42 @@ function LogIn(){
             const response = await res.json();
             if (response.status === "success") {
                 if (response.data != null) {
-                    setUserRole(response.data.current_role);
-                        window.location.reload();   
+                    window.location.reload();  
                 }
             } else {
-                setUserRole(null);
                 errorAlert(response.message || "Invalid email or password.");
                 return;
             }
            
         } catch (err) {
-            setUserRole(null);
+            errorAlert("Login failed. Please try again.");
+            return;
+        }
+    }
+
+    const submit = async (e) => {
+        e.preventDefault();
+        try {
+            const res = await fetch("/api/check-roles", {
+                method: "POST",
+                credentials: "include",
+                body: JSON.stringify(loginData)
+            });
+
+            const response = await res.json();
+            if (response.status === "success") {
+                if (response.roles.length > 1 ) {
+                    setAvailableRoles(response.roles);
+                    setShowLogInOption(true);
+                } else {
+                    performLoginWithoutRole();
+                }
+            } else {
+                errorAlert(response.message || "Invalid email or password.");
+                return;
+            }
+           
+        } catch (err) {
             errorAlert("Login failed. Please try again.");
             return;
         }
@@ -54,7 +78,7 @@ function LogIn(){
         <>
          {showLogInOption === true &&(
             <div className="fixed inset-0 flex justify-center items-center bg-[#00000062] lg:z-40 md:z-50 z-70 pointer-events-auto">
-             <LogInOption/>
+             <LogInOption loginData={loginData} availableRoles={availableRoles}/>
             </div>
         
             )}

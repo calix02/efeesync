@@ -83,7 +83,7 @@ const UpdateEventCard = React.forwardRef(({animate, onAnimationEnd,onClose,data}
   }
 
     return( 
-        <div ref={ref}   className={` ${animate} lg:w-100 md:w-100 w-80  h-115 text-sm font-[family-name:Arial] px-6 bg-white shadow-[2px_2px_#8A2791,-2px_-2px_white] rounded-lg  z-80 inset-0 mx-auto`}
+        <div ref={ref}   className={` ${animate} lg:w-100 md:w-100 w-80  h-125 text-sm font-[family-name:Arial] px-6 bg-white shadow-[2px_2px_#8A2791,-2px_-2px_white] rounded-lg  z-80 inset-0 mx-auto`}
         onAnimationEnd={onAnimationEnd}>
             <div className="mt-2 relative">
                 <span onClick={onClose} className="material-symbols-outlined absolute right-0.5 cursor-pointer">disabled_by_default</span>
@@ -101,7 +101,7 @@ const UpdateEventCard = React.forwardRef(({animate, onAnimationEnd,onClose,data}
                 <label>Event Name:</label><br />
                 <input type="text" onChange={(e) =>setEventName(e.target.value)} value={eventName} className="border-2 px-2 border-[#8A2791] h-8 rounded-md w-[100%] mb-3" /> <br />
                  <label>Event Description:</label><br />
-                 <textarea onChange={(e) =>setEventDesc(e.target.value)} value={eventDesc} className="border-2 px-2 border-[#8A2791] h-8 rounded-md w-[100%] mb-2"></textarea>
+                 <textarea onChange={(e) =>setEventDesc(e.target.value)} value={eventDesc} className="border-2 px-2 border-[#8A2791] h-20 hide-scrollbar rounded-md w-[100%] mb-2"></textarea>
                  <label htmlFor="">Target Year</label>
                   <div className="flex gap-2 h-8 rounded-md lg:text-sm text-xs border-[#8A2791] w-100% mb-4 border-2 justify-center items-center" >
                     {years.map((year) => (

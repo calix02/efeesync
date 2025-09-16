@@ -12,29 +12,30 @@ import It from "../assets/CIT.png";
 import Educ from "../assets/COE.png";
 import Esaf from "../assets/ESAF.png";
 import Indus from "../assets/COT.png";
+import Ssc from "../assets/SSC.png";
 
 import '../animate.css';
 
 function Header_Council(props) {
 /* ------------------------- Color  ----------------------------- */
 
-   const borderColors = {
+   const colors = {
     CIT: "border-[#621668] text-[#621668]",
-    COE: "border-[#0E2148] text-[#0E2148]",
-    COC: "border-[#3A0519] text-[#3A0519]",
-    COT: "border-[#FFD95F] text-[#FFD95F]",
-    SCEAP: "border-[#4B352A] text-[#4B352A]",
-    OSAS: "border-[#174515] text-[#174515]",
+    COE: "border-[#020180] text-[#020180]",
+    COC: "border-[#660A0A] text-[#660A0A]",
+    COT: "border-[#847714] text-[#847714]",
+    SCEAP: "border-[#6F3306] text-[#6F3306]",
+    SSC: "border-[#174515] text-[#174515]"
   };
-  const borderColor = borderColors[props.code] || "border-black text-black";
+  const color = colors[props.code] || "border-black text-black";
   
   const logos = {
     COC : Crim,
     CIT: It,
     COE:Educ, 
-    ESAF: Esaf,
+    SCEAP: Esaf,
     COT: Indus,
-    OSAS: Osas,
+    SSC: Ssc
   };
   const logo = logos[props.code] || " ";
 
@@ -63,7 +64,7 @@ function Header_Council(props) {
 
   return (
   <>
-    <header className={` flex  bg-white fixed top-0 w-screen h-20 lg:z-20 md:z-40 z-60  items-center border-b-3 ${borderColor}`}>
+    <header className={` flex  bg-white fixed top-0 w-screen h-20 lg:z-20 md:z-40 z-60  items-center border-b-3 ${color}`}>
       <span hidden>{props.code}</span>
       <span className="flex items-center  gap-3 ml-2">
         <span className='lg:hidden block'>

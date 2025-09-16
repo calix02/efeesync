@@ -31,7 +31,7 @@ function CITCouncil(){
             <CITHeader code={currentUserData?.department_code}  titleCouncil = {currentUserData?.organization_name} abb="CIT Council" />
             <DashboardContent className="hide-scrollbar"/>
             <div className='lg:block hidden' >
-                 <CITSidebar eFee={EfeeViolet}/>
+                 <CITSidebar code={currentUserData?.department_code} />
             </div>
            
         </>

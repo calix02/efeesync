@@ -1,7 +1,7 @@
 import { useState, useMemo } from "react";
 import "../animate.css";
 
-function TableEventContribution({ code = "cit", events = [],updateContribution,view }) {
+function TableEventContribution({ code = "cit", events = [],view }) {
 /* ------------------------ animation ------------------------- */
   const animate = "card-In";
 
@@ -16,7 +16,7 @@ function TableEventContribution({ code = "cit", events = [],updateContribution,v
 
   const fallback = Array.from({ length: 12 }, (_, i) => ({
     id: i,
-    eventName: `Year-End-Party`,
+    eventName: `Year-End-Party ${i + 1}`,
     dateFrom: `7/11/25`,
     dateTo: ``,
     eventFee: `400`,
@@ -32,33 +32,16 @@ function TableEventContribution({ code = "cit", events = [],updateContribution,v
   };
 
   /* ------------------------ Main Table Pagination ------------------------- */
-  const PAGE_SIZE = 10;
+  const PAGE_SIZE = 8;
   const [page, setPage] = useState(0);
   const pageCount = Math.ceil(data.length / PAGE_SIZE);
   const pageData = useMemo(() => data.slice(page * PAGE_SIZE, page * PAGE_SIZE + PAGE_SIZE), [page, data]);
   const goPrev = () => setPage(Math.max(0, page - 1));
   const goNext = () => setPage(Math.min(pageCount - 1, page + 1));
 
-  /* ----------------------- Attendance Pagination ------------------------- */
-  const ATTENDEE_PAGE_SIZE = 10;
-  const [attendeePage, setAttendeePage] = useState(0);
-
-  const selectedEvent = selectedEventIndex !== null ? pageData[selectedEventIndex] : null;
-  const selectedAttendance = selectedEvent?.attendance || [];
-  const attendeePageCount = Math.ceil(selectedAttendance.length / ATTENDEE_PAGE_SIZE);
-
-  const attendeePageData = useMemo(
-    () => selectedAttendance.slice(attendeePage * ATTENDEE_PAGE_SIZE, (attendeePage + 1) * ATTENDEE_PAGE_SIZE),
-    [attendeePage, selectedAttendance]
-  );
-
-  const goAttendeePrev = () => setAttendeePage(Math.max(0, attendeePage - 1));
-  const goAttendeeNext = () => setAttendeePage(Math.min(attendeePageCount - 1, attendeePage + 1));
-
   /* -------------------------------- Render ------------------------------- */
   return (
     <div className={`w-full ${animate} flex flex-col gap-6  font-[family-name:Arial] lg:text-sm text-xs`}>
-      {/* ===================== EVENT TABLE ===================== */}
       {selectedEventIndex === null && (
         <>
         <div className={`lg:ml-70 bg-white border-1 font-[family-name:Arial] border-[#d8d8d8] text-black flex-grow p-5  mt-3 rounded-lg shadow-[2px_2px_2px_grey]`}>
@@ -125,7 +108,6 @@ function TableEventContribution({ code = "cit", events = [],updateContribution,v
           </>
           )}
 
-     
     </div>
   );
 }

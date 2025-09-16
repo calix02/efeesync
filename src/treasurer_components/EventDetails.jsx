@@ -1,12 +1,12 @@
 import React,{useState} from "react";
 import { successAlert } from "../utils/alert";
 const EventDetails = React.forwardRef(({animate, onAnimationEnd,onClose,data}, ref) =>{
-    const [eventName, setEventName] = useState(data?.eventName);
-    const [eventDesc, setEventDesc] = useState(data?.eventDesc);
+    const [eventName, setEventName] = useState(data?.event_name);
+    const [eventDesc, setEventDesc] = useState(data?.event_description);
     const[eventFee, setEventFee] = useState(data?.eventFee);  
-    const [dateFrom, setDateFrom] = useState(data?.dateFrom );
-    const [dateTo, setDateTo] = useState(data?.dateTo );
-    const [selectedYear, setSelectedYear] = useState(data?.targetYear || []);
+    const [dateFrom, setDateFrom] = useState(data?.event_start_date);
+    const [dateTo, setDateTo] = useState(data?.event_end_date);
+    const [selectedYear, setSelectedYear] = useState(data?.event_target_year_levels || []);
     const [selectedType, setSelectedType] = useState(data?.eventType || []);
 
     // helper to normalize dates

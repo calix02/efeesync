@@ -62,7 +62,7 @@ function PaymentTransaction() {
             </div>
 
             <div className="hidden lg:block">
-                <CITSidebar eFee={EfeeViolet} />
+                <CITSidebar code={currentUserData?.department_code} />
             </div>
         </>
     );

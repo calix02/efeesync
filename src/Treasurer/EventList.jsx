@@ -1,5 +1,5 @@
 import CITHeader from '../other_components/Header_Council.jsx';
-import {Link} from 'react-router-dom';
+import {Navigate} from 'react-router-dom';
 import CITSidebar from './Sidebar.jsx';
 import TableEventList from '../other_components/TableEventList.jsx';
 import EventDetails from '../treasurer_components/EventDetails.jsx';
@@ -27,27 +27,49 @@ function CITEventList(){
     const addFeeRef = useRef(null);
 
     const [selectedEvent, setSelectedEvent] = useState(null);
+    const [selectedType, setSelectedType] = useState("");
 
     const [currentUserData, setCurrentUserData] = useState([]);
-        
-          const fetchCurrentUser = async () => {
-             try {
-                 const res = await fetch("/api/users/current", {
-                     credentials: "include"
-                 });
-                 const response = await res.json();
-                 if (response.status === "success") {
-                     setCurrentUserData(response.data);
-                 }
-             } catch (err) {
-                 errorAlert("Fetch Failed");
-             }
-          }
-          useEffect(() => {
-            fetchCurrentUser();
-            console.log(currentUserData);
-          }, []);
-        
+    
+    const fetchCurrentUser = async () => {
+       try {
+           const res = await fetch("/api/users/current", {
+               credentials: "include"
+           });
+           const response = await res.json();
+           if (response.status === "success") {
+               setCurrentUserData(response.data);
+           }
+       } catch (err) {
+           console.error("Fetch Failed: " + err);
+       }
+    }
+
+    const [eventsOrg, setEventsOrg] = useState([]);
+
+    const fetchEvents = async () => {
+       try {
+           const res = await fetch(`/api/organizations/${currentUserData.organization_id}/events`, {
+               credentials: "include"
+           });
+           const response = await res.json();
+           if (response.status === "success") {
+              setEventsOrg(response.data);
+           }
+       } catch (err) {
+           console.error("Fetch Failed");
+       }
+    }
+    
+    useEffect(() => {
+      fetchCurrentUser();
+    }, []);
+    
+    useEffect(() => {
+        if (currentUserData?.organization_id) {
+            fetchEvents();
+        }
+    }, [currentUserData]);
  
     return(
         <>
@@ -56,7 +78,7 @@ function CITEventList(){
                     {/* Add Event */}
                 <div className="fixed inset-0 flex justify-center items-center bg-[#00000062] lg:z-40 md:z-50 z-70 pointer-events-auto">
                     {/* Overlay */}
-                    <AddEventListCard ref={addRef} addFee={addFee.toggle} onAnimationEnd={addEvent.handleEnd} animate={addEvent.animation} onClose={() => addEvent.setAnimation("fade-out")} />
+                    <AddEventListCard reloadEvents={fetchEvents} currentUserData={currentUserData} ref={addRef} addFee={addFee.toggle} onAnimationEnd={addEvent.handleEnd} animate={addEvent.animation} onClose={() => addEvent.setAnimation("fade-out")} />
                 </div>
             </>
          )
@@ -66,21 +88,24 @@ function CITEventList(){
             <>
                 <div className="fixed inset-0 flex justify-center items-center bg-[#00000062] lg:z-40 md:z-50 z-70 pointer-events-auto">
                     {/* Overlay */}
-                    <UpdateEventCard ref={updateRef} data={selectedEvent} onAnimationEnd={updateEvent.handleEnd} animate={updateEvent.animation} onClose={() => updateEvent.setAnimation("fade-out")} />
+                    <UpdateEventCard reloadEvents={fetchEvents} ref={updateRef} data={selectedEvent} onAnimationEnd={updateEvent.handleEnd} animate={updateEvent.animation} onClose={() => updateEvent.setAnimation("fade-out")} />
                 </div>
             </>
         )
             
         }
         {viewEventDetails.isVisible &&(
-                <div className="fixed inset-0 flex justify-center items-center bg-[#00000062] lg:z-40 md:z-50 z-70 pointer-events-auto">
-                    <EventDetails ref={viewDetailsRef} data={selectedEvent} onAnimationEnd={viewEventDetails.handleEnd} animate={viewEventDetails.animation} onClose={() => viewEventDetails.setAnimation("fade-out")}/>
-
-                </div>
+            <div className="fixed inset-0 flex justify-center items-center bg-[#00000062] lg:z-40 md:z-50 z-70 pointer-events-auto">
+                <EventDetails reloadEvents={fetchEvents} ref={viewDetailsRef} data={selectedEvent} onAnimationEnd={viewEventDetails.handleEnd} animate={viewEventDetails.animation} onClose={() => viewEventDetails.setAnimation("fade-out")}/>
+            </div>
             
-        )
-
-        }
+        )}
+        {selectedType === "Event Contribution" ?(
+            <Navigate to="/org/eventcontribution" replace/>
+        ):
+        selectedType === "Event Attendance" ?(
+            <Navigate to="/org/attendance" replace/> 
+        ): null}
     
             <CITHeader code={currentUserData?.department_code} titleCouncil = {currentUserData?.organization_name} abb="CIT Council" />
              <div className="w-screen hide-scrollbar h-screen bg-[#fafafa] absolute z-[-1] overflow-y-auto overflow-x-auto lg:px-6 md:px-10 px-3">
@@ -92,11 +117,14 @@ function CITEventList(){
                 </div>
                 <div className=' w-[100%] mt-3 '>
                     <div className={`lg:ml-70 ${animateL} flex lg:justify-start md:justify-start font-[family-name:Arial]  justify-start gap-2.5`}>
-                        
+                         <select title="Select Event Type" className='bg-white lg:w-25 w-20 text-xs transition duration-100 hover:scale-100 hover:bg-[#621668] hover:text-white cursor-pointer border-1 border-[#8A2791] py-1  text-[#8A2791] rounded-md text-center' value={selectedType} onChange={(e)=>setSelectedType(e.target.value)}  name="" id="">
+                            <option value="">Event Type</option>
+                            <option value="Event Contribution">Event Contribution</option>
+                            <option value="Event Attendance">Event Attendance</option>
+                        </select>  
                          <select className='bg-white lg:w-25 w-20 text-xs transition duration-100 hover:scale-100 hover:bg-[#621668] hover:text-white cursor-pointer border-1 border-[#8A2791] py-1  text-[#8A2791] rounded-md text-center'  title='Sort by Date' name="" id="">
                             <option value="">Date</option>
                             <option value="">hey</option>
-
                         </select>
                           <select title='Sort by Target Year' className='bg-white lg:w-25 w-20 text-xs transition duration-100 hover:scale-100 hover:bg-[#621668] hover:text-white cursor-pointer border-1 border-[#8A2791] py-1  text-[#8A2791] rounded-md text-center'  name="" id="">
                             <option value="">Year</option>
@@ -107,17 +135,8 @@ function CITEventList(){
                          
                         
                     </div>
-                    <div className="lg:ml-70 flex gap-2 justify-end lg:text-sm text-xs font-[family-name:Arial] lg:mt-1 mt-3">
-                        <Link to="/org/eventcontribution">
-                            <button title='Navigate to Event with Contribution' className='bg-[#621668] hover:bg-white hover:border-[#621668] hover:text-[#621668] hover:scale-102 hover:shadow-[2px_2px_3px_grey] duration-200 transition py-1 rounded-md cursor-pointer px-3 text-white border-1 border-[#804d84]'>Event Contribution</button>
-                        </Link>
-                        <Link to="/org/attendance">
-                            <button title='Navigate to Event With Attendance' className='bg-[#621668]  hover:bg-white hover:border-[#621668] hover:text-[#621668] hover:scale-102 hover:shadow-[2px_2px_3px_grey] duration-200 transition py-1 rounded-md cursor-pointer px-3 text-white border-1 border-[#804d84]'>Event Attendance</button>
-                        </Link>
 
-                    </div>
-
-                <TableEventList addEvent={addEvent.toggle} 
+                <TableEventList events={eventsOrg} reloadEvents={fetchEvents} addEvent={addEvent.toggle} 
                 view={(row) =>{
                     viewEventDetails.toggle();
                     setSelectedEvent(row);
@@ -128,7 +147,7 @@ function CITEventList(){
                 </div>
             </div>
             <div className='hidden lg:block'>
-                <CITSidebar eFee={EfeeViolet}/>
+                <CITSidebar code={currentUserData?.department_code} />
             </div>
         </>
        

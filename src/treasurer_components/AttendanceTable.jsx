@@ -1,13 +1,8 @@
 import { useState, useMemo } from "react";
-import { successAlert } from "../utils/alert";
 import "../animate.css";
 
-function AttendanceTable({ code, events = [] }) {
+function AttendanceTable({ code, attendees = [],scanAttendee }) {
   const animate = "card-In";
-
-  const[amount, setAmount] = useState("");
-
-  const handleChange = (e) => setAmount(e.target.value);
 
   const textColor =
     code === "cit" ? "text-[#4F1C51]"
@@ -18,38 +13,40 @@ function AttendanceTable({ code, events = [] }) {
     : code === "osas" ? "text-[#27391C]"
     : "text-black";
 
-  const fallback = Array.from({ length: 5 }, (_, i) => ({
+  const fallback = Array.from({ length: 12 }, (_, i) => ({
     id: i,
-    studentID: `22-1029`,
-    studentName: `Mark Alvarado`,
-    yearSection: `4A`,
-    eventFee: `400`,
-    balance: `0`,
+    name: `Mark Angelo Alvarado ${i + 1}`,
+    yearSection: `3A`,
   }));
 
-  const data = events.length ? events : fallback;
-  const handleSubmit = () =>{
-    
-    successAlert(amount)
-    setActiveRowIndex();
-    setAmount(0);
-  }
+  const data = attendees.length ? attendees : fallback;
 
-  /* ------------------------ Track only the clicked row ------------------------- */
-  const [activeRowIndex, setActiveRowIndex] = useState(null);
+  const [statuses, setStatuses] = useState(
+    data.map(() => ({
+      mIn: "",
+      mOut: "",
+      aIn: "",
+      aOut: "",
+    }))
+  );
 
-  const clickedPartial = (idx) => {
-    setActiveRowIndex(activeRowIndex === idx ? null : idx);
+  const handleChange = (rowIndex, field, value) => {
+    setStatuses((prev) =>
+      prev.map((row, i) =>
+        i === rowIndex ? { ...row, [field]: value } : row
+      )
+    );
   };
 
-  /* ------------------------ Pagination ------------------------- */
-  const PAGE_SIZE = 10;
+  const PAGE_SIZE = 8;
   const [page, setPage] = useState(0);
   const pageCount = Math.ceil(data.length / PAGE_SIZE);
+
   const pageData = useMemo(
     () => data.slice(page * PAGE_SIZE, page * PAGE_SIZE + PAGE_SIZE),
     [page, data]
   );
+
   const goPrev = () => setPage(Math.max(0, page - 1));
   const goNext = () => setPage(Math.min(pageCount - 1, page + 1));
 
@@ -61,57 +58,117 @@ function AttendanceTable({ code, events = [] }) {
             <tr className={`border-b-2 border-[#adadad] ${textColor}`}>
               <th><input type="checkbox" /></th>
               <th hidden>Id</th>
-              <th>Student ID</th>
               <th>Student Name</th>
               <th>Year &amp; Section</th>
-              <th>Event Fee</th>
-              <th>Balance</th>
-              <th>Action</th>
+              <th>AM In</th>
+              <th>AM Out</th>
+              <th>PM In</th>
+              <th>PM Out</th>
             </tr>
           </thead>
           <tbody>
-            {pageData.map((s, idx) => (
-              <tr key={idx} className="border-b border-[#0505057a]">
-                <td><input type="checkbox" /></td>
-                <td hidden>{s.id}</td>
-                <td>{s.studentID}</td>
-                <td>{s.studentName}</td>
-                <td>{s.yearSection}</td>
-                <td>{s.eventFee}</td>
-                <td>{s.balance}</td>
-                <td className="flex gap-2 justify-center font-semibold text-xs py-3">
-                  {activeRowIndex !== idx ? (
-                    <>
-                      <button className="cursor-pointer w-15 border-1 py-1 rounded-sm border-[#65A810] text-[#65A810]">
-                        Full
-                      </button>
-                      <button
-                        onClick={() => clickedPartial(idx)}
-                        className="cursor-pointer w-15 border-1 rounded-sm border-[#EAB308] text-[#EAB308]"
-                      >
-                        Partial
-                      </button>
-                    </>
-                  ) : (
-                    <form onSubmit={(e)=>{
-                        e.preventDefault();
-                        handleSubmit();
-                        }} action="">
-                        <input className="w-30 border-1 py-1 border-[#000] px-1 rounded-sm"
-                      type="text" onChange={handleChange} value={amount}
-                      placeholder="Enter amt"
-                    />
-                    <button hidden type="submit">Submit</button>
+            {pageData.map((attendee, idx) => {
+              const globalIndex = page * PAGE_SIZE + idx; // absolute index
+              const rowStatus = statuses[globalIndex];
 
-                    </form>
-                    
-                  )}
-                </td>
-              </tr>
-            ))}
+              return (
+                <tr key={attendee.id} className="border-b border-[#0505057a]">
+                  <td><input type="checkbox" /></td>
+                  <td hidden>{attendee.id}</td>
+                  <td>{attendee.name}</td>
+                  <td className="py-4">{attendee.yearSection}</td>
+
+                  <td className={
+                    rowStatus.mIn === "Present" ? "text-[#099620]" :
+                    rowStatus.mIn === "Absent" ? "text-[#c91010]" :
+                    rowStatus.mIn === "Excuse" ? "text-[#b1760a]" : ""
+                  }>
+                    <select
+                      value={rowStatus.mIn}
+                      onChange={(e) => handleChange(globalIndex, "mIn", e.target.value)}
+                    >
+                      <option value="">Select Status</option>
+                      <option value="Absent">Absent</option>
+                      <option value="Present">Present</option>
+                      <option value="Excuse">Excuse</option>
+                    </select>
+                  </td>
+
+                  <td className={
+                    rowStatus.mOut === "Present" ? "text-[#099620]" :
+                    rowStatus.mOut === "Absent" ? "text-[#c91010]" :
+                    rowStatus.mOut === "Excuse" ? "text-[#b1760a]" : ""
+                  }>
+                    <select
+                      value={rowStatus.mOut}
+                      onChange={(e) => handleChange(globalIndex, "mOut", e.target.value)}
+                    >
+                      <option value="">Select Status</option>
+                      <option value="Absent">Absent</option>
+                      <option value="Present">Present</option>
+                      <option value="Excuse">Excuse</option>
+                    </select>
+                  </td>
+
+                  <td className={
+                    rowStatus.aIn === "Present" ? "text-[#099620]" :
+                    rowStatus.aIn === "Absent" ? "text-[#c91010]" :
+                    rowStatus.aIn === "Excuse" ? "text-[#b1760a]" : ""
+                  }>
+                    <select
+                      value={rowStatus.aIn}
+                      onChange={(e) => handleChange(globalIndex, "aIn", e.target.value)}
+                    >
+                      <option value="">Select Status</option>
+                      <option value="Absent">Absent</option>
+                      <option value="Present">Present</option>
+                      <option value="Excuse">Excuse</option>
+                    </select>
+                  </td>
+
+                  <td className={
+                    rowStatus.aOut === "Present" ? "text-[#099620]" :
+                    rowStatus.aOut === "Absent" ? "text-[#c91010]" :
+                    rowStatus.aOut === "Excuse" ? "text-[#b1760a]" : ""
+                  }>
+                    <select
+                      value={rowStatus.aOut}
+                      onChange={(e) => handleChange(globalIndex, "aOut", e.target.value)}
+                    >
+                      <option value="">Select Status</option>
+                      <option value="Absent">Absent</option>
+                      <option value="Present">Present</option>
+                      <option value="Excuse">Excuse</option>
+                    </select>
+                  </td>
+                </tr>
+              );
+            })}
           </tbody>
         </table>
+
+        {/* Pagination Controls */}
+        <div className="mt-4 flex justify-center gap-2">
+          <button onClick={goPrev} disabled={page === 0} className="cursor-pointer border rounded disabled:opacity-40">
+            <span className="material-symbols-outlined">chevron_left</span>
+          </button>
+          {Array.from({ length: pageCount }, (_, i) => (
+            <button
+              key={i}
+              onClick={() => setPage(i)}
+              className={`px-2 border cursor-pointer rounded ${i === page ? "bg-[#621668] text-white" : "bg-white"}`}
+            >
+              {i + 1}
+            </button>
+          ))}
+          <button onClick={goNext} disabled={page === pageCount - 1} className="cursor-pointer border rounded disabled:opacity-40">
+            <span className="material-symbols-outlined">chevron_right</span>
+          </button>
+        </div>
       </div>
+      <div onClick={scanAttendee} title="Scan QR Code"className="h-15 cursor-pointer w-15 absolute right-4 bottom-3 flex justify-center items-center bg-[#621668] rounded-full">
+            <i className="fa-solid fa-qrcode text-3xl text-white "></i>
+          </div>
     </div>
   );
 }

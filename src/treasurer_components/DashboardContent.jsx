@@ -31,10 +31,10 @@ function CITDashboard(){
                 <h2 className="text-2xl font-poppins font-semibold text-[#] ml-6">Dashboard</h2>
             </div>
             <div className="lg:flex lg:flex-row lg:justify-center lg:items-center lg:px-6 md:px-10 px-3 grid grid-cols-2 mt-4 lg:ml-70 lg:gap-6 gap-4">
-               <TreasurerCard desc="Number of Events" value="15" icon={calendar}/>
-               <TreasurerCard desc="Number of Students" value="700" icon={cap}/>
-               <TreasurerCard desc="Fees Collected" value="P100,000" icon={coin}/>
-               <TreasurerCard desc="Sanction Collected" value="P15,000" icon={sanc}/>
+               <TreasurerCard code="CIT" desc="Number of Events" value="15" icon={calendar}/>
+               <TreasurerCard code="CIT" desc="Number of Students" value="700" icon={cap}/>
+               <TreasurerCard code="CIT" desc="Fees Collected" value="P100,000" icon={coin}/>
+               <TreasurerCard code="CIT" desc="Sanction Collected" value="P15,000" icon={sanc}/>
             </div>
             <div className="lg:flex lg:ml-70 mt-8 px-3 md:px-10 lg:px-6 lg:gap-6 ">
                 <div className={`bg-[#ffffff] ${animateGraph} border-1 border-[#d8d8d8] transition duration-300 hover:shadow-[3px_3px_3px_#000] hover:scale-102  lg:w-[40%] h-96 rounded-xl grid justify-center shadow-[2px_2px_3px_grey,-2px_-2px_3px_white]`}>

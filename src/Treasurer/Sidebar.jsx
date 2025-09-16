@@ -3,8 +3,37 @@ import DropDownNav from '../other_components/DropDownNav.jsx';
 import NavLink from '../other_components/NavLink.jsx';
 import React from 'react';
 import {confirmAlert,successAlert, errorAlert} from "../utils/alert.js";
+import Crim from "../assets/maroon logo.png";
+import Educ from "../assets/bluelogo.png";
+import It from "../assets/violetlogo.png";
+import Indus from "../assets/yellow logo.png";
+import Esaf from "../assets/brown logo.png";
+import Ssc from "../assets/greenlogo.png";
 
-const CITSidebar = React.forwardRef(({eFee, animate, onAnimationEnd,onClose},ref) =>{
+
+
+const CITSidebar = React.forwardRef(({ animate, onAnimationEnd,onClose ,code },ref) =>{
+     const colors = {
+        CIT: "border-[#621668] text-[#621668]",
+        COE: "border-[#020180] text-[#020180]",
+        COC: "border-[#660A0A] text-[#660A0A]",
+        COT: "border-[#847714] text-[#847714]",
+        SCEAP: "border-[#6F3306] text-[#6F3306]",
+        SSC: "border-[#174515] text-[#174515]"
+      };
+      const color = colors[code] || "border-black text-black";
+      
+      const logos = {
+        COC : Crim,
+        COE: Educ,
+        CIT: It,
+        COT: Indus,
+        SCEAP: Esaf,
+        SSC: Ssc
+       
+      };
+      const logo = logos[code] || " ";
+
     const logout = () => {
         confirmAlert("You really want to Log out?").then( async (result) =>{
             if(result.isConfirmed){
@@ -29,27 +58,27 @@ const CITSidebar = React.forwardRef(({eFee, animate, onAnimationEnd,onClose},ref
     }
    
     return(
-        <div ref={ref} onAnimationEnd={onAnimationEnd} className={`w-70 h-screen overflow-y-scroll hide-scrollbar text-[#621668] border-r-3 border-[#621668] ${animate} border-b-20 border-[#4e0746] lg:z-10 md:z-30  z-40 fixed bg-white`}>
+        <div ref={ref} onAnimationEnd={onAnimationEnd} className={`w-70 h-screen overflow-y-scroll hide-scrollbar  border-r-3  ${animate} border-b-20 ${color} lg:z-10 md:z-30  z-40 fixed bg-white`}>
             <div className='mt-[95px]'>
                 <span onClick={onClose} className='lg:hidden'>
                     <span className="material-symbols-outlined absolute right-1.5 top-23 cursor-pointer text-[#621668]">close</span>
                 </span>
                 <span className='flex justify-center items-center gap-3'>
-                    <img className='h-10' src={eFee} alt="" />
+                    <img className='h-10' src={logo} alt="" />
                     <h2 className='text-center font-semibold text-[18px] font-poppins text-2xl block'>eFeeSync</h2>
                 </span>
                 <nav className='pt-5 mx-3'>
-                    <NavLink code="cit" navLink = "/org/dashboard" iconName="dashboard" navName="Dashboard"/>
-                    <NavLink code="cit" navLink = "/org/student" iconName="person" navName="Student"/>
-                    <NavLink code="cit" navLink = "/org/eventlist" iconName="event_note" navName="Event List"/>
-                    <DropDownNav code="cit" subNavLink1 = "/org/financial" subNavLink2 = "/org/accomplishment" iconName="assignment" navName="Reports" iconName1 = "article" subNavName1 = "Financial Report" iconName2 = "fact_check" subNavName2 = "Accomplishment Report"/>
-                    <NavLink code="cit" navLink = "/org/payment-transaction" iconName="credit_card" navName="Payment Transactions"/>
-                    <NavLink code="cit" navLink = "/org/sanction" iconName="event_busy" navName="Sanctions"/>
-                    <DropDownNav code="cit" subNavLink1 = "/org/excuse" subNavLink2="/org/shifting-approval" iconName="approval" navName="Excuse Approval" subNavName1="Excuse Letter Approval" iconName1="inbox_text" subNavName2="Shifting Approval" iconName2="article_person"/>
-                    <NavLink code="cit" navLink = "/org/settings" iconName="settings" navName="Settings"/>
+                    <NavLink code={code} navLink = "/org/dashboard" iconName="dashboard" navName="Dashboard"/>
+                    <NavLink code={code} navLink = "/org/student" iconName="person" navName="Student"/>
+                    <NavLink code={code} navLink = "/org/eventlist" iconName="event_note" navName="Event List"/>
+                    <DropDownNav code={code} subNavLink1 = "/org/financial" subNavLink2 = "/org/accomplishment" iconName="assignment" navName="Reports" iconName1 = "article" subNavName1 = "Financial Report" iconName2 = "fact_check" subNavName2 = "Accomplishment Report"/>
+                    <NavLink code={code} navLink = "/org/payment-transaction" iconName="credit_card" navName="Payment Transactions"/>
+                    <NavLink code={code} navLink = "/org/sanction" iconName="event_busy" navName="Sanctions"/>
+                    <DropDownNav code={code} subNavLink1 = "/org/excuse" subNavLink2="/org/shifting-approval" iconName="approval" navName="Excuse Approval" subNavName1="Excuse Letter Approval" iconName1="inbox_text" subNavName2="Shifting Approval" iconName2="article_person"/>
+                    <NavLink code={code} navLink = "/org/settings" iconName="settings" navName="Settings"/>
                 </nav>
                 <div className="absolute bottom-2 w-full px-3 lg:hidden block">
-                    <NavLink code="cit" navLink = "/org/citdashboard" iconName="moon_stars" navName="Dark Mode"  />
+                    <NavLink code={code} navLink = "/org/citdashboard" iconName="moon_stars" navName="Dark Mode"  />
                     <Link onClick={logout} className={`flex items-center font-[family-name:Helvetica] transition duration-150 p-2.5 text-md hover:bg-[#621668]  rounded-md hover:text-white hover:shadow-[3px_2px_2px_grey`}>
                         <span className="material-symbols-outlined px-2.5">logout</span>
                         <span>Log Out</span>

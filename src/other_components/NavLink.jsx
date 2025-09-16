@@ -1,20 +1,20 @@
 import{Link} from 'react-router-dom';
 
 function NavLink(props){
-   const hoverColor =
-   props.code === "cit" ? 'hover:bg-[#4F1C51]' 
-   :props.code === "coe" ? 'hover:bg-[#0E2148]'
-   :props.code === "coc" ? 'hover:bg-[#3A0519]'
-   :props.code === "cot" ? 'hover:bg-[#FFD95F] text-[#000]'
-   :props.code === "eap" ? 'hover:bg-[#4B352A]'
-   :props.code === "osas" ? 'hover:bg-[#174515]'
-   : 'hover:bg-blue'
+    const colors = {
+        CIT: "hover:bg-[#621668] ",
+        COE: "hover:bg-[#020180] ",
+        COC: "hover:bg-[#660A0A] ",
+        COT: "hover:bg-[#847714] ",
+        SCEAP: "hover:bg-[#6F3306] ",
+        SSC: "hover:bg-[#174515] "
+      };
+      const color = colors[props.code] || "border-black text-black";
    
   
 
-    return(
-        
-        <Link to={props.navLink} className={`flex items-center font-[family-name:Helvetica] ${hoverColor} transition duration-150 p-2.5 text-md  rounded-md hover:text-white hover:shadow-[3px_2px_2px_grey`}>
+    return(    
+        <Link to={props.navLink} className={`flex items-center font-[family-name:Helvetica] ${color} transition duration-150 p-2.5 text-md  rounded-md hover:text-white hover:shadow-[3px_2px_2px_grey`}>
             <span className="material-symbols-outlined px-2.5">{props.iconName}</span>
             <span>{props.navName}</span>
         </Link>

@@ -3,35 +3,58 @@ import "../animate.css";
 
 function TableAttendance({ code = "cit", events = [], scanAttendee,view}) {
   const animate = "card-In";
-  const textColor =
-    code === "cit" ? "text-[#4F1C51]"
-    :code === "coe" ? "text-[#0E2148]"
-    : code === "coc" ? "text-[#3A0519]"
-    : code === "cot" ? "text-[#FFD95F]"
-    : code === "eap" ? "text-[#4B352A]"
-    : code === "osas" ? "text-[#27391C]"
-    : "text-blue";
+
+    const colors = {
+    CIT: "border-[#621668] text-[#621668] bg-[#621668]",
+    COE: "border-[#020180] text-[#020180] bg-[#621668]",
+    COC: "border-[#660A0A] text-[#660A0A] bg-[#621668]",
+    COT: "border-[#847714] text-[#847714] bg-[#621668]",
+    SCEAP: "border-[#6F3306] text-[#6F3306] bg-[#621668]",
+    SSC: "border-[#174515] text-[#174515] bg-[#621668]",
+  };
+  const color = colors[code] || "border-black text-black";
 
   const fallback = Array.from({ length: 5 }, (_, i) => ({
+    id: i,
     eventName: `Year-End-Party ${i + 1}`,
     targetYear: `1,2,3,4`,
     eventDate: `7/11/25`,
     eventLog: `View Logs`,
     sanctionType: `Monetary`,
     sanctionFee: `18`,
-    attendance: Array.from({ length: 32 }, (_, j) => ({
-      name: `Mark Angelo Alvarado jrats`,
-      yearSection: `3A`,
-      morningIn: `Excuse`,
-      morningOut: `Present`,
-      afternoonIn: `Absent`,
-      afternoonOut: `Present`
-    }))
+ 
   }));
   
 
 
   const data = events.length ? events : fallback;
+
+  const [checkedIds, setCheckedIds] = useState([]);
+
+  
+  const handleCheckboxChange = (e, id) => {
+    if (e.target.checked) {
+      setCheckedIds((prev) => [...prev, id]);
+    } else {
+      setCheckedIds((prev) => prev.filter((item) => item !== id));
+    }
+  };
+
+
+  const handleSelectAll = (e) => {
+    if (e.target.checked) {
+      setCheckedIds(data.map((s) => s.id));
+    } else {
+      setCheckedIds([]);
+    }
+  };
+
+  const allChecked = data.length > 0 && checkedIds.length === data.length;
+
+  const clickedDelete = () => {
+    alert("Selected IDs: " + checkedIds.join(", "));
+  };
+
 
   const [activeLogIndex, setActiveLogIndex] = useState(null);
   const [selectedEventIndex, setSelectedEventIndex] = useState(null);
@@ -60,31 +83,6 @@ function TableAttendance({ code = "cit", events = [], scanAttendee,view}) {
     setActiveLogIndex(activeLogIndex === index ? null : index);
   };
 
-  /* ------------------------ Main Table Pagination ------------------------- */
-  const PAGE_SIZE = 10;
-  const [page, setPage] = useState(0);
-  const pageCount = Math.ceil(data.length / PAGE_SIZE);
-  const pageData = useMemo(() => data.slice(page * PAGE_SIZE, page * PAGE_SIZE + PAGE_SIZE), [page, data]);
-  const goPrev = () => setPage(Math.max(0, page - 1));
-  const goNext = () => setPage(Math.min(pageCount - 1, page + 1));
-
-  /* ----------------------- Attendance Pagination ------------------------- */
-  const ATTENDEE_PAGE_SIZE = 8;
-  const [attendeePage, setAttendeePage] = useState(0);
-
-  const selectedEvent = selectedEventIndex !== null ? pageData[selectedEventIndex] : null;
-  const selectedAttendance = selectedEvent?.attendance || [];
-  const attendeePageCount = Math.ceil(selectedAttendance.length / ATTENDEE_PAGE_SIZE);
-
-  const attendeePageData = useMemo(
-    () => selectedAttendance.slice(attendeePage * ATTENDEE_PAGE_SIZE, (attendeePage + 1) * ATTENDEE_PAGE_SIZE),
-    [attendeePage, selectedAttendance]
-  );
-
-  const goAttendeePrev = () => setAttendeePage(Math.max(0, attendeePage - 1));
-  const goAttendeeNext = () => setAttendeePage(Math.min(attendeePageCount - 1, attendeePage + 1));
-
-  /* -------------------------------- Render ------------------------------- */
   return (
     <div className={`w-full ${animate} flex flex-col gap-6`}>
       {/* ===================== EVENT TABLE ===================== */}
@@ -93,8 +91,12 @@ function TableAttendance({ code = "cit", events = [], scanAttendee,view}) {
         <div className={` ${animate} lg:ml-70 bg-white lg:text-sm text-xs font-[font-family:Arial] text-black flex-grow p-5 mt-3 rounded-lg shadow-[2px_2px_2px_grey]`}>
           <table className="w-full text-center">
             <thead>
-              <tr className={`border-b-2 border-[#000] ${textColor}`}>
-                <th><input type="checkbox" /></th>
+              <tr className={`border-b-2 border-[#000] bg-white ${color}`}>
+                <th>
+                  <input type="checkbox"
+                  checked={allChecked}
+                  onChange={handleSelectAll} />
+                </th>
                 <th>Event Name</th>
                 <th hidden>Target Year</th>
                 <th>Event Date</th>
@@ -105,9 +107,15 @@ function TableAttendance({ code = "cit", events = [], scanAttendee,view}) {
               </tr>
             </thead>
             <tbody>
-              {pageData.map((s, idx) => (
+              {data.map((s, idx) => (
                 <tr key={idx} className="border-b border-[#0505057a]">
-                  <td><input type="checkbox" /></td>
+                  <td>
+                    <input type="checkbox"
+                    id={s.id}
+                    checked={checkedIds.includes(s.id)}
+                    onChange={(e) => handleCheckboxChange(e, s.id)} />
+                  </td>
+                  <td hidden>{s.id}</td>
                   <td>{s.eventName}</td>
                   <td hidden>{s.targetYear}</td>
                   <td>{s.eventDate}</td>
@@ -153,19 +161,18 @@ function TableAttendance({ code = "cit", events = [], scanAttendee,view}) {
         <div className={`${animate} relative lg:ml-[270px] mt-[-10px] flex flex-col-reverse justify-center items-center`}>
             <p className="text-[#8A2791] lg:absolute left-9">Showing of 600</p>
             <div className="flex">
-              <button onClick={goPrev} disabled={page === 0} className="mx-1 cursor-pointer flex items-center rounded-md border disabled:opacity-40">
+              <button  className="mx-1 cursor-pointer flex items-center rounded-md border disabled:opacity-40">
                 <span className="material-symbols-outlined">chevron_left</span>
               </button>
-              {Array.from({ length: pageCount }, (_, i) => (
+             
                 <button
-                  key={i}
-                  onClick={() => setPage(i)}
-                  className={`px-2 mx-1 cursor-pointer rounded-md border ${i === page ? "bg-[#621668] text-white" : "bg-white"}`}
-                >
-                  {i + 1}
+                  
+                  className={`px-2 mx-1 cursor-pointer rounded-md ${color} `}
+                >1
+                 
                 </button>
-              ))}
-              <button onClick={goNext} disabled={page === pageCount - 1} className="mx-1 cursor-pointer flex items-center rounded-md border disabled:opacity-40">
+       
+              <button  className="mx-1 cursor-pointer flex items-center rounded-md border disabled:opacity-40">
                 <span className="material-symbols-outlined">chevron_right</span>
               </button>
             </div>

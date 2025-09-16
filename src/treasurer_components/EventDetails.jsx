@@ -21,23 +21,29 @@ const EventDetails = React.forwardRef(({animate, onAnimationEnd,onClose,data}, r
 
     React.useEffect(()=>{
         if(data){
-            setEventName(data.eventName);
-            setEventDesc(data.eventDesc);
+            setEventName(data.event_name);
+            setEventDesc(data.event_description);
             setEventFee(data.eventFee);
             setSelectedType(data.eventType);
             setDateFrom(formatDate(data.dateFrom));
             setDateTo(formatDate(data.dateTo));
             // convert "1,2,3,4" -> ["1st Year", "2nd Year", "3rd Year", "4th Year"]
             const yearMap = {
-            "1": "1st Year,",
-            "2": "2nd Year,",
-            "3": "3rd Year,",
-            "4": "4th Year,",
+                "1": "1st Year",
+                "2": "2nd Year",
+                "3": "3rd Year",
+                "4": "4th Year",
             };
-            const years = data.targetYear
-            ? data.targetYear.split(",").map((y) => yearMap[y.trim()])
+
+            let levels = data.event_target_year_levels || [];
+
+            const years = Array.isArray(levels)
+            ? levels.map((y) => yearMap[y])
             : [];
+
             setSelectedYear(years);
+
+
         
             // convert "Attendance" -> ["With Attendance"]
             // or "Contribution" -> ["With Contribution"]

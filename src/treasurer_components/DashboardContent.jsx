@@ -40,7 +40,7 @@ function CITDashboard(){
                 <div className={`bg-[#ffffff] ${animateGraph} border-1 border-[#d8d8d8] transition duration-300 hover:shadow-[3px_3px_3px_#000] hover:scale-102  lg:w-[40%] h-96 rounded-xl grid justify-center shadow-[2px_2px_3px_grey,-2px_-2px_3px_white]`}>
                     <StudentGraph graphTitle="Summary of CITizens" data={data}/>
                 </div> 
-                <div className={`bg-white border-1 ${animateChart}   transition duration-300 hover:shadow-[3px_3px_5px_#000] hover:scale-102 border-[#d8d8d8] lg:w-[60%] lg:my-0 my-8 grid items-center lg:mx-0 mx-3 max-w-full rounded-xl shadow-[2px_2px_3px_grey,-2px_-2px_3px_white]`}>
+                <div className={`bg-white border-1 ${animateChart} p-5 transition duration-300 hover:shadow-[3px_3px_5px_#000] hover:scale-102 border-[#d8d8d8] lg:w-[60%] h-96 lg:my-0 my-8 flex items-center justify-center lg:mx-0 mx-3 rounded-xl shadow-[2px_2px_3px_grey,-2px_-2px_3px_white]`}>
                     <EventChart/>
                 </div>
             </div>

@@ -71,7 +71,7 @@ function Header_Council(props) {
           <i onClick={()=>{clickedAccBar(); sidebar.toggle();} } className="fa-solid fa-bars text-sm cursor-pointer"></i>
         </span>
         <span className='lg:ml-14'>
-          <img src={logo} className='h-16  mr-2 ' alt="logo"/>
+          <img src={logo} className='lg:h-16 md:h-14 h-12  mr-2 ' alt="logo"/>
         </span>
       </span>
       
@@ -86,7 +86,7 @@ function Header_Council(props) {
       </span>
 
       <span>
-        <i onClick={() => {clickedBell(); notification.toggle();}} className="fa-solid fa-bell lg:text-xl hover:bg-[#621668] transiton duration-150 rounded-full p-1.5 hover:text-white  text-sm cursor-pointer"></i>
+        <i onClick={() => {clickedBell(); notification.toggle();}} className="fa-solid fa-bell  lg:text-xl hover:bg-[#621668] transiton duration-150 rounded-full p-1.5 hover:text-white  text-sm cursor-pointer"></i>
       </span>
 
         <span className="hidden lg:block">

@@ -120,6 +120,7 @@ function CITEventContribution({ data }) {
             </div>
 
             <TableEventContribution
+              code={currentUserData?.department_code}
               view={(row) => clickedView(row)} // ✅ Pass selected row
               updateContribution={(row) => {
                 setSelectedAttendee(row);
@@ -154,7 +155,7 @@ function CITEventContribution({ data }) {
               </button>
             </div>
 
-            <ContributionTable />
+            <ContributionTable code={currentUserData?.department_code}/>
           </>
         )}
       </div>

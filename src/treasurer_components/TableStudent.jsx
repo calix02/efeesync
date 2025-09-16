@@ -1,25 +1,20 @@
-import { useState, useMemo } from "react";
+import { useState, useEffect, useRef } from "react";
 import "../animate.css";
-/**
- * TableStudent
- * @param {string} code       – org code ("cit", "coe", …) to color the header text
- * @param {Array}  students   – array of { id, name, yearSection }
- */
-function TableStudent({ code = "cit", students = [] , show, update}) {
-  /* --------------------------------- colors -------------------------------- */
+
+function TableStudent({ code = "cit", students = [], show, update }) {
   const animate = "card-In";
-  /* --------------------------------- colors -------------------------------- */
-  const textColor =
-    code === "cit" ? "text-[#4F1C51]"
-    : code === "coe" ? "text-[#0E2148]"
-    : code === "coc" ? "text-[#3A0519]"
-    : code === "cot" ? "text-[#FFD95F]"
-    : code === "eap" ? "text-[#4B352A]"
-    : code === "osas" ? "text-[#27391C]"
-    : "text-blue";
+
+   const colors = {
+    CIT: "border-[#621668] text-[#621668] bg-[#621668]",
+    COE: "border-[#020180] text-[#020180] bg-[#621668]",
+    COC: "border-[#660A0A] text-[#660A0A] bg-[#621668]",
+    COT: "border-[#847714] text-[#847714] bg-[#621668]",
+    SCEAP: "border-[#6F3306] text-[#6F3306] bg-[#621668]",
+    SSC: "border-[#174515] text-[#174515] bg-[#621668]",
+  };
+  const color = colors[code] || "border-black text-black";
 
 
-  /* ---------------------------- sample fallback ---------------------------- */
   const fallback = Array.from({ length: 0 }, (_, i) => ({
     id: `No Record`,
     firstName: `Mark `,
@@ -29,31 +24,51 @@ function TableStudent({ code = "cit", students = [] , show, update}) {
   }));
 
   const data = students.length ? students : fallback;
+
+  const [checkedIds, setCheckedIds] = useState([]);
+
   
+  const handleCheckboxChange = (e, id) => {
+    if (e.target.checked) {
+      setCheckedIds((prev) => [...prev, id]);
+    } else {
+      setCheckedIds((prev) => prev.filter((item) => item !== id));
+    }
+  };
 
-  /* ----------------------------- pagination -------------------------------- */
-  const PAGE_SIZE = 10;
-  const [page, setPage] = useState(0);          // 0‑based
-  const pageCount = Math.ceil(data.length / PAGE_SIZE);
 
-  const pageData = useMemo(
-    () => data.slice(page * PAGE_SIZE, page * PAGE_SIZE + PAGE_SIZE),
-    [page, data]
-  );
+  const handleSelectAll = (e) => {
+    if (e.target.checked) {
+      setCheckedIds(data.map((s) => s.id));
+    } else {
+      setCheckedIds([]);
+    }
+  };
 
-  const goPrev = () => setPage(Math.max(0, page - 1));
-  const goNext = () => setPage(Math.min(pageCount - 1, page + 1));
+  const allChecked = data.length > 0 && checkedIds.length === data.length;
 
-  /* -------------------------------- render --------------------------------- */
+  const clickedDelete = () => {
+    alert("Selected IDs: " + checkedIds.join(", "));
+  };
+
   return (
-  
-    <div className={`w-full ${animate} flex flex-col gap-6  lg:text-sm text-xs font-[family-name:Arial]`}>
+    <div
+      className={`w-full ${animate} flex flex-col gap-6 lg:text-sm text-xs font-[family-name:Arial]`}
+    >
       {/* table wrapper */}
-      <div className={`lg:ml-70 bg-white  text-black flex-grow p-5  mt-3 rounded-lg shadow-[2px_2px_2px_grey]`}>
-        <table className="w-full text-center ">
+      <div
+        className={`lg:ml-70 bg-white text-black flex-grow p-5 mt-3 rounded-lg shadow-[2px_2px_2px_grey]`}
+      >
+        <table className="w-full text-center">
           <thead>
-            <tr className={`border-b-2 border-[#adadad] ${textColor}`}>
-              <th><input type="checkbox" /></th>
+            <tr className={`border-b-2 bg-white border-[#adadad] ${color}`}>
+              <th>
+                <input
+                  type="checkbox"
+                  checked={allChecked}
+                  onChange={handleSelectAll}
+                />
+              </th>
               <th>Student ID</th>
               <th>Student Name</th>
               <th>Year &amp; Section</th>
@@ -62,17 +77,30 @@ function TableStudent({ code = "cit", students = [] , show, update}) {
           </thead>
 
           <tbody>
-            {pageData.map((s, idx) => (
-              <tr key={idx} className="border-b border-[#0505057a] ">
-                <td><input type="checkbox" /></td>
+            {data.map((s, idx) => (
+              <tr key={idx} className="border-b border-[#0505057a]">
+                <td>
+                  <input
+                    type="checkbox"
+                    id={s.id}
+                    checked={checkedIds.includes(s.id)}
+                    onChange={(e) => handleCheckboxChange(e, s.id)}
+                  />
+                </td>
                 <td>{s.id}</td>
-                <td>{s.firstName + " " + s.middleName + " " + s.lastName }</td>
+                <td>{s.firstName + " " + s.middleName + " " + s.lastName}</td>
                 <td>{s.yearSection}</td>
                 <td className="flex lg:flex-row flex-col gap-2 justify-center py-2">
-                  <span onClick={() => update(s)} className="material-symbols-outlined cursor-pointer text-[#8A2791] bg-white  shadow-[2px_2px_1px_grey] rounded-[5px] border border-[#8A2791] px-[2px]">
+                  <span
+                    onClick={() => update(s)}
+                    className={`material-symbols-outlined ${color} cursor-pointer bg-white shadow-[2px_2px_1px_grey] rounded-sm border px-0.5`}
+                  >
                     edit_square
                   </span>
-                  <span className="material-symbols-outlined bg-white cursor-pointer text-[#d10707] shadow-[2px_2px_2px_grey] rounded-sm border border-[#d10707] ">
+                  <span
+                    onClick={clickedDelete}
+                    className="material-symbols-outlined px-0.5 bg-white cursor-pointer text-[#d10707] shadow-[2px_2px_2px_grey] rounded-sm border border-[#d10707] "
+                  >
                     delete
                   </span>
                 </td>
@@ -81,43 +109,32 @@ function TableStudent({ code = "cit", students = [] , show, update}) {
           </tbody>
         </table>
       </div>
-        {/* pagination controls */}
-        <div className=" relative lg:ml-[270px] mt-[-10px] flex flex-col-reverse justify-center items-center">
-            <p className='text-[#8A2791] lg:absolute left-9'>Showing of 600</p>  
-        <span className="flex">
-             <button
-            onClick={goPrev}
-            disabled={page === 0}
-            className=" mx-1 flex cursor-pointer items-center rounded-md border disabled:opacity-40"
-          >
-            <span className="material-symbols-outlined">chevron_left</span>
 
+      {/* pagination controls */}
+      <div className="relative lg:ml-[270px] mt-[-10px] flex flex-col-reverse justify-center items-center">
+        <p className="text-[#8A2791] lg:absolute left-9">Showing of 600</p>
+        <span className="flex">
+          <button className="mx-1 flex cursor-pointer items-center rounded-md border disabled:opacity-40">
+            <span className="material-symbols-outlined">chevron_left</span>
           </button>
 
-          {Array.from({ length: pageCount }, (_, i) => (
-            <button
-              key={i}
-              onClick={() => setPage(i)}
-              className={`px-2 mx-1 rounded-md border cursor-pointer
-                ${i === page
-                  ? "bg-[#621668] text-white"
-                  : "bg-white "}`} >
-              {i + 1}
-            </button>
-          ))}
-
           <button
-            onClick={goNext}
-            disabled={page === pageCount - 1}className=" mx-1 flex items-center cursor-pointer rounded-md border disabled:opacity-40">
+            className={`px-2 mx-1 rounded-md border cursor-pointer ${color} text-white`}
+          >
+            1
+          </button>
+
+          <button className="mx-1 flex items-center cursor-pointer rounded-md border disabled:opacity-40">
             <span className="material-symbols-outlined">chevron_right</span>
           </button>
         </span>
-            <i onClick={show}  className="fa-solid fa-circle-plus text-[50px] absolute right-[40px] top-[-40px] cursor-pointer text-[#157112] bg-white rounded-full "></i>
-        </div>
+        <i
+          onClick={show}
+          className="fa-solid fa-circle-plus text-[50px] absolute right-[40px] top-[-40px] cursor-pointer text-[#157112] bg-white rounded-full "
+        ></i>
+      </div>
     </div>
-   
   );
 }
-
 
 export default TableStudent;

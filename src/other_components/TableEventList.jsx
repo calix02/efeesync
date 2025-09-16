@@ -7,19 +7,22 @@ import "../animate.css";
  * @param {string} code       – org code ("cit", "coe", …) to color the header text
  * @param {Array}  events   – array of { id, name, yearSection }
  */
-function TableEventList({ code = "cit", events = [] , addEvent, updateEvent,view}) {
+function TableEventList({ code, events = [] , addEvent, updateEvent,view}) {
   /* --------------------------------- animation -------------------------------- */
   const animate = "card-In";
   /* --------------------------------- colors -------------------------------- */
-  const textColor =
-    code === "cit" ? "text-[#4F1C51]"
-    : code === "coe" ? "text-[#0E2148]"
-    : code === "coc" ? "text-[#3A0519]"
-    : code === "cot" ? "text-[#FFD95F]"
-    : code === "eap" ? "text-[#4B352A]"
-    : code === "osas" ? "text-[#27391C]"
-    : "text-blue";
+  const colors = {
+    CIT: "border-[#621668] text-[#621668] bg-[#621668]",
+    COE: "border-[#020180] text-[#020180] bg-[#621668]",
+    COC: "border-[#660A0A] text-[#660A0A] bg-[#621668]",
+    COT: "border-[#847714] text-[#847714] bg-[#621668]",
+    SCEAP: "border-[#6F3306] text-[#6F3306] bg-[#621668]",
+    SSC: "border-[#174515] text-[#174515] bg-[#621668]",
+  };
+  const color = colors[code] || "border-black text-black";
 
+
+ 
 
   /* ---------------------------- sample fallback ---------------------------- */
   const fallback = [
@@ -33,6 +36,30 @@ function TableEventList({ code = "cit", events = [] , addEvent, updateEvent,view
   ];
 
   const data = events.length ? events : fallback;
+
+   const [checkedIds, setCheckedIds] = useState([]);
+
+  
+  const handleCheckboxChange = (e, id) => {
+    if (e.target.checked) {
+      setCheckedIds((prev) => [...prev, id]);
+    } else {
+      setCheckedIds((prev) => prev.filter((item) => item !== id));
+    }
+  };
+
+
+  const handleSelectAll = (e) => {
+    if (e.target.checked) {
+      setCheckedIds(data.map((s) => s.event_id));
+    } else {
+      setCheckedIds([]);
+    }
+  };
+
+  const allChecked = data.length > 0 && checkedIds.length === data.length;
+
+
 
   const [selectedEventIndex, setSelectedEventIndex] = useState(null);
 
@@ -62,23 +89,6 @@ function TableEventList({ code = "cit", events = [] , addEvent, updateEvent,view
     }
   
 
-  /* ----------------------------- pagination -------------------------------- */
-  const PAGE_SIZE = 7;
-  const [page, setPage] = useState(0);          // 0‑based
-  const pageCount = Math.ceil(data.length / PAGE_SIZE);
-
-  const pageData = useMemo(
-    () => data.slice(page * PAGE_SIZE, page * PAGE_SIZE + PAGE_SIZE),
-    [page, data]
-  );
-
-  const selectedEvent = selectedEventIndex !== null ? pageData[selectedEventIndex] : null;
-
-
-  const goPrev = () => setPage(Math.max(0, page - 1));
-  const goNext = () => setPage(Math.min(pageCount - 1, page + 1));
-
-  /* -------------------------------- render --------------------------------- */
   return (
   
     <div className={`w-full ${animate} flex flex-col gap-6 lg:text-sm text-xs font-[family-name:Arial]`}>
@@ -88,8 +98,12 @@ function TableEventList({ code = "cit", events = [] , addEvent, updateEvent,view
       <div className={`lg:ml-70  bg-white text-black flex-grow p-5 mt-3 rounded-lg shadow-[2px_2px_2px_grey]`}>
         <table className="w-full text-center ">
           <thead>
-            <tr className={`border-b-2 rounded-lg  border-[#adadad] ${textColor}`}>
-              <th className="py-2"><input type="checkbox" /></th>
+            <tr className={`border-b-2 rounded-lg bg-white border-[#adadad] ${color}`}>
+              <th className="py-2">
+                <input type="checkbox" 
+                checked={allChecked}
+                onChange={handleSelectAll}/>
+              </th>
               <th>Event Name</th>
               <th hidden>Event Description</th>
               <th hidden>Target Year</th>
@@ -100,9 +114,15 @@ function TableEventList({ code = "cit", events = [] , addEvent, updateEvent,view
           </thead>
 
           <tbody>
-            {pageData.map((s, idx) => (
+            {data.map((s, idx) => (
               <tr key={idx} className="border-b border-[#0505057a] ">
-                <td><input type="checkbox" /></td>
+                <td><input type="checkbox"
+                  id={s.event_id}
+                  checked={checkedIds.includes(s.event_id)}
+                  onChange={(e) => handleCheckboxChange(e, s.event_id)}  
+                 />
+                 </td>
+                 <td hidden>{s.event_id}</td>
                 <td>{s.event_name}</td>
                 <td hidden >{s.event_desciption}</td>
                 <td hidden>{s.eventFee}</td>
@@ -120,7 +140,7 @@ function TableEventList({ code = "cit", events = [] , addEvent, updateEvent,view
                 
                 <td  className="flex lg:flex-row flex-col gap-2 justify-center py-3">
                     <span title="View Event Details" onClick={() => view(s)} className="material-symbols-outlined cursor-pointer  shadow-[2px_2px_1px_grey] rounded-[5px] text-[#3a2791] border border-[#3a2791] px-[2px]">visibility</span>
-                  <span title="Update Event" onClick={() => updateEvent(s)} className="material-symbols-outlined cursor-pointer text-[#8A2791] bg-white  shadow-[2px_2px_1px_grey] rounded-[5px] border border-[#8A2791] px-[2px]">
+                  <span title="Update Event" onClick={() => updateEvent(s)} className={`material-symbols-outlined cursor-pointer ${color} border-1 bg-white  shadow-[2px_2px_1px_grey] rounded-sm px-0.5`}>
                     edit_square
                   </span>
                   <span onClick={() => deleteEvent(s)} title="Delete Event" className="material-symbols-outlined bg-white cursor-pointer text-[#d10707] shadow-[2px_2px_2px_grey] rounded-[5px] border border-[#d10707] px-[2px]">
@@ -138,29 +158,19 @@ function TableEventList({ code = "cit", events = [] , addEvent, updateEvent,view
             <p className='text-[#8A2791] lg:absolute left-9'>Showing of 600</p>  
         <span className="flex">
              <button
-            onClick={goPrev}
-            disabled={page === 0}
             className=" mx-1 flex items-center rounded-md border disabled:opacity-40"
           >
             <span className="material-symbols-outlined cursor-pointer">chevron_left</span>
 
           </button>
 
-          {Array.from({ length: pageCount }, (_, i) => (
-            <button
-              key={i}
-              onClick={() => setPage(i)}
-              className={`px-2 mx-1 rounded-md border cursor-pointer
-                ${i === page
-                  ? "bg-[#4F1C51] text-white"
-                  : "bg-white "}`} >
-              {i + 1}
+          
+            <button className={`px-2 mx-1 rounded-md border cursor-pointer text-white ${color}`}>
+                1
             </button>
-          ))}
+       
 
           <button
-            onClick={goNext}
-            disabled={page === pageCount - 1}
            className=" mx-1 flex items-center rounded-md border disabled:opacity-40"
           >
             <span className="material-symbols-outlined cursor-pointer">chevron_right</span>

@@ -42,16 +42,16 @@ const Sidebar = React.forwardRef(({eFee, animate, onAnimationEnd,onClose},ref) =
                     <span className='text-center font-bold font-poppins text-[18px] block text-[#174515]'>eFeeSync</span>
                 </span>
                 <nav className='pt-5 mx-3  '>
-                    <NavLink code="osas" navLink = "/osas/dashboard" iconName="dashboard" navName="Dashboard"/>
-                    <NavLink code="osas" navLink = "/osas/college" iconName="account_balance" navName="College"/>
-                    <NavLink code="osas" navLink = "/osas/program" iconName="school" navName="Program"/>
-                    <NavLink code="osas" navLink = "/osas/organisation" iconName="graph_2" navName="Organisation"/>
-                    <NavLink code="osas" navLink = "/osas/student" iconName="person" navName="Student"/>
-                    <NavLink code="osas" navLink = "/osas/account" iconName="person_add" navName="Account"/>
-                    <NavLink code="osas" navLink = "/osas/setting" iconName="settings" navName="Settings"/>
+                    <NavLink code="OSAS" navLink = "/osas/dashboard" iconName="dashboard" navName="Dashboard"/>
+                    <NavLink code="OSAS" navLink = "/osas/college" iconName="account_balance" navName="College"/>
+                    <NavLink code="OSAS" navLink = "/osas/program" iconName="school" navName="Program"/>
+                    <NavLink code="OSAS" navLink = "/osas/organisation" iconName="graph_2" navName="Organisation"/>
+                    <NavLink code="OSAS" navLink = "/osas/student" iconName="person" navName="Student"/>
+                    <NavLink code="OSAS" navLink = "/osas/account" iconName="person_add" navName="Account"/>
+                    <NavLink code="OSAS" navLink = "/osas/setting" iconName="settings" navName="Settings"/>
                 </nav>
                 <div className="absolute bottom-2 w-full px-3 lg:hidden block">
-                    <NavLink code="osas" navLink = "#" iconName="moon_stars" navName="Dark Mode"  />
+                    <NavLink code="OSAS" navLink = "#" iconName="moon_stars" navName="Dark Mode"  />
                       <Link onClick={logout} className={`flex items-center font-[family-name:Helvetica] transition duration-150 p-2.5 text-md hover:bg-[#174515]  rounded-md hover:text-white hover:shadow-[3px_2px_2px_grey`}>
                         <span className="material-symbols-outlined px-2.5">logout</span>
                             <span>Log Out</span>

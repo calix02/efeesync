@@ -17,6 +17,7 @@ function CITSanction() {
     const [selectedSanction, setSelectedSanction] = useState("Monetary Sanction");
     const [selectedStudent, setSelectedStudent] = useState(null);
 
+
     const [currentUserData, setCurrentUserData] = useState([]);
         
         const fetchCurrentUser = async () => {
@@ -84,11 +85,11 @@ function CITSanction() {
                     </div>
 
                     {selectedSanction === "Community Service" ? (
-                        <TableCommunityService code="cit" />
+                        <TableCommunityService code={currentUserData?.department_code} />
                     ) : (
-                        <TableMonetarySanction collectSanction={(row) =>{
+                        <TableMonetarySanction code={currentUserData?.department_code} collectSanction={(row) =>{
                             setSelectedStudent(row);
-                            sanctionCollect.toggle();}} code="cit" />
+                            sanctionCollect.toggle();}}  />
                     )}
                 </div>
             </div>

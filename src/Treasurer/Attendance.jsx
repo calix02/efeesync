@@ -128,7 +128,8 @@ const animateL = "left-In";
                                 <button className='bg-[#621668] text-center hover:bg-white hover:border-[#621668] hover:text-[#621668] hover:scale-102 hover:shadow-[2px_2px_3px_grey] duration-200 transition py-1 rounded-md cursor-pointer px-3 text-white border-1 border-[#804d84]'>Back to Eventlist</button>
                             </Link>
                         </div>
-                        <TableAttendance  
+                        <TableAttendance
+                        code={currentUserData?.department_code}  
                         updateEvent={updateEvent.toggle} 
                         view={(row) => clickedView(row)} />
                         

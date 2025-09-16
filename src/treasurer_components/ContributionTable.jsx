@@ -9,15 +9,18 @@ function ContributionTable({ code, events = [] }) {
   const [activeRowIndex, setActiveRowIndex] = useState(null);
 
   const handleChange = (e) => setAmount(e.target.value);
+  
 
-  const textColor =
-    code === "cit" ? "text-[#4F1C51]"
-    : code === "coe" ? "text-[#0E2148]"
-    : code === "coc" ? "text-[#3A0519]"
-    : code === "cot" ? "text-[#FFD95F]"
-    : code === "eap" ? "text-[#4B352A]"
-    : code === "osas" ? "text-[#27391C]"
-    : "text-black";
+  const colors = {
+    CIT: "border-[#621668] text-[#621668] bg-[#621668]",
+    COE: "border-[#020180] text-[#020180] bg-[#621668]",
+    COC: "border-[#660A0A] text-[#660A0A] bg-[#621668]",
+    COT: "border-[#847714] text-[#847714] bg-[#621668]",
+    SCEAP: "border-[#6F3306] text-[#6F3306] bg-[#621668]",
+    SSC: "border-[#174515] text-[#174515] bg-[#621668]",
+  };
+  const color = colors[code] || "border-black text-black";
+
 
   const fallback = Array.from({ length: 12 }, (_, i) => ({
     id: i,
@@ -40,25 +43,12 @@ function ContributionTable({ code, events = [] }) {
     setActiveRowIndex(activeRowIndex === idx ? null : idx);
   };
 
-  /* ---------------- Pagination ---------------- */
-  const PAGE_SIZE = 8;
-  const [page, setPage] = useState(0);
-  const pageCount = Math.ceil(data.length / PAGE_SIZE);
-
-  const pageData = useMemo(
-    () => data.slice(page * PAGE_SIZE, page * PAGE_SIZE + PAGE_SIZE),
-    [page, data]
-  );
-
-  const goPrev = () => setPage(Math.max(0, page - 1));
-  const goNext = () => setPage(Math.min(pageCount - 1, page + 1));
-
   return (
     <div className={`w-full ${animate} flex flex-col gap-6 lg:text-sm text-xs font-[family-name:Arial]`}>
       <div className={`lg:ml-70 bg-white text-black flex-grow p-5 mt-3 rounded-lg shadow-[2px_2px_2px_grey]`}>
         <table className="w-full text-center">
           <thead>
-            <tr className={`border-b-2 border-[#adadad] ${textColor}`}>
+            <tr className={`border-b-2 border-[#adadad] bg-white ${color}`}>
               <th><input type="checkbox" /></th>
               <th hidden>Id</th>
               <th>Student ID</th>
@@ -70,8 +60,8 @@ function ContributionTable({ code, events = [] }) {
             </tr>
           </thead>
           <tbody>
-            {pageData.map((s, idx) => {
-              const globalIndex = page * PAGE_SIZE + idx;
+            {data.map((s, idx) => {
+              
 
               return (
                 <tr key={s.id} className="border-b border-[#0505057a]">
@@ -83,13 +73,13 @@ function ContributionTable({ code, events = [] }) {
                   <td>{s.eventFee}</td>
                   <td>{s.balance}</td>
                   <td className="flex gap-2 justify-center font-semibold text-xs py-3">
-                    {activeRowIndex !== globalIndex ? (
+                    {activeRowIndex !== idx ? (
                       <>
                         <button className="cursor-pointer w-15 border-1 py-1 rounded-sm border-[#65A810] text-[#65A810]">
                           Full
                         </button>
                         <button
-                          onClick={() => clickedPartial(globalIndex)}
+                          onClick={() => clickedPartial(idx)}
                           className="cursor-pointer w-15 border-1 rounded-sm border-[#EAB308] text-[#EAB308]">
                           Partial
                         </button>
@@ -118,32 +108,21 @@ function ContributionTable({ code, events = [] }) {
           </tbody>
         </table>
 
-        {/* Pagination Controls */}
         <div className="mt-4 flex justify-center gap-2">
           <button
-            onClick={goPrev}
-            disabled={page === 0}
             className="cursor-pointer flex justify-center items-center border rounded disabled:opacity-40"
           >
             <span className="material-symbols-outlined">chevron_left</span>
           </button>
 
-          {Array.from({ length: pageCount }, (_, i) => (
             <button
-              key={i}
-              onClick={() => setPage(i)}
-              className={`px-2 border cursor-pointer rounded flex justify-center items-center ${
-                i === page ? "bg-[#621668] text-white" : "bg-white"
-              }`}
-            >
-              {i + 1}
+              className={`px-2 border text-white cursor-pointer rounded flex justify-center items-center ${color}`}
+            >1
             </button>
-          ))}
+          
 
           <button
-            onClick={goNext}
-            disabled={page === pageCount - 1}
-            className="cursor-pointer border flex justify-center items-center rounded disabled:opacity-40"
+            className="cursor-pointer border flex justify-center  items-center rounded disabled:opacity-40"
           >
             <span className="material-symbols-outlined">chevron_right</span>
           </button>

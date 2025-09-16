@@ -33,7 +33,7 @@ function CITStudent(){
         console.log(currentUserData);
       }, []);
 
-     const studData = Array.from({ length: 13 }, (_, i) => ({
+     const studData = Array.from({ length: 8 }, (_, i) => ({
         id: `22-${1000 + i}`,
         firstName: `Mark `,
         middleName: `M.`,
@@ -132,7 +132,7 @@ function CITStudent(){
                     </div>
 
                 </div>
-                <TableStudent students={studData} show={addStudent.toggle} update={(row) =>{
+                <TableStudent code={currentUserData?.department_code} students={studData} show={addStudent.toggle} update={(row) =>{
                     setSelectedStudent(row);
                     updateStudent.toggle();
 

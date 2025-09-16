@@ -136,7 +136,7 @@ function CITEventList(){
                         
                     </div>
 
-                <TableEventList events={eventsOrg} reloadEvents={fetchEvents} addEvent={addEvent.toggle} 
+                <TableEventList code={currentUserData?.department_code} events={eventsOrg} reloadEvents={fetchEvents} addEvent={addEvent.toggle} 
                 view={(row) =>{
                     viewEventDetails.toggle();
                     setSelectedEvent(row);

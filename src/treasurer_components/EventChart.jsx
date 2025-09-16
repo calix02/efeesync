@@ -58,6 +58,7 @@ const eventsData = {
 
 const chartOptions = {
   responsive: true,
+  maintainAspectRatio: false, // ✅ allow it to fill container
   plugins: {
     legend: { position: 'top' },
     title: { display: false }
@@ -74,14 +75,13 @@ function EventChart() {
   const [selectedEvent, setSelectedEvent] = useState('IT Week');
 
   return (
-    <div className='lg:w-[500px] w-[350px] p-[20px] m-auto'>
-      <div style={{ marginBottom: '10px' }}>
-       
+    <div className="w-full max-w-3xl mx-auto p-4">
+      <div className="mb-4">
         <select
           id="event-select"
           value={selectedEvent}
           onChange={(e) => setSelectedEvent(e.target.value)}
-          className="cursor-pointer w-[300px] lg:w-[450px] py-[10px] px-[10px] border-none shadow-[1px_2px_1px_grey,-1px_-2px_2px_white] rounded-[5px] font-bold text-[18px]"
+          className="cursor-pointer w-full  py-2 px-3 shadow-md rounded font-bold text-lg"
         >
           {Object.keys(eventsData).map((eventName) => (
             <option key={eventName} value={eventName}>
@@ -90,10 +90,14 @@ function EventChart() {
           ))}
         </select>
       </div>
-      <h2 style={{ color: '#7b1fa2' }}>{selectedEvent}</h2>
-      <Bar data={eventsData[selectedEvent]} options={chartOptions} />
+      <h2 className="text-[#621668] font-bold mb-2">{selectedEvent}</h2>
+
+      {/* Chart wrapper with fixed height so it can scale */}
+      <div className="w-full h-60 ">
+        <Bar data={eventsData[selectedEvent]} options={chartOptions} />
+      </div>
     </div>
   );
-};
+}
 
 export default EventChart;

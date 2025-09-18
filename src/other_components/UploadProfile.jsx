@@ -1,11 +1,15 @@
 import React, {useState} from "react";
 import { errorAlert } from "../utils/alert";
 const UploadProfile = React.forwardRef(({animate, onAnimationEnd,onClose,code,onUpdate}, ref) =>{
-    const colors ={
-        osas: "text-[#174515] bg-[#174515] border-[#174515]",
-        cit: "text-[#174515]",
-    };
-    const color = colors[code] || "text-[#000] ";
+   const colors = {
+        CIT: "border-[#621668] text-[#621668] bg-[#621668]",
+        COE: "border-[#020180] text-[#020180] bg-[#020180]",
+        COC: "border-[#660A0A] text-[#660A0A] bg-[#660A0A]",
+        COT: "border-[#847714] text-[#847714] bg-[#847714]",
+        SCEAP: "border-[#6F3306] text-[#6F3306] bg-[#6F3306]",
+        SSC: "border-[#174515] text-[#174515] bg-[#174515]"
+      };
+      const color = colors[code] || "border-black text-black";
 
     const [preview, setPreview] = useState(null); 
     const [file, setFile] = useState(null); 

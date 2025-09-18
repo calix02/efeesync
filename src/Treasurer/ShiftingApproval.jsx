@@ -55,7 +55,7 @@ function ShiftingApproval() {
                         </select>
                     </div>
                    
-                    <TableShifting  code="cit" />
+                    <TableShifting  code={currentUserData?.department_code} />
                     
                 </div>
             </div>

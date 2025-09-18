@@ -87,7 +87,7 @@ function AttendanceTable({ code, attendees = [],scanAttendee }) {
                       value={rowStatus.mIn}
                       onChange={(e) => handleChange(globalIndex, "mIn", e.target.value)}
                     >
-                      <option value="">Select Status</option>
+                      <option value="">Status</option>
                       <option value="Absent">Absent</option>
                       <option value="Present">Present</option>
                       <option value="Excuse">Excuse</option>
@@ -103,7 +103,7 @@ function AttendanceTable({ code, attendees = [],scanAttendee }) {
                       value={rowStatus.mOut}
                       onChange={(e) => handleChange(globalIndex, "mOut", e.target.value)}
                     >
-                      <option value="">Select Status</option>
+                      <option value="">Status</option>
                       <option value="Absent">Absent</option>
                       <option value="Present">Present</option>
                       <option value="Excuse">Excuse</option>
@@ -115,11 +115,11 @@ function AttendanceTable({ code, attendees = [],scanAttendee }) {
                     rowStatus.aIn === "Absent" ? "text-[#c91010]" :
                     rowStatus.aIn === "Excuse" ? "text-[#b1760a]" : ""
                   }>
-                    <select
+                    <select 
                       value={rowStatus.aIn}
                       onChange={(e) => handleChange(globalIndex, "aIn", e.target.value)}
                     >
-                      <option value="">Select Status</option>
+                      <option value="">Status</option>
                       <option value="Absent">Absent</option>
                       <option value="Present">Present</option>
                       <option value="Excuse">Excuse</option>
@@ -135,7 +135,7 @@ function AttendanceTable({ code, attendees = [],scanAttendee }) {
                       value={rowStatus.aOut}
                       onChange={(e) => handleChange(globalIndex, "aOut", e.target.value)}
                     >
-                      <option value="">Select Status</option>
+                      <option value="">Status</option>
                       <option value="Absent">Absent</option>
                       <option value="Present">Present</option>
                       <option value="Excuse">Excuse</option>

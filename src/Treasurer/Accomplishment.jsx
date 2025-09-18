@@ -51,7 +51,7 @@ function CITAccomplishment(){
                 <div className=" lg:ml-70 lg:mt-30 mt-25 relative lg:flex md:flex justify-between">
                     <h2 className="text-2xl font-medium font-[family-name:Futura Bold]">Accomplishment Report</h2>
 
-                    <button onClick={addAccomplishment.toggle} className=' bg-white border-1 border-[#000] cursor-pointer lg:mt-0 md:mt-0 mt-3  p-1 lg:text-sm md:text-sm text-xs font-semibold shadow-[2px_2px_grey] rounded-md'><i className="fa-solid fa-plus"></i>Add Accomplishment</button>
+                    <button onClick={addAccomplishment.toggle} className=' bg-white border-1 border-[#000] cursor-pointer lg:mt-0 md:mt-0 mt-3 hover:bg-[#621668] hover:text-white transition duration-200 flex gap-1 hover:scale-105 items-center justify-center  p-1 lg:text-sm md:text-sm text-xs font-semibold shadow-[2px_2px_grey] rounded-md'><i className="fa-solid fa-plus"></i>Add Accomplishment</button>
                 </div>
                 <div className="lg:ml-70 grid lg:grid-cols-2 grid-cols-1 items-center justify-center gap-6 mt-4">
                     <AccomplishmentCard AccomplishPic={AccomplishPic}/>

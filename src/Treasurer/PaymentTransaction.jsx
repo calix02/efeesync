@@ -1,7 +1,8 @@
 import React, { useRef, useState, useEffect } from 'react';
 import CITHeader from '../other_components/Header_Council.jsx';
 import CITSidebar from './Sidebar.jsx';
-import EfeeViolet from '../assets/violetlogo.png';
+import useAnimatedToggle from '../hooks/useAnimatedToggle.js';
+import ProofPayment from '../treasurer_components/ProofPayment.jsx';
 import TablePaymentTransaction from '../treasurer_components/TablePaymentTransaction.jsx';
 import "../animate.css";
 function PaymentTransaction() {
@@ -9,6 +10,10 @@ function PaymentTransaction() {
     const animateL = "left-In";
 
     const [currentUserData, setCurrentUserData] = useState([]);
+    const [selectedStudent, setSelectedStudent] = useState(null);
+
+    const viewProof = useAnimatedToggle();
+    const viewProofRef = useRef(null);
         
         const fetchCurrentUser = async () => {
             try {
@@ -30,6 +35,12 @@ function PaymentTransaction() {
         
     return (
         <>
+        {viewProof.isVisible && (
+            <div className="fixed inset-0 flex justify-center items-center bg-[#00000062]  lg:z-40 md:z-50 z-70 pointer-events-auto">
+                    {/* Overlay */}
+                    <ProofPayment ref={viewProofRef} data={selectedStudent} onAnimationEnd={viewProof.handleEnd} animate={viewProof.animation} onClose={() => viewProof.setAnimation("fade-out")} />
+                </div>
+        )}
 
             <CITHeader code={currentUserData?.department_code} titleCouncil= {currentUserData?.organization_name} abb="CIT Council" />
 
@@ -56,7 +67,10 @@ function PaymentTransaction() {
                          
                         
                     </div>
-                    <TablePaymentTransaction  code="cit" />
+                    <TablePaymentTransaction viewProof={(row)=>{
+                        viewProof.toggle();
+                        setSelectedStudent(row)
+                        }}  code="cit" />
                     
                 </div>
             </div>

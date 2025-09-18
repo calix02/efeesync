@@ -56,7 +56,7 @@ function TableMonetarySanction({ code = "cit", sanctions = [], collectSanction }
         <table className="w-full text-center ">
           <thead>
             <tr className={`border-b-2 border-[#adadad] bg-white ${color}`}>
-              <th>Student ID</th>
+              <th className="hidden lg:block md:block">Student ID</th>
               <th>Student Name</th>
               <th>Year &amp; Section</th>
               <th>Event Name</th>
@@ -71,7 +71,7 @@ function TableMonetarySanction({ code = "cit", sanctions = [], collectSanction }
           <tbody>
             {data.map((s, idx) => (
               <tr key={idx} className="border-b border-[#0505057a] ">
-                <td>{s.studID}</td>
+                <td className="hidden lg:block md:block">{s.studID}</td>
                 <td>{s.studName}</td>
                 <td>{s.yearSection}</td>
                 <td>{s.eventName}</td>
@@ -79,11 +79,13 @@ function TableMonetarySanction({ code = "cit", sanctions = [], collectSanction }
                 <td>{s.balance}</td>
 
 
-                <td className="flex lg:flex-row flex-col gap-2 justify-center py-2">
+                <td className="py-3 flex justify-center">
                   {activeRowIndex !== idx ?(
+                    <div className="w-24 ">
                     <span onClick={() =>clickedPay(idx)}  className="material-symbols-outlined cursor-pointer text-[#65A810] bg-white  shadow-[2px_2px_1px_grey] rounded-md border border-[#65A810] px-1">
                      payments
                     </span>
+                    </div>
 
                   ):(
                       <form
@@ -93,7 +95,7 @@ function TableMonetarySanction({ code = "cit", sanctions = [], collectSanction }
                         }}
                       >
                         <input
-                          className="w-24 border-1 py-1  border-[#000] px-1 rounded-sm"
+                          className="w-24 border-1 px-3 py-1  border-[#000] rounded-sm"
                           type="text"
                           onChange={handleChange}
                           value={amount}

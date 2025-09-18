@@ -9,7 +9,7 @@ function Card_Admin(props){
         : props.title === "CITSC" ? 'bg-[#ECCEFC] text-[#5C0C73]'
         : 'bg-[white]'
     return(
-         <div className={` relative  rounded-sm h-40 shadow-gray-200 overflow-hidden ${bgColor}`}>
+         <div className={` relative  rounded-sm py-1 shadow-gray-200 overflow-hidden ${bgColor}`}>
                 <img className='absolute w-35 opacity-50 right-[-70px] top-2' src={props.logo} alt="" />
                 <span className="flex gap-2 items-center">
                     <img src={props.logo} alt="" className="w-12 mt-2 ml-2" />

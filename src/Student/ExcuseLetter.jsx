@@ -46,20 +46,19 @@ function ExcuseLetter(){
         {sendExcuse.isVisible &&(
             <>
             {/* Send Excuse */}
-            <div className="fixed inset-0 bg-[#00000062] z-40 pointer-events-auto">
-                {/* Overlay */}
-            </div>
+            <div className="fixed flex justify-center items-center inset-0 bg-[#00000062] lg:z-40 md:z-50 z-70 pointer-events-auto">
                 <SendExcuse ref={sendRef} onAnimationEnd={sendExcuse.handleEnd} onClose={()=> sendExcuse.setAnimation("fade-out")} animate={sendExcuse.animation} />  
+            </div>
             </>
         )      
         }
 
         {letter.isVisible &&(
             <>
-            <div className="fixed inset-0 bg-[#00000062] z-40 pointer-events-auto">
+            <div className="fixed inset-0 flex justify-center items-center  lg:z-40 md:z-50 z-70 bg-[#00000062] pointer-events-auto">
                 {/* Overlay */}
+                <Letter ref={letterRef} onAnimationEnd={letter.handleEnd} onClose={() => letter.setAnimation("fade-out")} animate={letter.animation} />
             </div>
-            <Letter ref={letterRef} onAnimationEnd={letter.handleEnd} onClose={() => letter.setAnimation("fade-out")} animate={letter.animation} />
         </>
 
         )
@@ -68,10 +67,10 @@ function ExcuseLetter(){
         }
          {editExcuse.isVisible &&(
             <>
-            <div className="fixed inset-0 bg-[#00000062] z-40 pointer-events-auto">
+            <div className="fixed flex justify-center items-center inset-0 lg:z-40 md:z-50 z-70  bg-[#00000062]  pointer-events-auto">
                 {/* Overlay */}
+                <EditExcuse ref={editRef} onAnimationEnd={editExcuse.handleEnd} onClose={() => editExcuse.setAnimation("fade-out")} animate={editExcuse.animation} />
             </div>
-            <EditExcuse ref={editRef} onAnimationEnd={editExcuse.handleEnd} onClose={() => editExcuse.setAnimation("fade-out")} animate={editExcuse.animation} />
             </>
 
          )
@@ -97,7 +96,7 @@ function ExcuseLetter(){
             
         </div>
              <div className='lg:block hidden' >
-                 <Sidebar eFee={EfeeViolet} code = "cit"/>
+                 <Sidebar code ={currentUserData?.department_code} />
             </div>
 
         </>

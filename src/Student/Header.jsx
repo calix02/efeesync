@@ -106,7 +106,7 @@ function Header(props) {
           <i onClick={clickedMenu} className="fa-solid fa-bars text-sm cursor-pointer"></i>
         </span>
         <span className='lg:ml-18'>
-          <img src={logo} className='lg:w-28 md:w-26 w-20' alt="logo"/>
+          <img src={logo} className='lg:h-16 md:h-14 h-12  mr-2 ' alt="logo"/>
         </span>
       </span>
       

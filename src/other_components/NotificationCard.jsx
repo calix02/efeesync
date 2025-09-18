@@ -32,15 +32,14 @@ const NotificationCard = React.forwardRef(({ animate, onAnimationEnd, code  }, r
   };
 
   const colors = {
-    cit: "text-[#621668]",
-    coe: "text-[#221668]",
-    coc: "text-[#681616]",
-    cot: "text-[#988f11]",
-    esaf: "text-[#5a3c1c]",
-    ssc: "text-[#174515]",
-    osas: "text-[#174515]"
-  };
-  const color = colors[code] || "text-[#000]";
+        CIT: "border-[#621668] text-[#621668]",
+        COE: "border-[#020180] text-[#020180]",
+        COC: "border-[#660A0A] text-[#660A0A]",
+        COT: "border-[#847714] text-[#847714]",
+        SCEAP: "border-[#6F3306] text-[#6F3306]",
+        SSC: "border-[#174515] text-[#174515]"
+      };
+      const color = colors[code] || "border-black text-black";
 
   return (
     <div
@@ -95,7 +94,7 @@ const NotificationCard = React.forwardRef(({ animate, onAnimationEnd, code  }, r
       </div>
 
       <div className="mt-2 px-6">
-        <button className="bg-[#b8b2b2c0] w-full py-1 rounded-md text-sm">
+        <button className="bg-[#b8b2b2c0] cursor-pointer w-full py-1 rounded-md text-sm">
           View All Notifications
         </button>
       </div>

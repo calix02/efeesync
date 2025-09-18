@@ -3,7 +3,7 @@ const EditExcuse = React.forwardRef(({animate, onAnimationEnd,onClose}, ref) =>{
 
 
     return( 
-        <div ref={ref}   className={` ${animate} lg:w-[420px] w-[390px] h-145 px-8 bg-white shadow-[2px_2px_#8A2791,-2px_-2px_white] rounded-[10px] absolute z-50 inset-0 mx-auto mt-16 `}
+        <div ref={ref}   className={` ${animate} lg:w-[420px] w-[390px] h-145 px-8 bg-white shadow-[2px_2px_#8A2791,-2px_-2px_white] rounded-lg  z-50 inset-0 mx-auto  `}
         onAnimationEnd={onAnimationEnd}>
             <div className="mt-[10px] relative">
                 <span onClick={onClose} className="material-symbols-outlined absolute right-0.5 cursor-pointer">disabled_by_default</span>

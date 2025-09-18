@@ -226,7 +226,6 @@ return(
             )}
             { selectedDateType === "Separate Day" && (
                 <>
-                {resetStraightDate}
                 <div className="w-[100%] flex justify-between">
                  <label htmlFor="">Event Date</label>
                     <button type="button" onClick={addDateField} className="text-xs border-1 flex justify-center gap-1 items-center text-[#621668] border-[#621668] rounded-sm px-3 py-0.5 cursor-pointer"><i className="fa-solid fa-circle-plus"></i>Add Date</button>

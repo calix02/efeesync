@@ -13,7 +13,7 @@ function SettingCard({upload,edit,change,qr}){
                     </div>
                 </span>
                 <span>
-                    <button onClick={upload} className='w-18 border-1 border-black py-0.5 rounded-md text-sm mt-4 flex gap-1 items-center justify-center'><i className="fa-solid fa-pen"></i>Edit</button>
+                    <button onClick={upload} className='w-18 cursor-pointer border-1 border-black py-0.5 rounded-md text-sm mt-4 flex gap-1 items-center justify-center'><i className="fa-solid fa-pen"></i>Edit</button>
                 </span>
             </div>
             <h2 className="text-md font-bold pt-4 ">Personal Information</h2>

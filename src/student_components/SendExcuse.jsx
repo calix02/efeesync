@@ -1,9 +1,23 @@
-import React from "react";
+import React, {useState} from "react";
+import { errorAlert } from "../utils/alert";
 const SendExcuse = React.forwardRef(({animate, onAnimationEnd,onClose}, ref) =>{
 
+ const [file, setFile] = useState(null); 
+
+     const handleFileChange = (e) => {
+        const selected = e.target.files[0];
+        if(selected && !/\.(pdf|docx)$/i.test(selected.name)){
+          errorAlert("Only pdf and word are allowed");
+          e.target.value = "";
+     
+        }else if (selected) {
+          setFile(selected);
+          setPreview(URL.createObjectURL(selected)); // show preview
+        }
+    };
 
     return( 
-        <div ref={ref}   className={` ${animate} lg:w-[420px] w-[390px] h-145 px-8 bg-white shadow-[2px_2px_#8A2791,-2px_-2px_white] rounded-[10px] absolute z-50 inset-0 mx-auto mt-16 `}
+        <div ref={ref}   className={` ${animate} lg:w-[420px] w-[390px] h-145 px-8 bg-white shadow-[2px_2px_#8A2791,-2px_-2px_white] rounded-lg z-50 inset-0 mx-auto  `}
         onAnimationEnd={onAnimationEnd}>
             <div className="mt-[10px] relative">
                 <span onClick={onClose} className="material-symbols-outlined absolute right-0.5 cursor-pointer">disabled_by_default</span>
@@ -30,7 +44,7 @@ const SendExcuse = React.forwardRef(({animate, onAnimationEnd,onClose}, ref) =>{
                     <p className="text-sm">Upload image or file.</p>
                     <div className=" relative w-[100%] mt-2 flex justify-center">
                         <button className="w-25 h-8 cursor-pointer  border-1 rounded-md border-[#621668] text-[#621668] absolute">Browse</button>
-                        <input type="file" className="bg-amber-200 py-1 z-[1] w-30 opacity-0 " />
+                        <input type="file" accept=".docx .pdf" value={file} onChange={handleFileChange}  className="bg-amber-200 py-1 z-[1] w-30 opacity-0 " />
                     </div>
                </div>
                 

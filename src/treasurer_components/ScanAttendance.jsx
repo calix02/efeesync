@@ -27,22 +27,22 @@ const ScanAttendance = React.forwardRef(({ animate, onAnimationEnd, onClose, dat
   return (
     <div
       ref={ref}
-      className={`${animate} lg:w-200 w-80 py-6 px-6 lg:text-sm text-xs font-[family-name:Arial] bg-white shadow-[2px_2px_#8A2791,-2px_-2px_white] rounded-lg z-80 inset-0 mx-auto`}
+      className={`${animate} lg:w-200 lg:max-h-140 max-h-110 hide-scrollbar overflow-y-scroll w-80 py-3 px-6 lg:text-sm text-xs font-[family-name:Arial] bg-white shadow-[2px_2px_#8A2791,-2px_-2px_white] rounded-lg z-80 inset-0 mx-auto`}
       onAnimationEnd={onAnimationEnd}
     >
-      {/* header */}
-      <div className="flex justify-end">
-        <span onClick={onClose} className="material-symbols-outlined cursor-pointer">
+     <div className="flex justify-end">
+       <span onClick={onClose} className="material-symbols-outlined cursor-pointer ">
           disabled_by_default
         </span>
-      </div>
+     </div>
 
-      <div className="grid grid-cols-2 mt-6">
+      <div className="lg:grid lg:grid-cols-2 mt-6">
         <div className="w-[100%] text-center text-xs px-3">
+        <h3 className="font-bold text-xl font-poppins mb-6">Show Your QR Code Here</h3>
           <p className="mx-4">
             To record your attendance, simply show your QR Code in front of the laptop camera and wait for the system to confirm.
           </p>
-          <div className="w-[100%] bg-[#D9D9D9] h-90 flex items-center justify-center">
+          <div className="w-[100%] bg-[#D9D9D9] lg:h-90 h-50 flex items-center justify-center">
             <Scanner
               onScan={handleScan}
               onError={(error) => console.error("Scanner error:", error)}
@@ -63,11 +63,13 @@ const ScanAttendance = React.forwardRef(({ animate, onAnimationEnd, onClose, dat
               ]} 
             />
           </div>
+          <div className="lg:hidden lg:mt-0 mt-2 font-bold font-poppins block">Scroll Down to see the data<i className="fa-solid fa-arrow-down ml-3"></i></div>
         </div>
 
         {/* Form side */}
         <div className="w-[100%] text-[#621668] font-[family-name:Arial] px-6">
-          <h3 className="font-bold text-center mb-12 font-poppins text-lg">Attendance Record</h3>
+         
+          <h3 className="font-bold text-center mb-5 mt-15 font-poppins text-lg">Attendance Record</h3>
           <form>
             <label className="text-sm">Student ID: </label>
             <input
@@ -107,6 +109,11 @@ const ScanAttendance = React.forwardRef(({ animate, onAnimationEnd, onClose, dat
               <span className="flex justify-center items-center">
                 <input type="radio" name="log" /> <label>PM OUT</label>
               </span>
+            </div>
+            <div className="flex items-center justify-end gap-2 text-sm">
+              <input type="checkbox" />
+              <label htmlFor="">Auto Mark Attendance</label>
+
             </div>
 
             <button

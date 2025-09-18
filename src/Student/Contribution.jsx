@@ -52,7 +52,7 @@ function Contribution(){
             
         </div>
              <div className='lg:block hidden' >
-                 <Sidebar eFee={EfeeViolet} code="cit" />
+                 <Sidebar code={currentUserData?.department_code} />
             </div>
 
         </>

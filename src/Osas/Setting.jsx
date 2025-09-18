@@ -111,7 +111,25 @@ function Setting(){
         logo.setAnimation("fade-out"); 
     };
     
-    
+    const [currentUserData, setCurrentUserData] = useState([]);
+            
+    const fetchCurrentUser = async () => {
+       try {
+           const res = await fetch("/api/users/current", {
+               credentials: "include"
+           });
+           const response = await res.json();
+           if (response.status === "success") {
+               setCurrentUserData(response.data);
+           }
+       } catch (err) {
+           errorAlert("Fetch Failed");
+       }
+    }
+    useEffect(() => {
+      fetchCurrentUser();
+      console.log(currentUserData);
+    }, []);
 
     return(
         <>
@@ -170,14 +188,14 @@ function Setting(){
         
        
         
-        <Header code="osas" logoCouncil={OsasLogo} titleCouncil = "Office of Student Affairs and Services"/>
+        <Header code="osas"logoCouncil={OsasLogo} titleCouncil = "Office of Student Affairs and Services"/>
          <div className="w-screen h-screen bg-[#fafafa] absolute z-[-1] overflow-y-auto overflow-x-auto lg:px-6 md:px-10 px-3 ">
                 <div className="lg:mt-30 mt-25 lg:ml-68">
                     <h2 className="text-2xl font-semibold font-poppins">Manage Settings</h2>
                 </div>
                 <div className='w-[100%] mt-3 '>
                     <div className='lg:ml-70 lg:px-8 '>
-                        <AccountSetting upload={profile.toggle} changeInfo={information.toggle} changePass={changePassword.toggle}  profile={profileImage} accName={accountData.full_name} accRole={accountData.role} accEmail={accountData.email}/>
+                        <AccountSetting code={currentUserData?.department_code} upload={profile.toggle} changeInfo={information.toggle} changePass={changePassword.toggle}  profile={profileImage} accName={accountData.full_name} accRole={accountData.role} accEmail={accountData.email}/>
                         <SystemSetting upload={logo.toggle} updateEfeeLogo={efee.toggle} logo={logoOsas} efeeLogo={efeeLogo} title={title.organizationName} systemName={title.systemName}/>
                     </div>
                 </div>

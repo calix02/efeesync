@@ -6,7 +6,7 @@ import "../animate.css";
  * @param {string} code       – org code ("cit", "coe", …) to color the header text
  * @param {Array}  excuses   – array of { id, name, yearSection }
  */
-function TableExcuse({ code = "cit", excuses = [] }) {
+function TableExcuse({ code = "cit", excuses = [], viewLetter }) {
   const animate = "card-In";
   /* --------------------------------- colors -------------------------------- */
   const textColor =
@@ -32,20 +32,7 @@ function TableExcuse({ code = "cit", excuses = [] }) {
   const data = excuses.length ? excuses : fallback;
   
 
-  /* ----------------------------- pagination -------------------------------- */
-  const PAGE_SIZE = 10;
-  const [page, setPage] = useState(0);          // 0‑based
-  const pageCount = Math.ceil(data.length / PAGE_SIZE);
 
-  const pageData = useMemo(
-    () => data.slice(page * PAGE_SIZE, page * PAGE_SIZE + PAGE_SIZE),
-    [page, data]
-  );
-
-  const goPrev = () => setPage(Math.max(0, page - 1));
-  const goNext = () => setPage(Math.min(pageCount - 1, page + 1));
-
-  /* -------------------------------- render --------------------------------- */
   return (
   
     <div className={`w-full ${animate} flex flex-col gap-6`}>
@@ -67,18 +54,20 @@ function TableExcuse({ code = "cit", excuses = [] }) {
           </thead>
 
           <tbody>
-            {pageData.map((s, idx) => (
+            {data.map((s, idx) => (
               <tr key={idx} className="border-b border-[#0505057a] ">
                 <td>{s.studID}</td>
                 <td>{s.studName}</td>
                 <td>{s.yearSection}</td>
                 <td>{s.eventName}</td>
                 <td>{s.date}</td>
-                <td ><button className="bg-white lg:w-27 md:w-24 w-15 py-0.25 border-1 text-sm cursor-pointer border-[#621668] text-[#621668] rounded-xl"><i className="fa-regular fa-eye"></i>View Letter</button></td>
+                <td className="flex justify-center py-3" >
+                  <button onClick={viewLetter} className="bg-white py-1 flex items-center gap-1 justify-center lg:px-5 md:px-5 px-2  border-1 text-sm cursor-pointer hover:bg-[#621668] hover:text-white transition duration-200 border-[#621668] text-[#621668] rounded-md"><i className="fa-regular fa-eye"></i>Letter</button>
+                </td>
                 
-                <td className="flex lg:flex-row flex-col gap-2 text-lg justify-center py-3">
+                <td className="lg:text-lg md:text-lg text-sm">
                   <i className="fa-solid fa-circle-check cursor-pointer text-[#70B914]"></i>
-                  <i className="fa-solid fa-circle-xmark cursor-pointer text-[#DE0004]"></i>
+                  <i className="fa-solid fa-circle-xmark cursor-pointer ml-1 text-[#DE0004]"></i>
                 </td>
               </tr>
             ))}
@@ -90,29 +79,15 @@ function TableExcuse({ code = "cit", excuses = [] }) {
             <p className='text-[#8A2791] lg:absolute left-9'>Showing of 600</p>  
         <span className="flex">
              <button
-            onClick={goPrev}
-            disabled={page === 0}
             className=" mx-1 flex items-center rounded-md cursor-pointer  border disabled:opacity-40"
           >
             <span className="material-symbols-outlined">chevron_left</span>
 
           </button>
 
-          {Array.from({ length: pageCount }, (_, i) => (
-            <button
-              key={i}
-              onClick={() => setPage(i)}
-              className={`px-2 mx-1 rounded-md border cursor-pointer
-                ${i === page
-                  ? "bg-[#621668] text-white"
-                  : "bg-white "}`}>
-              {i + 1}
-            </button>
-          ))}
+            <button className={`px-2 mx-1 rounded-md bg-[#621668] text-white border cursor-pointer`}>1</button>
 
           <button
-            onClick={goNext}
-            disabled={page === pageCount - 1}
            className=" mx-1 flex items-center cursor-pointer rounded-md border disabled:opacity-40"
           >
             <span className="material-symbols-outlined">chevron_right</span>

@@ -6,7 +6,7 @@ import "../animate.css";
  * @param {string} code       – org code ("cit", "coe", …) to color the header text
  * @param {Array}  payments   – array of { id, name, yearSection }
  */
-function TablePaymentTransaction({ code = "cit", payments = [] }) {
+function TablePaymentTransaction({ code = "cit",viewProof, payments = [] }) {
   const animate = "card-In";
   /* --------------------------------- colors -------------------------------- */
   const textColor =
@@ -69,33 +69,37 @@ function TablePaymentTransaction({ code = "cit", payments = [] }) {
         <table className="w-full text-center ">
           <thead>
             <tr className={`border-b-2 border-[#adadad] ${textColor}`}>
-              <th>Student ID</th>
+              <th className="hidden lg:block">Student ID</th>
               <th>Student Name</th>
               <th>Event Name</th>
               <th>Amount</th>
-              <th>Date</th>
+              <th className="hidden lg:block">Date</th>
               <th>Screenshot</th>
               <th>Status</th>
               <th>Action</th>
-
-
             </tr>
           </thead>
 
           <tbody>
             {pageData.map((s, idx) => (
               <tr key={idx} className="border-b border-[#0505057a] ">
-                <td>{s.studID}</td>
+                <td className="hidden lg:block">{s.studID}</td>
                 <td>{s.studName}</td>
                 <td>{s.eventName}</td>
                 <td>{s.amount}</td>
-                <td>{s.date}</td>
-                <td>
-                    <button className="bg-white lg:w-27 md:w-24 w-10 py-0.25 border-1 lg:text-sm text-xs cursor-pointer border-[#621668] text-[#621668] rounded-lg"><i className="fa-regular fa-eye"></i>View</button>
+                <td className="hidden lg:block">{s.date}</td>
+                <td >
+                    <button onClick={() =>viewProof(s)} className="bg-white  gap-1 lg:px-5 md:px-5 px-1 py-1 border-1 lg:text-sm text-xs hover:bg-[#621668] hover:text-white transition duration-200 cursor-pointer border-[#621668] text-[#621668] rounded-lg">
+                      <i className="fa-regular fa-eye"></i>View
+                    </button>
 
                 </td>
-                <td >
-                    <button className="bg-white lg:w-27 md:w-24 w-15 py-0.25 border-1 lg:text-sm cursor-pointer text-xs border-[#621668] text-[#621668] lg:rounded-lg rounded-md">{status }</button>
+                <td>
+                    <span className={`lg:px-5 md:px-5 px-1 border-1 text-black py-1 rounded-sm 
+                      ${status === "Approved"? "bg-[#66a810a1]" : 
+                      status === "Pending" ? "bg-[#eab20886]" : 
+                      status === "Rejected"? "bg-[#de0004ac]" : "" }`}>{status}
+                    </span>
                 </td>
                 <td className="flex lg:flex-row flex-col gap-2 text-lg justify-center py-3">
                   <i onClick={clickedApprove} className="fa-solid fa-circle-check cursor-pointer text-[#70B914]"></i>

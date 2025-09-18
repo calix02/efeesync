@@ -36,7 +36,7 @@ function Charts({title,data}) {
   };
 
   return (
-    <div className='lg:w-150 md:w-150 w-80 p-4'>
+    <div className='w-[100%] p-4'>
       <h2 className='font-semibold text-lg py-3'>{title}</h2>
       <Bar data={data} options={options} />
     </div>

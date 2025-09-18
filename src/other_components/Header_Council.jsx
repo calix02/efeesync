@@ -79,7 +79,7 @@ function Header_Council(props) {
         <h2 className="lg:text-2xl md:text-lg text-sm  font-bold font-poppins ml-2">{props.titleCouncil}</h2>
       </span>
 
-      <span className="flex lg:gap-3 absolute right-8">
+      <span className="flex lg:gap-3 lg:absolute md:absolute md:right-8 lg:right-8 float-right ">
         
       <span className='lg:block hidden'>
         <i  className="fa-solid fa-moon lg:text-xl cursor-pointer hover:bg-[#621668] transiton duration-150 rounded-full p-1.5 hover:text-white"></i>
@@ -108,14 +108,14 @@ function Header_Council(props) {
           {/* Overlay */}
         </div>
        
-          <CITSidebar eFee={EfeeViolet} ref={sideRef} onAnimationEnd={sidebar.handleEnd} animate={sidebar.animation} onClose={() => sidebar.setAnimation("fade-out")} />
+          <CITSidebar code={props.code} eFee={EfeeViolet} ref={sideRef} onAnimationEnd={sidebar.handleEnd} animate={sidebar.animation} onClose={() => sidebar.setAnimation("fade-out")} />
        
       </>
     )
       
     }
     {notification.isVisible &&(
-      <NotificationCard ref={notifRef} code="cit" onAnimationEnd={notification.handleEnd} animate={notification.animation} />
+      <NotificationCard ref={notifRef} code={props.code} onAnimationEnd={notification.handleEnd} animate={notification.animation} />
     )
     }
     </>

@@ -145,7 +145,7 @@ function TableAttendance({ code = "cit", events = [], scanAttendee,view}) {
                       visibility
                     </span>
                    
-                    <span className="material-symbols-outlined bg-white cursor-pointer text-[#d10707] shadow-[2px_2px_2px_grey] rounded-[5px] border border-[#d10707] px-[2px]" title="Delete Event">
+                    <span   className="material-symbols-outlined bg-white cursor-pointer text-[#d10707] shadow-[2px_2px_2px_grey] rounded-[5px] border border-[#d10707] px-[2px]" title="Delete Event" onClick={clickedDelete}>
                       delete
                     </span>
                   </td>
@@ -167,7 +167,7 @@ function TableAttendance({ code = "cit", events = [], scanAttendee,view}) {
              
                 <button
                   
-                  className={`px-2 mx-1 cursor-pointer rounded-md ${color} `}
+                  className={`px-2 mx-1 cursor-pointer rounded-md text-white ${color} `}
                 >1
                  
                 </button>

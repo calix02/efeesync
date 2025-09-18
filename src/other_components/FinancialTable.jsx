@@ -8,9 +8,6 @@ function FinancialTable({title, financialData =[]}) {
                     <button className="border text-xs border-black flex gap-1.5 rounded-md justify-center items-center w-25 py-1">
                         <i className="fa-solid fa-print"></i> Print
                     </button>
-                    <button className="border text-xs border-black flex justify-center items-center w-25 py-1 rounded-md">
-                        <i className="fa-solid fa-plus"></i> Add Info
-                    </button>
                 </span>
             </div>
             <form className="mt-3 mx-4" action="">
@@ -21,7 +18,6 @@ function FinancialTable({title, financialData =[]}) {
                                 <th className="py-1">Date</th>
                                 <th>Event</th>
                                 <th>Amount</th>
-                                <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -30,7 +26,6 @@ function FinancialTable({title, financialData =[]}) {
                                     <td className="py-1">{data.date}</td>
                                     <td>{data.event}</td>
                                     <td>{data.fee}</td>
-                                    <td>---</td>
                                 </tr>
                             ))}
                         </tbody>

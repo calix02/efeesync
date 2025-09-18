@@ -31,7 +31,7 @@ const AddAccomplishmentCard = React.forwardRef(({animate, onAnimationEnd,onClose
     }
 
     return( 
-        <div ref={ref}   className={` ${animate} lg:w-100 md:w-100 w-80 lg:h-118 md:h-105 h-115 px-6 bg-white shadow-[2px_2px_#8A2791,-2px_-2px_white] rounded-lg text-sm font-[family-name:Arial]  z-80 inset-0 mx-auto  `}
+        <div ref={ref}   className={` ${animate} lg:w-100 md:w-100 w-80 lg:h-118 md:h-116 h-125 px-6 bg-white shadow-[2px_2px_#8A2791,-2px_-2px_white] rounded-lg text-sm font-[family-name:Arial]  z-80 inset-0 mx-auto  `}
         onAnimationEnd={onAnimationEnd}>
             <div className="mt-6 relative">
                 <span onClick={onClose} className="material-symbols-outlined absolute right-0.5 cursor-pointer">disabled_by_default</span>

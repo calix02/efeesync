@@ -4,12 +4,12 @@ import StudentGraph from '../other_components/Graph.jsx';
 import EventChart from './EventChart.jsx';
 import '../animate.css';
 
-function CITDashboard(){
+function CITDashboard({code}){
     const animateGraph = "left-In";
     const animateChart = "right-In";
- 
+     
 
-     const data = {
+    const data = {
     labels: [' 1st Year', ' 2nd Year', '3rd Year', ' 4th Year'],
     datasets: [
       {

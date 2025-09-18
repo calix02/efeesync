@@ -15,7 +15,7 @@ const Letter = React.forwardRef(({animate, onAnimationEnd,onClose}, ref) =>{
                 <span>Absence Date: May 22, 2025</span>
                 <span>Submitted Date: May 22, 2025</span>
                 <span className="mt-3">Attachment</span>
-                <div className="w-[100%] overflow-y-scroll p-4 h-70 bg-[#D9D9D9] rounded-md">
+                <div className="w-[100%] overflow-y-scroll hide-scrollbar sc p-4 h-70 bg-[#D9D9D9] rounded-md">
                     <p>Dear Charo,</p>
                 </div>
             </div>

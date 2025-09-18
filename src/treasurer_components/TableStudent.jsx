@@ -90,10 +90,10 @@ function TableStudent({ code = "cit", students = [], show, update }) {
                 <td>{s.id}</td>
                 <td>{s.firstName + " " + s.middleName + " " + s.lastName}</td>
                 <td>{s.yearSection}</td>
-                <td className="flex lg:flex-row flex-col gap-2 justify-center py-2">
+                <td className="flex lg:flex-row flex-col gap-2 justify-center py-3">
                   <span
                     onClick={() => update(s)}
-                    className={`material-symbols-outlined ${color} cursor-pointer bg-white shadow-[2px_2px_1px_grey] rounded-sm border px-0.5`}
+                    className={`material-symbols-outlined ${color}  cursor-pointer bg-white shadow-[2px_2px_1px_grey] rounded-sm border px-0.5`}
                   >
                     edit_square
                   </span>

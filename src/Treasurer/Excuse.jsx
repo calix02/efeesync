@@ -1,14 +1,19 @@
 import React, { useRef, useState, useEffect } from 'react';
 import CITHeader from '../other_components/Header_Council.jsx';
 import CITSidebar from './Sidebar.jsx';
-import EfeeViolet from '../assets/violetlogo.png';
 import TableExcuse from '../treasurer_components/TableExcuse.jsx';
+import Letter from '../treasurer_components/Letter.jsx';
 import "../animate.css";
+import useAnimatedToggle from '../hooks/useAnimatedToggle.js';
 function CITExcuse() {
     const animateR = "right-In";
     const animateL = "left-In";
 
     const [currentUserData, setCurrentUserData] = useState([]);
+
+    const viewLetter = useAnimatedToggle();
+
+    const viewLetterRef  = useRef(null);
         
         const fetchCurrentUser = async () => {
             try {
@@ -31,6 +36,14 @@ function CITExcuse() {
     
     return (
         <>
+        {viewLetter.isVisible &&(
+             <>
+                <div className="fixed inset-0 flex justify-center items-center bg-[#00000062]  lg:z-40 md:z-50 z-70 pointer-events-auto">
+                    {/* Overlay */}
+                    <Letter ref={viewLetterRef} onAnimationEnd={viewLetter.handleEnd} animate={viewLetter.animation} onClose={() => viewLetter.setAnimation("fade-out")} />
+                </div>
+            </>
+        )}
 
             <CITHeader code={currentUserData?.department_code} titleCouncil={currentUserData?.organization_name} abb="CIT Council" />
 
@@ -56,7 +69,7 @@ function CITExcuse() {
                         </select>
                     </div>
                    
-                    <TableExcuse  code="cit" />
+                    <TableExcuse viewLetter={viewLetter.toggle}  code="cit" />
                     
                 </div>
             </div>

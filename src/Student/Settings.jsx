@@ -47,10 +47,10 @@ function Settings(){
          <>
         {profile.isVisible &&(
             <>
-                <div className="fixed inset-0 bg-[#00000062] z-40 pointer-events-auto">
+                <div className="fixed lg:z-40 md:z-50 z-70 flex justify-center items-center inset-0 bg-[#00000062] pointer-events-auto">
                     {/* Overlay */}
+                    <UploadProfile ref={profileRef} code={currentUserData?.department_code} onAnimationEnd={profile.handleEnd} onClose={() => profile.setAnimation("fade-out")} animate={profile.animation} />  
                 </div>
-                <UploadProfile ref={profileRef} onAnimationEnd={profile.handleEnd} onClose={() => profile.setAnimation("fade-out")} animate={profile.animation} />  
             </>
         )
             
@@ -59,10 +59,10 @@ function Settings(){
         }
          {updateInfo.isVisible &&(
             <>
-                <div className="fixed inset-0 bg-[#00000062] z-40 pointer-events-auto">
+                <div className="fixed lg:z-40 md:z-50 z-70 flex justify-center items-center inset-0 bg-[#00000062]  pointer-events-auto">
                     {/* Overlay */}
+                    <UpdateInfo ref={updateRef} onAnimationEnd={updateInfo.handleEnd} onClose={() => updateInfo.setAnimation("fade-out")} animate={updateInfo.animation} />  
                 </div>
-                <UpdateInfo ref={updateRef} onAnimationEnd={updateInfo.handleEnd} onClose={() => updateInfo.setAnimation("fade-out")} animate={updateInfo.animation} />  
             </>
 
          )
@@ -70,10 +70,10 @@ function Settings(){
         }
          {changePassword.isVisible &&(
             <>
-                <div className="fixed inset-0 bg-[#00000062] z-40 pointer-events-auto">
+                <div className="fixed lg:z-40 md:z-50 z-70 flex justify-center items-center  inset-0 bg-[#00000062]  pointer-events-auto">
                     {/* Overlay */}
+                    <ChangePassword code={currentUserData?.department_code} ref={changeRef} onAnimationEnd={changePassword.handleEnd} onClose={() => changePassword.setAnimation("fade-out")} animate={changePassword.animation} />  
                 </div>
-                <ChangePassword ref={changeRef} onAnimationEnd={changePassword.handleEnd} onClose={() => changePassword.setAnimation("fade-out")} animate={changePassword.animation} />  
             </>
 
          )
@@ -81,10 +81,10 @@ function Settings(){
         }
         {qrCode.isVisible &&(
             <>
-                <div className="fixed inset-0 bg-[#00000062] z-40 pointer-events-auto">
+                <div className="fixed lg:z-40 md:z-50 z-70 flex justify-center items-center inset-0 bg-[#00000062] pointer-events-auto">
                     {/* Overlay */}
+                    <QRCode ref={qrRef} onAnimationEnd={qrCode.handleEnd} onClose={() => qrCode.setAnimation("fade-out")} animate={qrCode.animation} />  
                 </div>
-                <QRCode ref={qrRef} onAnimationEnd={qrCode.handleEnd} onClose={() => qrCode.setAnimation("fade-out")} animate={qrCode.animation} />  
             </>
 
         )
@@ -101,7 +101,7 @@ function Settings(){
             
         </div>
              <div className='lg:block hidden' >
-                 <Sidebar eFee={EfeeViolet} code="cit"/>
+                 <Sidebar  code={currentUserData?.department_code} />
             </div>
 
         </>

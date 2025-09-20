@@ -1,132 +1,206 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Scanner } from "@yudiel/react-qr-scanner";
+import Quagga from "quagga";
 
-const ScanAttendance = React.forwardRef(({ animate, onAnimationEnd, onClose, data }, ref) => {
-  const [studentId, setStudentId] = useState("");
-  const [studentName, setStudentName] = useState("");
-  const [yearSection, setYearSection] = useState("");
+const ScanAttendance = React.forwardRef(
+  ({ animate, onAnimationEnd, onClose, data, code }, ref) => {
+    const colors = {
+      CIT: "border-[#621668] text-[#621668] bg-[#621668] ",
+      COE: "border-[#020180] text-[#020180] bg-[#020180]",
+      COC: "border-[#660A0A] text-[#660A0A] bg-[#660A0A]",
+      COT: "border-[#847714] text-[#847714] bg-[847714]",
+      SCEAP: "border-[#6F3306] text-[#6F3306] bg-[#6F3306]",
+      SSC: "border-[#174515] text-[#174515] bg-[#174515]"
+    };
+    const color = colors[code] || "border-black text-black";
 
-  const handleScan = (detectedCodes) => {
-    if (detectedCodes && detectedCodes.length > 0) {
-      const code = detectedCodes[0].rawValue;
+    const [studentId, setStudentId] = useState("");
+    const [studentName, setStudentName] = useState("");
+    const [yearSection, setYearSection] = useState("");
+    const [usingQuagga, setUsingQuagga] = useState(false);
 
+    // --- Detect if mobile or desktop ---
+    const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+    const cameraFacingMode = isMobile ? "environment" : "user";
+
+    // --- Parse decoded text into form fields ---
+    const handleDecodedText = (decodedText) => {
       try {
-        const parsedData = JSON.parse(code);
+        const parsedData = JSON.parse(decodedText);
         setStudentId(parsedData.id || "");
         setStudentName(parsedData.name || "");
         setYearSection(parsedData.section || "");
-      } catch (err) {
-        const parts =  detectedCodes[0].rawValue.split(/\r?\n/); 
+      } catch {
+        const parts = decodedText.split(/\r?\n/);
         setStudentId(parts[0] || "");
         setStudentName(parts[1] || "");
-        setYearSection(parts[2] || "");     
+        setYearSection(parts[2] || "");
       }
-    }
-  };
+    };
 
-  return (
-    <div
-      ref={ref}
-      className={`${animate} lg:w-200 lg:max-h-140 max-h-110 hide-scrollbar overflow-y-scroll w-80 py-3 px-6 lg:text-sm text-xs font-[family-name:Arial] bg-white shadow-[2px_2px_#8A2791,-2px_-2px_white] rounded-lg z-80 inset-0 mx-auto`}
-      onAnimationEnd={onAnimationEnd}
-    >
-     <div className="flex justify-end">
-       <span onClick={onClose} className="material-symbols-outlined cursor-pointer ">
-          disabled_by_default
-        </span>
-     </div>
+    // --- ZXing Handler (QR codes) ---
+    const handleZXingScan = (results) => {
+      if (results && results.length > 0) {
+        const decodedText = results[0].rawValue;
+        console.log("ZXing detected:", decodedText);
+        handleDecodedText(decodedText);
+      }
+    };
 
-      <div className="lg:grid lg:grid-cols-2 mt-6">
-        <div className="w-[100%] text-center text-xs px-3">
-        <h3 className="font-bold text-xl font-poppins mb-6">Show Your QR Code Here</h3>
-          <p className="mx-4">
-            To record your attendance, simply show your QR Code in front of the laptop camera and wait for the system to confirm.
-          </p>
-          <div className="w-[100%] bg-[#D9D9D9] lg:h-90 h-50 flex items-center justify-center">
-            <Scanner
-              onScan={handleScan}
-              onError={(error) => console.error("Scanner error:", error)}
-              scanDelay={500}       /* optional */
-              allowMultiple={true}
-              formats={[
-                "qr_code",       // QR codes
-                "code_128",      // Common barcodes
-                "ean_13",        // Retail barcodes
-                "ean_8",         // Short retail codes
-                "upc_a",         // UPC-A barcodes
-                "upc_e",         // UPC-E barcodes
-                "codabar",       // Library/healthcare barcodes
-                "itf",           // ITF (interleaved 2 of 5)
-                "data_matrix",   // 2D codes
-                "pdf417",        // ID cards, boarding passes
-                "aztec"          
-              ]} 
-            />
-          </div>
-          <div className="lg:hidden lg:mt-0 mt-2 font-bold font-poppins block">Scroll Down to see the data<i className="fa-solid fa-arrow-down ml-3"></i></div>
+    // --- Quagga Handler (Barcodes, Code39 only) ---
+    useEffect(() => {
+      if (!usingQuagga) return;
+
+      Quagga.init(
+        {
+          inputStream: {
+            type: "LiveStream",
+            target: document.querySelector("#quagga-reader"),
+            constraints: {
+              facingMode: cameraFacingMode, // ✅ Auto webcam or back camera
+              width: { ideal: 1280 },
+              height: { ideal: 720 },
+            },
+          },
+          decoder: {
+            readers: ["code_39_reader"], // ✅ Code39 only
+          },
+          locate: true,
+        },
+        (err) => {
+          if (err) {
+            console.error("Quagga init error:", err);
+            return;
+          }
+          Quagga.start();
+        }
+      );
+
+      Quagga.onDetected((data) => {
+        if (data?.codeResult?.code) {
+          const code = data.codeResult.code;
+          console.log("Quagga detected (Code39):", code);
+          handleDecodedText(code);
+        }
+      });
+
+      return () => {
+        Quagga.stop();
+        Quagga.offDetected();
+      };
+    }, [usingQuagga]);
+
+    return (
+      <div
+        ref={ref}
+        className={`${animate} ${color} lg:w-200 lg:max-h-140 max-h-130 hide-scrollbar overflow-y-scroll w-80 py-3 px-6 lg:text-sm text-xs font-[family-name:Arial] bg-white shadow-[2px_2px_#8A2791,-2px_-2px_white] rounded-lg z-80 inset-0 mx-auto`}
+        onAnimationEnd={onAnimationEnd}
+      >
+        <div className="flex justify-end">
+          <span
+            onClick={onClose}
+            className="material-symbols-outlined cursor-pointer "
+          >
+            disabled_by_default
+          </span>
         </div>
 
-        {/* Form side */}
-        <div className="w-[100%] text-[#621668] font-[family-name:Arial] px-6">
-         
-          <h3 className="font-bold text-center mb-5 mt-15 font-poppins text-lg">Attendance Record</h3>
-          <form>
-            <label className="text-sm">Student ID: </label>
-            <input
-              type="text"
-              value={studentId}
-              readOnly
-              className="border-2 px-2 border-[#8A2791] h-8 rounded-md w-[100%] mt-2 mb-3"
-            />
+        <div className="lg:grid lg:grid-cols-2 mt-6">
+          <div className="w-full text-center text-xs px-3">
+            <h3 className="font-bold text-black text-xl font-poppins mb-6">
+              Show Your QR / Barcode Here
+            </h3>
+            <p className="mx-4 text-black">
+              To record your attendance, show your QR Code or Barcode in front
+              of the camera and wait for the system to confirm.
+            </p>
 
-            <label className="text-sm">Student Name: </label>
-            <input
-              type="text"
-              value={studentName}
-              readOnly
-              className="border-2 px-2 border-[#8A2791] h-8 rounded-md w-[100%] mt-2 mb-3"
-            />
+            <div className="w-full bg-[#D9D9D9] lg:h-80 h-60 flex items-center justify-center relative overflow-hidden rounded-md">
+              {!usingQuagga ? (
+                <Scanner
+                  onScan={handleZXingScan}
+                  onError={(err) => console.error("ZXing error:", err)}
+                  components={{ audio: true }}
+                  constraints={{
+                    facingMode: cameraFacingMode, // ✅ Auto webcam or back camera
+                  }}
+                  style={{ width: "100%", height: "100%", objectFit: "cover" }}
+                />
+              ) : (
+                <div
+                  id="quagga-reader"
 
-            <label className="text-sm">Year & Section </label>
-            <input
-              type="text"
-              value={yearSection}
-              readOnly
-              className="border-2 px-2 border-[#8A2791] h-8 rounded-md w-[100%] mt-2 mb-3"
-            />
-
-            <label className="text-sm">Attendance Logs: </label>
-            <div className="border-2 px-2 flex justify-center items-center gap-2 border-[#8A2791] h-8 rounded-md w-[100%] mt-2 mb-3">
-              <span className="flex justify-center items-center">
-                <input type="radio" name="log" /> <label>AM IN</label>
-              </span>
-              <span className="flex justify-center items-center">
-                <input type="radio" name="log" /> <label>AM OUT</label>
-              </span>
-              <span className="flex justify-center items-center">
-                <input type="radio" name="log" /> <label>PM IN</label>
-              </span>
-              <span className="flex justify-center items-center">
-                <input type="radio" name="log" /> <label>PM OUT</label>
-              </span>
-            </div>
-            <div className="flex items-center justify-end gap-2 text-sm">
-              <input type="checkbox" />
-              <label htmlFor="">Auto Mark Attendance</label>
-
+                  style={{ width: "100%", height: "100%", objectFit: "cover" }}
+                />
+              )}
             </div>
 
             <button
-              type="button"
-              className="w-[100%] text-white mt-2 rounded-md h-8 bg-[#621668]"
+              onClick={() => setUsingQuagga((prev) => !prev)}
+              className={`mt-3 cursor-pointer ${color} text-white  px-4 py-1 rounded-md`}
             >
-              Mark Present
+              {usingQuagga ? "Scan Qr codes" : "Scan Barcodes"}
             </button>
-          </form>
+          </div>
+
+          <div className="w-full font-[family-name:Arial] lg:px-6 px-3">
+            <h3 className="font-bold text-center mb-5 mt-15 font-poppins text-lg">
+              Attendance Record
+            </h3>
+            <form>
+              <label className="text-sm">Student ID: </label>
+              <input
+                type="text"
+                value={studentId}
+                readOnly
+                className="border-2 px-2 h-8 rounded-md w-full mt-2 mb-3"
+              />
+
+              <label className="text-sm">Student Name: </label>
+              <input
+                type="text"
+                value={studentName}
+                readOnly
+                className="border-2 px-2  h-8 rounded-md w-full mt-2 mb-3"
+              />
+
+              <label className="text-sm">Year & Section </label>
+              <input
+                type="text"
+                value={yearSection}
+                readOnly
+                className="border-2 px-2 h-8 rounded-md w-full mt-2 mb-3"
+              />
+              <label htmlFor="">Attendance Logs</label><br />
+              <div className="border-2 h-8 rounded-md lg:text-sm text-xs flex justify-center gap-2 items-center">
+                <span className="flex items-center gap-1">
+                  <input type="checkbox" />
+                  <label htmlFor="">AM IN</label>
+                </span>
+                 <span className="flex items-center gap-1">
+                  <input type="checkbox" />
+                  <label htmlFor="">AM OUT</label>
+                </span>
+                 <span className="flex items-center gap-1">
+                  <input type="checkbox" />
+                  <label  htmlFor="">PM IN</label>
+                </span>
+                 <span className="flex items-center gap-1">
+                  <input type="checkbox" />
+                  <label htmlFor="">PM OUT</label>
+                </span> 
+              </div>
+              <div className="flex items-center gap-1 justify-end mt-1">
+                <input type="checkbox" />
+                <label htmlFor="">Auto-Mark Attendance</label>
+              </div>
+              <button className={`w-[100%] ${color} h-8 rounded-md mt-3 cursor-pointer text-white`}>Mark Present</button>
+            </form>
+          </div>
         </div>
       </div>
-    </div>
-  );
-});
+    );
+  }
+);
 
 export default ScanAttendance;

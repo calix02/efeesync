@@ -1,6 +1,6 @@
 import React,{useState} from "react";
 import { successAlert } from "../utils/alert";
-const SendShift = React.forwardRef(({animate, onAnimationEnd,onClose}, ref) =>{
+const EditShift = React.forwardRef(({animate, onAnimationEnd,onClose}, ref) =>{
     const [studentName, setStudentName] = useState("");
     const [desiredCollege, setDesiredCollege] = useState("");
     const [currentCollege, setCurrentCollege] = useState("");
@@ -28,7 +28,7 @@ const SendShift = React.forwardRef(({animate, onAnimationEnd,onClose}, ref) =>{
                 <span onClick={onClose} className="material-symbols-outlined absolute right-0.5 cursor-pointer">disabled_by_default</span>
             </div>
             <div className="mt-[20px] border-b-4 border-[#8A2791]">
-                <span className="text-[#8A2791] font-semibold text-[22px]">Shifting Request</span>
+                <span className="text-[#8A2791] font-semibold text-[22px]">Edit Shifting Request</span>
             </div>
             <form action="" onSubmit={(e) =>{
                 clickedSendShift();
@@ -65,4 +65,4 @@ const SendShift = React.forwardRef(({animate, onAnimationEnd,onClose}, ref) =>{
        
     );
 });
-export default SendShift;
+export default EditShift;

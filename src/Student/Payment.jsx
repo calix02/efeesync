@@ -14,6 +14,8 @@ import '../animate.css';
 
 function Payment(){
 /* ------------------------- Animated States ----------------------------- */
+    const animate = "card-In";
+    const animateR = "right-In"
     const sendPayment = useAnimatedToggle();
     const proofPayment = useAnimatedToggle();
     const editPayment = useAnimatedToggle();
@@ -76,9 +78,9 @@ function Payment(){
         <div className="w-screen h-screen bg-[#F8F8F8] absolute z-[-1] overflow-y-auto overflow-x-auto ">
              <div className="mt-[110px] lg:ml-70 flex justify-between px-6">
                 <h2 className="text-2xl font-semibold ">My Payments</h2>
-                <button onClick={sendPayment.toggle}  className="w-45 h-10 cursor-pointer rounded-lg shadow-[2px_2px_3px_grey] text-white bg-[#621668] border-1 border-[#621668]"><i className="fa-solid fa-plus mr-2"></i>Send Payment</button>
+                <button onClick={sendPayment.toggle}  className={` ${animateR} w-45 h-10 cursor-pointer rounded-lg shadow-[2px_2px_3px_grey] text-white bg-[#621668] border-1 border-[#621668]`}><i className="fa-solid fa-plus mr-2"></i>Send Payment</button>
             </div> 
-            <div className="lg:ml-70 flex flex-wrap gap-6 mt-6 px-6">
+            <div className={`${animate} lg:ml-70 grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-6 mt-6 px-6`}>
                 <PaymentStatusCard status="Received" view={proofPayment.toggle} edit={editPayment.toggle} />
                 <PaymentStatusCard status="Received" view={proofPayment.toggle} edit={editPayment.toggle} />
                 <PaymentStatusCard status="Pending" view={proofPayment.toggle} edit={editPayment.toggle} />

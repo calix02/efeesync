@@ -44,7 +44,8 @@ function Contribution(){
                     <span>Total Fees Paid: P1,250.00</span>
                 </div>
             </div>
-            <div className={`lg:ml-70 grid grid-cols-3 gap-8 mt-8 px-8`}>
+            <div className={`lg:ml-70 lg:grid md:grid lg:grid-cols-3 md:grid-cols-2 flex flex-col gap-8 mt-8 px-8`}>
+              
                 <PaidCard/>
                 <UnpaidCard/>
                 <Unsettled/>

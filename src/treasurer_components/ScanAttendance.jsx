@@ -18,31 +18,10 @@ const ScanAttendance = React.forwardRef(
     const [studentName, setStudentName] = useState("");
     const [yearSection, setYearSection] = useState("");
     const [usingQuagga, setUsingQuagga] = useState(false);
-    const [cameraError, setCameraError] = useState(false);
 
     // --- Detect if mobile or desktop ---
     const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
     const cameraFacingMode = isMobile ? "environment" : "user";
-
-    // --- Request camera permission ---
-    const requestCameraAccess = async () => {
-      try {
-        const stream = await navigator.mediaDevices.getUserMedia({
-          video: { facingMode: cameraFacingMode },
-        });
-        // stop after granting (scanner/Quagga will reuse)
-        stream.getTracks().forEach((track) => track.stop());
-        console.log("✅ Camera access granted");
-        setCameraError(false);
-      } catch (err) {
-        console.error("❌ Camera access denied:", err);
-        setCameraError(true);
-      }
-    };
-
-    useEffect(() => {
-      requestCameraAccess();
-    }, []);
 
     // --- Parse decoded text into form fields ---
     const handleDecodedText = (decodedText) => {
@@ -78,13 +57,13 @@ const ScanAttendance = React.forwardRef(
             type: "LiveStream",
             target: document.querySelector("#quagga-reader"),
             constraints: {
-              facingMode: cameraFacingMode,
+              facingMode: cameraFacingMode, // ✅ Auto webcam or back camera
               width: { ideal: 1280 },
               height: { ideal: 720 },
             },
           },
           decoder: {
-            readers: ["code_39_reader"],
+            readers: ["code_39_reader"], // ✅ Code39 only
           },
           locate: true,
         },
@@ -137,32 +116,20 @@ const ScanAttendance = React.forwardRef(
             </p>
 
             <div className="w-full bg-[#D9D9D9] lg:h-80 h-60 flex items-center justify-center relative overflow-hidden rounded-md">
-              {cameraError ? (
-                <div className="flex flex-col items-center justify-center gap-2 text-red-600">
-                  <p>Camera is blocked or unavailable.</p>
-                  <button
-                    onClick={requestCameraAccess}
-                    className="bg-blue-600 text-white px-3 py-1 rounded"
-                  >
-                    Re-Enable Camera
-                  </button>
-                </div>
-              ) : !usingQuagga ? (
+              {!usingQuagga ? (
                 <Scanner
                   onScan={handleZXingScan}
-                  onError={(err) => {
-                    console.error("ZXing error:", err);
-                    setCameraError(true);
-                  }}
+                  onError={(err) => console.error("ZXing error:", err)}
                   components={{ audio: true }}
                   constraints={{
-                    facingMode: cameraFacingMode,
+                    facingMode: cameraFacingMode, // ✅ Auto webcam or back camera
                   }}
                   style={{ width: "100%", height: "100%", objectFit: "cover" }}
                 />
               ) : (
                 <div
                   id="quagga-reader"
+
                   style={{ width: "100%", height: "100%", objectFit: "cover" }}
                 />
               )}
@@ -204,35 +171,30 @@ const ScanAttendance = React.forwardRef(
                 readOnly
                 className="border-2 px-2 h-8 rounded-md w-full mt-2 mb-3"
               />
-
               <label htmlFor="">Attendance Logs</label><br />
               <div className="border-2 h-8 rounded-md lg:text-sm text-xs flex justify-center gap-2 items-center">
                 <span className="flex items-center gap-1">
                   <input type="checkbox" />
                   <label htmlFor="">AM IN</label>
                 </span>
-                <span className="flex items-center gap-1">
+                 <span className="flex items-center gap-1">
                   <input type="checkbox" />
                   <label htmlFor="">AM OUT</label>
                 </span>
-                <span className="flex items-center gap-1">
+                 <span className="flex items-center gap-1">
                   <input type="checkbox" />
-                  <label htmlFor="">PM IN</label>
+                  <label  htmlFor="">PM IN</label>
                 </span>
-                <span className="flex items-center gap-1">
+                 <span className="flex items-center gap-1">
                   <input type="checkbox" />
                   <label htmlFor="">PM OUT</label>
-                </span>
+                </span> 
               </div>
-
               <div className="flex items-center gap-1 justify-end mt-1">
                 <input type="checkbox" />
                 <label htmlFor="">Auto-Mark Attendance</label>
               </div>
-
-              <button className={`w-[100%] ${color} h-8 rounded-md mt-3 cursor-pointer text-white`}>
-                Mark Present
-              </button>
+              <button className={`w-[100%] ${color} h-8 rounded-md mt-3 cursor-pointer text-white`}>Mark Present</button>
             </form>
           </div>
         </div>

@@ -93,7 +93,7 @@ function ContributionTable({ code, events = [] }) {
                       >
                         <input
                           className="w-30 border-1 py-1 border-[#000] px-1 rounded-sm"
-                          type="text"
+                          type="number"
                           onChange={handleChange}
                           value={amount}
                           placeholder="Enter amount"

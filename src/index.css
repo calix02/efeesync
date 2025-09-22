@@ -9,6 +9,19 @@
   -ms-overflow-style: none;  /* IE and Edge */
   scrollbar-width: none;     /* Firefox */
 }
+@layer base {
+  /* Chrome, Safari, Edge, Opera */
+  input[type=number]::-webkit-inner-spin-button,
+  input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  /* Firefox */
+  input[type=number] {
+    -moz-appearance: textfield;
+  }
+}
 
 @theme{
     --font-poppins: "Poppins", sans-serif;

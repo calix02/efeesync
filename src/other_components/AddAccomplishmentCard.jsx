@@ -46,9 +46,9 @@ const AddAccomplishmentCard = React.forwardRef(({animate, onAnimationEnd,onClose
             }}>
             <div className="mt-6">
                 <label>Event Name :</label><br />
-                <input type="text" onChange={changeEventName} value={eventName} className="border-2 border-[#8A2791] px-2 h-8 rounded-sm w-[100%] mb-4" /> <br />
+                <input type="text" onChange={changeEventName} required value={eventName} className="border-2 border-[#8A2791] px-2 h-8 rounded-sm w-[100%] mb-4" /> <br />
                 <label>Event Description:</label><br />
-               <textarea className="border-2 border-[#8A2791] px-2 h-8 rounded-sm w-[100%] mb-4" name="" onChange={changeEventDesc} value={eventDesc} id=""></textarea>
+               <textarea className="border-2 border-[#8A2791] px-2 h-8 rounded-sm w-[100%] mb-4" name="" onChange={changeEventDesc} required value={eventDesc} id=""></textarea>
                <div className="bg-[#c3c3c3c2] flex flex-col justify-center items-center  w-[100%] h-45 rounded-sm mb-4">
                     {preview ? 
                         (<img src={preview} alt="Preview" className="w-25 h-25  object-cover"/>) 
@@ -60,7 +60,7 @@ const AddAccomplishmentCard = React.forwardRef(({animate, onAnimationEnd,onClose
                     )}
                     <div className=" relative w-[100%] mt-[10px] flex justify-center">
                         <button className="w-30 h-8 cursor-pointer  border-1 rounded-sm border-[#621668] text-[#621668] absolute">Browse</button>
-                        <input type="file" accept=".png .svg .jpeg .jpg" onChange={handleFileChange} className="bg-amber-200 py-1.5 z-[1] w-30 opacity-0 " />
+                        <input type="file" accept=".png .svg .jpeg .jpg" required onChange={handleFileChange} className="bg-amber-200 py-1.5 z-[1] w-30 opacity-0 " />
                     </div>
                </div>
             </div>

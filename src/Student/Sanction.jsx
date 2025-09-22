@@ -36,12 +36,12 @@ function Sanction(){
             <div className="mt-[110px] lg:ml-70">
                 <h2 className="text-2xl font-semibold ml-6">My Sanction</h2>
             </div>
-            <div className="lg:ml-70 px-8 ">
+            <div className="lg:ml-70 lg:px-8 md:px-6 px-3 ">
                 <div className=" bg-white rounded-lg w-100% h-15 border-2 border-[#621668] text-[#621668] shadow-[2px_2px_3px_grey] mt-4 text-lg font-[family-name:arial] font-semibold flex items-center p-3">
                     <span>Total Sanction Paid: P1,250.00</span>
                 </div>
             </div>
-            <div className="lg:ml-70 flex justify-center gap-6 mt-6">
+            <div className="lg:ml-70 grid lg:grid-cols-2 px-3 md:grid-cols-2 gap-6 mt-6">
                 <Monetary/>
                 <CommunityService/>
 

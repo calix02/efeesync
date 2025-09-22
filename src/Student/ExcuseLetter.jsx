@@ -83,7 +83,7 @@ function ExcuseLetter(){
                 <h2 className="text-2xl font-semibold ">Excuse Letter Request</h2>
                 <button onClick={sendExcuse.toggle} className="w-45 h-10 rounded-lg shadow-[2px_2px_3px_grey] text-white bg-[#621668] border-1 border-[#621668]"><i className="fa-solid fa-plus mr-2"></i>Send Excuse Letter</button>
             </div>
-            <div className="lg:ml-70 flex flex-wrap  gap-5  mt-6 px-8" >
+            <div className="lg:ml-70 grid lg:grid-cols-3 md:grid-cols-2  gap-5  mt-6 px-8" >
                 <ExcuseStatusCard status="Approved" view={letter.toggle} edit={editExcuse.toggle}/>
                 <ExcuseStatusCard status="Approved" view={letter.toggle} edit={editExcuse.toggle}/>
                 <ExcuseStatusCard status="Approved" view={letter.toggle} edit={editExcuse.toggle}/>

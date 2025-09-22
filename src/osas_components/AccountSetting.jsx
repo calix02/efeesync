@@ -23,7 +23,7 @@ function AccountSetting({upload,accName,accRole,accEmail,profile,changePass,chan
 
 
     return(
-        <div className={`w-[100%] ${animate} ${color} py-8 px-8 font-[family-name:Arial]  bg-white border-black border-1 rounded-xl shadow-[3px_3px_5px_grey]`}>
+        <div className={`w-[100%] ${animate} ${color} py-8 px-8 font-[family-name:Arial]  bg-white border-black border-1 rounded-xl shadow-[3px_3px_2px_grey]`}>
             <h3 className='text-sm font-[family-name:Helvetica] text-black font-semibold'>Account Settings</h3>
             <div className="w-full bg-white mt-2 border-1 border-[#000] py-8 rounded-xl lg:px-10 md:px-10 px-2 flex lg:flex-row md:flex-row flex-col lg:justify-between md:justify-between items-center">
                     <span className="flex lg:flex-row md:flex-row flex-col items-center lg:gap-6 md:gap-6 gap-3">

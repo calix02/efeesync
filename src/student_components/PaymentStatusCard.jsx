@@ -6,7 +6,7 @@ function PaymentStatusCard({status,view,edit}){
     :status === "Not Received" ? 'bg-[#F8D1D2] text-[#DE0004]' 
     : 'bg-white'
     return(
-        <div className="w-70 h-48 px-6 bg-white shadow-[2px_2px_3px_grey] border-1 border-[#621668] rounded-lg">
+        <div className="w-[100%] h-48 px-6 bg-white shadow-[2px_2px_3px_grey] border-1 border-[#621668] rounded-lg">
             <div className="mt-4 ">
                 <div className={ `w-25 h-7 rounded-lg ${color} shadow-[2px_2px_3px_grey] flex justify-center items-center text-sm font-semibold`}>{status}</div>
             </div>

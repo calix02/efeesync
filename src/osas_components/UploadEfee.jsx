@@ -1,4 +1,5 @@
 import React, {useState} from "react";
+import { errorAlert } from "../utils/alert";
 const UploadEfee = React.forwardRef(({animate, onAnimationEnd,onClose,code,data,onUpdate,onUpdateTitle}, ref) =>{
     const [name, setName] = useState(data?.systemName || "");
 
@@ -24,12 +25,16 @@ const UploadEfee = React.forwardRef(({animate, onAnimationEnd,onClose,code,data,
     const [preview, setPreview] = useState(null); 
     const [file, setFile] = useState(null); 
 
-     const handleFileChange = (e) => {
-      const selected = e.target.files[0];
-      if (selected) {
-        setFile(selected);
-        setPreview(URL.createObjectURL(selected)); 
-      }
+    const handleFileChange = (e) => {
+        const selected = e.target.files[0];
+        if(selected && !/\.(png|jpe?g|svg)$/i.test(selected.name)){
+          errorAlert("Only png,svg,jpeg are allowed");
+          e.target.value = "";
+    
+            }else if (selected) {
+          setFile(selected);
+          setPreview(URL.createObjectURL(selected)); // show preview
+        }
     };
     const handleUpdate = () => {
       if (file) {
@@ -55,7 +60,7 @@ const UploadEfee = React.forwardRef(({animate, onAnimationEnd,onClose,code,data,
             </div>
             <div className="mt-5">
                 <label>System Name:</label><br />
-                <input type="text" onChange={(e) =>setName(e.target.value)} value={name} className="border-2 px-2  h-8 rounded-md w-[100%] mb-4" /> <br />
+                <input type="text" onChange={(e) =>setName(e.target.value)} required value={name} className="border-2 px-2  h-8 rounded-md w-[100%] mb-4" /> <br />
                  <label>Upload Photo:</label><br />
                  <div className="bg-[#c3c3c3c2] flex flex-col justify-center items-center  w-[100%] h-50 rounded-lg mb-4">
                     {preview ? 
@@ -68,7 +73,7 @@ const UploadEfee = React.forwardRef(({animate, onAnimationEnd,onClose,code,data,
                     )}
                     <div className=" relative w-[100%] mt-2 flex justify-center">
                         <button className="w-25 h-8 cursor-pointer  border-1 rounded-md  absolute">Browse</button>
-                        <input type="file" onChange={handleFileChange} className="bg-amber-200 cursor-pointer py-1 z-[1] w-30 opacity-0 " />
+                        <input type="file" accept=".jpeg .svg .png" onChange={handleFileChange} className="bg-amber-200 cursor-pointer py-1 z-[1] w-30 opacity-0 " />
                     </div>
                </div>
             </div>

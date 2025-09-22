@@ -11,6 +11,8 @@ function LogIn(){
     const [passwordData, setPassword] = useState("");
     const [showLogInOption, setShowLogInOption] = useState(false);
     const [availableRoles, setAvailableRoles] = useState([]);
+    
+    const [isSuccess, setIsSuccess] = useState(false);
 
     const changeEmail = (e) => setEmail(e.target.value);
     const changePassword = (e) => setPassword(e.target.value);
@@ -31,7 +33,10 @@ function LogIn(){
             const response = await res.json();
             if (response.status === "success") {
                 if (response.data != null) {
-                    window.location.reload();  
+                    setIsSuccess(true);
+                    setTimeout(() => {
+                        window.location.reload();  
+                    }, 1200); // small delay to show animation
                 }
             } else {
                 errorAlert(response.message || "Invalid email or password.");
@@ -78,7 +83,7 @@ function LogIn(){
         <>
          {showLogInOption === true &&(
             <div className="fixed inset-0 flex justify-center items-center bg-[#00000062] lg:z-40 md:z-50 z-70 pointer-events-auto">
-             <LogInOption loginData={loginData} availableRoles={availableRoles}/>
+             <LogInOption setIsSuccess={setIsSuccess}  loginData={loginData} availableRoles={availableRoles}/>
             </div>
         
             )}
@@ -90,13 +95,13 @@ function LogIn(){
                         <span>
                             <h1 className="lg:text-6xl text-[#075207] font-bold font-poppins  lg:mt-0 mt-3" >eFeeSync</h1>
                             <p className="text-white mt-2 lg:block hidden font-inter" >"Fees in Sync. Trust in Sight"</p>
-                        </span>
+                        </span> 
                     </div>
                 </div>
             <div className="bg-white lg:w-[50%] w-[100%] flex h-screen justify-center items-center">
                 <div className="w-[100%] lg:mt-0 mt-[-230px]">
                     <div className="flex flex-col items-center">
-                        <img className="lg:w-25 w-35 z-40" src={Cbsua} alt="" />
+                        <img className="lg:w-25 w-35 lg:z-30 z-40" src={Cbsua} alt="" />
                         <h2 className=" mt-6 text-[#174515] font-bold text-2xl font-poppins">Welcome to eFeeSync</h2>
                     </div>
                     <div className=" flex flex-col justify-center mt-4 ">
@@ -105,7 +110,24 @@ function LogIn(){
                             <input type="email" onChange={changeEmail} value={emailData}  className="bg-white mb-2 border-2 font-semibold font-inter text-md border-[#000] w-[100%] px-2 py-2 rounded-md" /><br />
                             <label className="font-semibold text-md font-poppins" htmlFor="">Password:</label><br />
                             <input type="password" onChange={changePassword} value={passwordData} className="bg-white mb-2 border-2 font-semibold font-inter text-md border-[#000] w-[100%] px-2 py-2 rounded-md" /><br /><br />
-                            <button onClick={submit} className="bg-[#174515] font-poppins rounded-md cursor-pointer py-2 w-[100%] text-white">Sign In</button>
+                            
+                            <button 
+                                onClick={submit} 
+                                disabled={isSuccess}
+                                className={`font-poppins rounded-md cursor-pointer py-2 w-[100%] text-white transition-all duration-300
+                                    ${isSuccess ? "bg-green-600" : "bg-[#174515]"}`}
+                            >
+                                {isSuccess ? (
+                                    <span className="flex items-center justify-center gap-2">
+                                        <svg className="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                          <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                                          <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
+                                        </svg>
+                                        Success
+                                    </span>
+                                ) : "Sign In"}
+                            </button>
+
                             <center>
                                 <p className="mt-3 text-sm text-[#414040c4] font-poppins">Forgot Password?</p>
                             </center>

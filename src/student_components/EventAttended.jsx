@@ -2,7 +2,7 @@ import "../animate.css";
 function EventAttended(){
     const animate = "left-In";
     return(
-        <div className={` ${animate} w-145 h-135 border-2 shadow-[2px_2px_3px_grey] bg-white rounded-lg border-[#15A310] text-[#15A310] px-6`}>
+        <div className={` ${animate} w-[100%] h-135 border-2 shadow-[2px_2px_3px_grey] bg-white rounded-lg border-[#15A310] text-[#15A310] px-6`}>
             <div className="border-b-4 border-[#15A310] text-xl pt-2 py-1  font-semibold">
                 <span>Event Attended</span>
             </div>

@@ -60,7 +60,7 @@ const UploadProfile = React.forwardRef(({animate, onAnimationEnd,onClose,code,on
                     )}
                     <div className=" relative w-[100%] mt-2 flex justify-center">
                         <button className="w-25 h-8 cursor-pointer  border-1 rounded-md  absolute">Browse</button>
-                        <input type="file" accept=".png .svg .jpeg .jpg" onChange={handleFileChange} className="bg-amber-200 cursor-pointer py-1 z-[1] w-30 opacity-0 " />
+                        <input type="file" required accept=".png .svg .jpeg .jpg" onChange={handleFileChange} className="bg-amber-200 cursor-pointer py-1 z-[1] w-30 opacity-0 " />
                     </div>
                </div>
                 

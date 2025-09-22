@@ -50,7 +50,7 @@ function SettingCard({upload,edit,change,qr}){
             </div>
             <h2 className="text-md font-bold pt-4 ">QR Code</h2>
             <div className="w-[100%] rounded-lg h-30 border-2 border-black mt-2 px-10 items-center flex justify-between">
-                <span className='px-4 py-2 border-2 border-black rounded-md'><i class="fa-solid fa-qrcode text-7xl"></i></span>
+                <span className='px-4 py-2 border-2 border-black rounded-md'><i className="fa-solid fa-qrcode text-7xl"></i></span>
                 <button onClick={qr} className='w-50 rounded-lg flex gap-2 justify-center items-center py-0.75 border-1 border-[#625555]'>View QR Code</button>
 
             </div>

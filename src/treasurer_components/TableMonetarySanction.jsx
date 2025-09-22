@@ -96,7 +96,7 @@ function TableMonetarySanction({ code = "cit", sanctions = [], collectSanction }
                       >
                         <input
                           className="w-24 border-1 px-3 py-1  border-[#000] rounded-sm"
-                          type="text"
+                          type="number"
                           onChange={handleChange}
                           value={amount}
                           placeholder="Enter amount"

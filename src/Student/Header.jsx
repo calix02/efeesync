@@ -99,7 +99,7 @@ function Header(props) {
 
   return (
   <>
-    <header className={` flex  bg-white fixed top-0 w-screen h-[80px] lg:z-30 z-80 items-center border-b-3 ${color} `}>
+    <header className={` flex  bg-white fixed top-0 w-screen h-[80px] lg:z-20 md:z-40 z-60 items-center border-b-3 ${color} `}>
       <span hidden>{props.code}</span>
       <span className="flex items-center  gap-3 ml-2">
         <span className='lg:hidden block'>

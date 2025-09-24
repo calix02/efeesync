@@ -30,46 +30,62 @@ function CITEventList(){
     const [selectedType, setSelectedType] = useState("");
 
     const [currentUserData, setCurrentUserData] = useState([]);
+
+    const [searchValue, setSearchValue] = useState("");
     
     const fetchCurrentUser = async () => {
-       try {
-           const res = await fetch("/api/users/current", {
-               credentials: "include"
-           });
-           const response = await res.json();
-           if (response.status === "success") {
-               setCurrentUserData(response.data);
-           }
-       } catch (err) {
-           console.error("Fetch Failed: " + err);
-       }
-    }
+        try {
+            const res = await fetch("/api/users/current", { credentials: "include" });
+            const response = await res.json();
+
+            if (response.status === "success") {
+                const user = response.data;
+                setCurrentUserData(user);
+                fetchEvents(user.organization_id);
+            }
+        } catch (err) {
+            console.error("Fetch Failed: " + err);
+        }
+    };
 
     const [eventsOrg, setEventsOrg] = useState([]);
 
-    const fetchEvents = async () => {
-       try {
-           const res = await fetch(`/api/organizations/${currentUserData.organization_id}/events`, {
-               credentials: "include"
-           });
-           const response = await res.json();
-           if (response.status === "success") {
-              setEventsOrg(response.data);
-           }
-       } catch (err) {
-           console.error("Fetch Failed");
-       }
+    const formatDateStr = (dateString) => {
+        return new Date(dateString).toLocaleDateString('en-US', {year:'numeric',month:'long',day:'numeric'});
     }
-    
-    useEffect(() => {
-      fetchCurrentUser();
-    }, []);
-    
-    useEffect(() => {
-        if (currentUserData?.organization_id) {
-            fetchEvents();
+
+    const fetchEvents = async (organizationId=currentUserData.organization_id, page = 1, search = "") => {
+        if (!organizationId) return;
+        try {
+            const res = await fetch(`/api/organizations/${organizationId}/events?page=${page}&search=${search}`, {
+            credentials: "include"
+            });
+            const response = await res.json();
+            if (response.status === "success") {
+            setEventsOrg(response.data);
+            }
+        } catch (err) {
+            console.error("Fetch Failed");
         }
-    }, [currentUserData]);
+    };
+
+    const [debounceTimer, setDebounceTimer] = useState(null);
+    
+    const debounce = (callback, delay=500)  => {
+        clearTimeout(debounceTimer);
+        setDebounceTimer(setTimeout(callback, delay));
+    }
+
+    const searchEvents = (search) => {
+        setSearchValue(search);
+        debounce(() => {
+            fetchEvents(currentUserData.organization_id, 1, search);
+        }, 500);
+    };
+    
+    useEffect(() => {
+        fetchCurrentUser();
+    }, []);
  
     return(
         <>
@@ -96,7 +112,7 @@ function CITEventList(){
         }
         {viewEventDetails.isVisible &&(
             <div className="fixed inset-0 flex justify-center items-center bg-[#00000062] lg:z-40 md:z-50 z-70 pointer-events-auto">
-                <EventDetails reloadEvents={fetchEvents} ref={viewDetailsRef} data={selectedEvent} onAnimationEnd={viewEventDetails.handleEnd} animate={viewEventDetails.animation} onClose={() => viewEventDetails.setAnimation("fade-out")}/>
+                <EventDetails reloadEvents={fetchEvents} formatDateStr={formatDateStr} ref={viewDetailsRef} data={selectedEvent} onAnimationEnd={viewEventDetails.handleEnd} animate={viewEventDetails.animation} onClose={() => viewEventDetails.setAnimation("fade-out")}/>
             </div>
             
         )}
@@ -112,7 +128,7 @@ function CITEventList(){
                 <div className="lg:mt-30 mt-25 lg:ml-70 lg:flex md:flex  md:justify-between   lg:justify-between">
                     <h2 className="text-2xl font-[family-name:Futura Bold] font-semibold">Manage Events</h2>
                     <div className={`flex ${animateR} items-center lg:px-0 md:px-0 px-3`}>
-                    <input className='lg:w-85 md:w-85 w-[100%] p-1.5 bg-white rounded-md border-2 lg:mt-0 md:mt-0 mt-4   border-[#8A2791] block' type="text" placeholder='Search Student' />
+                    <input className='lg:w-85 md:w-85 w-[100%] p-1.5 bg-white rounded-md border-2 lg:mt-0 md:mt-0 mt-4   border-[#8A2791] block' type="text" onKeyUp={(e) => { searchEvents(e.target.value) }} placeholder='Search Events' />
                     </div>
                 </div>
                 <div className=' w-[100%] mt-3 '>
@@ -122,21 +138,21 @@ function CITEventList(){
                             <option value="Event Contribution">Event Contribution</option>
                             <option value="Event Attendance">Event Attendance</option>
                         </select>  
-                         <select className='bg-white lg:w-25 w-20 text-xs transition duration-100 hover:scale-100 hover:bg-[#621668] hover:text-white cursor-pointer border-1 border-[#8A2791] py-1  text-[#8A2791] rounded-md text-center'  title='Sort by Date' name="" id="">
+                        
+                        {/*<select className='bg-white lg:w-25 w-20 text-xs transition duration-100 hover:scale-100 hover:bg-[#621668] hover:text-white cursor-pointer border-1 border-[#8A2791] py-1  text-[#8A2791] rounded-md text-center'  title='Sort by Date' name="" id="">
                             <option value="">Date</option>
                             <option value="">hey</option>
                         </select>
                           <select title='Sort by Target Year' className='bg-white lg:w-25 w-20 text-xs transition duration-100 hover:scale-100 hover:bg-[#621668] hover:text-white cursor-pointer border-1 border-[#8A2791] py-1  text-[#8A2791] rounded-md text-center'  name="" id="">
                             <option value="">Year</option>
                             <option value="">hey</option>
-
                         </select>
-                         <button title='Print Event List' className='bg-white lg:w-25 w-20 transition duration-100 hover:scale-100 hover:bg-[#621668] hover:text-white text-xs cursor-pointer flex justify-center gap-1 border-1 border-[#8A2791] py-1  text-[#8A2791] rounded-md text-center'><i className="fa-solid fa-print"></i>Print</button>
-                         
+                        */}
+                        <button title='Print Event List' onClick={()=>{window.print()}} className='bg-white lg:w-25 w-20 transition duration-100 hover:scale-100 hover:bg-[#621668] hover:text-white text-xs cursor-pointer flex justify-center gap-1 border-1 border-[#8A2791] py-1  text-[#8A2791] rounded-md text-center'><i className="fa-solid fa-print"></i>Print</button>
                         
                     </div>
 
-                <TableEventList code={currentUserData?.department_code} events={eventsOrg} reloadEvents={fetchEvents} addEvent={addEvent.toggle} 
+                <TableEventList code={currentUserData?.department_code} formatDateStr={formatDateStr} events={eventsOrg} reloadEvents={fetchEvents} addEvent={addEvent.toggle} 
                 view={(row) =>{
                     viewEventDetails.toggle();
                     setSelectedEvent(row);

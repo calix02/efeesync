@@ -1,32 +1,19 @@
 import React,{useState} from "react";
 import { successAlert } from "../utils/alert";
-const EventDetails = React.forwardRef(({animate, onAnimationEnd,onClose,data}, ref) =>{
+const EventDetails = React.forwardRef(({animate, onAnimationEnd,onClose,data,formatDateStr}, ref) =>{
     const [eventName, setEventName] = useState(data?.event_name);
     const [eventDesc, setEventDesc] = useState(data?.event_description);
-    const[eventFee, setEventFee] = useState(data?.eventFee);  
     const [dateFrom, setDateFrom] = useState(data?.event_start_date);
     const [dateTo, setDateTo] = useState(data?.event_end_date);
     const [selectedYear, setSelectedYear] = useState(data?.event_target_year_levels || []);
-    const [selectedType, setSelectedType] = useState(data?.eventType || []);
-
-    // helper to normalize dates
-    const formatDate = (dateStr) => {
-    if (!dateStr) return "";
-    const d = new Date(dateStr);
-    // Ensure valid date
-    if (isNaN(d)) return "";
-    return d.toISOString().split("T")[0]; // YYYY-MM-DD
-    };
-
 
     React.useEffect(()=>{
         if(data){
             setEventName(data.event_name);
             setEventDesc(data.event_description);
-            setEventFee(data.eventFee);
-            setSelectedType(data.eventType);
-            setDateFrom(formatDate(data.dateFrom));
-            setDateTo(formatDate(data.dateTo));
+            setDateFrom(data.event_start_date);
+            setDateTo(data.event_end_date);
+
             const yearMap = {
                 "1": "1st Year, ",
                 "2": "2nd Year, ",
@@ -42,18 +29,9 @@ const EventDetails = React.forwardRef(({animate, onAnimationEnd,onClose,data}, r
 
             setSelectedYear(years);
 
-
-        
-            // convert "Attendance" -> ["With Attendance"]
-            // or "Contribution" -> ["With Contribution"]
-            const typeMap = {
-            Attendance: "With Attendance",
-            Contribution: "With Contribution",
-            };
             const types = data.eventType
             ? data.eventType.split(",").map((t) => typeMap[t.trim()])
             : [];
-            setSelectedType(types);
         }
     },[data])
 
@@ -67,33 +45,42 @@ const EventDetails = React.forwardRef(({animate, onAnimationEnd,onClose,data}, r
                 <span onClick={onClose} className="material-symbols-outlined absolute right-0.5 cursor-pointer">disabled_by_default</span>
             </div>
             <h1 className="text-xl mt-6 font-bold font-poppins">{eventName}</h1>
-            <h3 className="flex justify-end">Date : {dateFrom} - {dateTo}</h3>
+            <h3 className="flex justify-end">Date : {dateFrom === dateTo
+                  ? formatDateStr(dateFrom)
+                  : `${formatDateStr(dateFrom)} to ${formatDateStr(dateTo)}`}</h3>
             <h3 className="font-poppins font-semibold text-md mt-3"> Event Description: </h3>
             <p className="text-justify mt-3 indent-6">{eventDesc}</p>
             <h3 className="font-poppins font-semibold text-md mt-3"> 
                 Attendee: <span className="text-justify mt-3 font-normal font-[family-name:Arial] indent-6">{selectedYear}</span>
             </h3>
             <h3 className="font-poppins font-semibold text-md mt-3"> 
-                Event Type: <span className="text-justify mt-3 font-normal font-[family-name:Arial] indent-6">{selectedType}</span>
+                Event Type: <span className="text-justify mt-3 font-normal font-[family-name:Arial] indent-6">
+                    {data.attendance && data.attendance.length > 0 && "With Attendance"}
+                  {data.contribution && " With Contribution"}
+                  {!data.attendance?.length && !data.contribution && "—"}
+                </span>
             </h3>
-            {selectedType.includes("With Contribution") &&(
+            {data.contribution &&(
                 <h3 className="font-poppins font-semibold text-md mt-3">
-                    Event Fee: <span className="text-justify mt-3 font-normal font-[family-name:Arial] indent-6">{eventFee}</span>
+                    Event Fee: <span className="text-justify mt-3 font-normal font-[family-name:Arial] indent-6">P{data?.contribution?.event_contri_fee}</span>
                 </h3>
             )}
            
-            {selectedType.includes("With Attendance") &&(
+            {data.attendance && data.attendance.length > 0 && (
                 <>
-                 <h3 className="font-poppins font-semibold text-md mt-3">
+                <h3 className="font-poppins font-semibold text-md mt-3">
                     Event Log/s: 
                 </h3>
                 <div className="font-poppins font-semibold  indent-6 text-md mt-1 text-xs">
-                    <h3>Day 1: <span className="text-justify mt-3 font-normal font-[family-name:Arial] indent-6">MI,MO,AI,AO</span></h3>
-
-                    <h3> Day 2: <span className="text-justify mt-3 font-normal font-[family-name:Arial] indent-6">MI,MO,AI,AO</span></h3>
+                    {(data.attendance).map((a, idx) => (
+                        <h3>Day {a.day_num}: <span className="text-justify mt-3 font-normal font-[family-name:Arial] indent-6">{(a.event_attend_time).map((b, idx) => ( <>{b}, </>))}</span></h3>
+                    ))}
                 </div>
-                </>
+                <h3 className="font-poppins font-semibold text-md mt-3">
+                    Event Sanction: <span className="text-justify mt-3 font-normal font-[family-name:Arial] indent-6">{data.event_sanction_has_comserv ? "Community Service" : "P"+data.attendance?.[0]?.event_attend_sanction_fee }</span>
+                </h3>
 
+                </>
             )}
         </div>
        

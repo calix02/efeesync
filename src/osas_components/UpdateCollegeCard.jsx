@@ -32,11 +32,7 @@ const UpdateCollegeCard = React.forwardRef(({animate, onAnimationEnd,onClose,dat
 
             const response = await res.json();
             if (response.status === "success") {
-                successAlert("Succesfully Update").then((result) =>{
-                    if(result.isConfirmed){
-                        reloadColleges();
-                    }
-                });
+                await reloadColleges();
             } else {
                 errorAlert("Failed: " + response.message);
             }

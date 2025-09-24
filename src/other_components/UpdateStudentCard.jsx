@@ -1,6 +1,6 @@
 import React,{useState} from "react";
 import { successAlert } from "../utils/alert";
-const UpdateStudentCard = React.forwardRef(({animate, onAnimationEnd,onClose,data}, ref) =>{
+const UpdateStudentCard = React.forwardRef(({animate, onAnimationEnd,onClose,data,reloadStudents}, ref) =>{
     const [studentId, setStudentId] = useState(data?.student_id );
     const [studentNumberId, setStudentNumberId] = useState(data?.student_number_id );
     const [lastName, setLastName] = useState(data?.last_name);
@@ -12,21 +12,40 @@ const UpdateStudentCard = React.forwardRef(({animate, onAnimationEnd,onClose,dat
         if(data){
             setStudentId(data.student_id);
             setStudentNumberId(data.student_number_id);
-            setLastName(data.lastName);
-            setFirstName(data.firstName);
-            setMiddle(data.middleName);
-            setYearSection(data.yearSection);
+            setLastName(data.last_name);
+            setFirstName(data.first_name);
+            setMiddle(data.middle_initial);
+            setYearSection(data.student_section);
         }
    },[data]);
 
-   const updateStudent = () =>{
-         successAlert("Student Id: " + studentId +
-                    "\nLastName: " + lastName +
-                    "\nFirstName: " + firstName +
-                    "\nMiddle: " + middle + 
-                    "\nYear & Section: " + yearSection
-                );
-   }
+   const studentData = {
+        "student_number_id": studentNumberId,
+        "student_section": yearSection,
+        "first_name": firstName,
+        "middle_initial": middle,
+        "last_name": lastName
+    }
+
+   const updateStudent = async () => {
+        try {
+            const res = await fetch("/api/students/" + studentId, {
+                method: "PUT",
+                credentials: "include",
+                body: JSON.stringify(studentData)
+            });
+
+            const response = await res.json();
+            // Result
+            if (response.status === "success") {
+                await reloadStudents();
+            } else {
+                errorAlert("Failed: " + response.message);
+            }
+        } catch (err) {
+                errorAlert("Failed: " + err);
+        }
+    }
 
     return( 
         <div ref={ref}   className={` ${animate} lg:w-100 w-80 h-117 px-6 lg:text-sm text-xs font-[family-name:Arial] bg-white shadow-[2px_2px_#8A2791,-2px_-2px_white] rounded-lg z-80 inset-0 mx-auto `}

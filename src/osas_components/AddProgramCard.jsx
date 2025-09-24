@@ -45,8 +45,7 @@ const AddProgramCard = React.forwardRef(({animate, onAnimationEnd,onClose,reload
             const response = await res.json();
             // Result
             if (response.status === "success") {
-                reloadColleges();
-                successAlert("Succesfully added program");
+                await reloadColleges();
             } else {
                 errorAlert("Failed: " + response.message);
             }

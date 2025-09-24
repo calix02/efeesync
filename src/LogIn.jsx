@@ -11,7 +11,7 @@ function LogIn(){
     const [passwordData, setPassword] = useState("");
     const [showLogInOption, setShowLogInOption] = useState(false);
     const [availableRoles, setAvailableRoles] = useState([]);
-    
+    const [isLoading, setIsLoading] = useState(false);
     const [isSuccess, setIsSuccess] = useState(false);
 
     const changeEmail = (e) => setEmail(e.target.value);
@@ -33,10 +33,11 @@ function LogIn(){
             const response = await res.json();
             if (response.status === "success") {
                 if (response.data != null) {
+                    setIsLoading(false);
                     setIsSuccess(true);
                     setTimeout(() => {
                         window.location.reload();  
-                    }, 1200); // small delay to show animation
+                    }, 750);
                 }
             } else {
                 errorAlert(response.message || "Invalid email or password.");
@@ -52,6 +53,7 @@ function LogIn(){
     const submit = async (e) => {
         e.preventDefault();
         try {
+            setIsLoading(true);
             const res = await fetch("/api/check-roles", {
                 method: "POST",
                 credentials: "include",
@@ -61,9 +63,11 @@ function LogIn(){
             const response = await res.json();
             if (response.status === "success") {
                 if (response.roles.length > 1 ) {
+                    setIsLoading(false);
                     setAvailableRoles(response.roles);
                     setShowLogInOption(true);
                 } else {
+                    setIsLoading(true);
                     performLoginWithoutRole();
                 }
             } else {
@@ -83,7 +87,7 @@ function LogIn(){
         <>
          {showLogInOption === true &&(
             <div className="fixed inset-0 flex justify-center items-center bg-[#00000062] lg:z-40 md:z-50 z-70 pointer-events-auto">
-             <LogInOption setIsSuccess={setIsSuccess}  loginData={loginData} availableRoles={availableRoles}/>
+             <LogInOption setIsSuccess={setIsSuccess} setIsLoading={setIsLoading} setShowLogInOption={setShowLogInOption} loginData={loginData} availableRoles={availableRoles}/>
             </div>
         
             )}
@@ -117,15 +121,23 @@ function LogIn(){
                                 className={`font-poppins rounded-md cursor-pointer py-2 w-[100%] text-white transition-all duration-300
                                     ${isSuccess ? "bg-green-600" : "bg-[#174515]"}`}
                             >
-                                {isSuccess ? (
+                                {isLoading ? (
                                     <span className="flex items-center justify-center gap-2">
-                                        <svg className="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                                          <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                                          <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
-                                        </svg>
-                                        Success
+                                        { isSuccess ? (
+                                            "Success"
+                                        ) : (
+                                            <>
+                                            <svg className="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                                                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
+                                            </svg>
+                                            Logging in...
+                                            </>
+                                        )}
                                     </span>
-                                ) : "Sign In"}
+                                ) : isSuccess ? (
+                                    "Login Successful"
+                                ) : "Login"}
                             </button>
 
                             <center>

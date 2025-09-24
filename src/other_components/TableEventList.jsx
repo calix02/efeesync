@@ -8,7 +8,7 @@ import { confirmAlert, successAlert } from "../utils/alert";
  * @param {string} code       – org code ("cit", "coe", …) to color the header text
  * @param {Array}  events   – array of { id, name, yearSection }
  */
-function TableEventList({ code, events = [] , addEvent, updateEvent,view, reloadEvents}) {
+function TableEventList({ code, events = [] , addEvent, updateEvent,view, reloadEvents, formatDateStr}) {
   /* --------------------------------- animation -------------------------------- */
   const animate = "card-In";
   /* --------------------------------- colors -------------------------------- */
@@ -22,19 +22,8 @@ function TableEventList({ code, events = [] , addEvent, updateEvent,view, reload
   };
   const color = colors[code] || "border-black text-black";
 
-
- 
-
   /* ---------------------------- sample fallback ---------------------------- */
-  const fallback = [
-    {
-    event_name: `No Data`,
-    event_desciption: `No data`,
-    event_target_year_levels: `1,2,3,4`,
-    event_start_date: `7/8/25`,
-    event_end_date: `7/11/25`
-    }
-  ];
+  const fallback = [];
 
   const data = events.length ? events : fallback;
 
@@ -60,8 +49,6 @@ function TableEventList({ code, events = [] , addEvent, updateEvent,view, reload
 
   const allChecked = data.length > 0 && checkedIds.length === data.length;
 
-
-
   const [selectedEventIndex, setSelectedEventIndex] = useState(null);
 
   const deleteEvent = (s) => {
@@ -77,8 +64,7 @@ function TableEventList({ code, events = [] , addEvent, updateEvent,view, reload
                 });
                 const response = await res.json();
                 if (response.status === "success") {
-                    successAlert("Deleted!");
-                    reloadEvents();
+                    await reloadEvents();
                 } else {
                     alert("Failed: " + response.message);
                 }
@@ -130,8 +116,8 @@ function TableEventList({ code, events = [] , addEvent, updateEvent,view, reload
                 <td hidden>{s.targetYear}</td>
                 <td>
                   {s.event_start_date === s.event_end_date
-                  ? s.event_start_date
-                  : `${s.event_start_date} - ${s.event_end_date}`}
+                  ? formatDateStr(s.event_start_date)
+                  : `${formatDateStr(s.event_start_date)} - ${formatDateStr(s.event_end_date)}`}
                 </td>
                 <td>
                   {s.attendance && s.attendance.length > 0 && "With Attendance"}

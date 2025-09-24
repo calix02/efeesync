@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import { confirmAlert, errorAlert, okayAlert } from "../utils/alert";
 import "../animate.css";
 
-function TableStudent({ code = "cit", students = [], show, update }) {
+function TableStudent({ code = "cit", students = [], show, update, reloadStudents }) {
   const animate = "card-In";
 
    const colors = {
@@ -13,6 +13,7 @@ function TableStudent({ code = "cit", students = [], show, update }) {
     SCEAP: "border-[#6F3306] text-[#6F3306] bg-[#621668]",
     SSC: "border-[#174515] text-[#174515] bg-[#621668]",
   };
+
   const color = colors[code] || "border-black text-black";
 
 
@@ -59,8 +60,7 @@ function TableStudent({ code = "cit", students = [], show, update }) {
               });
               const response = await res.json();
               if (response.status === "success") {
-                  okayAlert("Deleted!");
-                  reloadStudents();
+                await reloadStudents();
               } else {
                   alert("Failed: " + response.message);
               }

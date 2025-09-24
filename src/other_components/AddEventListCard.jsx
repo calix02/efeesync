@@ -153,8 +153,7 @@ const handleSubmit = async () => {
     console.log("Server Response:", result);
 
     if (result.status === "success") {
-      reloadEvents();
-      successAlert("Event saved successfully!");
+      await reloadEvents();
     } else {
       errorAlert("Error: " + result.message);
     }

@@ -51,8 +51,7 @@ const UpdateProgramCard = React.forwardRef(({animate, onAnimationEnd,onClose,dat
     
                 const response = await res.json();
                 if (response.status === "success") {
-                    reloadPrograms();
-                    successAlert("Succesfully Update");
+                    await reloadPrograms();
                 } else {
                     errorAlert("Failed: " + response.message);
                 }

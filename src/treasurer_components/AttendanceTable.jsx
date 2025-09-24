@@ -2,7 +2,7 @@ import { useState, useEffect, useMemo } from "react";
 import { errorAlert, confirmAlert } from '../utils/alert.js';
 import "../animate.css";
 
-function AttendanceTable({ code, attendees = [],scanAttendee, selectedEvent, selectedEventDate}) {
+function AttendanceTable({ code, attendees = [], scanAttendee, selectedEvent, selectedEventDate, formatDateStr}) {
   const animate = "card-In";
 
   const [studentAttendees, setStudentAttendees] = useState([]);
@@ -17,13 +17,7 @@ function AttendanceTable({ code, attendees = [],scanAttendee, selectedEvent, sel
     : code === "osas" ? "text-[#27391C]"
     : "text-black";
 
-  const fallback = [
-    {
-      id: 1,
-      name: `Mark Angelo Alvarado ${1}`,
-      yearSection: `3A`,
-    }
-  ];
+  const fallback = [];
 
   const [paginate, setPaginate] = useState({
     page: 1,
@@ -40,6 +34,7 @@ function AttendanceTable({ code, attendees = [],scanAttendee, selectedEvent, sel
       });
       const response = await res.json();
       if (response.status === "success") {
+        setPaginate(response.meta);
         setStudentAttendees(response.data);
         if (response.data.length > 0) {
           setAttendanceKeys(Object.keys(response.data[0].attendance));
@@ -60,8 +55,8 @@ function AttendanceTable({ code, attendees = [],scanAttendee, selectedEvent, sel
         credentials: "include"
       });
       const response = await res.json();
-      if (response.status === "success") {
-        // 
+      if (response.status !== "success") {
+        errorAlert(response.message);
       }
     } else if (target === "Absent") {
       const res = await fetch(apiAttendance, {
@@ -69,8 +64,8 @@ function AttendanceTable({ code, attendees = [],scanAttendee, selectedEvent, sel
         credentials: "include"
       });
       const response = await res.json();
-      if (response.status === "success") {
-        //
+      if (response.status !== "success") {
+        errorAlert(response.message);
       }
     } else if (target === "Excuse") {
       const res = await fetch(`/api/events/${selectedEvent.event_id}/attendance/${selectedEventDate}/number/${student_number_id}`, {
@@ -78,15 +73,15 @@ function AttendanceTable({ code, attendees = [],scanAttendee, selectedEvent, sel
         credentials: "include"
       });
       const response = await res.json();
-      if (response.status === "success") {
-        //
+      if (response.status !== "success") {
+        errorAlert(response.message);
       }
     }
   };
 
   useEffect(() => {
     fetchStudentAttendees();
-  }, [selectedEvent, selectedEventDate, paginate]);
+  }, [selectedEvent, selectedEventDate]);
 
   const data = studentAttendees.length ? studentAttendees : fallback;
 
@@ -119,7 +114,7 @@ function AttendanceTable({ code, attendees = [],scanAttendee, selectedEvent, sel
                 <td><input type="checkbox" /></td>
                 <td hidden>{attendee.student_id}</td>
                 <td>{attendee.student_full_name}</td>
-                <td className="py-4">{attendee.student_number_id}</td>
+                <td className="py-4">{attendee.student_section}</td>
 
                 {attendanceKeys.map((key) => {
                   const value = attendee.attendance[key]; // "Absent", "Present", etc.

@@ -23,34 +23,34 @@ function CITStudent(){
         setDebounceTimer(setTimeout(callback, delay));
     }
 
-    const fetchStudents = async (deptCode, isUnivOrg, page = 1, search = "") => {
+    const fetchStudents = async (deptCode=currentUserData.department_code, isUnivOrg=currentUserData.university_wide_org, page=1, search="") => {
         try {
             let url = "";
 
             if (isUnivOrg) {
-            url = `/api/students?page=${page}&search=${search}`;
+                url = `/api/students?page=${page}&search=${search}`;
             } else {
-            url = `/api/departments/code/${deptCode}/students?page=${page}&search=${search}`;
+                url = `/api/departments/code/${deptCode}/students?page=${page}&search=${search}`;
             }
 
             const res = await fetch(url, { credentials: "include" });
             const response = await res.json();
             if (response.status === "success") {
-            setStudents(response.data);
+                setStudents(response.data);
             }
         } catch (err) {
             errorAlert("Fetch Failed");
         }
-        };
+    };
     
     const fetchCurrentUser = async () => {
         try {
             const res = await fetch("/api/users/current", { credentials: "include" });
             const response = await res.json();
             if (response.status === "success") {
-            const user = response.data;
-            setCurrentUserData(user);
-            await fetchStudents(user.department_code, user.university_wide_org);
+                const user = response.data;
+                setCurrentUserData(user);
+                await fetchStudents(user.department_code, user.university_wide_org);
             }
         } catch (err) {
             errorAlert("Fetch Failed");
@@ -74,7 +74,6 @@ function CITStudent(){
     }, []);
 
     useEffect(() => {
-        console.log("Current user updated:", currentUserData);
     }, [currentUserData]);
 
     const [file, setFile] = useState(null);
@@ -107,7 +106,7 @@ function CITStudent(){
                 {/* Add Student*/}
                 <div className="fixed inset-0 flex justify-center items-center bg-[#00000062]  lg:z-40 md:z-50 z-70 pointer-events-auto">
                     {/* Overlay */}
-                    <AddStudentCard ref={addRef} onAnimationEnd={addStudent.handleEnd} animate={addStudent.animation} onClose={() => addStudent.setAnimation("fade-out")} />
+                    <AddStudentCard ref={addRef} currentUser={currentUserData} reloadStudents={fetchStudents} onAnimationEnd={addStudent.handleEnd} animate={addStudent.animation} onClose={() => addStudent.setAnimation("fade-out")} />
                 </div>
             </>
 
@@ -119,7 +118,7 @@ function CITStudent(){
                 {/* Update Student */}
                 <div className="fixed inset-0 bg-[#00000062] flex justify-center items-center lg:z-40 md:z-50 z-70 pointer-events-auto">
                     {/* Overlay */}
-                    <UpdateStudentCard ref={updateRef} data={selectedStudent} onAnimationEnd={updateStudent.handleEnd} animate={updateStudent.animation} onClose={() => updateStudent.setAnimation("fade-out")} />
+                    <UpdateStudentCard ref={updateRef} reloadStudents={fetchStudents} data={selectedStudent} onAnimationEnd={updateStudent.handleEnd} animate={updateStudent.animation} onClose={() => updateStudent.setAnimation("fade-out")} />
                 </div>
             </>
 
@@ -143,7 +142,7 @@ function CITStudent(){
                 </div>
                 <div className=' w-[100%] mt-3 '>
                     <div className={`lg:ml-70 ${animateL} flex lg:justify-start md:justify-start font-[family-name:Arial]  justify-center gap-2.5`}>
-                         <select className='bg-white lg:w-25 w-20 text-xs cursor-pointer transition duration-100 hover:scale-100 hover:bg-[#621668] hover:text-white  border-1 border-[#8A2791] py-1  text-[#8A2791] rounded-md text-center'  name="" id="">
+                        {/*<select className='bg-white lg:w-25 w-20 text-xs cursor-pointer transition duration-100 hover:scale-100 hover:bg-[#621668] hover:text-white  border-1 border-[#8A2791] py-1  text-[#8A2791] rounded-md text-center'  name="" id="">
                             <option value="">Sort by</option>
                             <option value="">hey</option>
 
@@ -161,17 +160,15 @@ function CITStudent(){
                          <select className='bg-white lg:w-25 w-20 text-xs cursor-pointer transition duration-100 hover:scale-100 hover:bg-[#621668] hover:text-white  border-1 border-[#8A2791] py-1  text-[#8A2791] rounded-md text-center'  name="" id="">
                             <option value="">Status</option>
                             <option value="">hey</option>
-
                         </select>
-                         
-                        
+                        */}
+                        <button title='Print' onClick={()=>{window.print()}} className='bg-white lg:w-25 w-20 transition duration-100 hover:scale-100 hover:bg-[#621668] hover:text-white text-xs cursor-pointer flex justify-center gap-1 border-1 border-[#8A2791] py-1  text-[#8A2791] rounded-md text-center'><i className="fa-solid fa-print"></i>Print</button>
                     </div>
 
                 </div>
-                <TableStudent code={currentUserData?.department_code} students={students} show={addStudent.toggle} update={(row) =>{
+                <TableStudent code={currentUserData?.department_code} reloadStudents={fetchStudents} students={students} show={addStudent.toggle} update={(row) =>{
                     setSelectedStudent(row);
                     updateStudent.toggle();
-
                 }} />      
 
                              

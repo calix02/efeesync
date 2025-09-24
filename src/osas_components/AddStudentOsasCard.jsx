@@ -53,8 +53,7 @@ const AddStudentOsasCard = React.forwardRef(({animate, onAnimationEnd,onClose,co
             const response = await res.json();
             // Result
             if (response.status === "success") {
-                reloadStudents();
-                successAlert("Succesfully added student");
+                await reloadStudents();
             } else {
                 errorAlert("Failed: " + response.message);
             }

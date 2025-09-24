@@ -15,11 +15,7 @@ const Sidebar = React.forwardRef(({eFee, animate, onAnimationEnd,onClose},ref) =
                 });
                     const response = await res.json();
                     if (response.status === "success") {
-                        successAlert(response.message).then((result) =>{
-                            if(result.isConfirmed){
-                                window.location.reload();
-                            }
-                        });
+                        window.location.reload();
                     }
                 }catch (err) {
                     errorAlert("An error occured: " + response.message);
@@ -45,7 +41,7 @@ const Sidebar = React.forwardRef(({eFee, animate, onAnimationEnd,onClose},ref) =
                     <NavLink code="OSAS" navLink = "/osas/dashboard" iconName="dashboard" navName="Dashboard"/>
                     <NavLink code="OSAS" navLink = "/osas/college" iconName="account_balance" navName="College"/>
                     <NavLink code="OSAS" navLink = "/osas/program" iconName="school" navName="Program"/>
-                    <NavLink code="OSAS" navLink = "/osas/organisation" iconName="graph_2" navName="Organisation"/>
+                    <NavLink code="OSAS" navLink = "/osas/organisation" iconName="graph_2" navName="Organization"/>
                     <NavLink code="OSAS" navLink = "/osas/student" iconName="person" navName="Student"/>
                     <NavLink code="OSAS" navLink = "/osas/account" iconName="person_add" navName="Account"/>
                     <NavLink code="OSAS" navLink = "/osas/setting" iconName="settings" navName="Settings"/>

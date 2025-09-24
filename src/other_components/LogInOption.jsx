@@ -2,7 +2,7 @@ import { useState } from "react";
 import { okAlert, errorAlert } from "./../utils/alert.js"; 
 import Cbsua from "../assets/cbsua.png";
 
-function LogInOption({ loginData, availableRoles, setIsSuccess }) {   // ✅ destructure setIsSuccess
+function LogInOption({ loginData, availableRoles, setIsSuccess, setShowLogInOption, setIsLoading }) {   // ✅ destructure setIsSuccess
 
     const performLoginWithSelectedRole = async (roleChoosen) => {
         try {
@@ -19,12 +19,13 @@ function LogInOption({ loginData, availableRoles, setIsSuccess }) {   // ✅ des
             const response = await res.json();
             if (response.status === "success") {
                 if (response.data != null) {
-                    // ✅ trigger success state on parent button
+                    setIsLoading(false);
+                    setShowLogInOption(false);
                     if (setIsSuccess) setIsSuccess(true);
 
                     setTimeout(() => {
                         window.location.reload();  
-                    }, 1200); // small delay so animation shows
+                    }, 750);
                 }
             } else {
                 errorAlert(response.message || "Invalid email or password.");

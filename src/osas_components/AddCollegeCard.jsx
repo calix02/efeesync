@@ -28,11 +28,7 @@ const AddCollegeCard = React.forwardRef(({animate, onAnimationEnd,onClose, reloa
 
             // Result
             if (response.status === "success") {
-                successAlert("Succesfully added College").then((result) =>{
-                    if(result.isConfirmed){
-                        reloadColleges();
-                    }
-                });
+                await reloadColleges();
             } else {
                 errorAlert("Failed: " + response.message);
             }

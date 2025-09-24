@@ -63,8 +63,7 @@ const UpdateStudentOsasCard = React.forwardRef(({animate, onAnimationEnd,onClose
             const response = await res.json();
             // Result
             if (response.status === "success") {
-                reloadStudents();
-                successAlert("Succesfully updated student");
+                await reloadStudents();
             } else {
                 errorAlert("Failed: " + response.message);
             }

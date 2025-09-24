@@ -38,39 +38,44 @@ const animateL = "left-In";
 
     const [currentUserData, setCurrentUserData] = useState([]);
         
-        const [eventAttendanceData, setEventAttendanceData] = useState([]);
-        
-          const fetchCurrentUserAndEventsAttendance = async () => {
-            try {
-              const res = await fetch("/api/users/current", {
-                credentials: "include"
-              });
-              const response = await res.json();
-              if (response.status === "success") {
-                setCurrentUserData(response.data);
-                const anotherRes = await fetch(`/api/organizations/code/${(response.data).organization_code}/events?type=attendance`, {
-                  credentials: "include"
-                });
-                const anotherResponse = await anotherRes.json();
-                if (anotherResponse.status === "success") {
-                  setEventAttendanceData(anotherResponse.data);
-                }
-              }
-            } catch (err) {
-              errorAlert("Fetch Failed");
+    const [eventAttendanceData, setEventAttendanceData] = useState([]);
+    
+      const fetchCurrentUserAndEventsAttendance = async () => {
+        try {
+          const res = await fetch("/api/users/current", {
+            credentials: "include"
+          });
+          const response = await res.json();
+          if (response.status === "success") {
+            setCurrentUserData(response.data);
+            const anotherRes = await fetch(`/api/organizations/code/${(response.data).organization_code}/events?type=attendance`, {
+              credentials: "include"
+            });
+            const anotherResponse = await anotherRes.json();
+            if (anotherResponse.status === "success") {
+              setEventAttendanceData(anotherResponse.data);
             }
-          };
-        
-          useEffect(() => {
-            fetchCurrentUserAndEventsAttendance();
-            if (selectedEvent && selectedEvent.attendance.length > 0) {
-                setSelectedAttendanceDate(selectedEvent.attendance[0].event_attend_date);
-            }
-          }, [selectedEvent]);
-        const clickedView = (event) => {
+          }
+        } catch (err) {
+          errorAlert("Fetch Failed");
+        }
+      };
+    
+    useEffect(() => {
+        fetchCurrentUserAndEventsAttendance();
+        if (selectedEvent && selectedEvent.attendance.length > 0) {
+            setSelectedAttendanceDate(selectedEvent.attendance[0].event_attend_date);
+        }
+    }, [selectedEvent]);
+
+    const clickedView = (event) => {
         setSelectedEvent(event);
         setShowSelectedEvents(true);
-  };
+    };
+
+    const formatDateStr = (dateString) => {
+        return new Date(dateString).toLocaleDateString('en-US', {year:'numeric',month:'long',day:'numeric'});
+    }
 
     return(
         <>
@@ -116,12 +121,12 @@ const animateL = "left-In";
                      <div className="lg:mt-30 mt-25 lg:ml-70 lg:flex md:flex  justify-between">
                         <h2 className="text-2xl font-medium font-[family-name:Futura Bold]">Manage Attendance</h2>
                         <div className={`flex ${animateR} items-center lg:px-0 md:px-0 px-3`}>
-                            <input className='lg:w-85 md:w-85 w-[100%] p-1.5 bg-white rounded-md border-2 lg:mt-0 md:mt-0 mt-4   border-[#8A2791] block' type="text" placeholder='Search Student' onChange={(e) => {setSearchValue(e.target.value)} } />
+                            <input className='lg:w-85 md:w-85 w-[100%] p-1.5 bg-white rounded-md border-2 lg:mt-0 md:mt-0 mt-4   border-[#8A2791] block' type="text" placeholder='Search Events' onChange={(e) => {setSearchValue(e.target.value)} } />
                         </div>
                     </div>
                     <div className=' w-[100%] mt-3 '>
                         <div className={`lg:ml-70 ${animateL} flex lg:justify-start md:justify-start font-[family-name:Arial]  justify-center gap-2.5`}>
-                            <select className='bg-white lg:w-25  w-20 text-xs transition duration-100 hover:scale-100 hover:bg-[#621668] hover:text-white cursor-pointer border-1 border-[#8A2791] py-1  text-[#8A2791] rounded-md text-center'  name="" id="">
+                            {/*<select className='bg-white lg:w-25  w-20 text-xs transition duration-100 hover:scale-100 hover:bg-[#621668] hover:text-white cursor-pointer border-1 border-[#8A2791] py-1  text-[#8A2791] rounded-md text-center'  name="" id="">
                                 <option value="">Sort by</option>
                                 <option value="">hey</option>
                             </select>
@@ -134,6 +139,7 @@ const animateL = "left-In";
                                 <option value="">hey</option>
                             </select>
                             <button className='bg-white lg:w-25 w-20 transition duration-100 hover:scale-100 hover:bg-[#621668] hover:text-white text-xs cursor-pointer flex justify-center gap-1 border-1 border-[#8A2791] py-1  text-[#8A2791] rounded-md text-center'><i className="fa-solid fa-print"></i>Print</button>
+                            */}
                         </div>
                         <div className="lg:ml-70 text-[font-family:Arial] lg:text-sm text-xs mt-3 flex justify-end">
                             <Link to="/org/eventlist">
@@ -141,6 +147,7 @@ const animateL = "left-In";
                             </Link>
                         </div>
                         <TableAttendance
+                            formatDateStr={formatDateStr}
                             events={eventAttendanceData}
                             searchValue={searchValue}
                             code={currentUserData?.department_code}  
@@ -165,10 +172,10 @@ const animateL = "left-In";
                     <div className="lg:ml-70 flex justify-between mt-3">
                         <span className='flex gap-2 items-center'>
                             <label className='font-[family-name:Arial] text-sm font-medium' htmlFor="">Select Date: </label>
-                            <select value={selectedAttendanceDate} name="" className=' py-0.5 px-2 w-40 border-1  border-black rounded-md bg-white text-sm' onChange={(e) => {setSelectedAttendanceDate(e.target.value)}}>
+                            <select value={selectedAttendanceDate} name="" className=' py-0.5 px-2 border-1  border-black rounded-md bg-white text-sm' onChange={(e) => {setSelectedAttendanceDate(e.target.value)}}>
                                 {selectedEvent.attendance.map((day) => (
                                     <option key={day.event_attend_date} value={day.event_attend_date}>
-                                    Day {day.day_num} - {day.event_attend_date}
+                                    {selectedEvent.attendance.length>1 ? "Day "+day.day_num+": ": ""} {formatDateStr(day.event_attend_date)}
                                     </option>
                                 ))}
                             </select>
@@ -179,10 +186,10 @@ const animateL = "left-In";
                         </button>
                     </div>
                     <AttendanceTable
-                    selectedEvent={selectedEvent}
-                    selectedEventDate={selectedAttendanceDate}
-                    searchValue={searchValue}
-                    scanAttendee={scanAttendee.toggle}
+                        selectedEvent={selectedEvent}
+                        selectedEventDate={selectedAttendanceDate}
+                        searchValue={searchValue}
+                        scanAttendee={scanAttendee.toggle}
                     />
                 </>
                 )}

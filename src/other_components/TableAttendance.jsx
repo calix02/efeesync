@@ -1,7 +1,7 @@
 import { useState, useMemo } from "react";
 import "../animate.css";
 
-function TableAttendance({ code = "cit", events = [], scanAttendee, view}) {
+function TableAttendance({ code = "cit", events = [], scanAttendee, view, formatDateStr}) {
   const animate = "card-In";
 
     const colors = {
@@ -14,18 +14,7 @@ function TableAttendance({ code = "cit", events = [], scanAttendee, view}) {
   };
   const color = colors[code] || "border-black text-black";
 
-  const fallback = Array.from({ length: 5 }, (_, i) => ({
-    id: i,
-    eventName: `Year-End-Party ${i + 1}`,
-    targetYear: `1,2,3,4`,
-    eventDate: `7/11/25`,
-    eventLog: `View Logs`,
-    sanctionType: `Monetary`,
-    sanctionFee: `18`,
- 
-  }));
-  
-
+  const fallback = [];
 
   const data = events.length ? events : fallback;
 
@@ -54,30 +43,9 @@ function TableAttendance({ code = "cit", events = [], scanAttendee, view}) {
   const clickedDelete = () => {
     alert("Selected IDs: " + checkedIds.join(", "));
   };
-
-
+  
   const [activeLogIndex, setActiveLogIndex] = useState(null);
   const [selectedEventIndex, setSelectedEventIndex] = useState(null);
-  const [mIn, setMIN] = useState("");
-  const [mOut, setMOut] = useState("");
-  const [aIn, setAIn] = useState("");
-  const [aOut, setAOut] = useState("");
-
-
-  const handleMIN = (e) =>{
-    setMIN(e.target.value);
-  }
-    const handleMout = (e) =>{
-    setMOut(e.target.value);
-  } 
-   const handleAIn = (e) =>{
-    setAIn(e.target.value);
-  }  
-  const handleAOut = (e) =>{
-    setAOut(e.target.value);
-  }
-
-
 
   const toggleLog = (index) => {
     setActiveLogIndex(activeLogIndex === index ? null : index);
@@ -121,8 +89,8 @@ function TableAttendance({ code = "cit", events = [], scanAttendee, view}) {
                   <td hidden>{s.event_taret_year_levels}</td>
                   <td>
                     {s.event_start_date === s.event_end_date
-                  ? s.event_start_date
-                  : `${s.event_start_date} - ${s.event_end_date}`}
+                  ? formatDateStr(s.event_start_date)
+                  : `${formatDateStr(s.event_start_date)} - ${formatDateStr(s.event_end_date)}`}
                   </td>
                   <td onClick={() => toggleLog(idx)} className="relative flex items-center justify-center cursor-pointer">
                     {s.eventLog}

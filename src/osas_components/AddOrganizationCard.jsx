@@ -27,8 +27,7 @@ const AddOrganizationCard = React.forwardRef(({animate, onAnimationEnd,onClose,r
             const response = await res.json();
             // Result
             if (response.status === "success") {
-                reloadOrgs();
-                successAlert("Succesfully added organization");
+                await reloadOrgs();
             } else {
                 errorAlert("Failed: " + response.message);
             }

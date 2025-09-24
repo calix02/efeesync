@@ -58,8 +58,7 @@ function TableCollege({ code = "osas", colleges = [] , update, reloadColleges}) 
           });
           const response = await res.json();
           if (response.status === "success") {
-              okayAlert("Deleted!");
-              reloadColleges();
+              await reloadColleges();
           } else {
               alert("Failed: " + response.message);
           }

@@ -45,8 +45,7 @@ function TableProgram({ code = "osas", programs = [] , update, reloadPrograms}) 
             });
             const response = await res.json();
             if (response.status === "success") {
-                okayAlert("Deleted!");
-                reloadPrograms();
+                await reloadPrograms();
             } else {
                 errorAlert("Failed: " + response.message);
             }

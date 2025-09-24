@@ -45,8 +45,7 @@ function TableStudentOsas({ code = "osas", students = [] , update,add,reloadStud
               });
               const response = await res.json();
               if (response.status === "success") {
-                  okayAlert("Deleted!");
-                  reloadStudents();
+                  await reloadStudents();
               } else {
                   alert("Failed: " + response.message);
               }

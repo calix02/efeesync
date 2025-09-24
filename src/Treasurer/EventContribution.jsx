@@ -93,13 +93,14 @@ function EventContribution({ data }) {
                 <input
                   className="lg:w-85 md:w-85 w-[100%] p-1.5 bg-white rounded-md border-2 lg:mt-0 md:mt-0 mt-4 border-[#8A2791] block"
                   type="text"
-                  placeholder="Search Student"
+                  placeholder="Search Events"
                 />
               </div>
             </div>
 
             <div className=" w-[100%] mt-3 ">
               <div className={`lg:ml-70 ${animateL} flex lg:justify-between md:justify-start font-[family-name:Arial] justify-center `}>
+                {/*
                 <span>
                   <select className="bg-white mx-1 lg:w-25 w-20 text-xs cursor-pointer transition duration-100 hover:scale-100 hover:bg-[#621668] hover:text-white border-1 border-[#8A2791] py-1 text-[#8A2791] rounded-md text-center">
                   <option value="">S/Y</option>
@@ -113,17 +114,16 @@ function EventContribution({ data }) {
                   <option value="">Month</option>
                   <option value="">hey</option>
                 </select>
-
                 </span>
+                */}
+              </div>
+
+              <div className="lg:ml-70 text-[font-family:Arial] lg:text-sm text-xs mt-3 flex justify-end">
                 <Link to="/org/eventlist">
                   <button className="bg-[#621668] text-center text-sm font-[family-name:Arial] h-6 hover:bg-white hover:border-[#621668] hover:text-[#621668] hover:scale-102 hover:shadow-[2px_2px_3px_grey] duration-200 transition  rounded-md cursor-pointer px-3 text-white border-1 border-[#804d84]">
                     Back to Eventlist
                   </button>
                 </Link>
-              </div>
-
-              <div className="lg:ml-70 text-[font-family:Arial] lg:text-sm text-xs mt-3 flex justify-end">
-                
               </div>
             </div>
 

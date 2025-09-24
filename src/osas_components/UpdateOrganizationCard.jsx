@@ -53,8 +53,7 @@ const UpdateOrganizationCard = React.forwardRef(({animate, onAnimationEnd,onClos
 
             const response = await res.json();
             if (response.status === "success") {
-                reloadOrgs();
-                successAlert("Succesfully Update");
+                await reloadOrgs();
             } else {
                 errorAlert("Failed: " + response.message);
             }

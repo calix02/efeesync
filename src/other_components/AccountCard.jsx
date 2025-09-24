@@ -44,11 +44,7 @@ const AccountCard = React.forwardRef(({ animate, onAnimationEnd,code}, ref) => {
                     });
                         const response = await res.json();
                         if (response.status === "success") {
-                            successAlert(response.message).then((result) =>{
-                                if(result.isConfirmed){
-                                    window.location.reload();
-                                }
-                            });
+                            window.location.reload();
                         }
                     }catch (err) {
                         errorAlert("An error occured: " + response.message);

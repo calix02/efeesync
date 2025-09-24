@@ -44,8 +44,7 @@ function TableOrganisation({ code = "osas", organizations = [] , update, reloadO
           });
           const response = await res.json();
           if (response.status === "success") {
-              reloadOrgs();
-              okayAlert("Deleted!");
+              await reloadOrgs();
           } else {
               errorAlert("Failed: " + response.message);
           }

@@ -44,11 +44,7 @@ const CITSidebar = React.forwardRef(({ animate, onAnimationEnd,onClose ,code },r
                 });
                     const response = await res.json();
                     if (response.status === "success") {
-                        successAlert(response.message).then((result) =>{
-                            if(result.isConfirmed){
-                                window.location.reload();
-                            }
-                        });
+                        window.location.reload();
                     }
                 }catch (err) {
                             errorAlert("An error occured: " + response.message);
@@ -72,9 +68,9 @@ const CITSidebar = React.forwardRef(({ animate, onAnimationEnd,onClose ,code },r
                     <NavLink code={code} navLink = "/org/student" iconName="person" navName="Student"/>
                     <NavLink code={code} navLink = "/org/eventlist" iconName="event_note" navName="Event List"/>
                     <DropDownNav code={code} subNavLink1 = "/org/financial" subNavLink2 = "/org/accomplishment" iconName="assignment" navName="Reports" iconName1 = "article" subNavName1 = "Financial Report" iconName2 = "fact_check" subNavName2 = "Accomplishment Report"/>
-                    <NavLink code={code} navLink = "/org/payment-transaction" iconName="credit_card" navName="Payment Transactions"/>
+                    <NavLink code={code} navLink = "/org/payment-transaction" iconName="credit_card" navName="Online Payments"/>
                     <NavLink code={code} navLink = "/org/sanction" iconName="event_busy" navName="Sanctions"/>
-                    <DropDownNav code={code} subNavLink1 = "/org/excuse" subNavLink2="/org/shifting-approval" iconName="approval" navName="Excuse Approval" subNavName1="Excuse Letter Approval" iconName1="inbox_text" subNavName2="Shifting Approval" iconName2="article_person"/>
+                    <DropDownNav code={code} subNavLink1 = "/org/excuse" subNavLink2="/org/shifting-approval" iconName="approval" navName="Approval Requests" subNavName1="Attendance Excuse" iconName1="inbox_text" subNavName2="Shifting Approval" iconName2="article_person"/>
                     <NavLink code={code} navLink = "/org/settings" iconName="settings" navName="Settings"/>
                 </nav>
                 <div className="absolute bottom-2 w-full px-3 lg:hidden block">

@@ -16,52 +16,66 @@ function CITStudent(){
     const [currentUserData, setCurrentUserData] = useState([]);
     const [searchValue, setSearchValue] = useState("");
     const [students, setStudents] = useState([]);
-
-    let debounceTimer;
+    const [debounceTimer, setDebounceTimer] = useState(null);
 
     function debounce(callback, delay=500) {
         clearTimeout(debounceTimer);
-        debounceTimer = setTimeout(callback, delay);
+        setDebounceTimer(setTimeout(callback, delay));
     }
 
-    const fetchStudents = async (dept_code=currentUserData.department_code, is_univ_org=currentUserData.department_code, page=1) => {
+    const fetchStudents = async (deptCode, isUnivOrg, page = 1, search = "") => {
         try {
-            const res = await fetch(`/api/${ is_univ_org ? 'departments/code/'+dept_code : ''}/students?page=${page}&search=${searchValue}`, {
-                credentials: "include"
-            });
+            let url = "";
+
+            if (isUnivOrg) {
+            url = `/api/students?page=${page}&search=${search}`;
+            } else {
+            url = `/api/departments/code/${deptCode}/students?page=${page}&search=${search}`;
+            }
+
+            const res = await fetch(url, { credentials: "include" });
             const response = await res.json();
             if (response.status === "success") {
-                setStudents(response.data);
+            setStudents(response.data);
             }
         } catch (err) {
             errorAlert("Fetch Failed");
         }
-    }
+        };
     
     const fetchCurrentUser = async () => {
-       try {
-           const res = await fetch("/api/users/current", {
-               credentials: "include"
-           });
-           const response = await res.json();
-           if (response.status === "success") {
-               setCurrentUserData(response.data);
-               await fetchStudents((response.data).department_code);
-           }
-       } catch (err) {
-           errorAlert("Fetch Failed");
-       }
-    }
+        try {
+            const res = await fetch("/api/users/current", { credentials: "include" });
+            const response = await res.json();
+            if (response.status === "success") {
+            const user = response.data;
+            setCurrentUserData(user);
+            await fetchStudents(user.department_code, user.university_wide_org);
+            }
+        } catch (err) {
+            errorAlert("Fetch Failed");
+        }
+    };
 
-    const searchStudent = async (search) => {
+    const searchStudent = (search) => {
         setSearchValue(search);
-        fetchStudents();
-    }
+        debounce(() => {
+            fetchStudents(
+            currentUserData.department_code,
+            currentUserData.university_wide_org,
+            1,
+            search
+            );
+        }, 500);
+    };
 
     useEffect(() => {
-      fetchCurrentUser();
-      console.log(currentUserData);
+        fetchCurrentUser();
     }, []);
+
+    useEffect(() => {
+        console.log("Current user updated:", currentUserData);
+    }, [currentUserData]);
 
     const [file, setFile] = useState(null);
 

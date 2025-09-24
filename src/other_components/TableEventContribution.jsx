@@ -1,7 +1,7 @@
 import { useState, useMemo } from "react";
 import "../animate.css";
 
-function TableEventContribution({ code = "cit", events = [],view }) {
+function TableEventContribution({ code = "cit", events = [], view }) {
 /* ------------------------ animation ------------------------- */
   const animate = "card-In";
 
@@ -16,15 +16,17 @@ function TableEventContribution({ code = "cit", events = [],view }) {
   const color = colors[code] || "border-black text-black";
 
 
-  const fallback = Array.from({ length: 5 }, (_, i) => ({
-    id: i,
-    eventName: `Year-End-Party ${i + 1}`,
-    dateFrom: `7/11/25`,
-    dateTo: ``,
-    eventFee: `400`,
-  }));
+  const fallback = [
+    {
+      id: 1,
+      eventName: `Year-End-Party 1`,
+      dateFrom: `7/11/25`,
+      dateTo: ``,
+      eventFee: `400`,
+    }
+  ];
 
-  const data = events.length ? events : fallback;
+  const data = events.length > 0 ? events : fallback;
 
   const [checkedIds, setCheckedIds] = useState([]);
 
@@ -91,21 +93,19 @@ function TableEventContribution({ code = "cit", events = [],view }) {
                     onChange={(e) => handleCheckboxChange(e, s.id)} />
                   </td>
                   <td hidden>{s.id}</td>
-                  <td>{s.eventName}</td>
-                  <td>{s.dateFrom + " " + s.dateTo}</td>
-                  <td>{s.eventFee}</td>
+                  <td>{s.event_name}</td>
+                  <td>
+                    {s.event_start_date === s.event_end_date
+                  ? s.event_start_date
+                  : `${s.event_start_date} - ${s.event_end_date}`}
+                  </td>
+                  <td>{s?.contribution?.event_contri_fee}</td>
                   <td className="flex lg:flex-row flex-col gap-2 justify-center py-3">
                     <span onClick={ () => view(s)} title="View Participants Contribution"
                      
                       className="material-symbols-outlined cursor-pointer shadow-[2px_2px_1px_grey] rounded-[5px] text-[#3a2791] border border-[#3a2791] px-[2px]"
                     >
                       visibility
-                    </span>
-                   
-                    <span title="Delete Event"
-                    onClick={clickedDelete}
-                     className="material-symbols-outlined bg-white cursor-pointer text-[#d10707] shadow-[2px_2px_2px_grey] rounded-[5px] border border-[#d10707] px-[2px]">
-                      delete
                     </span>
                   </td>
                 </tr>

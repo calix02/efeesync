@@ -32,19 +32,6 @@ function TablePaymentTransaction({ code = "cit",viewProof, payments = [] }) {
   const data = payments.length ? payments : fallback;
   
 
-  /* ----------------------------- pagination -------------------------------- */
-  const PAGE_SIZE = 10;
-  const [page, setPage] = useState(0);          // 0‑based
-  const pageCount = Math.ceil(data.length / PAGE_SIZE);
-
-  const pageData = useMemo(
-    () => data.slice(page * PAGE_SIZE, page * PAGE_SIZE + PAGE_SIZE),
-    [page, data]
-  );
-
-  const goPrev = () => setPage(Math.max(0, page - 1));
-  const goNext = () => setPage(Math.min(pageCount - 1, page + 1));
-
     const[status, setStatus] = useState("Pending");
     const[selectedIndex, setSelectedIndex] = useState(null);
 
@@ -81,7 +68,7 @@ function TablePaymentTransaction({ code = "cit",viewProof, payments = [] }) {
           </thead>
 
           <tbody>
-            {pageData.map((s, idx) => (
+            {data.map((s, idx) => (
               <tr key={idx} className="border-b border-[#0505057a] ">
                 <td className="hidden lg:block">{s.studID}</td>
                 <td>{s.studName}</td>
@@ -115,33 +102,15 @@ function TablePaymentTransaction({ code = "cit",viewProof, payments = [] }) {
             <p className='text-[#8A2791] lg:absolute left-9'>Showing of 600</p>  
         <span className="flex">
              <button
-            onClick={goPrev}
-            disabled={page === 0}
             className=" mx-1  cursor-pointer flex items-center rounded-md border disabled:opacity-40"
           >
             <span className="material-symbols-outlined">chevron_left</span>
 
           </button>
 
-          {Array.from({ length: pageCount }, (_, i) => (
-            <button
-              key={i}
-              onClick={() => setPage(i)}
-              className={`px-2 mx-1 cursor-pointer rounded-md border
-                ${i === page
-                  ? "bg-[#621668] text-white"
-                  : "bg-white "}`}>
-              {i + 1}
-            </button>
-          ))}
-
-          <button
-            onClick={goNext}
-            disabled={page === pageCount - 1}
-           className=" mx-1  cursor-pointer flex items-center rounded-md border disabled:opacity-40"
-          >
+            <button className={`px-2 mx-1 cursor-pointer rounded-md border bg-[#621668] text-white`}>1</button>
+          <button  className=" mx-1  cursor-pointer flex items-center rounded-md border disabled:opacity-40">
             <span className="material-symbols-outlined">chevron_right</span>
-
           </button>
         </span>
         </div>

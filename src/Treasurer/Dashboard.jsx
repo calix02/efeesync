@@ -23,7 +23,6 @@ function CITCouncil(){
       }
       useEffect(() => {
         fetchCurrentUser();
-        console.log(currentUserData);
       }, []);
     
     return(

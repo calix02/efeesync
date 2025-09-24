@@ -130,7 +130,7 @@ const handleSubmit = async () => {
       ? {
           event_contri_due_date: dateTo, // or another input
           event_contri_fee: parseFloat(eventFee),
-          event_contri_sanction_fee: 200, // example, could be input
+          event_contri_sanction_fee: 0, // example, could be input
         }
       : null,
     attendance: selectedType.includes("With Attendance")

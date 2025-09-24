@@ -1,15 +1,17 @@
 import React,{useState} from "react";
 import { successAlert } from "../utils/alert";
 const UpdateStudentCard = React.forwardRef(({animate, onAnimationEnd,onClose,data}, ref) =>{
-    const [studentId, setStudentId] = useState(data?.id );
-    const [lastName, setLastName] = useState(data?.lastName);
-    const [firstName, setFirstName] = useState(data?.firstName);
-    const [middle, setMiddle] = useState(data?.middleName);
-    const [yearSection, setYearSection] = useState(data?.yearSection);
+    const [studentId, setStudentId] = useState(data?.student_id );
+    const [studentNumberId, setStudentNumberId] = useState(data?.student_number_id );
+    const [lastName, setLastName] = useState(data?.last_name);
+    const [firstName, setFirstName] = useState(data?.first_name);
+    const [middle, setMiddle] = useState(data?.middle_initial);
+    const [yearSection, setYearSection] = useState(data?.student_section);
 
    React.useEffect(() =>{
         if(data){
-            setStudentId(data.id);
+            setStudentId(data.student_id);
+            setStudentNumberId(data.student_number_id);
             setLastName(data.lastName);
             setFirstName(data.firstName);
             setMiddle(data.middleName);
@@ -43,7 +45,7 @@ const UpdateStudentCard = React.forwardRef(({animate, onAnimationEnd,onClose,dat
             }}>
             <div className="mt-4">
                 <label>Student ID:</label><br />
-                <input type="text" onChange={(e) =>setStudentId(e.target.value)} value={studentId} required className="border-2 px-2 border-[#8A2791] h-8 rounded-md w-[100%] mb-4" /> <br />
+                <input type="text" onChange={(e) =>setStudentId(e.target.value)} value={studentNumberId} required className="border-2 px-2 border-[#8A2791] h-8 rounded-md w-[100%] mb-4" /> <br />
                 <label>Last Name:</label><br />
                 <input type="text" onChange={(e) =>setLastName(e.target.value)} value={lastName} required  className="border-2 px-2 border-[#8A2791] h-8 rounded-md w-[100%] mb-4" /> <br />
                  <label>First Name:</label><br />

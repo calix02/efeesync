@@ -27,11 +27,10 @@ const EventDetails = React.forwardRef(({animate, onAnimationEnd,onClose,data}, r
             setSelectedType(data.eventType);
             setDateFrom(formatDate(data.dateFrom));
             setDateTo(formatDate(data.dateTo));
-            // convert "1,2,3,4" -> ["1st Year", "2nd Year", "3rd Year", "4th Year"]
             const yearMap = {
-                "1": "1st Year",
-                "2": "2nd Year",
-                "3": "3rd Year",
+                "1": "1st Year, ",
+                "2": "2nd Year, ",
+                "3": "3rd Year, ",
                 "4": "4th Year",
             };
 

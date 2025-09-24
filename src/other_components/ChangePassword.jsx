@@ -8,7 +8,9 @@ const ChangePassword = React.forwardRef(({animate, onAnimationEnd,onClose,code},
         COC: "border-[#660A0A] text-[#660A0A] bg-[#660A0A]",
         COT: "border-[#847714] text-[#847714] bg-[#847714]",
         SCEAP: "border-[#6F3306] text-[#6F3306] bg-[#6F3306]",
-        SSC: "border-[#174515] text-[#174515] bg-[#174515]"
+        SSC: "border-[#174515] text-[#174515] bg-[#174515]",
+        OSAS: "border-[#174515] text-[#174515] bg-[#174515]",
+
       };
       const color = colors[code] || "border-black text-black";
 

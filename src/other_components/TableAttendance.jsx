@@ -1,7 +1,7 @@
 import { useState, useMemo } from "react";
 import "../animate.css";
 
-function TableAttendance({ code = "cit", events = [], scanAttendee,view}) {
+function TableAttendance({ code = "cit", events = [], scanAttendee, view}) {
   const animate = "card-In";
 
     const colors = {
@@ -83,6 +83,7 @@ function TableAttendance({ code = "cit", events = [], scanAttendee,view}) {
     setActiveLogIndex(activeLogIndex === index ? null : index);
   };
 
+  
   return (
     <div className={`w-full ${animate} flex flex-col gap-6`}>
       {/* ===================== EVENT TABLE ===================== */}
@@ -111,43 +112,51 @@ function TableAttendance({ code = "cit", events = [], scanAttendee,view}) {
                 <tr key={idx} className="border-b border-[#0505057a]">
                   <td>
                     <input type="checkbox"
-                    id={s.id}
-                    checked={checkedIds.includes(s.id)}
-                    onChange={(e) => handleCheckboxChange(e, s.id)} />
+                    id={s.event_id}
+                    checked={checkedIds.includes(s.event_id)}
+                    onChange={(e) => handleCheckboxChange(e, s.event_id)} />
                   </td>
-                  <td hidden>{s.id}</td>
-                  <td>{s.eventName}</td>
-                  <td hidden>{s.targetYear}</td>
-                  <td>{s.eventDate}</td>
+                  <td hidden>{s.event_id}</td>
+                  <td>{s.event_name}</td>
+                  <td hidden>{s.event_taret_year_levels}</td>
+                  <td>
+                    {s.event_start_date === s.event_end_date
+                  ? s.event_start_date
+                  : `${s.event_start_date} - ${s.event_end_date}`}
+                  </td>
                   <td onClick={() => toggleLog(idx)} className="relative flex items-center justify-center cursor-pointer">
                     {s.eventLog}
                     <span className="material-symbols-outlined">
                       {activeLogIndex === idx ? "arrow_drop_up" : "arrow_drop_down"}
                     </span>
                     {activeLogIndex === idx && (
-                      <div className="absolute top-6 bg-white border shadow w-45 z-[1] rounded-sm p-2">
-                        <span className="flex items-center text-xs font-semibold">
-                          <span className="material-symbols-outlined">arrow_right</span>Day 1: MI, MO, AI, AO
-                        </span>
-                        <span className="flex items-center text-xs font-semibold">
-                          <span className="material-symbols-outlined">arrow_right</span>Day 2: MI, MO, AI, AO
-                        </span>
+                      <div className="absolute top-6 bg-white border shadow w-45 z-30 rounded-sm p-2">
+                        {(s.attendance).map((a, idx) => (
+                          <span className="flex items-center text-xs font-semibold">
+                            <span className="material-symbols-outlined">arrow_right</span>Day {a.day_num}: {(a.event_attend_time).map((b, idx) => (
+                              <>{b}, </>
+                            ))}
+                          </span>
+                        ))}
                       </div>
                     )}
                   </td>
-                  <td>{s.sanctionType}</td>
-                  <td>{s.sanctionFee}</td>
+                  <td>{s.event_sanction_has_comserv ? "Community Service" : "Monetary"}</td>
+                  <td>{s.attendance?.[0]?.event_attend_sanction_fee ?? "-"}</td>
                   <td className="flex lg:flex-row flex-col gap-2 justify-center py-2">
                     <span
-                     onClick={ () => view(s)} 
+                     onClick={ () => {
+                      view(s);
+                     }  
+                    } 
                       className="material-symbols-outlined cursor-pointer shadow-[2px_2px_1px_grey] rounded-md text-[#3a2791] border border-[#3a2791] px-1"
                     title="View Attendee">
                       visibility
                     </span>
                    
-                    <span   className="material-symbols-outlined bg-white cursor-pointer text-[#d10707] shadow-[2px_2px_2px_grey] rounded-[5px] border border-[#d10707] px-[2px]" title="Delete Event" onClick={clickedDelete}>
+                    {/*<span   className="material-symbols-outlined bg-white cursor-pointer text-[#d10707] shadow-[2px_2px_2px_grey] rounded-[5px] border border-[#d10707] px-[2px]" title="Delete Event" onClick={clickedDelete}>
                       delete
-                    </span>
+                    </span>*/}
                   </td>
                 </tr>
               ))}
@@ -158,7 +167,7 @@ function TableAttendance({ code = "cit", events = [], scanAttendee,view}) {
          
         </div>
       
-        <div className={`${animate} relative lg:ml-[270px] mt-[-10px] flex flex-col-reverse justify-center items-center`}>
+        <div className={`${animate} relative lg:ml-[270px] mt-[-10px] z-[-1] flex flex-col-reverse justify-center items-center`}>
             <p className="text-[#8A2791] lg:absolute left-9">Showing of 600</p>
             <div className="flex">
               <button  className="mx-1 cursor-pointer flex items-center rounded-md border disabled:opacity-40">

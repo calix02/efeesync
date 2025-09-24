@@ -33,26 +33,40 @@ const animateL = "left-In";
     
     const [selectedEvent, setSelectedEvent] = useState(null);
     const [selectedAttendee, setSelectedAttendee] = useState(null);
+    const [selectedAttendanceDate, setSelectedAttendanceDate] = useState("");
+    const [searchValue, setSearchValue] = useState("");
 
     const [currentUserData, setCurrentUserData] = useState([]);
         
-        const fetchCurrentUser = async () => {
+        const [eventAttendanceData, setEventAttendanceData] = useState([]);
+        
+          const fetchCurrentUserAndEventsAttendance = async () => {
             try {
-                const res = await fetch("/api/users/current", {
-                    credentials: "include"
+              const res = await fetch("/api/users/current", {
+                credentials: "include"
+              });
+              const response = await res.json();
+              if (response.status === "success") {
+                setCurrentUserData(response.data);
+                const anotherRes = await fetch(`/api/organizations/code/${(response.data).organization_code}/events?type=attendance`, {
+                  credentials: "include"
                 });
-                const response = await res.json();
-                if (response.status === "success") {
-                    setCurrentUserData(response.data);
+                const anotherResponse = await anotherRes.json();
+                if (anotherResponse.status === "success") {
+                  setEventAttendanceData(anotherResponse.data);
                 }
+              }
             } catch (err) {
-                errorAlert("Fetch Failed");
+              errorAlert("Fetch Failed");
             }
-        }
-        useEffect(() => {
-            fetchCurrentUser();
-            console.log(currentUserData);
-        }, []);
+          };
+        
+          useEffect(() => {
+            fetchCurrentUserAndEventsAttendance();
+            if (selectedEvent && selectedEvent.attendance.length > 0) {
+                setSelectedAttendanceDate(selectedEvent.attendance[0].event_attend_date);
+            }
+          }, [selectedEvent]);
         const clickedView = (event) => {
         setSelectedEvent(event);
         setShowSelectedEvents(true);
@@ -88,8 +102,6 @@ const animateL = "left-In";
             <div className="fixed inset-0 flex justify-center items-center bg-[#00000062] lg:z-40 md:z-50 z-70 pointer-events-auto">
             <ScanAttendance ref={scanRef} code={currentUserData?.department_code} onAnimationEnd={scanAttendee.handleEnd} animate={scanAttendee.animation} onClose={() => scanAttendee.setAnimation("fade-out")}/>
             </div>
-            
-
         )
 
         }
@@ -104,7 +116,7 @@ const animateL = "left-In";
                      <div className="lg:mt-30 mt-25 lg:ml-70 lg:flex md:flex  justify-between">
                         <h2 className="text-2xl font-medium font-[family-name:Futura Bold]">Manage Attendance</h2>
                         <div className={`flex ${animateR} items-center lg:px-0 md:px-0 px-3`}>
-                            <input className='lg:w-85 md:w-85 w-[100%] p-1.5 bg-white rounded-md border-2 lg:mt-0 md:mt-0 mt-4   border-[#8A2791] block' type="text" placeholder='Search Student' />
+                            <input className='lg:w-85 md:w-85 w-[100%] p-1.5 bg-white rounded-md border-2 lg:mt-0 md:mt-0 mt-4   border-[#8A2791] block' type="text" placeholder='Search Student' onChange={(e) => {setSearchValue(e.target.value)} } />
                         </div>
                     </div>
                     <div className=' w-[100%] mt-3 '>
@@ -129,9 +141,11 @@ const animateL = "left-In";
                             </Link>
                         </div>
                         <TableAttendance
-                        code={currentUserData?.department_code}  
-                        updateEvent={updateEvent.toggle} 
-                        view={(row) => clickedView(row)} />
+                            events={eventAttendanceData}
+                            searchValue={searchValue}
+                            code={currentUserData?.department_code}  
+                            updateEvent={updateEvent.toggle} 
+                            view={(row) => clickedView(row)} />
                         
                     </div>
                 </>
@@ -140,7 +154,7 @@ const animateL = "left-In";
                 <>
                     <div className="lg:mt-30 mt-25 lg:ml-70 lg:flex md:flex justify-between">
                         <h2 className="text-2xl font-medium font-[family-name:Futura Bold]">
-                            {selectedEvent?.eventName || "Event Details"}
+                            {selectedEvent?.event_name || "Event Details"}
                         </h2>
                         <div className={`flex ${animateR} items-center lg:px-0 md:px-0 px-3`}>
                             <input className="lg:w-85 md:w-85 w-[100%] p-1.5 bg-white rounded-md border-2 lg:mt-0 md:mt-0 mt-4 border-[#8A2791] block"
@@ -148,15 +162,27 @@ const animateL = "left-In";
                             placeholder="Search Student"/>
                         </div>
                     </div>
-                    <div className="lg:ml-70 flex justify-end mt-3">
+                    <div className="lg:ml-70 flex justify-between mt-3">
+                        <span className='flex gap-2 items-center'>
+                            <label className='font-[family-name:Arial] text-sm font-medium' htmlFor="">Select Date: </label>
+                            <select value={selectedAttendanceDate} name="" className=' py-0.5 px-2 w-40 border-1  border-black rounded-md bg-white text-sm' onChange={(e) => {setSelectedAttendanceDate(e.target.value)}}>
+                                {selectedEvent.attendance.map((day) => (
+                                    <option key={day.event_attend_date} value={day.event_attend_date}>
+                                    Day {day.day_num} - {day.event_attend_date}
+                                    </option>
+                                ))}
+                            </select>
+                        </span>
                         <button className="bg-[#621668] px-6 text-white rounded-md cursor-pointer hover:scale-102 hover:bg-white hover:text-[#621668] hover:border-[#621668] border-1 hover:shadow-[2px_2px_3px_grey] transition duration-200"
                             onClick={() => setShowSelectedEvents(false)}>
                             Back
                         </button>
                     </div>
-                    <AttendanceTable 
+                    <AttendanceTable
+                    selectedEvent={selectedEvent}
+                    selectedEventDate={selectedAttendanceDate}
+                    searchValue={searchValue}
                     scanAttendee={scanAttendee.toggle}
-
                     />
                 </>
                 )}

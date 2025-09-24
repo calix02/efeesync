@@ -14,42 +14,64 @@ function CITStudent(){
     const animateL = "left-In";
 
     const [currentUserData, setCurrentUserData] = useState([]);
-    
-      const fetchCurrentUser = async () => {
-         try {
-             const res = await fetch("/api/users/current", {
-                 credentials: "include"
-             });
-             const response = await res.json();
-             if (response.status === "success") {
-                 setCurrentUserData(response.data);
-             }
-         } catch (err) {
-             errorAlert("Fetch Failed");
-         }
-      }
-      useEffect(() => {
-        fetchCurrentUser();
-        console.log(currentUserData);
-      }, []);
+    const [searchValue, setSearchValue] = useState("");
+    const [students, setStudents] = useState([]);
 
-     const studData = Array.from({ length: 8 }, (_, i) => ({
-        id: `22-${1000 + i}`,
-        firstName: `Mark `,
-        middleName: `M.`,
-        lastName: `Alvarado ${i + 1}`,
-        yearSection: "3A",
-    }));
+    let debounceTimer;
+
+    function debounce(callback, delay=500) {
+        clearTimeout(debounceTimer);
+        debounceTimer = setTimeout(callback, delay);
+    }
+
+    const fetchStudents = async (dept_code=currentUserData.department_code, is_univ_org=currentUserData.department_code, page=1) => {
+        try {
+            const res = await fetch(`/api/${ is_univ_org ? 'departments/code/'+dept_code : ''}/students?page=${page}&search=${searchValue}`, {
+                credentials: "include"
+            });
+            const response = await res.json();
+            if (response.status === "success") {
+                setStudents(response.data);
+            }
+        } catch (err) {
+            errorAlert("Fetch Failed");
+        }
+    }
+    
+    const fetchCurrentUser = async () => {
+       try {
+           const res = await fetch("/api/users/current", {
+               credentials: "include"
+           });
+           const response = await res.json();
+           if (response.status === "success") {
+               setCurrentUserData(response.data);
+               await fetchStudents((response.data).department_code);
+           }
+       } catch (err) {
+           errorAlert("Fetch Failed");
+       }
+    }
+
+    const searchStudent = async (search) => {
+        setSearchValue(search);
+        fetchStudents();
+    }
+
+    useEffect(() => {
+      fetchCurrentUser();
+      console.log(currentUserData);
+    }, []);
 
     const [file, setFile] = useState(null);
 
     const handleFile = (e) =>{
         const selected = e.target.files[0];
-        if(selected && !selected.name.endsWith(".csv")){
+        if (selected && !selected.name.endsWith(".csv")){
             errorAlert("Only CSV file are allowed");
             e.target.value = "";
 
-        }else if(selected){
+        } else if(selected){
             successAlert("Succesfully Imported CSV File");
         }
 
@@ -95,7 +117,7 @@ function CITStudent(){
                 <div className='lg:ml-70 lg:mt-30 mt-25 lg:flex md:flex md:justify-between lg:justify-between '>
                     <h2 className="text-2xl font-medium font-[family-name:Futura Bold]">Manage Students</h2>
                     <div className={` lg:flex md:flex ${animateR}  lg:gap-2.5 md:gap-2.5 text-md font-[family-name:Helvetica] lg:mt-0 md:mt-0 mt-4 lg:px-0 md:px-0 px-3 items-center`}>
-                        <input className='lg:w-85 w-[100%] p-1.5 bg-white rounded-md border-2  border-[#8A2791] block' type="text" placeholder='Search Student' />
+                        <input className='lg:w-85 w-[100%] p-1.5 bg-white rounded-md border-2  border-[#8A2791] block' type="text" onKeyUp={(e) => {searchStudent(e.target.value)}} placeholder='Search Student' />
                         <div className='relative lg:mt-0 md:mt-0 mt-3'>
                             <input className='bg-amber-300 lg:w-[150px] w-[100%] h-[35px] block z-[1]  cursor-pointer opacity-0' type="file" accept='.csv' onChange={handleFile} />
                             <button className='bg-[#8A2791] p-1.5 lg:w-38 w-[100%] flex items-center justify-center cursor-pointer rounded-md  text-white absolute z-[-1] top-0'>
@@ -132,7 +154,7 @@ function CITStudent(){
                     </div>
 
                 </div>
-                <TableStudent code={currentUserData?.department_code} students={studData} show={addStudent.toggle} update={(row) =>{
+                <TableStudent code={currentUserData?.department_code} students={students} show={addStudent.toggle} update={(row) =>{
                     setSelectedStudent(row);
                     updateStudent.toggle();
 

@@ -1,13 +1,14 @@
 import { useState, useMemo } from "react";
 import {Link} from 'react-router-dom';
 import "../animate.css";
+import { confirmAlert, successAlert } from "../utils/alert";
 
 /**
  * TableStudent
  * @param {string} code       – org code ("cit", "coe", …) to color the header text
  * @param {Array}  events   – array of { id, name, yearSection }
  */
-function TableEventList({ code, events = [] , addEvent, updateEvent,view}) {
+function TableEventList({ code, events = [] , addEvent, updateEvent,view, reloadEvents}) {
   /* --------------------------------- animation -------------------------------- */
   const animate = "card-In";
   /* --------------------------------- colors -------------------------------- */
@@ -76,8 +77,8 @@ function TableEventList({ code, events = [] , addEvent, updateEvent,view}) {
                 });
                 const response = await res.json();
                 if (response.status === "success") {
-                    okayAlert("Deleted!");
-                    reloadStudents();
+                    successAlert("Deleted!");
+                    reloadEvents();
                 } else {
                     alert("Failed: " + response.message);
                 }
@@ -124,7 +125,7 @@ function TableEventList({ code, events = [] , addEvent, updateEvent,view}) {
                  </td>
                  <td hidden>{s.event_id}</td>
                 <td>{s.event_name}</td>
-                <td hidden >{s.event_desciption}</td>
+                <td hidden >{s.event_description}</td>
                 <td hidden>{s.eventFee}</td>
                 <td hidden>{s.targetYear}</td>
                 <td>

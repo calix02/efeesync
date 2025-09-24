@@ -1,8 +1,12 @@
-import { useState, useMemo } from "react";
+import { useState, useEffect, useMemo } from "react";
+import { errorAlert, confirmAlert } from '../utils/alert.js';
 import "../animate.css";
 
-function AttendanceTable({ code, attendees = [],scanAttendee }) {
+function AttendanceTable({ code, attendees = [],scanAttendee, selectedEvent, selectedEventDate}) {
   const animate = "card-In";
+
+  const [studentAttendees, setStudentAttendees] = useState([]);
+  const [attendanceKeys, setAttendanceKeys] = useState([]);
 
   const textColor =
     code === "cit" ? "text-[#4F1C51]"
@@ -13,22 +17,78 @@ function AttendanceTable({ code, attendees = [],scanAttendee }) {
     : code === "osas" ? "text-[#27391C]"
     : "text-black";
 
-  const fallback = Array.from({ length: 12 }, (_, i) => ({
-    id: i,
-    name: `Mark Angelo Alvarado ${i + 1}`,
-    yearSection: `3A`,
-  }));
+  const fallback = [
+    {
+      id: 1,
+      name: `Mark Angelo Alvarado ${1}`,
+      yearSection: `3A`,
+    }
+  ];
 
-  const data = attendees.length ? attendees : fallback;
+  const [paginate, setPaginate] = useState({
+    page: 1,
+    per_page: 10,
+    total: 0,
+    total_pages: 1
+  });
 
-  const [statuses, setStatuses] = useState(
-    data.map(() => ({
-      mIn: "",
-      mOut: "",
-      aIn: "",
-      aOut: "",
-    }))
-  );
+
+  const fetchStudentAttendees = async (page=1, search="") => {
+    try {
+      const res = await fetch(`/api/events/${selectedEvent.event_id}/attendance/made/date/${selectedEventDate}?page=${page}&search=${search}`, {
+        credentials: "include"
+      });
+      const response = await res.json();
+      if (response.status === "success") {
+        setStudentAttendees(response.data);
+        if (response.data.length > 0) {
+          setAttendanceKeys(Object.keys(response.data[0].attendance));
+        }
+      }
+    } catch (err) {
+      errorAlert("Fetch Failed" + err);
+    }
+  };
+
+  const changeStudentAttendance = async (student_number_id, timeinout, target) => {
+    const time = timeinout.split(" ")[0];
+    const inout = timeinout.split(" ")[1];
+    const apiAttendance = `/api/events/${selectedEvent.event_id}/attendance/${selectedEventDate}/${time}/${inout}/number/${student_number_id}`;
+    if (target === "Present") {
+      const res = await fetch(apiAttendance, {
+        method: "POST",
+        credentials: "include"
+      });
+      const response = await res.json();
+      if (response.status === "success") {
+        // 
+      }
+    } else if (target === "Absent") {
+      const res = await fetch(apiAttendance, {
+        method: "DELETE",
+        credentials: "include"
+      });
+      const response = await res.json();
+      if (response.status === "success") {
+        //
+      }
+    } else if (target === "Excuse") {
+      const res = await fetch(`/api/events/${selectedEvent.event_id}/attendance/${selectedEventDate}/number/${student_number_id}`, {
+        method: "PUT",
+        credentials: "include"
+      });
+      const response = await res.json();
+      if (response.status === "success") {
+        //
+      }
+    }
+  };
+
+  useEffect(() => {
+    fetchStudentAttendees();
+  }, [selectedEvent, selectedEventDate, paginate]);
+
+  const data = studentAttendees.length ? studentAttendees : fallback;
 
   const handleChange = (rowIndex, field, value) => {
     setStatuses((prev) =>
@@ -37,18 +97,6 @@ function AttendanceTable({ code, attendees = [],scanAttendee }) {
       )
     );
   };
-
-  const PAGE_SIZE = 8;
-  const [page, setPage] = useState(0);
-  const pageCount = Math.ceil(data.length / PAGE_SIZE);
-
-  const pageData = useMemo(
-    () => data.slice(page * PAGE_SIZE, page * PAGE_SIZE + PAGE_SIZE),
-    [page, data]
-  );
-
-  const goPrev = () => setPage(Math.max(0, page - 1));
-  const goNext = () => setPage(Math.min(pageCount - 1, page + 1));
 
   return (
     <div className={`w-full ${animate} flex flex-col gap-6 lg:text-sm text-xs font-[family-name:Arial]`}>
@@ -59,116 +107,84 @@ function AttendanceTable({ code, attendees = [],scanAttendee }) {
               <th><input type="checkbox" /></th>
               <th hidden>Id</th>
               <th>Student Name</th>
-              <th>Year &amp; Section</th>
-              <th>AM In</th>
-              <th>AM Out</th>
-              <th>PM In</th>
-              <th>PM Out</th>
+              <th>Year & Section</th>
+              {attendanceKeys.map((key) => (
+                <th key={key}>{key}</th>
+              ))}
             </tr>
           </thead>
           <tbody>
-            {pageData.map((attendee, idx) => {
-              const globalIndex = page * PAGE_SIZE + idx; // absolute index
-              const rowStatus = statuses[globalIndex];
+            {data.map((attendee, idx) => (
+              <tr key={attendee.student_id} className="border-b border-[#0505057a]">
+                <td><input type="checkbox" /></td>
+                <td hidden>{attendee.student_id}</td>
+                <td>{attendee.student_full_name}</td>
+                <td className="py-4">{attendee.student_number_id}</td>
 
-              return (
-                <tr key={attendee.id} className="border-b border-[#0505057a]">
-                  <td><input type="checkbox" /></td>
-                  <td hidden>{attendee.id}</td>
-                  <td>{attendee.name}</td>
-                  <td className="py-4">{attendee.yearSection}</td>
-
-                  <td className={
-                    rowStatus.mIn === "Present" ? "text-[#099620]" :
-                    rowStatus.mIn === "Absent" ? "text-[#c91010]" :
-                    rowStatus.mIn === "Excuse" ? "text-[#b1760a]" : ""
-                  }>
-                    <select
-                      value={rowStatus.mIn}
-                      onChange={(e) => handleChange(globalIndex, "mIn", e.target.value)}
-                    >
-                      <option value="">Status</option>
-                      <option value="Absent">Absent</option>
-                      <option value="Present">Present</option>
-                      <option value="Excuse">Excuse</option>
-                    </select>
-                  </td>
-
-                  <td className={
-                    rowStatus.mOut === "Present" ? "text-[#099620]" :
-                    rowStatus.mOut === "Absent" ? "text-[#c91010]" :
-                    rowStatus.mOut === "Excuse" ? "text-[#b1760a]" : ""
-                  }>
-                    <select
-                      value={rowStatus.mOut}
-                      onChange={(e) => handleChange(globalIndex, "mOut", e.target.value)}
-                    >
-                      <option value="">Status</option>
-                      <option value="Absent">Absent</option>
-                      <option value="Present">Present</option>
-                      <option value="Excuse">Excuse</option>
-                    </select>
-                  </td>
-
-                  <td className={
-                    rowStatus.aIn === "Present" ? "text-[#099620]" :
-                    rowStatus.aIn === "Absent" ? "text-[#c91010]" :
-                    rowStatus.aIn === "Excuse" ? "text-[#b1760a]" : ""
-                  }>
-                    <select 
-                      value={rowStatus.aIn}
-                      onChange={(e) => handleChange(globalIndex, "aIn", e.target.value)}
-                    >
-                      <option value="">Status</option>
-                      <option value="Absent">Absent</option>
-                      <option value="Present">Present</option>
-                      <option value="Excuse">Excuse</option>
-                    </select>
-                  </td>
-
-                  <td className={
-                    rowStatus.aOut === "Present" ? "text-[#099620]" :
-                    rowStatus.aOut === "Absent" ? "text-[#c91010]" :
-                    rowStatus.aOut === "Excuse" ? "text-[#b1760a]" : ""
-                  }>
-                    <select
-                      value={rowStatus.aOut}
-                      onChange={(e) => handleChange(globalIndex, "aOut", e.target.value)}
-                    >
-                      <option value="">Status</option>
-                      <option value="Absent">Absent</option>
-                      <option value="Present">Present</option>
-                      <option value="Excuse">Excuse</option>
-                    </select>
-                  </td>
-                </tr>
-              );
-            })}
+                {attendanceKeys.map((key) => {
+                  const value = attendee.attendance[key]; // "Absent", "Present", etc.
+                  return (
+                    <td key={key} className={
+                      value === "Present" ? "text-[#099620]" :
+                      value === "Absent" ? "text-[#c91010]" :
+                      value === "Excused" ? "text-[#b1760a]" : ""
+                    }>
+                      <select
+                        value={value}
+                        disabled={
+                          value === "Excused" ||               // disable if excused
+                          new Date(selectedEventDate) < new Date().setHours(0,0,0,0) 
+                        // disable if past date
+                        }
+                        className="disabled:text-[#b0b0b0]"
+                        onChange={(e) => {
+                          const newData = [...studentAttendees];
+                          newData[idx].attendance[key] = e.target.value;
+                          setStudentAttendees(newData);
+                          changeStudentAttendance(attendee.student_number_id, key, e.target.value);
+                        }}
+                      >
+                        <option value="" hidden>Status</option>
+                        <option value="Absent">Absent</option>
+                        <option value="Present">Present</option>
+                        <option value="Excused">Excused</option>
+                      </select>
+                    </td>
+                  );
+                })}
+              </tr>
+            ))}
           </tbody>
         </table>
 
         {/* Pagination Controls */}
-        <div className="mt-4 flex justify-center gap-2">
-          <button onClick={goPrev} disabled={page === 0} className="cursor-pointer border rounded disabled:opacity-40">
+        <div className="mt-4 flex justify-center gap-2 items-center">
+          <button
+            onClick={() => fetchStudentAttendees(paginate.page - 1)}
+            disabled={paginate.page <= 1}
+            className="cursor-pointer border rounded disabled:opacity-40 p-1"
+          >
             <span className="material-symbols-outlined">chevron_left</span>
           </button>
-          {Array.from({ length: pageCount }, (_, i) => (
-            <button
-              key={i}
-              onClick={() => setPage(i)}
-              className={`px-2 border cursor-pointer rounded ${i === page ? "bg-[#621668] text-white" : "bg-white"}`}
-            >
-              {i + 1}
-            </button>
-          ))}
-          <button onClick={goNext} disabled={page === pageCount - 1} className="cursor-pointer border rounded disabled:opacity-40">
+
+          <span className="px-3">
+            Page {paginate.page} of {paginate.total_pages}
+          </span>
+
+          <button
+            onClick={() => fetchStudentAttendees(paginate.page + 1)}
+            disabled={paginate.page >= paginate.total_pages}
+            className="cursor-pointer border rounded disabled:opacity-40 p-1"
+          >
             <span className="material-symbols-outlined">chevron_right</span>
           </button>
         </div>
       </div>
-      <div onClick={scanAttendee} title="Scan QR Code"className="h-15 cursor-pointer w-15 absolute right-4 bottom-3 flex justify-center items-center bg-[#621668] rounded-full">
+      <button onClick={scanAttendee} 
+      disabled={new Date(selectedEventDate) < new Date().setHours(0,0,0,0) } 
+      title="Scan QR Code" className="  h-15 cursor-pointer w-15 absolute right-4 bottom-3 flex justify-center items-center bg-[#621668] disabled:bg-[#7a7a7a] rounded-full">
             <i className="fa-solid fa-qrcode text-3xl text-white "></i>
-          </div>
+          </button>
     </div>
   );
 }

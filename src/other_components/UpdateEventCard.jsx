@@ -1,152 +1,276 @@
-import React,{useState} from "react";
-import {successAlert} from "../utils/alert.js";
+import React, { useState, useEffect } from "react";
+import { successAlert, errorAlert } from "../utils/alert.js";
 
-const UpdateEventCard = React.forwardRef(({animate, onAnimationEnd,onClose,data}, ref) =>{
-    const [eventName, setEventName] = useState(data?.eventName);
-    const [eventDesc, setEventDesc] = useState(data?.eventDesc);
-    const [dateFrom, setDateFrom] = useState(data?.dateFrom );
-    const [dateTo, setDateTo] = useState(data?.dateTo );
+const UpdateEventCard = React.forwardRef(
+  ({ animate, onAnimationEnd, onClose, data, reloadEvents, currentUserData }, ref) => {
+    const years = ["1st Year", "2nd Year", "3rd Year", "4th Year"];
+    const logOptions = ["AM IN", "AM OUT", "PM IN", "PM OUT"];
 
-    const [selectedYear, setSelectedYear] = useState(data?.targetYear || []);
-    const [selectedType, setSelectedType] = useState(data?.eventType || []);
-
-        // helper to normalize dates
-    const formatDate = (dateStr) => {
-    if (!dateStr) return "";
-    const d = new Date(dateStr);
-    // Ensure valid date
-    if (isNaN(d)) return "";
-    return d.toISOString().split("T")[0]; // YYYY-MM-DD
+    // Map numeric year_levels → "1st Year", etc.
+    const yearMap = {
+      1: "1st Year",
+      2: "2nd Year",
+      3: "3rd Year",
+      4: "4th Year",
     };
 
-    React.useEffect(() => {
-    if (data) {
-        setEventName(data.eventName || "");
-        setEventDesc(data.eventDesc || "");
-        setDateFrom(formatDate(data.dateFrom));
-        setDateTo(formatDate(data.dateTo));
+    // Setup state
+    const [eventName, setEventName] = useState("");
+    const [eventDesc, setEventDesc] = useState("");
+    const [selectedYear, setSelectedYear] = useState([]);
+    const [selectedType, setSelectedType] = useState([]);
+    const [eventFee, setEventFee] = useState("");
+    const [sanctionPerSignature, setSanctionPerSignature] = useState("");
+    const [selectedSanctionType, setSelectedSanctionType] = useState("");
+    const [dates, setDates] = useState([]); // each day’s info
 
-        // convert "1,2,3,4" -> ["1st Year", "2nd Year", "3rd Year", "4th Year"]
-        const yearMap = {
-        "1": "1st Year",
-        "2": "2nd Year",
-        "3": "3rd Year",
-        "4": "4th Year",
-        };
-        const years = data.targetYear
-        ? data.targetYear.split(",").map((y) => yearMap[y.trim()])
-        : [];
-        setSelectedYear(years);
+    // Init from props
+    useEffect(() => {
+      if (data) {
+        setEventName(data.event_name || "");
+        setEventDesc(data.event_description || "");
 
-        // convert "Attendance" -> ["With Attendance"]
-        // or "Contribution" -> ["With Contribution"]
-        const typeMap = {
-        Attendance: "With Attendance",
-        Contribution: "With Contribution",
-        };
-        const types = data.eventType
-        ? data.eventType.split(",").map((t) => typeMap[t.trim()])
-        : [];
-        setSelectedType(types);
-    }
+        // Target years
+        setSelectedYear(data.event_target_year_levels?.map((y) => yearMap[y]) || []);
+
+        // Types
+        const typeArr = [];
+        if (data.contribution) typeArr.push("With Contribution");
+        if ((data.attendance).length >0) typeArr.push("With Attendance");
+        setSelectedType(typeArr);
+
+        // Contribution
+        if (data.contribution) {
+          setEventFee(data.contribution.event_contri_fee || "");
+        }
+
+        // Attendance dates
+        if (data.attendance) {
+          setDates(
+            data.attendance.map((att) => ({
+              id: att.day_num,
+              value: att.event_attend_date,
+              times: att.event_attend_time || [],
+              sanction: att.event_attend_sanction_fee || "",
+            }))
+          );
+        } else {
+          setDates([]);
+        }
+
+        // Sanction
+        setSelectedSanctionType(data.event_sanction_has_comserv ? "Community Service" : "Monetary");
+        if (data.attendance?.length) {
+          setSanctionPerSignature(data.attendance[0].event_attend_sanction_fee || "");
+        }
+      }
     }, [data]);
 
-
-    const types = ["With Contribution", "With Attendance"];
-    const years  = ["1st Year", "2nd Year", "3rd Year", "4th Year"];
-
+    // toggle helpers
     const toggleYear = (year) => {
-    setSelectedYear((prev) =>
-      prev.includes(year)
-        ? prev.filter((y) => y !== year) // remove if already selected
-        : [...prev, year] // add if not selected
-    );
-  };
+      setSelectedYear((prev) =>
+        prev.includes(year) ? prev.filter((y) => y !== year) : [...prev, year]
+      );
+    };
 
     const toggleType = (type) => {
-        setSelectedType((prev) =>
-        prev.includes(type)
-            ? prev.filter((y) => y !== type) // remove if already selected
-            : [...prev, type] // add if not selected
-        );
+      setSelectedType((prev) =>
+        prev.includes(type) ? prev.filter((t) => t !== type) : [...prev, type]
+      );
     };
-   
-  const handleSubmit = () =>{
-    successAlert( "Event Name" + eventName +
-        "Event Desc: " + eventDesc +
-         "Target Years :" + selectedYear 
-        + "\nType: " + selectedType +
-        "From: " + dateFrom + 
-        "To: " + dateTo 
-    );
 
-  }
+    const handleLogToggle = (id, option) => {
+      setDates((prev) =>
+        prev.map((d) =>
+          d.id === id
+            ? {
+                ...d,
+                times: d.times.includes(option)
+                  ? d.times.filter((o) => o !== option)
+                  : [...d.times, option],
+              }
+            : d
+        )
+      );
+    };
 
-    return( 
-        <div ref={ref}   className={` ${animate} lg:w-100 md:w-100 w-80  h-125 text-sm font-[family-name:Arial] px-6 bg-white shadow-[2px_2px_#8A2791,-2px_-2px_white] rounded-lg  z-80 inset-0 mx-auto`}
-        onAnimationEnd={onAnimationEnd}>
-            <div className="mt-2 relative">
-                <span onClick={onClose} className="material-symbols-outlined absolute right-0.5 cursor-pointer">disabled_by_default</span>
-            </div>
-            <div className="mt-6 border-b-4 border-[#8A2791]">
-                <span className="text-[#8A2791] font-semibold font-[family-name:Helvetica] text-xl">Update Event</span>
-            </div>
-            <form onSubmit={(e) =>{
-                e.preventDefault();
-                handleSubmit();
-                onClose();
-               
-            }}>
-            <div className="mt-4">
-                <label>Event Name:</label><br />
-                <input type="text" onChange={(e) =>setEventName(e.target.value)} value={eventName} className="border-2 px-2 border-[#8A2791] h-8 rounded-md w-[100%] mb-3" /> <br />
-                 <label>Event Description:</label><br />
-                 <textarea onChange={(e) =>setEventDesc(e.target.value)} value={eventDesc} className="border-2 px-2 border-[#8A2791] h-20 hide-scrollbar rounded-md w-[100%] mb-2"></textarea>
-                 <label htmlFor="">Target Year</label>
-                  <div className="flex gap-2 h-8 rounded-md lg:text-sm text-xs border-[#8A2791] w-100% mb-4 border-2 justify-center items-center" >
-                    {years.map((year) => (
-                    <span key={year} className="flex items-center lg:gap-1">
-                        <input
-                        type="checkbox"
-                        checked={selectedYear.includes(year)}
-                        onChange={() => toggleYear(year)} className="cursor-pointer"
-                    />
-                    <label>{year}</label>
-                    </span>
-                    ))}
-                </div>
-                
-                 <label htmlFor="">Date Range</label>
-                 <div className="w-[100%] flex lg:gap-3 md:gap-3 gap-1">
-                    <div className="border-2 border-[#8A2791] h-8 px-2 rounded-md w-[50%] mb-3 grid justify-center items-center">
-                        <input type="date" onChange={(e) => setDateFrom(e.target.value)} value={dateFrom} className="w-[100%] " />
-                    </div>
-                    <div className="border-2 border-[#8A2791] h-8 px-2 rounded-md w-[50%] mb-3 grid justify-center items-center">
-                        <input type="date" onChange={(e) => setDateTo(e.target.value)} value={dateTo} className="w-[100%] " />
-                    </div>
+    // Submit update
+    const handleSubmit = async () => {
+      const payload = {
+        event_name: eventName,
+        event_description: eventDesc,
+        event_target_year_levels: selectedYear.map((y) => y[0]), // "1st Year" → "1"
+        event_sanction_has_comserv: selectedSanctionType === "Community Service",
+        contribution: selectedType.includes("With Contribution")
+          ? {
+              event_contri_fee: parseFloat(eventFee) || 0,
+              event_contri_sanction_fee: 0,
+            }
+          : null,
+        attendance: selectedType.includes("With Attendance")
+          ? dates.map((d, idx) => ({
+              day_num: idx + 1,
+              event_attend_date: d.value,
+              event_attend_time: d.times,
+              event_attend_sanction_fee: parseFloat(sanctionPerSignature) || 0,
+            }))
+          : null,
+      };
 
-                 </div>
-                 
-                <label htmlFor="">Event Category</label>
-                 <div className="flex gap-2 h-8 rounded-md lg:text-sm text-xs border-[#8A2791] w-100% border-2 justify-around items-center" >
-                    {types.map((type) => (
-                    <span key={type} className="flex items-center lg:gap-1">
-                        <input
-                        type="checkbox"
-                        checked={selectedType.includes(type)}
-                        onChange={() => toggleType(type)} className="cursor-pointer"
-                    />
-                    <label>{type}</label>
-                    </span>
-                    ))}
-                </div>
+      try {
+        const res = await fetch(`/api/organizations/${currentUserData.organization_id}/events/${data.event_id}`, {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload),
+        });
+        const result = await res.json();
 
-                <button type="submit" className="bg-[#8A2791] rounded-[5px] mt-6 text-white w-[100%] h-8">Next</button> 
+        if (result.status === "success") {
+          reloadEvents?.();
+          successAlert("Event updated successfully!");
+        } else {
+          errorAlert("Error: " + result.message);
+        }
+      } catch (err) {
+        console.error("Update error:", err);
+        errorAlert("Failed to update event.");
+      }
+    };
 
-            </div>
-             </form>
+    return (
+      <div
+        ref={ref}
+        className={`${animate} lg:w-100 md:w-100 w-80 max-h-[90vh] hide-scrollbar overflow-y-scroll py-6 text-sm font-[family-name:Arial] px-6 bg-white shadow rounded-lg z-80 inset-0 mx-auto`}
+        onAnimationEnd={onAnimationEnd}
+      >
+        <div className="relative">
+          <span
+            onClick={onClose}
+            className="material-symbols-outlined absolute right-0.5 cursor-pointer"
+          >
+            disabled_by_default
+          </span>
         </div>
-       
+        <div className="border-b-4 border-[#8A2791] mb-4">
+          <span className="text-[#8A2791] font-semibold text-xl">Update Event</span>
+        </div>
+
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            handleSubmit();
+            onClose();
+          }}
+        >
+          <label>Event Name:</label>
+          <input
+            type="text"
+            value={eventName}
+            onChange={(e) => setEventName(e.target.value)}
+            className="border-2 px-2 border-[#8A2791] h-8 rounded-md w-full mb-3"
+          />
+
+          <label>Event Description:</label>
+          <textarea
+            value={eventDesc}
+            onChange={(e) => setEventDesc(e.target.value)}
+            className="border-2 px-2 border-[#8A2791] h-20 rounded-md w-full mb-3"
+          />
+
+          <label>Target Year:</label>
+          <div className="flex gap-2 border-2 border-[#8A2791] rounded-md p-2 mb-3">
+            {years.map((year) => (
+              <label key={year} className="flex items-center gap-1">
+                <input
+                  type="checkbox"
+                  checked={selectedYear.includes(year)}
+                  onChange={() => toggleYear(year)}
+                />
+                {year}
+              </label>
+            ))}
+          </div>
+
+          <label>Event Category:</label>
+          <div className="flex gap-2 border-2 border-[#8A2791] rounded-md p-2 mb-3">
+            {["With Contribution", "With Attendance"].map((type) => (
+              <label key={type} className="flex items-center gap-1">
+                <input
+                  type="checkbox"
+                  checked={selectedType.includes(type)}
+                  onChange={() => toggleType(type)}
+                />
+                {type}
+              </label>
+            ))}
+          </div>
+
+          {selectedType.includes("With Contribution") && (
+            <input
+              type="number"
+              placeholder="Event Fee"
+              value={eventFee}
+              onChange={(e) => setEventFee(e.target.value)}
+              className="border p-2 w-full mb-3"
+            />
+          )}
+
+          {selectedType.includes("With Attendance") && (
+            <>
+              <div className="border-2 border-[#8A2791] rounded-md p-2 mb-3 text-xs">
+                {dates.map((d, i) => (
+                  <div key={d.id} className="mb-2">
+                    <p className="font-semibold">
+                      Day {i + 1}: {new Date(d.value).toLocaleDateString()}
+                    </p>
+                    <div className="flex gap-4 flex-wrap">
+                      {logOptions.map((opt) => (
+                        <label key={opt} className="flex items-center gap-1">
+                          <input
+                            type="checkbox"
+                            checked={d.times.includes(opt)}
+                            onChange={() => handleLogToggle(d.id, opt)}
+                          />
+                          {opt}
+                        </label>
+                      ))}
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              <select
+                value={selectedSanctionType}
+                onChange={(e) => setSelectedSanctionType(e.target.value)}
+                className="border p-2 w-full mb-2"
+              >
+                <option value="">-- Select Sanction Type --</option>
+                <option value="Monetary">Monetary</option>
+                <option value="Community Service">Community Service</option>
+              </select>
+
+              {selectedSanctionType === "Monetary" && (
+                <input
+                  type="number"
+                  placeholder="Sanction per signature"
+                  value={sanctionPerSignature}
+                  onChange={(e) => setSanctionPerSignature(e.target.value)}
+                  className="border p-2 w-full mb-2"
+                />
+              )}
+            </>
+          )}
+
+          <button
+            type="submit"
+            className="bg-[#8A2791] rounded-md text-white w-full h-8 mt-4"
+          >
+            Update Event
+          </button>
+        </form>
+      </div>
     );
-});
+  }
+);
+
 export default UpdateEventCard;

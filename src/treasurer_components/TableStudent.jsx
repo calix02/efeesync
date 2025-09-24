@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from "react";
+import { confirmAlert, errorAlert, okayAlert } from "../utils/alert";
 import "../animate.css";
 
 function TableStudent({ code = "cit", students = [], show, update }) {
@@ -15,14 +16,8 @@ function TableStudent({ code = "cit", students = [], show, update }) {
   const color = colors[code] || "border-black text-black";
 
 
-  const fallback = Array.from({ length: 0 }, (_, i) => ({
-    id: `No Record`,
-    firstName: `Mark `,
-    middleName: `M.`,
-    lastName: `Alvarado ${i + 1}`,
-    yearSection: "3A",
-  }));
-
+  const fallback = [];
+  
   const data = students.length ? students : fallback;
 
   const [checkedIds, setCheckedIds] = useState([]);
@@ -50,6 +45,31 @@ function TableStudent({ code = "cit", students = [], show, update }) {
   const clickedDelete = () => {
     alert("Selected IDs: " + checkedIds.join(", "));
   };
+
+  const deleteStudent = (s) => {
+    confirmAlert("It will delete permanently").then( async (result) =>{
+          if(result.isConfirmed){
+            try {
+              const res = await fetch("/api/students/" + s.student_id, {
+                  method: "DELETE",
+                  credentials: "include",
+                  headers: {
+                      "Content-Type": "application/json"
+                  }
+              });
+              const response = await res.json();
+              if (response.status === "success") {
+                  okayAlert("Deleted!");
+                  reloadStudents();
+              } else {
+                  alert("Failed: " + response.message);
+              }
+          } catch (err) {
+              alert("Fetch failed: " + err);
+          }
+          }
+        });
+  }
 
   return (
     <div
@@ -82,14 +102,14 @@ function TableStudent({ code = "cit", students = [], show, update }) {
                 <td>
                   <input
                     type="checkbox"
-                    id={s.id}
-                    checked={checkedIds.includes(s.id)}
-                    onChange={(e) => handleCheckboxChange(e, s.id)}
+                    id={s.student_id}
+                    checked={checkedIds.includes(s.student_id)}
+                    onChange={(e) => handleCheckboxChange(e, s.student_id)}
                   />
                 </td>
-                <td>{s.id}</td>
-                <td>{s.firstName + " " + s.middleName + " " + s.lastName}</td>
-                <td>{s.yearSection}</td>
+                <td>{s.student_number_id}</td>
+                <td>{s.full_name}</td>
+                <td>{s.student_section}</td>
                 <td className="flex lg:flex-row flex-col gap-2 justify-center py-3">
                   <span
                     onClick={() => update(s)}
@@ -98,7 +118,7 @@ function TableStudent({ code = "cit", students = [], show, update }) {
                     edit_square
                   </span>
                   <span
-                    onClick={clickedDelete}
+                    onClick={() => deleteStudent(s)}
                     className="material-symbols-outlined px-0.5 bg-white cursor-pointer text-[#d10707] shadow-[2px_2px_2px_grey] rounded-sm border border-[#d10707] "
                   >
                     delete

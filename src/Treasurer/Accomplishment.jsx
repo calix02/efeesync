@@ -20,7 +20,7 @@ function CITAccomplishment(){
                  });
                  const response = await res.json();
                  if (response.status === "success") {
-                     setCurrentUserData(response.data);
+                    setCurrentUserData(response.data);
                  }
              } catch (err) {
                  errorAlert("Fetch Failed");

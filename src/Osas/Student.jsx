@@ -24,9 +24,8 @@ function Student(){
     const [selectedStudent, setSelectedStudent] = useState(null);
     const [colleges, setColleges] = useState([]);
     const [students, setStudents] = useState([]);
-    
-   
 
+    
     const fetchStudents = async () => {
         try {
             const res = await fetch("/api/students", {

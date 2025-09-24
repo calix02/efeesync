@@ -2,7 +2,7 @@ import { useState, useMemo } from "react";
 import { successAlert } from "../utils/alert";
 import "../animate.css";
 
-function ContributionTable({ code, events = [] }) {
+function ContributionTable({ code, events = [], selectedEvent }) {
   const animate = "card-In";
 
   const [amount, setAmount] = useState("");

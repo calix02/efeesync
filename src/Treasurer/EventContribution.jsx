@@ -8,8 +8,9 @@ import ContributionTable from '../treasurer_components/ContributionTable.jsx';
 import useAnimatedToggle from '../hooks/useAnimatedToggle.js';
 import "../animate.css";
 import EfeeViolet from '../assets/violetlogo.png';
+import { errorAlert } from "../utils/alert";
 
-function CITEventContribution({ data }) {
+function EventContribution({ data }) {
   /* --------------------------------- animation -------------------------------- */
   const animateR = "right-In";
   const animateL = "left-In";
@@ -24,8 +25,9 @@ function CITEventContribution({ data }) {
   const [selectedEvent, setSelectedEvent] = useState(null);
   const [selectedAttendee, setSelectedAttendee] = useState(null);
   const [currentUserData, setCurrentUserData] = useState([]);
+  const [eventContributionsData, setEventContributionsData] = useState([]);
 
-  const fetchCurrentUser = async () => {
+  const fetchCurrentUserAndEventsContributions = async () => {
     try {
       const res = await fetch("/api/users/current", {
         credentials: "include"
@@ -33,6 +35,13 @@ function CITEventContribution({ data }) {
       const response = await res.json();
       if (response.status === "success") {
         setCurrentUserData(response.data);
+        const anotherRes = await fetch(`/api/organizations/code/${(response.data).organization_code}/events?type=contribution`, {
+          credentials: "include"
+        });
+        const anotherResponse = await anotherRes.json();
+        if (anotherResponse.status === "success") {
+          setEventContributionsData(anotherResponse.data);
+        }
       }
     } catch (err) {
       errorAlert("Fetch Failed");
@@ -40,8 +49,7 @@ function CITEventContribution({ data }) {
   };
 
   useEffect(() => {
-    fetchCurrentUser();
-    console.log(currentUserData);
+    fetchCurrentUserAndEventsContributions();
   }, []);
 
   /* ------------------ handle view event ------------------ */
@@ -121,7 +129,9 @@ function CITEventContribution({ data }) {
 
             <TableEventContribution
               code={currentUserData?.department_code}
-              view={(row) => clickedView(row)} // ✅ Pass selected row
+              selectedEvent={selectedEvent}
+              events={eventContributionsData}
+              view={(row) => clickedView(row)}
               updateContribution={(row) => {
                 setSelectedAttendee(row);
                 specificContribution.toggle();
@@ -135,7 +145,7 @@ function CITEventContribution({ data }) {
           <>
             <div className="lg:mt-30 mt-25 lg:ml-70 lg:flex md:flex justify-between">
               <h2 className="text-2xl font-medium font-[family-name:Futura Bold]">
-                {selectedEvent?.eventName || "Event Details"}
+                {selectedEvent?.event_name || "Event Details"}
               </h2>
               <div className={`flex ${animateR} items-center lg:px-0 md:px-0 px-3`}>
                 <input
@@ -155,7 +165,7 @@ function CITEventContribution({ data }) {
               </button>
             </div>
 
-            <ContributionTable code={currentUserData?.department_code}/>
+            <ContributionTable selectedEvent={selectedEvent} code={currentUserData?.department_code}/>
           </>
         )}
       </div>
@@ -167,4 +177,4 @@ function CITEventContribution({ data }) {
   );
 }
 
-export default CITEventContribution;
+export default EventContribution;

@@ -28,6 +28,7 @@ function AttendanceTable({ code, attendees = [], scanAttendee, selectedEvent, se
 
 
   const fetchStudentAttendees = async (page=1, search="") => {
+    if (!selectedEventDate) return;
     try {
       const res = await fetch(`/api/events/${selectedEvent.event_id}/attendance/made/date/${selectedEventDate}?page=${page}&search=${search}`, {
         credentials: "include"

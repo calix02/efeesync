@@ -3,7 +3,7 @@ import { Scanner } from "@yudiel/react-qr-scanner";
 import Quagga from "quagga";
 
 const ScanAttendance = React.forwardRef(
-  ({ animate, onAnimationEnd, onClose, data, code }, ref) => {
+  ({ animate, onAnimationEnd, onClose, code, selectedEvent, selectedEventDate }, ref) => {
     const colors = {
       CIT: "border-[#621668] text-[#621668] bg-[#621668] ",
       COE: "border-[#020180] text-[#020180] bg-[#020180]",
@@ -19,6 +19,13 @@ const ScanAttendance = React.forwardRef(
     const [yearSection, setYearSection] = useState("");
     const [usingQuagga, setUsingQuagga] = useState(false);
 
+    const [autoMark, setAutoMark] = useState(false);
+    const [timeInout, setTimeInout] = useState("AM IN");
+
+    const attendanceForDate = selectedEvent?.attendance?.find(
+      (att) => att.event_attend_date === selectedEventDate
+    )
+
     // --- Detect if mobile or desktop ---
     const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
     const cameraFacingMode = isMobile ? "environment" : "user";
@@ -26,15 +33,15 @@ const ScanAttendance = React.forwardRef(
     // --- Parse decoded text into form fields ---
     const handleDecodedText = (decodedText) => {
       try {
-        const parsedData = JSON.parse(decodedText);
-        setStudentId(parsedData.id || "");
-        setStudentName(parsedData.name || "");
-        setYearSection(parsedData.section || "");
-      } catch {
         const parts = decodedText.split(/\r?\n/);
         setStudentId(parts[0] || "");
         setStudentName(parts[1] || "");
         setYearSection(parts[2] || "");
+        if (autoMark) {
+          markAttendance(parts[0]);
+        }
+      } catch (err) {
+        console.error("An error occured: " + error);
       }
     };
 
@@ -46,6 +53,22 @@ const ScanAttendance = React.forwardRef(
         handleDecodedText(decodedText);
       }
     };
+
+    const markAttendance = async (student_number_id) => {
+      const splittedTimeInout = timeInout.split(' ');
+      const time = splittedTimeInout[0];
+      const inout = splittedTimeInout[1];
+      const apiAttendance = `/api/events/${selectedEvent.event_id}/attendance/${selectedEventDate}/${time}/${inout}/number/${student_number_id}`;
+      console.log(apiAttendance);
+      /*const res = await fetch(apiAttendance, {
+        method: "POST",
+        credentials: "include"
+      });
+      const response = await res.json();
+      if (response.status !== "success") {
+        errorAlert(response.message);
+      }*/
+    }
 
     // --- Quagga Handler (Barcodes, Code39 only) ---
     useEffect(() => {
@@ -173,28 +196,18 @@ const ScanAttendance = React.forwardRef(
               />
               <label htmlFor="">Attendance Logs</label><br />
               <div className="border-2 h-8 rounded-md lg:text-sm text-xs flex justify-center gap-2 items-center">
-                <span className="flex items-center gap-1">
-                  <input type="checkbox" />
-                  <label htmlFor="">AM IN</label>
-                </span>
-                 <span className="flex items-center gap-1">
-                  <input type="checkbox" />
-                  <label htmlFor="">AM OUT</label>
-                </span>
-                 <span className="flex items-center gap-1">
-                  <input type="checkbox" />
-                  <label  htmlFor="">PM IN</label>
-                </span>
-                 <span className="flex items-center gap-1">
-                  <input type="checkbox" />
-                  <label htmlFor="">PM OUT</label>
-                </span> 
+                {(attendanceForDate?.event_attend_time || []).map((value, index) => (
+                  <span key={index} className="flex items-center gap-1">
+                    <input type="radio" name="event-time" onChange={(e)=>{setTimeInout(e.target.value)}} value={value} id={`attend-${attendanceForDate.day_num}-${index}`} />
+                    <label htmlFor={`attend-${attendanceForDate.day_num}-${index}`}>{value}</label>
+                  </span>
+                ))}
               </div>
               <div className="flex items-center gap-1 justify-end mt-1">
-                <input type="checkbox" />
+                <input type="checkbox" checked={autoMark} onChange={(e) => setAutoMark(e.target.checked)} />
                 <label htmlFor="">Auto-Mark Attendance</label>
               </div>
-              <button className={`w-[100%] ${color} h-8 rounded-md mt-3 cursor-pointer text-white`}>Mark Present</button>
+              <button disabled={autoMark} onClick={(e)=> {e.preventDefault()}} className={`w-[100%] ${color} h-8 rounded-md mt-1 text-white ${autoMark ? "opacity-50 cursor-not-allowed" : "cursor-pointer"}`}>Mark Present</button>
             </form>
           </div>
         </div>

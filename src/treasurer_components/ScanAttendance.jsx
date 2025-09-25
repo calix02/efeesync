@@ -21,6 +21,7 @@ const ScanAttendance = React.forwardRef(
 
     const [autoMark, setAutoMark] = useState(false);
     const [timeInout, setTimeInout] = useState("");
+    const [isErrorAttendance, setIsErrorAttendance] = useState(false);
 
     const attendanceForDate = selectedEvent?.attendance?.find(
       (att) => att.event_attend_date === selectedEventDate
@@ -67,6 +68,9 @@ const ScanAttendance = React.forwardRef(
         credentials: "include"
       });
       const response = await res.json();
+      if (response.status !== "success") {
+        setIsErrorAttendance(true);
+      }
       setAttendanceMessage(response.message);
     }
 
@@ -205,7 +209,7 @@ const ScanAttendance = React.forwardRef(
                 type="text"
                 value={attendanceMessage}
                 readOnly
-                className="border-2 px-2 h-8 rounded-md w-full mt-2 mb-3"
+                className={`border-2 px-2 h-8 rounded-md w-full mt-2 mb-3 ${isErrorAttendance ? "text-red-500" : ""}`}
               />
               <label htmlFor="">Attendance Logs</label><br />
               <div className="border-2 h-8 rounded-md lg:text-sm text-xs flex justify-center gap-2 items-center">

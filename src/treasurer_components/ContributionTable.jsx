@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import { useState, useEffect } from "react";
 import { successAlert } from "../utils/alert";
 import "../animate.css";
 
@@ -21,17 +21,37 @@ function ContributionTable({ code, events = [], selectedEvent }) {
   };
   const color = colors[code] || "border-black text-black";
 
+  const fallback = [];
 
-  const fallback = Array.from({ length: 12 }, (_, i) => ({
-    id: i,
-    studentID: `22-102${i}`,
-    studentName: `Mark Alvarado ${i + 1}`,
-    yearSection: `4A`,
-    eventFee: `400`,
-    balance: `${i % 2 === 0 ? 0 : 200}`,
-  }));
+  const [studentsToContribute, setStudentsToContribute] = useState([]);
 
-  const data = events.length ? events : fallback;
+  const data = studentsToContribute.length ? studentsToContribute : fallback;
+
+  const [paginate, setPaginate] = useState({
+    page: 1,
+    per_page: 10,
+    total: 0,
+    total_pages: 1
+  });
+
+  const fetchStudentToContribute = async (page=1, search="") => {
+      try {
+        const res = await fetch(`/api/events/${selectedEvent.event_id}/contributions/made?page=${page}&search=${search}`, {
+          credentials: "include"
+        });
+        const response = await res.json();
+        if (response.status === "success") {
+          setPaginate(response.meta);
+          setStudentsToContribute(response.data);
+        }
+      } catch (err) {
+        errorAlert("Fetch Failed" + err);
+      }
+    };
+  
+    useEffect(() => {
+      fetchStudentToContribute();
+    }, [selectedEvent]);
 
   const handleSubmit = () => {
     successAlert(amount);
@@ -66,12 +86,12 @@ function ContributionTable({ code, events = [], selectedEvent }) {
               return (
                 <tr key={s.id} className="border-b border-[#0505057a]">
                   <td><input type="checkbox" /></td>
-                  <td hidden>{s.id}</td>
-                  <td>{s.studentID}</td>
-                  <td>{s.studentName}</td>
-                  <td>{s.yearSection}</td>
-                  <td>{s.eventFee}</td>
-                  <td>{s.balance}</td>
+                  <td hidden>{s.student_id}</td>
+                  <td>{s.student_number_id}</td>
+                  <td>{s.full_name}</td>
+                  <td>{s.student_section}</td>
+                  <td>{s.event_contri_fee}</td>
+                  <td>{s.remaining_balance}</td>
                   <td className="flex gap-2 justify-center font-semibold text-xs py-3">
                     {activeRowIndex !== idx ? (
                       <>

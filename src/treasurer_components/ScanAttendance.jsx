@@ -16,11 +16,11 @@ const ScanAttendance = React.forwardRef(
 
     const [studentId, setStudentId] = useState("");
     const [studentName, setStudentName] = useState("");
-    const [yearSection, setYearSection] = useState("");
+    const [attendanceMessage, setAttendanceMessage] = useState("");
     const [usingQuagga, setUsingQuagga] = useState(false);
 
     const [autoMark, setAutoMark] = useState(false);
-    const [timeInout, setTimeInout] = useState("AM IN");
+    const [timeInout, setTimeInout] = useState("");
 
     const attendanceForDate = selectedEvent?.attendance?.find(
       (att) => att.event_attend_date === selectedEventDate
@@ -36,12 +36,11 @@ const ScanAttendance = React.forwardRef(
         const parts = decodedText.split(/\r?\n/);
         setStudentId(parts[0] || "");
         setStudentName(parts[1] || "");
-        setYearSection(parts[2] || "");
         if (autoMark) {
           markAttendance(parts[0]);
         }
       } catch (err) {
-        console.error("An error occured: " + error);
+        console.error("An error occured: " + err);
       }
     };
 
@@ -49,26 +48,40 @@ const ScanAttendance = React.forwardRef(
     const handleZXingScan = (results) => {
       if (results && results.length > 0) {
         const decodedText = results[0].rawValue;
-        console.log("ZXing detected:", decodedText);
         handleDecodedText(decodedText);
       }
     };
 
     const markAttendance = async (student_number_id) => {
+      if (!timeInout) {
+        setAttendanceMessage("Please select a time slot before marking attendance.");
+        return;
+      }
       const splittedTimeInout = timeInout.split(' ');
       const time = splittedTimeInout[0];
       const inout = splittedTimeInout[1];
       const apiAttendance = `/api/events/${selectedEvent.event_id}/attendance/${selectedEventDate}/${time}/${inout}/number/${student_number_id}`;
       console.log(apiAttendance);
-      /*const res = await fetch(apiAttendance, {
+      const res = await fetch(apiAttendance, {
         method: "POST",
         credentials: "include"
       });
       const response = await res.json();
-      if (response.status !== "success") {
-        errorAlert(response.message);
-      }*/
+      setAttendanceMessage(response.message);
     }
+
+    useEffect(() => {
+      if (!timeInout && attendanceForDate?.event_attend_time?.length) {
+        setTimeInout(attendanceForDate.event_attend_time[0]);
+      }
+    }, [attendanceForDate]);
+
+    // Auto-mark whenever studentId updates AND autoMark is enabled
+    useEffect(() => {
+      if (autoMark && studentId) {
+        markAttendance(studentId);
+      }
+    }, [studentId, autoMark]);
 
     // --- Quagga Handler (Barcodes, Code39 only) ---
     useEffect(() => {
@@ -187,10 +200,10 @@ const ScanAttendance = React.forwardRef(
                 className="border-2 px-2  h-8 rounded-md w-full mt-2 mb-3"
               />
 
-              <label className="text-sm">Year & Section </label>
+              <label className="text-sm">Message: </label>
               <input
                 type="text"
-                value={yearSection}
+                value={attendanceMessage}
                 readOnly
                 className="border-2 px-2 h-8 rounded-md w-full mt-2 mb-3"
               />
@@ -198,7 +211,7 @@ const ScanAttendance = React.forwardRef(
               <div className="border-2 h-8 rounded-md lg:text-sm text-xs flex justify-center gap-2 items-center">
                 {(attendanceForDate?.event_attend_time || []).map((value, index) => (
                   <span key={index} className="flex items-center gap-1">
-                    <input type="radio" name="event-time" onChange={(e)=>{setTimeInout(e.target.value)}} value={value} id={`attend-${attendanceForDate.day_num}-${index}`} />
+                    <input type="radio" name="event-time" checked={timeInout === value} value={value} onChange={(e)=>{setTimeInout(e.target.value)}} id={`attend-${attendanceForDate.day_num}-${index}`} />
                     <label htmlFor={`attend-${attendanceForDate.day_num}-${index}`}>{value}</label>
                   </span>
                 ))}
@@ -207,7 +220,7 @@ const ScanAttendance = React.forwardRef(
                 <input type="checkbox" checked={autoMark} onChange={(e) => setAutoMark(e.target.checked)} />
                 <label htmlFor="">Auto-Mark Attendance</label>
               </div>
-              <button disabled={autoMark} onClick={(e)=> {e.preventDefault()}} className={`w-[100%] ${color} h-8 rounded-md mt-1 text-white ${autoMark ? "opacity-50 cursor-not-allowed" : "cursor-pointer"}`}>Mark Present</button>
+              <button disabled={autoMark} onClick={(e)=> {e.preventDefault(); markAttendance(studentId)}} className={`w-[100%] ${color} h-8 rounded-md mt-1 text-white ${autoMark ? "opacity-50 cursor-not-allowed" : "cursor-pointer"}`}>Mark Present</button>
             </form>
           </div>
         </div>

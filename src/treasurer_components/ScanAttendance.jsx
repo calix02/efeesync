@@ -192,7 +192,8 @@ const ScanAttendance = React.forwardRef(
               <input
                 type="text"
                 value={studentId}
-                readOnly
+                onChange={(e)=>setStudentId(e.target.value)}
+                maxLength={7}
                 className="border-2 px-2 h-8 rounded-md w-full mt-2 mb-3"
               />
 

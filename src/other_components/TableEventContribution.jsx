@@ -1,7 +1,7 @@
 import { useState, useMemo } from "react";
 import "../animate.css";
 
-function TableEventContribution({ code = "cit", events = [], view }) {
+function TableEventContribution({ code = "cit", events = [], view, formatDateStr }) {
 /* ------------------------ animation ------------------------- */
   const animate = "card-In";
 
@@ -16,15 +16,7 @@ function TableEventContribution({ code = "cit", events = [], view }) {
   const color = colors[code] || "border-black text-black";
 
 
-  const fallback = [
-    {
-      id: 1,
-      eventName: `Year-End-Party 1`,
-      dateFrom: `7/11/25`,
-      dateTo: ``,
-      eventFee: `400`,
-    }
-  ];
+  const fallback = [];
 
   const data = events.length > 0 ? events : fallback;
 
@@ -96,8 +88,8 @@ function TableEventContribution({ code = "cit", events = [], view }) {
                   <td>{s.event_name}</td>
                   <td>
                     {s.event_start_date === s.event_end_date
-                  ? s.event_start_date
-                  : `${s.event_start_date} - ${s.event_end_date}`}
+                  ? formatDateStr(s.event_start_date)
+                  : `${formatDateStr(s.event_start_date)} - ${formatDateStr(s.event_end_date)}`}
                   </td>
                   <td>{s?.contribution?.event_contri_fee}</td>
                   <td className="flex lg:flex-row flex-col gap-2 justify-center py-3">

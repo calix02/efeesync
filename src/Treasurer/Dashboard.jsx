@@ -6,7 +6,7 @@ import EfeeViolet from '../assets/violetlogo.png'
 import { useEffect, useState } from 'react';
 function CITCouncil(){
 
-    const [currentUserData, setCurrentUserData] = useState([]);
+    const [currentUserData, setCurrentUserData] = useState(null);
     
       const fetchCurrentUser = async () => {
          try {
@@ -28,7 +28,7 @@ function CITCouncil(){
     return(
         <>
             <CITHeader code={currentUserData?.department_code}  titleCouncil = {currentUserData?.organization_name} abb="CIT Council" />
-            <DashboardContent className="hide-scrollbar"/>
+            <DashboardContent currentUserData={currentUserData} className="hide-scrollbar"/>
             <div className='lg:block hidden' >
                  <CITSidebar code={currentUserData?.department_code} />
             </div>

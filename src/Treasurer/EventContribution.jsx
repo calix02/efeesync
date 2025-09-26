@@ -48,6 +48,10 @@ function EventContribution({ data }) {
     }
   };
 
+  const formatDateStr = (dateString) => {
+      return new Date(dateString).toLocaleDateString('en-US', {year:'numeric',month:'long',day:'numeric'});
+  }
+
   useEffect(() => {
     fetchCurrentUserAndEventsContributions();
   }, []);
@@ -129,6 +133,7 @@ function EventContribution({ data }) {
 
             <TableEventContribution
               code={currentUserData?.department_code}
+              formatDateStr={formatDateStr}
               selectedEvent={selectedEvent}
               events={eventContributionsData}
               view={(row) => clickedView(row)}

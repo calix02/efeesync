@@ -1,5 +1,4 @@
-// EventChart.jsx
-import React, { useState } from 'react';
+import React, { useState, useMemo, useEffect } from "react";
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -8,71 +7,73 @@ import {
   Title,
   Tooltip,
   Legend
-} from 'chart.js';
-import { Bar } from 'react-chartjs-2';
+} from "chart.js";
+import { Bar } from "react-chartjs-2";
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
-const eventsData = {
-  'IT Week': {
-    labels: ['First Year', 'Second Year', 'Third Year', 'Fourth Year'],
-    datasets: [
-      {
-        label: 'Paid',
-        data: [200, 150, 70, 50],
-        backgroundColor: '#d492f9'
-      },
-      {
-        label: 'Unsettled',
-        data: [50, 25, 15, 15],
-        backgroundColor: '#f97ed4'
-      },
-      {
-        label: 'Not Paid',
-        data: [50, 25, 5, 5],
-        backgroundColor: '#e24468'
-      }
-    ]
-  },
-  'Basta Baraylihan': {
-    labels: ['First Year', 'Second Year', 'Third Year', 'Fourth Year'],
-    datasets: [
-      {
-        label: 'Paid',
-        data: [100, 80, 60, 40],
-        backgroundColor: '#d492f9'
-      },
-      {
-        label: 'Unsettled',
-        data: [30, 20, 10, 10],
-        backgroundColor: '#f97ed4'
-      },
-      {
-        label: 'Not Paid',
-        data: [20, 10, 5, 5],
-        backgroundColor: '#e24468'
-      }
-    ]
-  }
-};
-
 const chartOptions = {
   responsive: true,
-  maintainAspectRatio: false, // ✅ allow it to fill container
+  maintainAspectRatio: false,
   plugins: {
-    legend: { position: 'top' },
+    legend: { position: "top" },
     title: { display: false }
   },
   scales: {
-    y: {
-      beginAtZero: true,
-      ticks: { stepSize: 50 }
-    }
+    y: { beginAtZero: true }
   }
 };
 
-function EventChart() {
-  const [selectedEvent, setSelectedEvent] = useState('IT Week');
+function EventChart({ eventSummary }) {
+
+  const [selectedEvent, setSelectedEvent] = useState("");
+
+  const eventsData = useMemo(() => {
+    const obj = {};
+    eventSummary.forEach((event) => {
+      obj[event.event_name] = {
+        labels: ["First Year", "Second Year", "Third Year", "Fourth Year"],
+        datasets: [
+          {
+            label: "Paid",
+            data: [
+              event.student_summary.first_year.total_paid,
+              event.student_summary.second_year.total_paid,
+              event.student_summary.third_year.total_paid,
+              event.student_summary.fourth_year.total_paid
+            ],
+            backgroundColor: "#d492f9"
+          },
+          {
+            label: "Unsettled",
+            data: [
+              event.student_summary.first_year.total_unsettled,
+              event.student_summary.second_year.total_unsettled,
+              event.student_summary.third_year.total_unsettled,
+              event.student_summary.fourth_year.total_unsettled
+            ],
+            backgroundColor: "#f97ed4"
+          },
+          {
+            label: "Not Paid",
+            data: [
+              event.student_summary.first_year.total_unpaid,
+              event.student_summary.second_year.total_unpaid,
+              event.student_summary.third_year.total_unpaid,
+              event.student_summary.fourth_year.total_unpaid
+            ],
+            backgroundColor: "#e24468"
+          }
+        ]
+      };
+    });
+    setSelectedEvent(eventSummary[0]?.event_name);
+    return obj;
+  }, [eventSummary]);
+
+  if (!selectedEvent || !eventsData[selectedEvent]) {
+    return <p className="text-gray-500">No event data available</p>;
+  }
 
   return (
     <div className="w-full max-w-3xl mx-auto p-4">
@@ -81,7 +82,7 @@ function EventChart() {
           id="event-select"
           value={selectedEvent}
           onChange={(e) => setSelectedEvent(e.target.value)}
-          className="cursor-pointer w-full  py-2 px-3 shadow-md rounded font-bold text-lg"
+          className="cursor-pointer w-full py-2 px-3 shadow-md rounded font-bold text-lg"
         >
           {Object.keys(eventsData).map((eventName) => (
             <option key={eventName} value={eventName}>
@@ -90,10 +91,10 @@ function EventChart() {
           ))}
         </select>
       </div>
+
       <h2 className="text-[#621668] font-bold mb-2">{selectedEvent}</h2>
 
-      {/* Chart wrapper with fixed height so it can scale */}
-      <div className="w-full h-60 ">
+      <div className="w-full h-60">
         <Bar data={eventsData[selectedEvent]} options={chartOptions} />
       </div>
     </div>

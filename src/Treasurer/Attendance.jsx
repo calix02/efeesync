@@ -165,7 +165,7 @@ const animateL = "left-In";
                         <div className={`flex ${animateR} items-center lg:px-0 md:px-0 px-3`}>
                             <input className="lg:w-85 md:w-85 w-[100%] p-1.5 bg-white rounded-md border-2 lg:mt-0 md:mt-0 mt-4 border-[#8A2791] block"
                             type="text"
-                            placeholder="Search Student"/>
+                            placeholder="Search Events"/>
                         </div>
                     </div>
                     <div className="lg:ml-70 flex justify-between mt-3">

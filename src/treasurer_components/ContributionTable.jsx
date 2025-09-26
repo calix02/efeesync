@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { successAlert } from "../utils/alert";
+import { successAlert, errorAlert } from "../utils/alert";
 import "../animate.css";
 
 function ContributionTable({ code, events = [], selectedEvent }) {
@@ -27,6 +27,8 @@ function ContributionTable({ code, events = [], selectedEvent }) {
 
   const data = studentsToContribute.length ? studentsToContribute : fallback;
 
+  const [activeStudentId, setActiveStudentId] = useState(null);
+
   const [paginate, setPaginate] = useState({
     page: 1,
     per_page: 10,
@@ -43,9 +45,11 @@ function ContributionTable({ code, events = [], selectedEvent }) {
         if (response.status === "success") {
           setPaginate(response.meta);
           setStudentsToContribute(response.data);
+        } else {
+          errorAlert(response.message);
         }
       } catch (err) {
-        errorAlert("Fetch Failed" + err);
+        errorAlert(err);
       }
     };
   
@@ -53,13 +57,33 @@ function ContributionTable({ code, events = [], selectedEvent }) {
       fetchStudentToContribute();
     }, [selectedEvent]);
 
+  const contributionPayment = async (student_id, paymentAmount) => {
+      try {
+        const res = await fetch(`/api/events/${selectedEvent.event_id}/contributions/${student_id}`, {
+          method: "POST",
+          credentials: "include",
+          body: JSON.stringify({
+            "amount_paid": paymentAmount
+          })
+        });
+        const response = await res.json();
+        if (response.status === "success") {
+          fetchStudentToContribute();
+        }
+      } catch (err) {
+        errorAlert(err);
+      }
+    };
+
   const handleSubmit = () => {
-    successAlert(amount);
+    contributionPayment(activeStudentId, amount);
     setActiveRowIndex(null);
+    setActiveStudentId(null);
     setAmount("");
   };
 
-  const clickedPartial = (idx) => {
+  const clickedPartial = (idx, studentID) => {
+    setActiveStudentId(studentID);
     setActiveRowIndex(activeRowIndex === idx ? null : idx);
   };
 
@@ -81,8 +105,6 @@ function ContributionTable({ code, events = [], selectedEvent }) {
           </thead>
           <tbody>
             {data.map((s, idx) => {
-              
-
               return (
                 <tr key={s.id} className="border-b border-[#0505057a]">
                   <td><input type="checkbox" /></td>
@@ -90,16 +112,22 @@ function ContributionTable({ code, events = [], selectedEvent }) {
                   <td>{s.student_number_id}</td>
                   <td>{s.full_name}</td>
                   <td>{s.student_section}</td>
-                  <td>{s.event_contri_fee}</td>
-                  <td>{s.remaining_balance}</td>
+                  <td>P {s.event_contri_fee}</td>
+                  <td>P {s.remaining_balance}</td>
                   <td className="flex gap-2 justify-center font-semibold text-xs py-3">
-                    {activeRowIndex !== idx ? (
+                    {s.remaining_balance == 0 ? (
                       <>
-                        <button className="cursor-pointer w-15 border-1 py-1 rounded-sm border-[#65A810] text-[#65A810]">
+                        <button disabled className="w-15 border-1 py-1 rounded-sm border-[#65A810] text-[#65A810]">
+                          None
+                        </button>
+                      </>
+                    ) : activeRowIndex !== idx ? (
+                      <>
+                        <button onClick={()=>{contributionPayment(s.student_id, s.remaining_balance)}} className="cursor-pointer w-15 border-1 py-1 rounded-sm border-[#709fcb] text-[#709fcb]">
                           Full
                         </button>
                         <button
-                          onClick={() => clickedPartial(idx)}
+                          onClick={() => clickedPartial(idx, s.student_id)}
                           className="cursor-pointer w-15 border-1 rounded-sm border-[#EAB308] text-[#EAB308]">
                           Partial
                         </button>

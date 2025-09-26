@@ -5,7 +5,7 @@ import EventChart from './EventChart.jsx';
 import '../animate.css';
 import { useEffect, useState } from 'react';
 
-function CITDashboard({code}) {
+function CITDashboard({currentUserData}) {
     const animateGraph = "left-In";
     const animateChart = "right-In";
     const [dashboardData, setDashboardData] = useState({
@@ -18,11 +18,13 @@ function CITDashboard({code}) {
             "total_second_year": "0",
             "total_third_year": "0",
             "total_fourth_year": "0"
-        }
+        },
+        "event_summary": []
     });
     const fetchDashboard = async () => {
+        if (!currentUserData) return;
         try {
-            const res = await fetch("/api/treasurer/dashboard", {
+            const res = await fetch(`/api/organizations/code/${currentUserData?.organization_code}/dashboard`, {
                 credentials: "include"
             });
             const response = await res.json();
@@ -30,13 +32,13 @@ function CITDashboard({code}) {
                 setDashboardData(response.data);
             }
         } catch (err) {
-            errorAlert("Fetch Failed");
+            console.error("Fetch Failed");
         }
     }
 
     useEffect(() => {
         fetchDashboard();
-    }, []);
+    }, [currentUserData]);
 
     const studentPopulation = dashboardData.student_population;
     const data = {
@@ -51,6 +53,7 @@ function CITDashboard({code}) {
         }
         ]
     };
+
     const calendar = <i className="fa-solid fa-calendar-days z-[-1]"></i>;
     const cap = <i className="fa-solid fa-graduation-cap z-[-1]"></i>
     const coin = <i className="fa-solid fa-coins z-[-1]"></i>
@@ -68,10 +71,10 @@ function CITDashboard({code}) {
             </div>
             <div className="lg:flex lg:ml-70 mt-8 px-3 md:px-10 lg:px-6 lg:gap-6 ">
                 <div className={`bg-[#ffffff] ${animateGraph} border-1 border-[#d8d8d8] transition duration-300 hover:shadow-[3px_3px_3px_#000] hover:scale-102  lg:w-[40%] h-96 rounded-xl grid justify-center shadow-[2px_2px_3px_grey,-2px_-2px_3px_white]`}>
-                    <StudentGraph graphTitle="Summary of CITizens" data={data}/>
+                    <StudentGraph graphTitle="Summary of Students" data={data}/>
                 </div> 
                 <div className={`bg-white border-1 ${animateChart} p-5 transition duration-300 hover:shadow-[3px_3px_5px_#000] hover:scale-102 border-[#d8d8d8] lg:w-[60%] h-96 lg:my-0 my-8 flex items-center justify-center lg:mx-0 mx-3 rounded-xl shadow-[2px_2px_3px_grey,-2px_-2px_3px_white]`}>
-                    <EventChart/>
+                    <EventChart eventSummary={dashboardData?.event_summary || []} />
                 </div>
             </div>
         </div>

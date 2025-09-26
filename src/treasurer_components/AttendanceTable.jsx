@@ -2,7 +2,7 @@ import { useState, useEffect, useMemo } from "react";
 import { errorAlert, confirmAlert } from '../utils/alert.js';
 import "../animate.css";
 
-function AttendanceTable({ code, attendees = [], scanAttendee, selectedEvent, selectedEventDate, formatDateStr}) {
+function AttendanceTable({ code, attendees = [], scanAttendee, selectedEvent, selectedEventDate}) {
   const animate = "card-In";
 
   const [studentAttendees, setStudentAttendees] = useState([]);
@@ -68,7 +68,7 @@ function AttendanceTable({ code, attendees = [], scanAttendee, selectedEvent, se
       if (response.status !== "success") {
         errorAlert(response.message);
       }
-    } else if (target === "Excuse") {
+    } else if (target === "Excused") {
       const res = await fetch(`/api/events/${selectedEvent.event_id}/attendance/${selectedEventDate}/number/${student_number_id}`, {
         method: "PUT",
         credentials: "include"

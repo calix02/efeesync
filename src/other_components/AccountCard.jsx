@@ -6,15 +6,15 @@ const AccountCard = React.forwardRef(({ animate, onAnimationEnd,code}, ref) => {
     const [user, setUser] = useState([]);
 /* ------------------------- Color ----------------------------- */
     const colors = {
-        cit: "text-[#621668] ",
-        coe: "text-[#0E2148]",
-        coc: "text-[#3A0519]",
-        cot: "text-[#FFD95F] ",
-        eap: "text-[#4B352A]",
-        osas: "text-[#174515]",
-        ssc: "text-[#174515]"
-    }
-    const color = colors[code] || "text-[#000]";
+    CIT: "text-[#621668]",
+    COE: "text-[#020180]",
+    COC: "text-[#660A0A]",
+    COT: "text-[#847714]",
+    ESAF: " text-[#6F3306]",
+    SSC: "text-[#174515]"
+  };
+  const color = colors[code] || " text-[#174515]";
+
 
     const fetchUser = async () => {
         try {

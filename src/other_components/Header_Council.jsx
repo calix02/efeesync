@@ -17,30 +17,43 @@ import Ssc from "../assets/SSC.png";
 import '../animate.css';
 
 function Header_Council(props) {
-/* ------------------------- Color  ----------------------------- */
+  /* ------------------------- Color  ----------------------------- */
 
-   const colors = {
+  const colors = {
     CIT: "border-[#621668] text-[#621668]",
     COE: "border-[#020180] text-[#020180]",
     COC: "border-[#660A0A] text-[#660A0A]",
     COT: "border-[#847714] text-[#847714]",
-    SCEAP: "border-[#6F3306] text-[#6F3306]",
+    ESAF: "border-[#6F3306] text-[#6F3306]",
     SSC: "border-[#174515] text-[#174515]"
   };
-  const color = colors[props.code] || "border-black text-black";
-  
+  const color = colors[props.code] || "border-[#174515] text-[#174515]";
+
+  const hoverColors = {
+    CIT: "hover:bg-[#621668] ",
+    COE: "hover:bg-[#020180] ",
+    COC: "hover:bg-[#660A0A]",
+    COT: "hover:bg-[#847714]",
+    ESAF: "hover:bg-[#6F3306]",
+    SSC: "hover:bg-[#174515]"
+
+  };
+  const hoverColor = hoverColors[props.code] || "hover:bg-[#174515]";
+
+
+
   const logos = {
-    COC : Crim,
+    COC: Crim,
     CIT: It,
-    COE:Educ, 
-    SCEAP: Esaf,
+    COE: Educ,
+    ESAF: Esaf,
     COT: Indus,
     SSC: Ssc
   };
   const logo = logos[props.code] || " ";
 
 
-/* ------------------------- Animated States ----------------------------- */
+  /* ------------------------- Animated States ----------------------------- */
   const account = useAnimatedToggle();
   const sidebar = useAnimatedToggle();
   const notification = useAnimatedToggle();
@@ -49,75 +62,75 @@ function Header_Council(props) {
   const sideRef = useRef(null);
   const notifRef = useRef(null);
 
-  const clickedBell = () =>{
+  const clickedBell = () => {
     account.setIsVisible(false);
     sidebar.setIsVisible(false);
   }
-  const clickedAccBar = () =>{
+  const clickedAccBar = () => {
     notification.setIsVisible(false);
   }
-  
+
   /* ------------------ Dark Mode Toggle ------------------ */
   const toggleDarkMode = () => {
     document.documentElement.classList.toggle("dark");
   };
 
   return (
-  <>
-    <header className={` flex  bg-white fixed top-0 w-screen h-20 lg:z-20 md:z-40 z-60  items-center border-b-3 ${color}`}>
-      <span hidden>{props.code}</span>
-      <span className="flex items-center  gap-3 ml-2">
-        <span className='lg:hidden block'>
-          <i onClick={()=>{clickedAccBar(); sidebar.toggle();} } className="fa-solid fa-bars text-sm cursor-pointer"></i>
+    <>
+      <header className={` flex  bg-white fixed top-0 w-screen h-20 lg:z-20 md:z-40 z-60  items-center border-b-3 ${color}`}>
+        <span hidden>{props.code}</span>
+        <span className="flex items-center  gap-3 ml-2">
+          <span className='lg:hidden block'>
+            <i onClick={() => { clickedAccBar(); sidebar.toggle(); }} className="fa-solid fa-bars text-sm cursor-pointer"></i>
+          </span>
+          <span className='lg:ml-14'>
+            <img src={logo} className='lg:h-16 md:h-14 h-12  mr-2 ' alt="logo" />
+          </span>
         </span>
-        <span className='lg:ml-14'>
-          <img src={logo} className='lg:h-16 md:h-14 h-12  mr-2 ' alt="logo"/>
+
+        <span >
+          <h2 className="lg:text-2xl md:text-lg text-sm  font-bold font-poppins ml-2">{props.titleCouncil}</h2>
         </span>
-      </span>
-      
-      <span >
-        <h2 className="lg:text-2xl md:text-lg text-sm  font-bold font-poppins ml-2">{props.titleCouncil}</h2>
-      </span>
 
-      <span className="flex lg:gap-3 lg:absolute md:absolute md:right-8 lg:right-8 float-right ">
-        
-      <span className='lg:block hidden'>
-        <i  className="fa-solid fa-moon lg:text-xl cursor-pointer hover:bg-[#621668] transiton duration-150 rounded-full p-1.5 hover:text-white"></i>
-      </span>
+        <span className="flex lg:gap-3 lg:absolute md:absolute md:right-8 lg:right-8 float-right ">
 
-      <span>
-        <i onClick={() => {clickedBell(); notification.toggle();}} className="fa-solid fa-bell  lg:text-xl hover:bg-[#621668] transiton duration-150 rounded-full p-1.5 hover:text-white  text-sm cursor-pointer"></i>
-      </span>
+          <span className='lg:block hidden'>
+            <i className={`fa-solid fa-moon lg:text-xl cursor-pointer ${hoverColor} transiton duration-150 rounded-full p-1.5 hover:text-white`}></i>
+          </span>
 
-        <span className="hidden lg:block">
-          <i onClick={() =>{clickedAccBar(); account.toggle();}}  className="fa-solid fa-circle-user lg:text-xl hover:bg-[#621668] transiton duration-150 rounded-full p-1.5 hover:text-white text-sm cursor-pointer"></i>
+          <span>
+            <i onClick={() => { clickedBell(); notification.toggle(); }} className={`fa-solid fa-bell  lg:text-xl ${hoverColor} transiton duration-150 rounded-full p-1.5 hover:text-white  text-sm cursor-pointer`}></i>
+          </span>
+
+          <span className="hidden lg:block">
+            <i onClick={() => { clickedAccBar(); account.toggle(); }} className={`fa-solid fa-circle-user lg:text-xl ${hoverColor} transiton duration-150 rounded-full p-1.5 hover:text-white text-sm cursor-pointer`}></i>
+          </span>
         </span>
-      </span>
 
-      {/* Account Card */}
-      { account.isVisible &&(
-          <AccountCard ref={accRef} code="cit" onAnimationEnd={account.handleEnd} animate={account.animation} />
-        )    
-      }
-    </header>
-      
-    {/* Sidebar*/}
-    {sidebar.isVisible && (
-      <>
-        <div className="fixed inset-0 bg-[#00000062] z-20 pointer-events-auto">
-          {/* Overlay */}
-        </div>
-       
+        {/* Account Card */}
+        {account.isVisible && (
+          <AccountCard ref={accRef} code={props.code} onAnimationEnd={account.handleEnd} animate={account.animation} />
+        )
+        }
+      </header>
+
+      {/* Sidebar*/}
+      {sidebar.isVisible && (
+        <>
+          <div className="fixed inset-0 bg-[#00000062] z-20 pointer-events-auto">
+            {/* Overlay */}
+          </div>
+
           <CITSidebar code={props.code} eFee={EfeeViolet} ref={sideRef} onAnimationEnd={sidebar.handleEnd} animate={sidebar.animation} onClose={() => sidebar.setAnimation("fade-out")} />
-       
-      </>
-    )
-      
-    }
-    {notification.isVisible &&(
-      <NotificationCard ref={notifRef} code={props.code} onAnimationEnd={notification.handleEnd} animate={notification.animation} />
-    )
-    }
+
+        </>
+      )
+
+      }
+      {notification.isVisible && (
+        <NotificationCard ref={notifRef} code={props.code} onAnimationEnd={notification.handleEnd} animate={notification.animation} />
+      )
+      }
     </>
   );
 }

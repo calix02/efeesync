@@ -1,11 +1,16 @@
 import TreasurerCard from './TreasurerCard.jsx'
 import StudentGraph from '../other_components/Graph.jsx';
 import EventChart from './EventChart.jsx';
+import EventsCalendarView from "./EventsCalendarView.jsx";
+import useAnimatedToggle from '../hooks/useAnimatedToggle.js';
 import '../animate.css';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { useNavigate } from "react-router-dom"; // ✅ added
 
 function CITDashboard({currentUserData}) {
+
+    const eventCalendar = useAnimatedToggle();
+    const calendarRef = useRef(null);
     const animateGraph = "left-In";
     const animateChart = "right-In";
     const [dashboardData, setDashboardData] = useState({
@@ -21,6 +26,13 @@ function CITDashboard({currentUserData}) {
         },
         "event_summary": []
     });
+
+     const events = [
+    { name: "IT Week", date: "2025-09-30", attendee: "1st Year, 2nd Year, 3rd Year, 4th Year", eventType: "Attendance" },
+    { name: "Sportsfest", date: "2025-10-05", attendee: "1st Year, 2nd Year, 3rd Year, 4th Year", eventType: "Contribution" },
+    { name: "General Assembly", date: "2025-10-08", attendee: "1st Year, 2nd Year, 3rd Year, 4th Year", eventType: "Attendance, Contribution" },
+  ];
+
     const fetchDashboard = async () => {
         if (!currentUserData) return;
         try {
@@ -90,15 +102,23 @@ function CITDashboard({currentUserData}) {
     const coin = <i className="fa-solid fa-coins z-[-1]"></i>
     const sanc = <i className="fa-solid fa-money-check z-[-1]"></i>
     return(
+        <>
+        {eventCalendar.isVisible &&(
+            <div className="fixed inset-0 bg-[#00000062] flex justify-center items-center lg:z-40 md:z-50 z-70 pointer-events-auto">
+                <EventsCalendarView events={events} code={currentUserData?.department_code} ref={calendarRef}  onAnimationEnd={eventCalendar.handleEnd} onClose={() => eventCalendar.setAnimation("fade-out")} animate={eventCalendar.animation}  />  
+            </div>
+        )
+
+        }
         <div className="w-screen h-screen bg-[#ecececa4] absolute z-[-1] overflow-y-auto overflow-x-auto ">
             <div className="lg:mt-30 mt-25 lg:ml-70">
                 <h2 className="text-2xl font-poppins font-semibold text-[#] ml-6">Dashboard</h2>
             </div>
             <div className="lg:flex lg:flex-row lg:justify-center lg:items-center lg:px-6 md:px-10 px-3 grid grid-cols-2 mt-4 lg:ml-70 lg:gap-6 gap-4">
-               <TreasurerCard code="CIT" desc="Number of Events" value={dashboardData.total_events} icon={calendar}/>
-               <TreasurerCard code="CIT" desc="Number of Students" value={dashboardData.total_students} icon={cap}/>
-               <TreasurerCard code="CIT" desc="Fees Collected" value={"P " + dashboardData.total_fees_collected} icon={coin}/>
-               <TreasurerCard code="CIT" desc="Sanction Collected" value={"P " + dashboardData.total_sanctions_collected} icon={sanc}/>
+               <TreasurerCard show={eventCalendar.toggle}  code={currentUserData?.department_code} desc="Number of Events" value={dashboardData.total_events} icon={calendar}/>
+               <TreasurerCard code={currentUserData?.department_code} desc="Number of Students" value={dashboardData.total_students} icon={cap}/>
+               <TreasurerCard code={currentUserData?.department_code} desc="Fees Collected" value={"P " + dashboardData.total_fees_collected} icon={coin}/>
+               <TreasurerCard code={currentUserData?.department_code} desc="Sanction Collected" value={"P " + dashboardData.total_sanctions_collected} icon={sanc}/>
             </div>
             <div className="lg:flex lg:ml-70 mt-8 px-3 md:px-10 lg:px-6 lg:gap-6 ">
                 <div className={`bg-[#ffffff] ${animateGraph} border-1 border-[#d8d8d8] transition duration-300 hover:shadow-[3px_3px_3px_#000] hover:scale-102  lg:w-[40%] h-96 rounded-xl grid justify-center shadow-[2px_2px_3px_grey,-2px_-2px_3px_white]`}>
@@ -109,6 +129,8 @@ function CITDashboard({currentUserData}) {
                 </div>
             </div>
         </div>
+    </>
+
     );
 }
 

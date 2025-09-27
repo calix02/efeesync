@@ -18,17 +18,17 @@ const CITSidebar = React.forwardRef(({ animate, onAnimationEnd,onClose ,code },r
         COE: "border-[#020180] text-[#020180]",
         COC: "border-[#660A0A] text-[#660A0A]",
         COT: "border-[#847714] text-[#847714]",
-        SCEAP: "border-[#6F3306] text-[#6F3306]",
+        ESAF: "border-[#6F3306] text-[#6F3306]",
         SSC: "border-[#174515] text-[#174515]"
       };
-      const color = colors[code] || "border-black text-black";
+      const color = colors[code] || "border-[#174515] text-[#174515]";
       
       const logos = {
         COC : Crim,
         COE: Educ,
         CIT: It,
         COT: Indus,
-        SCEAP: Esaf,
+        ESAF: Esaf,
         SSC: Ssc
        
       };

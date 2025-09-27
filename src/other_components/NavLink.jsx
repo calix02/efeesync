@@ -6,11 +6,11 @@ function NavLink(props){
         COE: "hover:bg-[#020180] ",
         COC: "hover:bg-[#660A0A] ",
         COT: "hover:bg-[#847714] ",
-        SCEAP: "hover:bg-[#6F3306] ",
+        ESAF: "hover:bg-[#6F3306] ",
         SSC: "hover:bg-[#174515] ",
         OSAS: "hover:bg-[#174515]",
       };
-      const color = colors[props.code] || "border-black text-black";
+      const color = colors[props.code] || "hover:bg-[#174515]";
    
   
 

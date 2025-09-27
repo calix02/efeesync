@@ -27,3 +27,45 @@
     --font-poppins: "Poppins", sans-serif;
     --font-inter: "Inter", sans-serif;
 }
+.has-event.CIT {
+  background: #e9cfed !important;
+  color: #621668 !important;
+  border-radius: 6px;
+  font-weight: bold;
+}
+
+.has-event.COE {
+  background: #c6e1f4 !important;
+  color: #020180 !important;
+  border-radius: 6px;
+  font-weight: bold;
+}
+
+.has-event.COC {
+  background: #f8cbd2 !important;
+  color: #660a0a !important;
+  border-radius: 6px;
+  font-weight: bold;
+}
+
+.has-event.COT {
+  background: #f1edc2 !important;
+  color: #847714 !important;
+  border-radius: 6px;
+  font-weight: bold;
+}
+
+.has-event.ESAF {
+  background: #eecfa1 !important;
+  color: #6f3306 !important;
+  border-radius: 6px;
+  font-weight: bold;
+}
+
+.has-event.SSC {
+  background: #e8f5e9 !important;
+  color: #174515 !important;
+  border-radius: 6px;
+  font-weight: bold;
+}
+

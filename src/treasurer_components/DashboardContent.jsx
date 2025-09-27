@@ -53,6 +53,19 @@ function CITDashboard({currentUserData}) {
     }, [currentUserData]);
 
     const studentPopulation = dashboardData.student_population;
+    const departmentColors = {
+    CIT: ['#e0b3ff', '#c480ff', '#9d4edd', '#5a189a'],   
+    COE: ['#99ccff', '#4da6ff', '#0059b3', '#003366'],   
+    COC: ['#ff9999', '#ff6666', '#cc0000', '#800000'],   
+    COT: ['#fff799', '#ffe066', '#ccaa00', '#665c00'],   
+    ESAF: ['#ffcc99', '#ff9966', '#cc5200', '#663300'],  
+    SSC: ['#99e699', '#33cc33', '#248f24', '#145214'],   
+    };
+
+    const colors =
+    departmentColors[currentUserData?.department_code] ||
+    ['#99e699', '#33cc33', '#248f24', '#145214']  
+
     const data = {
         labels: ['1st Year', '2nd Year', '3rd Year', '4th Year'],
         datasets: [
@@ -64,14 +77,14 @@ function CITDashboard({currentUserData}) {
               studentPopulation.total_third_year, 
               studentPopulation.total_fourth_year
             ],
-            backgroundColor: ['#d492f9', '#a659f5', '#7b1fa2', '#4a0072'],
+            backgroundColor: colors,
             borderWidth: 0,
             cutout: '50%'
         }
         ]
     };
 
-    const navigate = useNavigate(); // ✅
+    const navigate = useNavigate(); 
 
     const options = {
         responsive: true,
@@ -88,10 +101,10 @@ function CITDashboard({currentUserData}) {
          onHover: (event, elements) => {
             event.native.target.style.cursor = elements.length ? "pointer" : "default";
         },
-        onClick: (evt, elements) => {   // ✅ handle click
+        onClick: (evt, elements) => {   
           if (elements.length > 0) {
             const index = elements[0].index;
-            const year = index + 1; // 0 → 1st year, etc.
+            const year = index + 1; 
             navigate(`/org/student?year=${year} `);
           }
         }

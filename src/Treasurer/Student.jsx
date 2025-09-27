@@ -7,11 +7,17 @@ import EfeeViolet from '../assets/violetlogo.png'
 import React, {useState,useRef, useEffect} from 'react';
 import useAnimatedToggle from '../hooks/useAnimatedToggle.js';
 import { errorAlert,successAlert } from '../utils/alert.js';
+import { useLocation } from "react-router-dom";
+
 import '../animate.css';
 
 function CITStudent(){
     const animateR = "right-In";
     const animateL = "left-In";
+
+    const location = useLocation();
+    const params = new URLSearchParams(location.search);
+    const year = params.get("year");
 
     const [currentUserData, setCurrentUserData] = useState([]);
     const [searchValue, setSearchValue] = useState("");
@@ -166,9 +172,13 @@ function CITStudent(){
                     </div>
 
                 </div>
-                <TableStudent code={currentUserData?.department_code} reloadStudents={fetchStudents} students={students} show={addStudent.toggle} update={(row) =>{
-                    setSelectedStudent(row);
-                    updateStudent.toggle();
+                <TableStudent code={currentUserData?.department_code}  year= {year}
+                reloadStudents={fetchStudents} 
+                students={students} 
+                show={addStudent.toggle} 
+                update={(row) =>{
+                setSelectedStudent(row);
+                updateStudent.toggle();
                 }} />      
 
                              

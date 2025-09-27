@@ -1,11 +1,11 @@
-import { useState, useEffect, useRef } from "react";
-import { confirmAlert, errorAlert, okayAlert } from "../utils/alert";
+import { useState } from "react";
+import { confirmAlert } from "../utils/alert";
 import "../animate.css";
 
-function TableStudent({ code = "cit", students = [], show, update, reloadStudents }) {
+function TableStudent({ code = "cit", students = [], show, update, reloadStudents, year }) {
   const animate = "card-In";
 
-   const colors = {
+  const colors = {
     CIT: "border-[#621668] text-[#621668] bg-[#621668]",
     COE: "border-[#020180] text-[#020180] bg-[#621668]",
     COC: "border-[#660A0A] text-[#660A0A] bg-[#621668]",
@@ -16,14 +16,24 @@ function TableStudent({ code = "cit", students = [], show, update, reloadStudent
 
   const color = colors[code] || "border-black text-black";
 
-
   const fallback = [];
-  
-  const data = students.length ? students : fallback;
+  let data = students.length ? students : fallback;
+
+  // ✅ filter students by year if provided
+  if (year) {
+    console.log(year);
+    data = data.filter((s) => {
+      const sec = (s.student_section || "").toLowerCase();
+      if (year === "1") return sec.includes("1");
+      if (year === "2") return sec.includes("2");
+      if (year === "3") return sec.includes("3");
+      if (year === "4") return sec.includes("4");
+      return true;
+    });
+  }
 
   const [checkedIds, setCheckedIds] = useState([]);
 
-  
   const handleCheckboxChange = (e, id) => {
     if (e.target.checked) {
       setCheckedIds((prev) => [...prev, id]);
@@ -31,7 +41,6 @@ function TableStudent({ code = "cit", students = [], show, update, reloadStudent
       setCheckedIds((prev) => prev.filter((item) => item !== id));
     }
   };
-
 
   const handleSelectAll = (e) => {
     if (e.target.checked) {
@@ -43,42 +52,47 @@ function TableStudent({ code = "cit", students = [], show, update, reloadStudent
 
   const allChecked = data.length > 0 && checkedIds.length === data.length;
 
-  const clickedDelete = () => {
-    alert("Selected IDs: " + checkedIds.join(", "));
+  const deleteStudent = (s) => {
+    confirmAlert("It will delete permanently").then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          const res = await fetch("/api/students/" + s.student_id, {
+            method: "DELETE",
+            credentials: "include",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          });
+          const response = await res.json();
+          if (response.status === "success") {
+            await reloadStudents();
+          } else {
+            alert("Failed: " + response.message);
+          }
+        } catch (err) {
+          alert("Fetch failed: " + err);
+        }
+      }
+    });
   };
 
-  const deleteStudent = (s) => {
-    confirmAlert("It will delete permanently").then( async (result) =>{
-          if(result.isConfirmed){
-            try {
-              const res = await fetch("/api/students/" + s.student_id, {
-                  method: "DELETE",
-                  credentials: "include",
-                  headers: {
-                      "Content-Type": "application/json"
-                  }
-              });
-              const response = await res.json();
-              if (response.status === "success") {
-                await reloadStudents();
-              } else {
-                  alert("Failed: " + response.message);
-              }
-          } catch (err) {
-              alert("Fetch failed: " + err);
-          }
-          }
-        });
-  }
+  // ✅ year label
+  const yearMap = {
+    "1": "1st Year",
+    "2": "2nd Year",
+    "3": "3rd Year",
+    "4": "4th Year",
+  };
+  const yearLabel = year ? yearMap[year] || `${year} Year` : null;
 
   return (
-    <div
-      className={`w-full ${animate} flex flex-col gap-6 lg:text-sm text-xs font-[family-name:Arial]`}
-    >
-      {/* table wrapper */}
-      <div
-        className={`lg:ml-70 bg-white text-black flex-grow p-5 mt-3 rounded-lg shadow-[2px_2px_2px_grey]`}
-      >
+    <div className={`w-full ${animate} flex flex-col gap-6 lg:text-sm text-xs font-[family-name:Arial]`}>
+      <div className={`lg:ml-70 bg-white text-black flex-grow p-5 mt-3 rounded-lg shadow-[2px_2px_2px_grey]`}>
+        {yearLabel && (
+          <p className="text-left text-[#8A2791] font-semibold mb-3">
+            Showing {yearLabel} Students
+          </p>
+        )}
         <table className="w-full text-center">
           <thead>
             <tr className={`border-b-2 bg-white border-[#adadad] ${color}`}>
@@ -113,7 +127,7 @@ function TableStudent({ code = "cit", students = [], show, update, reloadStudent
                 <td className="flex lg:flex-row flex-col gap-2 justify-center py-3">
                   <span
                     onClick={() => update(s)}
-                    className={`material-symbols-outlined ${color}  cursor-pointer bg-white shadow-[2px_2px_1px_grey] rounded-sm border px-0.5`}
+                    className={`material-symbols-outlined ${color} cursor-pointer bg-white shadow-[2px_2px_1px_grey] rounded-sm border px-0.5`}
                   >
                     edit_square
                   </span>
@@ -132,15 +146,13 @@ function TableStudent({ code = "cit", students = [], show, update, reloadStudent
 
       {/* pagination controls */}
       <div className="relative lg:ml-[270px] mt-[-10px] flex flex-col-reverse justify-center items-center">
-        <p className="text-[#8A2791] lg:absolute left-9">Showing of 600</p>
+        <p className="text-[#8A2791] lg:absolute left-9">Showing of {data.length}</p>
         <span className="flex">
           <button className="mx-1 flex cursor-pointer items-center rounded-md border disabled:opacity-40">
             <span className="material-symbols-outlined">chevron_left</span>
           </button>
 
-          <button
-            className={`px-2 mx-1 rounded-md border cursor-pointer ${color} text-white`}
-          >
+          <button className={`px-2 mx-1 rounded-md border cursor-pointer ${color} text-white`}>
             1
           </button>
 

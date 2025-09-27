@@ -1,9 +1,9 @@
-
 import TreasurerCard from './TreasurerCard.jsx'
 import StudentGraph from '../other_components/Graph.jsx';
 import EventChart from './EventChart.jsx';
 import '../animate.css';
 import { useEffect, useState } from 'react';
+import { useNavigate } from "react-router-dom"; // ✅ added
 
 function CITDashboard({currentUserData}) {
     const animateGraph = "left-In";
@@ -42,16 +42,47 @@ function CITDashboard({currentUserData}) {
 
     const studentPopulation = dashboardData.student_population;
     const data = {
-        labels: [' 1st Year', ' 2nd Year', '3rd Year', ' 4th Year'],
+        labels: ['1st Year', '2nd Year', '3rd Year', '4th Year'],
         datasets: [
         {
             label: 'students',
-            data: [studentPopulation.total_first_year, studentPopulation.total_second_year, studentPopulation.total_third_year, studentPopulation.total_fourth_year],
+            data: [
+              studentPopulation.total_first_year, 
+              studentPopulation.total_second_year, 
+              studentPopulation.total_third_year, 
+              studentPopulation.total_fourth_year
+            ],
             backgroundColor: ['#d492f9', '#a659f5', '#7b1fa2', '#4a0072'],
             borderWidth: 0,
             cutout: '50%'
         }
         ]
+    };
+
+    const navigate = useNavigate(); // ✅
+
+    const options = {
+        responsive: true,
+        plugins: {
+          legend: { display: false },
+          tooltip: {
+            callbacks: {
+              label: function(context) {
+                return `${context.label}: ${context.formattedValue}`;
+              }
+            }
+          }
+        },
+         onHover: (event, elements) => {
+            event.native.target.style.cursor = elements.length ? "pointer" : "default";
+        },
+        onClick: (evt, elements) => {   // ✅ handle click
+          if (elements.length > 0) {
+            const index = elements[0].index;
+            const year = index + 1; // 0 → 1st year, etc.
+            navigate(`/org/student?year=${year} `);
+          }
+        }
     };
 
     const calendar = <i className="fa-solid fa-calendar-days z-[-1]"></i>;
@@ -71,7 +102,7 @@ function CITDashboard({currentUserData}) {
             </div>
             <div className="lg:flex lg:ml-70 mt-8 px-3 md:px-10 lg:px-6 lg:gap-6 ">
                 <div className={`bg-[#ffffff] ${animateGraph} border-1 border-[#d8d8d8] transition duration-300 hover:shadow-[3px_3px_3px_#000] hover:scale-102  lg:w-[40%] h-96 rounded-xl grid justify-center shadow-[2px_2px_3px_grey,-2px_-2px_3px_white]`}>
-                    <StudentGraph graphTitle="Summary of Students" data={data}/>
+                    <StudentGraph graphTitle="Summary of Students" data={data} options={options}/> 
                 </div> 
                 <div className={`bg-white border-1 ${animateChart} p-5 transition duration-300 hover:shadow-[3px_3px_5px_#000] hover:scale-102 border-[#d8d8d8] lg:w-[60%] h-96 lg:my-0 my-8 flex items-center justify-center lg:mx-0 mx-3 rounded-xl shadow-[2px_2px_3px_grey,-2px_-2px_3px_white]`}>
                     <EventChart eventSummary={dashboardData?.event_summary || []} />

@@ -2,7 +2,7 @@ import React,{useState} from "react";
 import { successAlert } from "../utils/alert";
 const UpdateStudentCard = React.forwardRef(({animate, onAnimationEnd,onClose,data,reloadStudents}, ref) =>{
     const [studentId, setStudentId] = useState(data?.student_id );
-    const [studentNumberId, setStudentNumberId] = useState(data?.student_number_id );
+    const [studentNumberId, setStudentNumberId] = useState(data?.student_number_id);
     const [lastName, setLastName] = useState(data?.last_name);
     const [firstName, setFirstName] = useState(data?.first_name);
     const [middle, setMiddle] = useState(data?.middle_initial);
@@ -17,7 +17,7 @@ const UpdateStudentCard = React.forwardRef(({animate, onAnimationEnd,onClose,dat
             setMiddle(data.middle_initial);
             setYearSection(data.student_section);
         }
-   },[data]);
+   }, [data]);
 
    const studentData = {
         "student_number_id": studentNumberId,
@@ -64,7 +64,7 @@ const UpdateStudentCard = React.forwardRef(({animate, onAnimationEnd,onClose,dat
             }}>
             <div className="mt-4">
                 <label>Student ID:</label><br />
-                <input type="text" onChange={(e) =>setStudentId(e.target.value)} value={studentNumberId} required className="border-2 px-2 border-[#8A2791] h-8 rounded-md w-[100%] mb-4" /> <br />
+                <input type="text" onChange={(e) => setStudentNumberId(e.target.value)} value={studentNumberId} maxLength={7} required className="border-2 px-2 border-[#8A2791] h-8 rounded-md w-[100%] mb-4" /> <br />
                 <label>Last Name:</label><br />
                 <input type="text" onChange={(e) =>setLastName(e.target.value)} value={lastName} required  className="border-2 px-2 border-[#8A2791] h-8 rounded-md w-[100%] mb-4" /> <br />
                  <label>First Name:</label><br />
@@ -72,7 +72,7 @@ const UpdateStudentCard = React.forwardRef(({animate, onAnimationEnd,onClose,dat
                  <label>Middle Initial:</label><br />
                 <input type="text" onChange={(e) => setMiddle(e.target.value)} value={middle} className="border-2 px-2 border-[#8A2791] h-8 rounded-md w-[100%] mb-4" /> <br />
                 <label>Year &amp;  Section:</label><br />
-                <input type="text" onChange={(e) => setYearSection(e.target.value)} value={yearSection} required className="border-2 px-2 border-[#8A2791] h-8 rounded-md w-[100%] mb-4" /> <br />
+                <input type="text" onChange={(e) => setYearSection(e.target.value)} value={yearSection} maxLength={3} required className="border-2 px-2 border-[#8A2791] h-8 rounded-md w-[100%] mb-4" /> <br />
             </div>
             
                 <button type="submit"  className="bg-[#561b5a] w-[100%] cursor-pointer rounded-md text-white h-8">Update Student</button>

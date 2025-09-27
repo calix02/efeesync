@@ -80,6 +80,18 @@ const ScanAttendance = React.forwardRef(
       }
     }, [attendanceForDate]);
 
+    // Clear attendance message after 3 seconds
+    useEffect(() => {
+      if (attendanceMessage) {
+        const timer = setTimeout(() => {
+          setAttendanceMessage("");
+          setIsErrorAttendance(false); // also reset error state
+        }, 3000);
+
+        return () => clearTimeout(timer); // cleanup
+      }
+    }, [attendanceMessage]);
+
     // Auto-mark whenever studentId updates AND autoMark is enabled
     useEffect(() => {
       if (autoMark && studentId) {

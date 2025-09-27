@@ -30,11 +30,26 @@ function ContributionTable({ code, events = [], selectedEvent }) {
   const [activeStudentId, setActiveStudentId] = useState(null);
 
   const [paginate, setPaginate] = useState({
-    page: 1,
-    per_page: 10,
-    total: 0,
-    total_pages: 1
-  });
+          page: 1,
+          per_page: 10,
+          total: 0,
+          total_pages: 1
+      });
+  
+      const [searchValue, setSearchValue] = useState("");
+      const [debounceTimer, setDebounceTimer] = useState(null);
+      
+      function debounce(callback, delay=500) {
+          clearTimeout(debounceTimer);
+          setDebounceTimer(setTimeout(callback, delay));
+      }
+  
+      const searchStudent = (search) => {
+          setSearchValue(search);
+          debounce(() => {
+              fetchStudentsToContribute(1, search);
+          }, 500);
+      };
 
   const fetchStudentToContribute = async (page=1, search="") => {
       try {
@@ -56,7 +71,20 @@ function ContributionTable({ code, events = [], selectedEvent }) {
     useEffect(() => {
       fetchStudentToContribute();
     }, [selectedEvent]);
-
+  const revokeContribution = async (student_id) => {
+      try {
+        const res = await fetch(`/api/events/${selectedEvent.event_id}/contributions/${student_id}`, {
+          method: "DELETE",
+          credentials: "include",
+        });
+        const response = await res.json();
+        if (response.status === "success") {
+          fetchStudentToContribute();
+        }
+      } catch (err) {
+        errorAlert(err);
+      }
+    };
   const contributionPayment = async (student_id, paymentAmount) => {
       try {
         const res = await fetch(`/api/events/${selectedEvent.event_id}/contributions/${student_id}`, {
@@ -117,8 +145,26 @@ function ContributionTable({ code, events = [], selectedEvent }) {
                   <td className="flex gap-2 justify-center font-semibold text-xs py-3">
                     {s.remaining_balance == 0 ? (
                       <>
-                        <button disabled className="w-15 border-1 py-1 rounded-sm border-[#65A810] text-[#65A810]">
-                          None
+                        <button
+                          onClick={() => revokeContribution(s.student_id)}
+                          className="cursor-pointer w-15 py-1 border-1 rounded-sm border-[#ff5656] text-[#ff5656]">
+                          Revoke
+                        </button>
+                      </>
+                    ) : s.remaining_balance < s.event_contri_fee ? (
+                      <>
+                        <button onClick={()=>{contributionPayment(s.student_id, s.remaining_balance)}} className="cursor-pointer w-15 border-1 py-1 rounded-sm border-[#709fcb] text-[#709fcb]">
+                          Full
+                        </button>
+                        <button
+                          onClick={() => clickedPartial(idx, s.student_id)}
+                          className="cursor-pointer w-15 border-1 rounded-sm border-[#EAB308] text-[#EAB308]">
+                          Partial
+                        </button>
+                        <button
+                          onClick={() => revokeContribution(s.student_id)}
+                          className="cursor-pointer w-15 border-1 rounded-sm border-[#ff5656] text-[#ff5656]">
+                          Revoke
                         </button>
                       </>
                     ) : activeRowIndex !== idx ? (
@@ -155,22 +201,25 @@ function ContributionTable({ code, events = [], selectedEvent }) {
             })}
           </tbody>
         </table>
-
-        <div className="mt-4 flex justify-center gap-2">
+        
+        {/* Pagination Controls */}
+        <div className="mt-4 flex justify-center gap-2 items-center">
           <button
-            className="cursor-pointer flex justify-center items-center border rounded disabled:opacity-40"
+            onClick={() => reloadStudents(paginate.page - 1)}
+            disabled={paginate.page <= 1}
+            className="cursor-pointer border rounded disabled:opacity-40 p-1"
           >
             <span className="material-symbols-outlined">chevron_left</span>
           </button>
 
-            <button
-              className={`px-2 border text-white cursor-pointer rounded flex justify-center items-center ${color}`}
-            >1
-            </button>
-          
+          <span className="px-3">
+            Page {paginate.page} of {paginate.total_pages}
+          </span>
 
           <button
-            className="cursor-pointer border flex justify-center  items-center rounded disabled:opacity-40"
+            onClick={() => reloadStudents(paginate.page + 1)}
+            disabled={paginate.page >= paginate.total_pages}
+            className="cursor-pointer border rounded disabled:opacity-40 p-1"
           >
             <span className="material-symbols-outlined">chevron_right</span>
           </button>

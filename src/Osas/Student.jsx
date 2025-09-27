@@ -25,15 +25,37 @@ function Student(){
     const [colleges, setColleges] = useState([]);
     const [students, setStudents] = useState([]);
 
+    const [paginate, setPaginate] = useState({
+        page: 1,
+        per_page: 10,
+        total: 0,
+        total_pages: 1
+    });
+
+    const [searchValue, setSearchValue] = useState("");
+    const [debounceTimer, setDebounceTimer] = useState(null);
     
-    const fetchStudents = async () => {
+    function debounce(callback, delay=500) {
+        clearTimeout(debounceTimer);
+        setDebounceTimer(setTimeout(callback, delay));
+    }
+
+    const searchStudent = (search) => {
+        setSearchValue(search);
+        debounce(() => {
+            fetchStudents(1,search);
+        }, 500);
+    };
+
+    const fetchStudents = async (page=1, search="") => {
         try {
-            const res = await fetch("/api/students", {
+            const res = await fetch(`/api/students?page=${page}&search=${search}`, {
                 credentials: "include"
             });
             const response = await res.json();
             if (response.status === "success") {
                 setStudents(response.data);
+                setPaginate(response.meta);
             }
         } catch (err) {
             errorAlert("Fetch Failed");
@@ -88,7 +110,7 @@ function Student(){
                  <div className='lg:ml-68 lg:mt-30 mt-25 lg:flex md:flex md:justify-between lg:justify-between '>
                     <h2 className="text-2xl font-semibold text-[#145712] font-poppins">Manage Students</h2>
                     <div className={` lg:flex md:flex ${animateR}  lg:gap-2.5 md:gap-2.5 text-md font-[family-name:Helvetica] lg:mt-0 md:mt-0 mt-4 lg:px-0 md:px-0 px-3 items-center`}>
-                        <input className='lg:w-85 w-[100%] p-1.5 bg-white rounded-md border-2  border-[#174515] block' type="text" placeholder='Search Student' />
+                        <input className='lg:w-85 w-[100%] p-1.5 bg-white rounded-md border-2  border-[#174515] block' type="text"  onKeyUp={(e) => {searchStudent(e.target.value)}} placeholder='Search Student' />
                         <div className='relative lg:mt-0 md:mt-0 mt-3 lg:mr-4'>
                             <input className='bg-amber-300 lg:w-[150px] w-[100%] h-[35px] block z-[1]  cursor-pointer opacity-0' 
                                 type="file" 
@@ -127,7 +149,7 @@ function Student(){
                           
                     </div>
                 </div>
-             <TableStudentOsas reloadStudents={fetchStudents} students={students} update={(row) =>{
+             <TableStudentOsas paginate={paginate} reloadStudents={fetchStudents} students={students} update={(row) =>{
                 setSelectedStudent(row);
                 updateStudent.toggle();
              }} add={addStudent.toggle}/>

@@ -5,9 +5,6 @@ import "../animate.css";
 function AttendanceTable({ code, attendees = [], scanAttendee, selectedEvent, selectedEventDate}) {
   const animate = "card-In";
 
-  const [studentAttendees, setStudentAttendees] = useState([]);
-  const [attendanceKeys, setAttendanceKeys] = useState([]);
-
   const textColor =
     code === "cit" ? "text-[#4F1C51]"
     : code === "coe" ? "text-[#0E2148]"
@@ -26,6 +23,8 @@ function AttendanceTable({ code, attendees = [], scanAttendee, selectedEvent, se
     total_pages: 1
   });
 
+  const [studentAttendees, setStudentAttendees] = useState([]);
+  const [attendanceKeys, setAttendanceKeys] = useState([]);
 
   const fetchStudentAttendees = async (page=1, search="") => {
     if (!selectedEventDate) return;
@@ -85,14 +84,6 @@ function AttendanceTable({ code, attendees = [], scanAttendee, selectedEvent, se
   }, [selectedEvent, selectedEventDate]);
 
   const data = studentAttendees.length ? studentAttendees : fallback;
-
-  const handleChange = (rowIndex, field, value) => {
-    setStatuses((prev) =>
-      prev.map((row, i) =>
-        i === rowIndex ? { ...row, [field]: value } : row
-      )
-    );
-  };
 
   return (
     <div className={`w-full ${animate} flex flex-col gap-6 lg:text-sm text-xs font-[family-name:Arial]`}>

@@ -7,7 +7,7 @@ import "../animate.css";
  * @param {string} code       – org code ("cit", "coe", …) to color the header text
  * @param {Array}  students   – array of { id, name, yearSection }
  */
-function TableStudentOsas({ code = "osas", students = [] , update,add,reloadStudents}) {
+function TableStudentOsas({ code = "osas", students = [] , update,add,reloadStudents,paginate}) {
   const animate = "card-In";
   /* --------------------------------- colors -------------------------------- */
   const textColor =
@@ -56,19 +56,6 @@ function TableStudentOsas({ code = "osas", students = [] , update,add,reloadStud
         });
   }
 
-  /* ----------------------------- pagination -------------------------------- */
-  const PAGE_SIZE = 10;
-  const [page, setPage] = useState(0);          // 0‑based
-  const pageCount = Math.ceil(data.length / PAGE_SIZE);
-
-  const pageData = useMemo(
-    () => data.slice(page * PAGE_SIZE, page * PAGE_SIZE + PAGE_SIZE),
-    [page, data]
-  );
-
-  const goPrev = () => setPage(Math.max(0, page - 1));
-  const goNext = () => setPage(Math.min(pageCount - 1, page + 1));
-
   /* -------------------------------- render --------------------------------- */
   return (
   
@@ -88,7 +75,7 @@ function TableStudentOsas({ code = "osas", students = [] , update,add,reloadStud
           </thead>
 
           <tbody>
-            {pageData.map((s, idx) => (
+            {data.map((s, idx) => (
               <tr key={idx} className="border-b border-[#0505057a] ">
                 <td>{s.student_number_id}</td>
                 <td>{s.full_name}</td>
@@ -113,39 +100,27 @@ function TableStudentOsas({ code = "osas", students = [] , update,add,reloadStud
       </div>
         {/* pagination controls */}
         <div className=" relative lg:ml-70 font-[family-name:Arial] text-xs lg:text-sm mt-[-10px] flex flex-col-reverse justify-center items-center">
-            <p className='text-[#174515] lg:absolute left-9'>Showing of 600</p>  
-        <span className="flex">
-             <button
-            onClick={goPrev}
-            disabled={page === 0}
-            className=" mx-1 flex items-center cursor-pointer rounded-md border disabled:opacity-40"
+        <div className="mt-4 flex justify-center gap-2 items-center">
+          <button
+            onClick={() => reloadStudents(paginate.page - 1)}
+            disabled={paginate.page <= 1}
+            className="cursor-pointer border rounded disabled:opacity-40 p-1"
           >
             <span className="material-symbols-outlined">chevron_left</span>
-
           </button>
 
-          {Array.from({ length: pageCount }, (_, i) => (
-            <button
-              key={i}
-              onClick={() => setPage(i)}
-              className={`px-2 mx-1 rounded-md border cursor-pointer
-                ${i === page
-                  ? "bg-[#174515] text-white"
-                  : "bg-white "}`} >
-              {i + 1}
-            </button>
-          ))}
+          <span className="px-3">
+            Page {paginate.page} of {paginate.total_pages}
+          </span>
 
           <button
-            onClick={goNext}
-            disabled={page === pageCount - 1}
-           className=" mx-1 flex items-center cursor-pointer rounded-md border disabled:opacity-40"
+            onClick={() => reloadStudents(paginate.page + 1)}
+            disabled={paginate.page >= paginate.total_pages}
+            className="cursor-pointer border rounded disabled:opacity-40 p-1"
           >
             <span className="material-symbols-outlined">chevron_right</span>
-
           </button>
-
-        </span>
+        </div>
             <i onClick={add}  className="fa-solid fa-circle-plus text-5xl absolute right-10 top-[-40px] cursor-pointer text-[#157112] bg-white rounded-full "></i>
 
         </div>

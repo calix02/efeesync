@@ -40,11 +40,13 @@ function LogIn(){
                     }, 750);
                 }
             } else {
+                setIsLoading(false);
                 errorAlert(response.message || "Invalid email or password.");
                 return;
             }
            
         } catch (err) {
+            setIsLoading(false);
             errorAlert("Login failed. Please try again.");
             return;
         }
@@ -72,10 +74,12 @@ function LogIn(){
                 }
             } else {
                 errorAlert(response.message || "Invalid email or password.");
+                setIsLoading(false);
                 return;
             }
            
         } catch (err) {
+            setIsLoading(false);
             errorAlert("Login failed. Please try again.");
             return;
         }
@@ -140,9 +144,9 @@ function LogIn(){
                                 ) : "Login"}
                             </button>
 
-                            <center>
+                            {/*<center>
                                 <p className="mt-3 text-sm text-[#414040c4] font-poppins">Forgot Password?</p>
-                            </center>
+                            </center>*/}
                         </form>
                     </div>
                 </div>  

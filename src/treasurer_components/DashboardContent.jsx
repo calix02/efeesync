@@ -3,6 +3,7 @@ import StudentGraph from '../other_components/Graph.jsx';
 import EventChart from './EventChart.jsx';
 import EventsCalendarView from "./EventsCalendarView.jsx";
 import useAnimatedToggle from '../hooks/useAnimatedToggle.js';
+import Footer from '../other_components/Footer.jsx';
 import '../animate.css';
 import { useEffect, useState, useRef } from 'react';
 import { useNavigate } from "react-router-dom"; // ✅ added
@@ -118,7 +119,7 @@ function CITDashboard({currentUserData}) {
         <>
         {eventCalendar.isVisible &&(
             <div className="fixed inset-0 bg-[#00000062] flex justify-center items-center lg:z-40 md:z-50 z-70 pointer-events-auto">
-                <EventsCalendarView events={events} code={currentUserData?.department_code} ref={calendarRef}  onAnimationEnd={eventCalendar.handleEnd} onClose={() => eventCalendar.setAnimation("fade-out")} animate={eventCalendar.animation}  />  
+                <EventsCalendarView events={events}  code={currentUserData?.department_code} ref={calendarRef}  onAnimationEnd={eventCalendar.handleEnd} onClose={() => eventCalendar.setAnimation("fade-out")} animate={eventCalendar.animation}  />  
             </div>
         )
 
@@ -140,8 +141,13 @@ function CITDashboard({currentUserData}) {
                 <div className={`bg-white border-1 ${animateChart} p-5 transition duration-300 hover:shadow-[3px_3px_5px_#000] hover:scale-102 border-[#d8d8d8] lg:w-[60%] h-96 lg:my-0 my-8 flex items-center justify-center lg:mx-0 mx-3 rounded-xl shadow-[2px_2px_3px_grey,-2px_-2px_3px_white]`}>
                     <EventChart eventSummary={dashboardData?.event_summary || []} />
                 </div>
+                
+            </div>
+            <div className="lg:ml-70 mt-10 px-8">
+                <Footer/>
             </div>
         </div>
+
     </>
 
     );

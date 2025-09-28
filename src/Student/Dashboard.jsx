@@ -4,7 +4,10 @@ import EfeeViolet from '../assets/violetlogo.png';
 import CardStudent from "../student_components/CardStudent.jsx";
 import Announcement from '../student_components/Announcement.jsx';
 import UpcomingEvents from "../student_components/UpcomingEvents.jsx";
-import { useState, useEffect } from "react";
+import SendPayment from "../student_components/SendPayment.jsx";
+import SendExcuse from "../student_components/SendExcuse.jsx";
+import useAnimatedToggle from "../hooks/useAnimatedToggle.js";
+import { useState, useEffect, useRef } from "react";
 import "../animate.css";
 
 
@@ -12,6 +15,12 @@ function Dashboard(){
     const animateL = "left-In";
     const animateR = "right-In";
     const animate = "card-In";
+
+    const sendPayment = useAnimatedToggle();
+    const paymentRef = useRef(null);
+
+    const sendExcuse = useAnimatedToggle();
+    const excuseRef = useRef(null);
 
 
     const calendar = <i className="fa-solid fa-calendar-days z-[-1] opacity-50"></i>
@@ -81,7 +90,18 @@ function Dashboard(){
     
     return(
         <>
-        <Header code={currentUserData?.department_code} titleCouncil ={currentUserData?.organization_name}/>
+        {sendPayment.isVisible &&(
+             <div className="fixed lg:z-40 md:z-50 z-70 flex justify-center items-center  inset-0 bg-[#00000062] pointer-events-auto">
+                <SendPayment ref={paymentRef} onAnimationEnd={sendPayment.handleEnd} onClose={()=> sendPayment.setAnimation("fade-out")} animate={sendPayment.animation} />  
+            </div>
+        )}
+        {sendExcuse.isVisible &&(
+            <div className="fixed flex justify-center items-center inset-0 bg-[#00000062] lg:z-40 md:z-50 z-70 pointer-events-auto">
+                <SendExcuse ref={excuseRef} onAnimationEnd={sendExcuse.handleEnd} onClose={()=> sendExcuse.setAnimation("fade-out")} animate={sendExcuse.animation} />  
+            </div>
+        )}
+
+        <Header code={currentUserData?.department_code} title ={currentUserData?.organization_name}/>
         <div className="w-screen h-screen bg-[#F8F8F8] absolute z-[-1] overflow-y-auto overflow-x-auto lg:px-6 md:px-10 px-3 ">
             <div className="lg:mt-30 mt-25 lg:ml-70">
                 <h2 className="text-2xl font-[family-name:Futura Bold] font-semibold">Welcome, {currentUserData?.full_name}!</h2>
@@ -103,6 +123,8 @@ function Dashboard(){
 
                             return (
                             <UpcomingEvents
+                                excuse={sendExcuse.toggle}
+                                pay ={sendPayment.toggle}
                                 key={ev.event_id}
                                 month={month}
                                 day={day}

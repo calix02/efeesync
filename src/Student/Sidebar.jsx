@@ -15,7 +15,7 @@ const Sidebar = React.forwardRef(({eFee, animate,code, onAnimationEnd,onClose},r
         COE: "border-[#020180] text-[#020180]",
         COC: "border-[#660A0A] text-[#660A0A]",
         COT: "border-[#847714] text-[#847714]",
-        SCEAP: "border-[#6F3306] text-[#6F3306]",
+        ESAF: "border-[#6F3306] text-[#6F3306]",
         SSC: "border-[#174515] text-[#174515]"
       };
       const color = colors[code] || "border-black text-black";
@@ -25,7 +25,7 @@ const Sidebar = React.forwardRef(({eFee, animate,code, onAnimationEnd,onClose},r
             COE: Educ,
             CIT: It,
             COT: Indus,
-            SCEAP: Esaf,
+            ESAF: Esaf,
             SSC: Ssc
            
           };
@@ -66,7 +66,7 @@ const Sidebar = React.forwardRef(({eFee, animate,code, onAnimationEnd,onClose},r
                     <NavLink code={code} navLink = "/student/contribution" iconName="account_balance" navName="Contributions"/>
                     <NavLink code={code} navLink = "/student/attendance" iconName="patient_list" navName="Attendance"/>
                     <NavLink code={code} navLink = "/student/sanction" iconName="event_busy" navName="Sanctions"/>
-                    <DropDownNav code={code} subNavLink1 = "/student/excuse" subNavLink2="/student/shifting" iconName="approval" navName="Request" subNavName1="Excuse Letter Request" iconName1="inbox_text" subNavName2="Shifting Request" iconName2="article_person"/>
+                    <NavLink code={code} navLink = "/student/excuse" iconName="approval" navName="Excuse Request"/>
                     <DropDownNav code={code} subNavLink1 = "/student/financial" subNavLink2 = "/student/accomplishment" iconName="assignment" navName="Reports" iconName1 = "article" subNavName1 = "Financial Report" iconName2 = "fact_check" subNavName2 = "Accomplishment Report"/>
                     <NavLink code={code} navLink = "/student/payment" iconName="payments" navName="Payment"/>
                     <NavLink code={code} navLink = "/student/settings" iconName="settings" navName="Settings"/>

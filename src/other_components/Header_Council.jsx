@@ -16,7 +16,7 @@ import Ssc from "../assets/SSC.png";
 
 import '../animate.css';
 
-function Header_Council(props) {
+function Header_Council({code, titleCouncil}) {
   /* ------------------------- Color  ----------------------------- */
 
   const colors = {
@@ -27,7 +27,7 @@ function Header_Council(props) {
     ESAF: "border-[#6F3306] text-[#6F3306]",
     SSC: "border-[#174515] text-[#174515]"
   };
-  const color = colors[props.code] || "border-[#174515] text-[#174515]";
+  const color = colors[code] || "border-[#174515] text-[#174515]";
 
   const hoverColors = {
     CIT: "hover:bg-[#621668] ",
@@ -38,7 +38,7 @@ function Header_Council(props) {
     SSC: "hover:bg-[#174515]"
 
   };
-  const hoverColor = hoverColors[props.code] || "hover:bg-[#174515]";
+  const hoverColor = hoverColors[code] || "hover:bg-[#174515]";
 
 
 
@@ -50,7 +50,7 @@ function Header_Council(props) {
     COT: Indus,
     SSC: Ssc
   };
-  const logo = logos[props.code] || " ";
+  const logo = logos[code] || Ssc;
 
 
   /* ------------------------- Animated States ----------------------------- */
@@ -78,7 +78,7 @@ function Header_Council(props) {
   return (
     <>
       <header className={` flex  bg-white fixed top-0 w-screen h-20 lg:z-20 md:z-40 z-60  items-center border-b-3 ${color}`}>
-        <span hidden>{props.code}</span>
+        <span hidden>{code}</span>
         <span className="flex items-center  gap-3 ml-2">
           <span className='lg:hidden block'>
             <i onClick={() => { clickedAccBar(); sidebar.toggle(); }} className="fa-solid fa-bars text-sm cursor-pointer"></i>
@@ -89,11 +89,11 @@ function Header_Council(props) {
         </span>
 
         <span >
-          <h2 className="lg:text-2xl md:text-lg text-sm  font-bold font-poppins ml-2">{props.titleCouncil}</h2>
+          <h2 className="lg:text-2xl md:text-lg text-sm  font-bold font-poppins ml-2">{titleCouncil}</h2>
         </span>
 
         <span className="flex lg:gap-3 lg:absolute md:absolute md:right-8 lg:right-8 float-right ">
-
+      {/* 
           <span className='lg:block hidden'>
             <i className={`fa-solid fa-moon lg:text-xl cursor-pointer ${hoverColor} transiton duration-150 rounded-full p-1.5 hover:text-white`}></i>
           </span>
@@ -101,15 +101,17 @@ function Header_Council(props) {
           <span>
             <i onClick={() => { clickedBell(); notification.toggle(); }} className={`fa-solid fa-bell  lg:text-xl ${hoverColor} transiton duration-150 rounded-full p-1.5 hover:text-white  text-sm cursor-pointer`}></i>
           </span>
+        */}
 
-          <span className="hidden lg:block">
-            <i onClick={() => { clickedAccBar(); account.toggle(); }} className={`fa-solid fa-circle-user lg:text-xl ${hoverColor} transiton duration-150 rounded-full p-1.5 hover:text-white text-sm cursor-pointer`}></i>
+          <span onClick={() => { clickedAccBar(); account.toggle(); }}  className={`hidden px-3 font-[family-name:Arial] text-sm rounded-3xl shadow-[1px_1px_1px_grey] ${hoverColor} cursor-pointer transiton duration-150 border-1 border-[#f3f3f3] lg:flex items-center hover:text-white`}>
+            <span><i  className={`fa-solid fa-circle-user lg:text-xl  rounded-full p-1.5 hover:text-white  text-sm cursor-pointer`}></i></span>
+            <span>Account</span>
           </span>
         </span>
 
         {/* Account Card */}
         {account.isVisible && (
-          <AccountCard ref={accRef} code={props.code} onAnimationEnd={account.handleEnd} animate={account.animation} />
+          <AccountCard ref={accRef} code={code} onAnimationEnd={account.handleEnd} animate={account.animation} />
         )
         }
       </header>

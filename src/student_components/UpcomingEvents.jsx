@@ -1,5 +1,5 @@
 
-function UpcomingEvents({month,day,event,desc,target,type}){
+function UpcomingEvents({month,day,event,desc,target,type, pay, excuse}){
     return(
         <>
        <div className="border-1 border-black p-2 mt-3 rounded-xl">
@@ -22,8 +22,8 @@ function UpcomingEvents({month,day,event,desc,target,type}){
                     
                 </div>
                  <div className="flex flex-col justify-center gap-3">
-                    <button className=" border-1 border-[#4b4b4b] hover:scale-110 bg-[#621668] text-white transition duration-200 scale-102 cursor-pointer w-25  shadow-[2px_2px_2px_grey] py-1 font-inter text-xs rounded-md">Pay Now</button>    
-                    <button className=" border-1 border-[#4d4d4d] hover:scale-110 hover:shadow-[2px_2px_2px_#570369] transition duration-200 scale-102 cursor-pointer w-25 text-[#621668] shadow-[2px_2px_2px_grey] py-1 font-inter text-xs rounded-md">Request Excuse</button>        
+                    <button onClick={pay} className=" border-1 border-[#4b4b4b] hover:scale-110 bg-[#621668] text-white transition duration-200 scale-102 cursor-pointer w-25  shadow-[2px_2px_2px_grey] py-1 font-inter text-xs rounded-md">Pay Now</button>    
+                    <button onClick={excuse} className=" border-1 border-[#4d4d4d] hover:scale-110 hover:shadow-[2px_2px_2px_#570369] transition duration-200 scale-102 cursor-pointer w-25 text-[#621668] shadow-[2px_2px_2px_grey] py-1 font-inter text-xs rounded-md">Request Excuse</button>        
                 </div>
             </div>
             </div>

@@ -32,7 +32,7 @@ const CITSidebar = React.forwardRef(({ animate, onAnimationEnd,onClose ,code },r
         SSC: Ssc
        
       };
-      const logo = logos[code] || " ";
+      const logo = logos[code] || Ssc;
 
     const logout = () => {
         confirmAlert("You really want to Log out?").then( async (result) =>{

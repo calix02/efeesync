@@ -74,7 +74,7 @@ function TablePaymentTransaction({ code = "cit",viewProof, payments = [] }) {
                 <td>{s.studName}</td>
                 <td>{s.eventName}</td>
                 <td>{s.amount}</td>
-                <td className="hidden lg:block">{s.date}</td>
+                <td className="hidden lg:block py-4">{s.date}</td>
                 <td >
                     <button onClick={() =>viewProof(s)} className="bg-white  gap-1 lg:px-5 md:px-5 px-1 py-1 border-1 lg:text-sm text-xs hover:bg-[#621668] hover:text-white transition duration-200 cursor-pointer border-[#621668] text-[#621668] rounded-lg">
                       <i className="fa-regular fa-eye"></i>View

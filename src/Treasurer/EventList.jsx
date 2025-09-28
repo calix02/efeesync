@@ -5,6 +5,7 @@ import TableEventList from '../other_components/TableEventList.jsx';
 import EventDetails from '../treasurer_components/EventDetails.jsx';
 import AddEventListCard from '../other_components/AddEventListCard.jsx';
 import UpdateEventCard from '../other_components/UpdateEventCard.jsx';
+import Footer from '../other_components/Footer.jsx';
 import React, {useRef, useState, useEffect} from 'react';
 import useAnimatedToggle from '../hooks/useAnimatedToggle.js';
 import EfeeViolet from '../assets/violetlogo.png'
@@ -86,6 +87,15 @@ function CITEventList(){
     useEffect(() => {
         fetchCurrentUser();
     }, []);
+    const hoverColors = {
+            CIT: " hover:bg-[#621668]",
+            COE: "hover:bg-[#020180]",
+            COC: "hover:bg-[#660A0A]",
+            COT: "hover:bg-[#847714]",
+            ESAF: "hover:bg-[#6F3306]",
+            SSC: "hover:bg-[#174515]"
+        };
+    const hoverColor = hoverColors[currentUserData?.department_code] || "hover:bg-[#174515]";
  
     return(
         <>
@@ -94,7 +104,7 @@ function CITEventList(){
                     {/* Add Event */}
                 <div className="fixed inset-0 flex justify-center items-center bg-[#00000062] lg:z-40 md:z-50 z-70 pointer-events-auto">
                     {/* Overlay */}
-                    <AddEventListCard reloadEvents={fetchEvents} currentUserData={currentUserData} ref={addRef} addFee={addFee.toggle} onAnimationEnd={addEvent.handleEnd} animate={addEvent.animation} onClose={() => addEvent.setAnimation("fade-out")} />
+                    <AddEventListCard code={currentUserData?.department_code} reloadEvents={fetchEvents} currentUserData={currentUserData} ref={addRef} addFee={addFee.toggle} onAnimationEnd={addEvent.handleEnd} animate={addEvent.animation} onClose={() => addEvent.setAnimation("fade-out")} />
                 </div>
             </>
          )
@@ -128,12 +138,12 @@ function CITEventList(){
                 <div className="lg:mt-30 mt-25 lg:ml-70 lg:flex md:flex  md:justify-between   lg:justify-between">
                     <h2 className="text-2xl font-[family-name:Futura Bold] font-semibold">Manage Events</h2>
                     <div className={`flex ${animateR} items-center lg:px-0 md:px-0 px-3`}>
-                    <input className='lg:w-85 md:w-85 w-[100%] p-1.5 bg-white rounded-md border-2 lg:mt-0 md:mt-0 mt-4   border-[#8A2791] block' type="text" onKeyUp={(e) => { searchEvents(e.target.value) }} placeholder='Search Events' />
+                    <input className='lg:w-85 md:w-85 w-[100%] p-1.5 bg-white rounded-md border-2 lg:mt-0 md:mt-0 mt-4 block' type="text" onKeyUp={(e) => { searchEvents(e.target.value) }} placeholder='Search Events' />
                     </div>
                 </div>
                 <div className=' w-[100%] mt-3 '>
                     <div className={`lg:ml-70 ${animateL} flex lg:justify-start md:justify-start font-[family-name:Arial]  justify-start gap-2.5`}>
-                         <select title="Select Event Type" className='bg-white lg:w-25 w-20 text-xs transition duration-100 hover:scale-100 hover:bg-[#621668] hover:text-white cursor-pointer border-1 border-[#8A2791] py-1  text-[#8A2791] rounded-md text-center' value={selectedType} onChange={(e)=>setSelectedType(e.target.value)}  name="" id="">
+                         <select title="Select Event Type" className={`bg-white ${hoverColor} lg:w-25 w-20 text-xs transition duration-100 hover:scale-100  hover:text-white cursor-pointer border-1 py-1  rounded-md text-center`} value={selectedType} onChange={(e)=>setSelectedType(e.target.value)}  name="" id="">
                             <option value="">Event Type</option>
                             <option value="Event Contribution">Event Contribution</option>
                             <option value="Event Attendance">Event Attendance</option>
@@ -148,7 +158,7 @@ function CITEventList(){
                             <option value="">hey</option>
                         </select>
                         */}
-                        <button title='Print Event List' onClick={()=>{window.print()}} className='bg-white lg:w-25 w-20 transition duration-100 hover:scale-100 hover:bg-[#621668] hover:text-white text-xs cursor-pointer flex justify-center gap-1 border-1 border-[#8A2791] py-1  text-[#8A2791] rounded-md text-center'><i className="fa-solid fa-print"></i>Print</button>
+                        <button title='Print Event List' onClick={()=>{window.print()}} className={`${hoverColor} bg-white lg:w-25 w-20 transition duration-100 hover:scale-100  hover:text-white text-xs cursor-pointer flex justify-center gap-1 border-1  py-1 rounded-md text-center`}><i className="fa-solid fa-print"></i>Print</button>
                         
                     </div>
 

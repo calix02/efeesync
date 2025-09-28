@@ -14,13 +14,14 @@ function TableEventList({ code, events = [] , addEvent, updateEvent,view, reload
   /* --------------------------------- colors -------------------------------- */
   const colors = {
     CIT: "border-[#621668] text-[#621668] bg-[#621668]",
-    COE: "border-[#020180] text-[#020180] bg-[#621668]",
-    COC: "border-[#660A0A] text-[#660A0A] bg-[#621668]",
-    COT: "border-[#847714] text-[#847714] bg-[#621668]",
-    SCEAP: "border-[#6F3306] text-[#6F3306] bg-[#621668]",
-    SSC: "border-[#174515] text-[#174515] bg-[#621668]",
+    COE: "border-[#020180] text-[#020180] bg-[#020180]",
+    COC: "border-[#660A0A] text-[#660A0A] bg-[#660A0A]",
+    COT: "border-[#847714] text-[#847714] bg-[#847714]",
+    SCEAP: "border-[#6F3306] text-[#6F3306] bg-[#6F3306]",
+    SSC: "border-[#174515] text-[#174515] bg[#174515]",
   };
-  const color = colors[code] || "border-black text-black";
+
+  const color = colors[code] || "border-[#174515] text-[#174515] bg-[#174515]";
 
   /* ---------------------------- sample fallback ---------------------------- */
   const fallback = [];
@@ -142,7 +143,7 @@ function TableEventList({ code, events = [] , addEvent, updateEvent,view, reload
       </div>
         {/* pagination controls */}
         <div className=" relative lg:ml-70 flex mt-[-10px] flex-col-reverse justify-center items-center">
-            <p className='text-[#8A2791] lg:absolute left-9'>Showing of 600</p>  
+            <p className={` ${color} bg-white lg:absolute left-9`}>Showing of 600</p>  
         <span className="flex">
              <button
             className=" mx-1 flex items-center rounded-md border disabled:opacity-40"

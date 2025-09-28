@@ -34,7 +34,7 @@ function Contribution(){
        
     return(
         <>
-        <Header code={currentUserData?.department_code} titleCouncil = {currentUserData?.organization_name}/>
+        <Header code={currentUserData?.department_code} title = {currentUserData?.organization_name}/>
         <div className="w-screen h-screen bg-[#F8F8F8] absolute z-[-1] overflow-y-auto overflow-x-auto ">
             <div className="mt-[110px] lg:ml-70">
                 <h2 className="text-2xl font-semibold ml-6">My Contributions</h2>

@@ -1,7 +1,7 @@
 import React,{useState} from "react";
 import {successAlert,errorAlert} from "../utils/alert.js";
 
-const AddEventListCard = React.forwardRef(({animate, onAnimationEnd,onClose,currentUserData,reloadEvents}, ref) =>{
+const AddEventListCard = React.forwardRef(({animate, onAnimationEnd,onClose,currentUserData,reloadEvents,code}, ref) =>{
 
 const getToday = () => new Date().toISOString().split("T")[0];
 
@@ -161,15 +161,24 @@ const handleSubmit = async () => {
     console.error("Error submitting:", err);
   }
 };
+  const colors = {
+            CIT: "border-[#621668] text-[#621668] bg-[#621668]",
+            COE: "border-[#020180] text-[#020180] bg-[#020180]",
+            COC: "border-[#660A0A] text-[#660A0A] bg-[#660A0A]",
+            COT: "border-[#847714] text-[#847714] bg-[#847714]",
+            ESAF: "border-[#6F3306] text-[#6F3306] bg-[#6F3306]",
+            SSC: "border-[#174515] text-[#174515] bg-[#174515]"
+        };
+    const color = colors[code] || "border-[#174515] text-[#174515] bg-[#174515]";
 
 return( 
-    <div ref={ref} className={` ${animate} lg:w-100 md:w-100 w-80 max-h-[90vh] hide-scrollbar overflow-y-scroll py-6 text-sm font-[family-name:Arial] px-6 bg-white shadow-[2px_2px_#8A2791,-2px_-2px_white] rounded-lg  z-80 inset-0 mx-auto  `}
+    <div ref={ref} className={` ${animate} ${color} lg:w-100 md:w-100 w-80 max-h-[90vh] hide-scrollbar overflow-y-scroll py-6 text-sm font-[family-name:Arial] px-6 bg-white rounded-lg  z-80 inset-0 mx-auto  `}
     onAnimationEnd={onAnimationEnd}>
         <div className=" relative">
             <span onClick={onClose} className="material-symbols-outlined absolute right-0.5 cursor-pointer">disabled_by_default</span>
         </div>
-        <div className=" border-b-4 border-[#8A2791]">
-            <span className="text-[#8A2791] font-semibold font-[family-name:Helvetica] text-xl">Add Event</span>
+        <div className=" border-b-4 ">
+            <span className=" font-semibold font-[family-name:Helvetica] text-xl">Add Event</span>
         </div>
         <form onSubmit={(e) =>{
             e.preventDefault();
@@ -178,11 +187,11 @@ return(
         }}>
         <div className="mt-4">
             <label>Event Name:</label><br />
-            <input type="text" onChange={changeEventName} value={eventName} required className="border-2 px-2 border-[#8A2791] h-8 rounded-md w-[100%] mb-3" /> <br />
+            <input type="text" onChange={changeEventName} value={eventName} required className="border-2 px-2  h-8 rounded-md w-[100%] mb-3" /> <br />
              <label>Event Description:</label><br />
-             <textarea onChange={changeEventDesc} value={eventDesc} className="border-2 px-2 border-[#8A2791] h-15 rounded-md w-[100%] mb-2"></textarea>
+             <textarea onChange={changeEventDesc} value={eventDesc} className="border-2 px-2 h-15 rounded-md w-[100%] mb-2"></textarea>
              <label htmlFor="">Target Year</label>
-              <div className="flex gap-2 h-8 rounded-md lg:text-sm text-xs border-[#8A2791] mb-3 w-100% border-2 justify-center items-center" >
+              <div className="flex gap-2 h-8 rounded-md lg:text-sm text-xs  mb-3 w-100% border-2 justify-center items-center" >
                 {years.map((year) => (
                 <span key={year} className="flex items-center lg:gap-1">
                     <input
@@ -196,7 +205,7 @@ return(
             </div>
 
             <label htmlFor="">Event Date Type</label>
-             <div className="flex gap-2 h-8 rounded-md lg:text-sm text-xs border-[#8A2791] mb-3 w-100% border-2 justify-around items-center" >
+             <div className="flex gap-2 h-8 rounded-md lg:text-sm text-xs mb-3 w-100% border-2 justify-around items-center" >
                 {dateType.map((type) => (
                 <span  key={type} className="flex items-center lg:gap-1">
                     <input
@@ -214,10 +223,10 @@ return(
                 <>
                  <label htmlFor="">Date Range</label>
                 <div className="w-[100%] flex lg:gap-3 md:gap-3 gap-1">
-                    <div className="border-2 border-[#8A2791] h-8 px-2 rounded-md w-[50%] mb-3 grid justify-center items-center">
+                    <div className="border-2  h-8 px-2 rounded-md w-[50%] mb-3 grid justify-center items-center">
                         <input type="date" required onChange={changeDateFrom} value={dateFrom}  className="w-[100%] " />
                     </div>
-                    <div className="border-2 border-[#8A2791] h-8 px-2 rounded-md w-[50%] mb-1 grid justify-center items-center">
+                    <div className="border-2  h-8 px-2 rounded-md w-[50%] mb-1 grid justify-center items-center">
                         <input type="date" required onChange={changeDateTo} value={dateTo} className="w-[100%] " min={dateFrom}/>
                     </div>
                 </div>
@@ -227,14 +236,14 @@ return(
                 <>
                 <div className="w-[100%] flex justify-between">
                  <label htmlFor="">Event Date</label>
-                    <button type="button" onClick={addDateField} className="text-xs border-1 flex justify-center gap-1 items-center text-[#621668] border-[#621668] rounded-sm px-3 py-0.5 cursor-pointer"><i className="fa-solid fa-circle-plus"></i>Add Date</button>
+                    <button type="button" onClick={addDateField} className="text-xs border-1 flex justify-center gap-1 items-center rounded-sm px-3 py-0.5 cursor-pointer"><i className="fa-solid fa-circle-plus"></i>Add Date</button>
                 </div>
 
                 <div className="mt-1 flex flex-col gap-2">
     {addDates.map((date) => (
       <div
         key={date.id}
-      className="flex justify-between mb-1 items-center border-2 border-[#8A2791] rounded-md px-3 py-2"
+      className="flex justify-between mb-1 items-center border-2  rounded-md px-3 py-2"
       >
         <input
         required
@@ -244,7 +253,7 @@ return(
           className="outline-none flex-1"
         />
         <button type="button" onClick={() => removeDateField(date.id)}
-          className="ml-2 cursor-pointer text-[#621668]"
+          className="ml-2 cursor-pointer "
         >
           <i className="fa-solid fa-circle-minus"></i>
         </button>
@@ -255,7 +264,7 @@ return(
             )}
 
             <label htmlFor="">Event Category</label>
-             <div className="flex gap-2 h-8 rounded-md lg:text-sm text-xs border-[#8A2791] mb-3 w-100% border-2 justify-around items-center" >
+             <div className="flex gap-2 h-8 rounded-md lg:text-sm text-xs  mb-3 w-100% border-2 justify-around items-center" >
                 {types.map((type) => (
                 <span key={type} className="flex items-center lg:gap-1">
                     <input
@@ -335,7 +344,7 @@ return(
             </>
             )}
 
-            <button type="submit" className="bg-[#8A2791] rounded-[5px] text-white w-[100%] h-8">Add Event</button> 
+            <button type="submit" className={`${color} rounded-[5px] text-white w-[100%] h-8`}>Add Event</button> 
 
         </div>
          </form>

@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { successAlert, errorAlert } from "../utils/alert";
 import "../animate.css";
 
-function ContributionTable({ code, events = [], selectedEvent }) {
+function ContributionTable({ code, selectedEvent, paginate, fetchStudentsToContribute, studentsToContribute }) {
   const animate = "card-In";
 
   const [amount, setAmount] = useState("");
@@ -23,54 +23,12 @@ function ContributionTable({ code, events = [], selectedEvent }) {
 
   const fallback = [];
 
-  const [studentsToContribute, setStudentsToContribute] = useState([]);
-
-  const data = studentsToContribute.length ? studentsToContribute : fallback;
-
   const [activeStudentId, setActiveStudentId] = useState(null);
+  
+  useEffect(() => {
+    fetchStudentsToContribute();
+  }, [selectedEvent]);
 
-  const [paginate, setPaginate] = useState({
-          page: 1,
-          per_page: 10,
-          total: 0,
-          total_pages: 1
-      });
-  
-      const [searchValue, setSearchValue] = useState("");
-      const [debounceTimer, setDebounceTimer] = useState(null);
-      
-      function debounce(callback, delay=500) {
-          clearTimeout(debounceTimer);
-          setDebounceTimer(setTimeout(callback, delay));
-      }
-  
-      const searchStudent = (search) => {
-          setSearchValue(search);
-          debounce(() => {
-              fetchStudentsToContribute(1, search);
-          }, 500);
-      };
-
-  const fetchStudentToContribute = async (page=1, search="") => {
-      try {
-        const res = await fetch(`/api/events/${selectedEvent.event_id}/contributions/made?page=${page}&search=${search}`, {
-          credentials: "include"
-        });
-        const response = await res.json();
-        if (response.status === "success") {
-          setPaginate(response.meta);
-          setStudentsToContribute(response.data);
-        } else {
-          errorAlert(response.message);
-        }
-      } catch (err) {
-        errorAlert(err);
-      }
-    };
-  
-    useEffect(() => {
-      fetchStudentToContribute();
-    }, [selectedEvent]);
   const revokeContribution = async (student_id) => {
       try {
         const res = await fetch(`/api/events/${selectedEvent.event_id}/contributions/${student_id}`, {
@@ -79,12 +37,13 @@ function ContributionTable({ code, events = [], selectedEvent }) {
         });
         const response = await res.json();
         if (response.status === "success") {
-          fetchStudentToContribute();
+          fetchStudentsToContribute();
         }
       } catch (err) {
         errorAlert(err);
       }
     };
+
   const contributionPayment = async (student_id, paymentAmount) => {
       try {
         const res = await fetch(`/api/events/${selectedEvent.event_id}/contributions/${student_id}`, {
@@ -96,7 +55,7 @@ function ContributionTable({ code, events = [], selectedEvent }) {
         });
         const response = await res.json();
         if (response.status === "success") {
-          fetchStudentToContribute();
+          fetchStudentsToContribute();
         }
       } catch (err) {
         errorAlert(err);
@@ -114,6 +73,8 @@ function ContributionTable({ code, events = [], selectedEvent }) {
     setActiveStudentId(studentID);
     setActiveRowIndex(activeRowIndex === idx ? null : idx);
   };
+
+  const data = studentsToContribute.length ? studentsToContribute : fallback;
 
   return (
     <div className={`w-full ${animate} flex flex-col gap-6 lg:text-sm text-xs font-[family-name:Arial]`}>
@@ -205,7 +166,7 @@ function ContributionTable({ code, events = [], selectedEvent }) {
         {/* Pagination Controls */}
         <div className="mt-4 flex justify-center gap-2 items-center">
           <button
-            onClick={() => reloadStudents(paginate.page - 1)}
+            onClick={() => fetchStudentsToContribute(paginate.page - 1)}
             disabled={paginate.page <= 1}
             className="cursor-pointer border rounded disabled:opacity-40 p-1"
           >
@@ -217,7 +178,7 @@ function ContributionTable({ code, events = [], selectedEvent }) {
           </span>
 
           <button
-            onClick={() => reloadStudents(paginate.page + 1)}
+            onClick={() => fetchStudentsToContribute(paginate.page + 1)}
             disabled={paginate.page >= paginate.total_pages}
             className="cursor-pointer border rounded disabled:opacity-40 p-1"
           >

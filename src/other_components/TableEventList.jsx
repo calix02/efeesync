@@ -8,7 +8,7 @@ import { confirmAlert, successAlert } from "../utils/alert";
  * @param {string} code       – org code ("cit", "coe", …) to color the header text
  * @param {Array}  events   – array of { id, name, yearSection }
  */
-function TableEventList({ code, events = [] , addEvent, updateEvent,view, reloadEvents, formatDateStr}) {
+function TableEventList({ code, events = [] , addEvent, updateEvent,view, reloadEvents, paginate, formatDateStr}) {
   /* --------------------------------- animation -------------------------------- */
   const animate = "card-In";
   /* --------------------------------- colors -------------------------------- */
@@ -143,29 +143,27 @@ function TableEventList({ code, events = [] , addEvent, updateEvent,view, reload
       </div>
         {/* pagination controls */}
         <div className=" relative lg:ml-70 flex mt-[-10px] flex-col-reverse justify-center items-center">
-            <p className={` ${color} bg-white lg:absolute left-9`}>Showing of 600</p>  
-        <span className="flex">
-             <button
-            className=" mx-1 flex items-center rounded-md border disabled:opacity-40"
+          <div className="mt-4 flex justify-center gap-2 items-center">
+          <button
+            onClick={() => reloadEvents(paginate.page - 1)}
+            disabled={paginate.page <= 1}
+            className="cursor-pointer border rounded disabled:opacity-40 p-1"
           >
-            <span className="material-symbols-outlined cursor-pointer">chevron_left</span>
-
+            <span className="material-symbols-outlined">chevron_left</span>
           </button>
 
-          
-            <button className={`px-2 mx-1 rounded-md border cursor-pointer text-white ${color}`}>
-                1
-            </button>
-       
+          <span className="px-3">
+            Page {paginate.page} of {paginate.total_pages}
+          </span>
 
           <button
-           className=" mx-1 flex items-center rounded-md border disabled:opacity-40"
+            onClick={() => reloadEvents(paginate.page + 1)}
+            disabled={paginate.page >= paginate.total_pages}
+            className="cursor-pointer border rounded disabled:opacity-40 p-1"
           >
-            <span className="material-symbols-outlined cursor-pointer">chevron_right</span>
-
+            <span className="material-symbols-outlined">chevron_right</span>
           </button>
-
-        </span>
+        </div>
             <i onClick={addEvent}  className="fa-solid fa-circle-plus text-[50px] absolute right-[40px] top-[-40px] cursor-pointer text-[#157112] bg-white rounded-full "></i>
         </div>
         </>

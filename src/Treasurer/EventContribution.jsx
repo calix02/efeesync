@@ -27,7 +27,7 @@ function EventContribution({ data }) {
   const [currentUserData, setCurrentUserData] = useState([]);
   const [eventContributionsData, setEventContributionsData] = useState([]);
 
-  const fetchCurrentUserAndEventsContributions = async () => {
+  const fetchCurrentUser = async () => {
     try {
       const res = await fetch("/api/users/current", {
         credentials: "include"
@@ -35,26 +35,88 @@ function EventContribution({ data }) {
       const response = await res.json();
       if (response.status === "success") {
         setCurrentUserData(response.data);
-        const anotherRes = await fetch(`/api/organizations/code/${(response.data).organization_code}/events?type=contribution`, {
-          credentials: "include"
-        });
-        const anotherResponse = await anotherRes.json();
-        if (anotherResponse.status === "success") {
-          setEventContributionsData(anotherResponse.data);
-        }
       }
     } catch (err) {
       errorAlert("Fetch Failed");
     }
   };
 
+  const [searchValue, setSearchValue] = useState("");
+
+  const fetchEventContributions = async (page=1, search="", org_code=currentUserData?.organization_code) => {
+    const anotherRes = await fetch(`/api/organizations/code/${org_code}/events?type=contribution&page=${page}&search=${search}`, {
+          credentials: "include"
+        });
+        const anotherResponse = await anotherRes.json();
+        if (anotherResponse.status === "success") {
+          setEventContributionsData(anotherResponse.data);
+        }
+  }
+
+  const [debounceTimer, setDebounceTimer] = useState(null);
+          
+          function debounce(callback, delay=500) {
+              clearTimeout(debounceTimer);
+              setDebounceTimer(setTimeout(callback, delay));
+          }
+      
+          const searchEventContributions = (search) => {
+              setSearchValue(search);
+              debounce(() => {
+                  fetchEventContributions(1, search);
+              }, 500);
+          };
+  
+
   const formatDateStr = (dateString) => {
       return new Date(dateString).toLocaleDateString('en-US', {year:'numeric',month:'long',day:'numeric'});
   }
 
+  const [paginateForStudents, setPaginateForStudents] = useState({
+      page: 1,
+      per_page: 10,
+      total: 0,
+      total_pages: 1
+  });
+  
+  function debounce(callback, delay=500) {
+      clearTimeout(debounceTimer);
+      setDebounceTimer(setTimeout(callback, delay));
+  }
+
+  const searchStudentsToContribute = (search) => {
+      setSearchValue(search);
+      debounce(() => {
+          fetchStudentsToContribute(1, search);
+      }, 500);
+  };
+
+  const [studentsToContribute, setStudentsToContribute] = useState([]);
+
+  const fetchStudentsToContribute = async (page=1, search="") => {
+      try {
+        const res = await fetch(`/api/events/${selectedEvent.event_id}/contributions/made?page=${page}&search=${search}`, {
+          credentials: "include"
+        });
+        const response = await res.json();
+        if (response.status === "success") {
+          setPaginateForStudents(response.meta);
+          setStudentsToContribute(response.data);
+        } else {
+          errorAlert(response.message);
+        }
+      } catch (err) {
+        errorAlert(err);
+      }
+    };
+
   useEffect(() => {
-    fetchCurrentUserAndEventsContributions();
+    fetchCurrentUser();
   }, []);
+
+  useEffect(() => {
+    fetchEventContributions();
+  }, [currentUserData]);
 
   /* ------------------ handle view event ------------------ */
   const clickedView = (event) => {
@@ -97,6 +159,7 @@ function EventContribution({ data }) {
                 <input
                   className="lg:w-85 md:w-85 w-[100%] p-1.5 bg-white rounded-md border-2 lg:mt-0 md:mt-0 mt-4 border-[#8A2791] block"
                   type="text"
+                  onKeyUp={(e) => {searchEventContributions(e.target.value)}}
                   placeholder="Search Events"
                 />
               </div>
@@ -156,6 +219,7 @@ function EventContribution({ data }) {
                 <input
                   className="lg:w-85 md:w-85 w-[100%] p-1.5 bg-white rounded-md border-2 lg:mt-0 md:mt-0 mt-4 border-[#8A2791] block"
                   type="text"
+                  onKeyUp={(e) => {searchStudentsToContribute(e.target.value)}}
                   placeholder="Search Student"
                 />
               </div>
@@ -169,8 +233,12 @@ function EventContribution({ data }) {
                 Back
               </button>
             </div>
-
-            <ContributionTable selectedEvent={selectedEvent} code={currentUserData?.department_code}/>
+            <ContributionTable
+              paginate={paginateForStudents}
+              fetchStudentsToContribute={fetchStudentsToContribute}
+              studentsToContribute={studentsToContribute}
+              selectedEvent={selectedEvent}
+              code={currentUserData?.department_code}/>
           </>
         )}
       </div>

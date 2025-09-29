@@ -3,7 +3,7 @@ import { Scanner } from "@yudiel/react-qr-scanner";
 import Quagga from "quagga";
 
 const ScanAttendance = React.forwardRef(
-  ({ animate, onAnimationEnd, onClose, code, selectedEvent, selectedEventDate }, ref) => {
+  ({ animate, onAnimationEnd, onClose, code, selectedEvent, selectedEventDate, fetchStudentAttendees }, ref) => {
     const colors = {
       CIT: "border-[#621668] text-[#621668] bg-[#621668] ",
       COE: "border-[#020180] text-[#020180] bg-[#020180]",
@@ -58,6 +58,7 @@ const ScanAttendance = React.forwardRef(
         setAttendanceMessage("Please select a time slot before marking attendance.");
         return;
       }
+      fetchStudentAttendees();
       const splittedTimeInout = timeInout.split(' ');
       const time = splittedTimeInout[0];
       const inout = splittedTimeInout[1];

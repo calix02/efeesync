@@ -2,7 +2,7 @@ import { useState } from "react";
 import { confirmAlert } from "../utils/alert";
 import "../animate.css";
 
-function TableStudent({ code , students = [], show, update, reloadStudents, year }) {
+function TableStudent({ code , students = [], show, update, reloadStudents, paginate, year }) {
   const animate = "card-In";
 
   const colors = {
@@ -146,20 +146,27 @@ function TableStudent({ code , students = [], show, update, reloadStudents, year
 
       {/* pagination controls */}
       <div className={` ${color} bg-white relative lg:ml-[270px] mt-[-10px] flex flex-col-reverse justify-center items-center`}>
-        <p className=" lg:absolute left-9">Showing of {data.length}</p>
-        <span className="flex">
-          <button className="mx-1 flex cursor-pointer items-center rounded-md border disabled:opacity-40">
+        <div className="mt-4 flex justify-center gap-2 items-center">
+          <button
+            onClick={() => reloadStudents(paginate.page - 1)}
+            disabled={paginate.page <= 1}
+            className="cursor-pointer border rounded disabled:opacity-40 p-1"
+          >
             <span className="material-symbols-outlined">chevron_left</span>
           </button>
 
-          <button className={`px-2 mx-1 rounded-md border cursor-pointer ${color} text-white`}>
-            1
-          </button>
+          <span className="px-3">
+            Page {paginate.page} of {paginate.total_pages}
+          </span>
 
-          <button className="mx-1 flex items-center cursor-pointer rounded-md border disabled:opacity-40">
+          <button
+            onClick={() => reloadStudents(paginate.page + 1)}
+            disabled={paginate.page >= paginate.total_pages}
+            className="cursor-pointer border rounded disabled:opacity-40 p-1"
+          >
             <span className="material-symbols-outlined">chevron_right</span>
           </button>
-        </span>
+        </div>
         <i
           onClick={show}
           className="fa-solid fa-circle-plus text-[50px] absolute right-[40px] top-[-40px] cursor-pointer text-[#157112] bg-white rounded-full "

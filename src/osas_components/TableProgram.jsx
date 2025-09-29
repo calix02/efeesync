@@ -105,7 +105,7 @@ function TableProgram({ code = "osas", programs = [] , update, reloadPrograms}) 
           </tbody>
         </table>
       </div>
-        {/* pagination controls */}
+        {/* pagination controls 
         <div className=" relative lg:ml-70 mt-[-10px] flex flex-col-reverse justify-center items-center">
             <p className='text-[#174515] font-[family-name:Arial] lg:text-sm text-xs lg:absolute left-9'>Showing of 600</p>  
         <span className="flex">
@@ -141,6 +141,7 @@ function TableProgram({ code = "osas", programs = [] , update, reloadPrograms}) 
 
         </span>
         </div>
+        */}
     </div>
    
   );

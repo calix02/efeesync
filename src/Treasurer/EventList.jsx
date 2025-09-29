@@ -83,6 +83,13 @@ function CITEventList(){
             fetchEvents(currentUserData.organization_id, 1, search);
         }, 500);
     };
+
+    const [paginate, setPaginate] = useState({
+                page: 1,
+                per_page: 10,
+                total: 0,
+                total_pages: 1
+            });
     
     useEffect(() => {
         fetchCurrentUser();
@@ -162,7 +169,7 @@ function CITEventList(){
                         
                     </div>
 
-                <TableEventList code={currentUserData?.department_code} formatDateStr={formatDateStr} events={eventsOrg} reloadEvents={fetchEvents} addEvent={addEvent.toggle} 
+                <TableEventList paginate={paginate} code={currentUserData?.department_code} formatDateStr={formatDateStr} events={eventsOrg} reloadEvents={fetchEvents} addEvent={addEvent.toggle} 
                 view={(row) =>{
                     viewEventDetails.toggle();
                     setSelectedEvent(row);

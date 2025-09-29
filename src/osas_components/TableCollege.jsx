@@ -108,7 +108,7 @@ function TableCollege({ code = "osas", colleges = [] , update, reloadColleges}) 
           </tbody>
         </table>
       </div>
-        {/* pagination controls */}
+        {/* pagination controls 
         <div className=" relative font-[family-name:Arial] lg:text-sm text-xs lg:ml-70 mt-[-10px] flex flex-col-reverse justify-center items-center">
             <p className='text-[#174515] lg:absolute left-9'>Showing of 600</p>  
         <span className="flex">
@@ -144,6 +144,7 @@ function TableCollege({ code = "osas", colleges = [] , update, reloadColleges}) 
 
         </span>
         </div>
+        */}
     </div>
    
   );

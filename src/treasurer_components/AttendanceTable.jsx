@@ -2,7 +2,7 @@ import { useState, useEffect, useMemo } from "react";
 import { errorAlert, confirmAlert } from '../utils/alert.js';
 import "../animate.css";
 
-function AttendanceTable({ code, attendees = [], scanAttendee, selectedEvent, selectedEventDate}) {
+function AttendanceTable({ code, attendees = [], scanAttendee, attendanceKeys, studentAttendees, fetchStudentAttendees, paginate, selectedEvent, searchValue, selectedEventDate}) {
   const animate = "card-In";
 
   const textColor =
@@ -15,35 +15,6 @@ function AttendanceTable({ code, attendees = [], scanAttendee, selectedEvent, se
     : "text-black";
 
   const fallback = [];
-
-  const [paginate, setPaginate] = useState({
-    page: 1,
-    per_page: 10,
-    total: 0,
-    total_pages: 1
-  });
-
-  const [studentAttendees, setStudentAttendees] = useState([]);
-  const [attendanceKeys, setAttendanceKeys] = useState([]);
-
-  const fetchStudentAttendees = async (page=1, search="") => {
-    if (!selectedEventDate) return;
-    try {
-      const res = await fetch(`/api/events/${selectedEvent.event_id}/attendance/made/date/${selectedEventDate}?page=${page}&search=${search}`, {
-        credentials: "include"
-      });
-      const response = await res.json();
-      if (response.status === "success") {
-        setPaginate(response.meta);
-        setStudentAttendees(response.data);
-        if (response.data.length > 0) {
-          setAttendanceKeys(Object.keys(response.data[0].attendance));
-        }
-      }
-    } catch (err) {
-      errorAlert("Fetch Failed" + err);
-    }
-  };
 
   const changeStudentAttendance = async (student_number_id, timeinout, target) => {
     const time = timeinout.split(" ")[0];

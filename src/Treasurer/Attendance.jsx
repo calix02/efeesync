@@ -35,12 +35,13 @@ const animateL = "left-In";
     const [selectedAttendee, setSelectedAttendee] = useState(null);
     const [selectedAttendanceDate, setSelectedAttendanceDate] = useState("");
     const [searchValue, setSearchValue] = useState("");
+    // const [searchValueForAtt, setSearchValueForAtt] = useState("");
 
     const [currentUserData, setCurrentUserData] = useState([]);
         
     const [eventAttendanceData, setEventAttendanceData] = useState([]);
     
-      const fetchCurrentUserAndEventsAttendance = async () => {
+      const fetchCurrentUser = async () => {
         try {
           const res = await fetch("/api/users/current", {
             credentials: "include"
@@ -48,25 +49,32 @@ const animateL = "left-In";
           const response = await res.json();
           if (response.status === "success") {
             setCurrentUserData(response.data);
-            const anotherRes = await fetch(`/api/organizations/code/${(response.data).organization_code}/events?type=attendance`, {
+          }
+        } catch (err) {
+          errorAlert("Fetch Failed");
+        }
+      };
+
+      const fetchEventAttendance =  async (page=1, search="", org_code=currentUserData?.organization_code) => {
+        const anotherRes = await fetch(`/api/organizations/code/${org_code}/events?type=attendance&page=${page}&search=${search}`, {
               credentials: "include"
             });
             const anotherResponse = await anotherRes.json();
             if (anotherResponse.status === "success") {
               setEventAttendanceData(anotherResponse.data);
             }
-          }
-        } catch (err) {
-          errorAlert("Fetch Failed");
-        }
-      };
+      }
     
     useEffect(() => {
-        fetchCurrentUserAndEventsAttendance();
+        fetchCurrentUser();
         if (selectedEvent && selectedEvent.attendance.length > 0) {
             setSelectedAttendanceDate(selectedEvent.attendance[0].event_attend_date);
         }
     }, [selectedEvent]);
+
+    useEffect(()=> {
+        fetchEventAttendance();
+    }, [currentUserData]);
 
     const clickedView = (event) => {
         setSelectedEvent(event);
@@ -76,6 +84,55 @@ const animateL = "left-In";
     const formatDateStr = (dateString) => {
         return new Date(dateString).toLocaleDateString('en-US', {year:'numeric',month:'long',day:'numeric'});
     }
+
+    const [paginateForStudents, setPaginateForStudents] = useState({
+            page: 1,
+            per_page: 10,
+            total: 0,
+            total_pages: 1
+        });
+
+        const [debounceTimer, setDebounceTimer] = useState(null);
+        
+        function debounce(callback, delay=500) {
+            clearTimeout(debounceTimer);
+            setDebounceTimer(setTimeout(callback, delay));
+        }
+    
+        const searchEventAttendance = (search) => {
+            setSearchValue(search);
+            debounce(() => {
+                fetchEventAttendance(1, search);
+            }, 500);
+        };
+    
+      const [studentAttendees, setStudentAttendees] = useState([]);
+      const [attendanceKeys, setAttendanceKeys] = useState([]);
+    
+      const fetchStudentAttendees = async (page=1, search="") => {
+        if (!selectedAttendanceDate) return;
+        try {
+          const res = await fetch(`/api/events/${selectedEvent.event_id}/attendance/made/date/${selectedAttendanceDate}?page=${page}&search=${search}`, {
+            credentials: "include"
+          });
+          const response = await res.json();
+          if (response.status === "success") {
+            setPaginateForStudents(response.meta);
+            setStudentAttendees(response.data);
+            if (response.data.length > 0) {
+              setAttendanceKeys(Object.keys(response.data[0].attendance));
+            }
+          }
+        } catch (err) {
+          errorAlert("Fetch Failed" + err);
+        }
+      };
+
+      const searchStudentAttendees = (search) => {
+            debounce(() => {
+                fetchStudentAttendees(1, search);
+            }, 500);
+        };
 
     return(
         <>
@@ -104,7 +161,7 @@ const animateL = "left-In";
         }
         {scanAttendee.isVisible &&(
             <div className="fixed inset-0 flex justify-center items-center bg-[#00000062] lg:z-40 md:z-50 z-70 pointer-events-auto">
-            <ScanAttendance ref={scanRef} selectedEvent={selectedEvent} selectedEventDate={selectedAttendanceDate} code={currentUserData?.department_code} onAnimationEnd={scanAttendee.handleEnd} animate={scanAttendee.animation} onClose={() => scanAttendee.setAnimation("fade-out")}/>
+            <ScanAttendance ref={scanRef} fetchStudentAttendees={fetchStudentAttendees} selectedEvent={selectedEvent} selectedEventDate={selectedAttendanceDate} code={currentUserData?.department_code} onAnimationEnd={scanAttendee.handleEnd} animate={scanAttendee.animation} onClose={() => scanAttendee.setAnimation("fade-out")}/>
             </div>
         )
 
@@ -120,7 +177,7 @@ const animateL = "left-In";
                      <div className="lg:mt-30 mt-25 lg:ml-70 lg:flex md:flex  justify-between">
                         <h2 className="text-2xl font-medium font-[family-name:Futura Bold]">Manage Attendance</h2>
                         <div className={`flex ${animateR} items-center lg:px-0 md:px-0 px-3`}>
-                            <input className='lg:w-85 md:w-85 w-[100%] p-1.5 bg-white rounded-md border-2 lg:mt-0 md:mt-0 mt-4   border-[#8A2791] block' type="text" placeholder='Search Events' onChange={(e) => {setSearchValue(e.target.value)} } />
+                            <input className='lg:w-85 md:w-85 w-[100%] p-1.5 bg-white rounded-md border-2 lg:mt-0 md:mt-0 mt-4   border-[#8A2791] block' type="text" placeholder='Search Events' onKeyUp={(e) => {searchEventAttendance(e.target.value)} } />
                         </div>
                     </div>
                     <div className=' w-[100%] mt-3 '>
@@ -165,8 +222,7 @@ const animateL = "left-In";
                         <div className={`flex ${animateR} items-center lg:px-0 md:px-0 px-3`}>
                             <input className="lg:w-85 md:w-85 w-[100%] p-1.5 bg-white rounded-md border-2 lg:mt-0 md:mt-0 mt-4 border-[#8A2791] block"
                             type="text"
-                            onChange={(e) => {setSearchValue(e.target.value)} }
-                            value={searchValue}
+                            onKeyUp={(e) => {searchStudentAttendees(e.target.value)} }
                             placeholder="Search Student Attendees"/>
                         </div>
                     </div>
@@ -187,9 +243,12 @@ const animateL = "left-In";
                         </button>
                     </div>
                     <AttendanceTable
+                        paginate={paginateForStudents}
+                        studentAttendees={studentAttendees}
+                        attendanceKeys={attendanceKeys}
+                        fetchStudentAttendees={fetchStudentAttendees}
                         selectedEvent={selectedEvent}
                         selectedEventDate={selectedAttendanceDate}
-                        searchValue={searchValue}
                         scanAttendee={scanAttendee.toggle}
                     />
                 </>

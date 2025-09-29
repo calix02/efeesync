@@ -103,7 +103,7 @@ function TableOrganisation({ code = "osas", organizations = [] , update, reloadO
           </tbody>
         </table>
       </div>
-        {/* pagination controls */}
+        {/* pagination controls
         <div className=" relative lg:ml-70 mt-[-10px] font-[family-name:Arial] lg:text-sm text-xs flex flex-col-reverse justify-center items-center">
             <p className='text-[#174515] lg:absolute left-9'>Showing of 600</p>  
         <span className="flex">
@@ -139,6 +139,7 @@ function TableOrganisation({ code = "osas", organizations = [] , update, reloadO
 
         </span>
         </div>
+        */}
     </div>
    
   );

@@ -20,7 +20,7 @@ function CITStudent(){
     const params = new URLSearchParams(location.search);
     const year = params.get("year");
 
-    const [currentUserData, setCurrentUserData] = useState([]);
+    const [currentUserData, setCurrentUserData] = useState(localStorage.getItem("basta") || []);
     const [searchValue, setSearchValue] = useState("");
     const [students, setStudents] = useState([]);
     const [debounceTimer, setDebounceTimer] = useState(null);
@@ -78,10 +78,18 @@ function CITStudent(){
 
     useEffect(() => {
         fetchCurrentUser();
+        localStorage.setItem("basta", currentUserData);
     }, []);
 
     useEffect(() => {
     }, [currentUserData]);
+
+    const [paginate, setPaginate] = useState({
+            page: 1,
+            per_page: 10,
+            total: 0,
+            total_pages: 1
+        });
 
     const [file, setFile] = useState(null);
 
@@ -193,6 +201,7 @@ function CITStudent(){
                 </div>
                 <TableStudent code={currentUserData?.department_code}  year= {year}
                 reloadStudents={fetchStudents} 
+                paginate={paginate}
                 students={students} 
                 show={addStudent.toggle} 
                 update={(row) =>{

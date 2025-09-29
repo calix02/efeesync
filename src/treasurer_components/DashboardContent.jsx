@@ -28,7 +28,11 @@ function CITDashboard({currentUserData}) {
         "event_summary": []
     });
 
-     const events = [];
+       const events = [
+    { name: "IT Week", date: "2025-09-30", attendee: "1st Year, 2nd Year, 3rd Year, 4th Year", eventType: "Attendance" },
+    { name: "Sportsfest", date: "2025-10-05", attendee: "1st Year, 2nd Year, 3rd Year, 4th Year", eventType: "Contribution" },
+    { name: "General Assembly", date: "2025-10-08", attendee: "1st Year, 2nd Year, 3rd Year, 4th Year", eventType: "Attendance, Contribution" },
+  ];
 
     const fetchDashboard = async () => {
         if (!currentUserData) return;

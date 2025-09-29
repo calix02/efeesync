@@ -24,9 +24,26 @@ function Attendance(){
                     errorAlert("Fetch Failed");
                 }
             }
+
+            const [attendanceStatus, setAttendanceStatus] = useState({"attended_events": [], "excused_events": []})
+
+            const fetchAttendanceStatus = async () => {
+                    try {
+                        const res = await fetch(`/api/students/current/attendance/status`, {
+                            credentials: "include"
+                        });
+                        const response = await res.json();
+                        if (response.status === "success") {
+                            setAttendanceStatus(response.data);
+                        }
+                    } catch (err) {
+                        errorAlert("Fetch Failed");
+                    }
+                }
+            
             useEffect(() => {
                 fetchCurrentUser();
-                console.log(currentUserData);
+                fetchAttendanceStatus();
             }, []);
        
     return(
@@ -36,9 +53,10 @@ function Attendance(){
             <div className="mt-[110px] lg:ml-70">
                 <h2 className="text-2xl font-semibold ml-6">My Attendance</h2>
             </div>
+            
             <div className="lg:ml-70 grid lg:grid-cols-2 md:grid-cols-2 grid-cols-1 px-8 justify-center gap-6 mt-6">
-                <EventAttended/>
-                <EventExcuse/>
+                <EventAttended eventAttended={attendanceStatus?.attended_events}/>
+                <EventExcuse attendanceExcuse={attendanceStatus?.excused_events}/>
             </div>
             
         </div>

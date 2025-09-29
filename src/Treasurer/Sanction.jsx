@@ -37,6 +37,16 @@ function CITSanction() {
             fetchCurrentUser();
             console.log(currentUserData);
         }, []);
+    const hoverColors = {
+            CIT: " hover:bg-[#621668]",
+            COE: "hover:bg-[#020180]",
+            COC: "hover:bg-[#660A0A]",
+            COT: "hover:bg-[#847714]",
+            ESAF: "hover:bg-[#6F3306]",
+            SSC: "hover:bg-[#174515]"
+        };
+    const hoverColor = hoverColors[currentUserData?.department_code] || "hover:bg-[#174515]";
+        
 
     return (
         <>
@@ -65,7 +75,7 @@ function CITSanction() {
                 <div className="w-100% mt-3">
                     <div className={`lg:ml-70 ${animateL} flex lg:justify-start md:justify-start justify-center gap-2.5`}>
                         <select
-                            className="bg-white w-35  border-1 border-[#8A2791] transition duration-100 hover:scale:100 hover:bg-[#8A2791] hover:text-white cursor-pointer py-1 font-semibold text-[#8A2791] rounded-md text-xs text-center"
+                            className={`bg-white w-35 ${hoverColor}  border-1  transition duration-100 hover:scale:105  hover:text-white cursor-pointer py-1 font-semibold  rounded-md text-xs text-center`}
                             value={selectedSanction}
                             onChange={(e) => setSelectedSanction(e.target.value)}
                         >
@@ -73,12 +83,12 @@ function CITSanction() {
                             <option value="Community Service">Community Service</option>
                         </select>
 
-                        <select className="bg-white lg:w-25 w-20 border-1 cursor-pointer border-[#8A2791] py-1 font-semibold text-[#8A2791] transition duration-100 hover:bg-[#8A2791] hover:scale-100 hover:text-white rounded-md text-xs text-center">
+                        <select className={`bg-white ${hoverColor} lg:w-25 w-20 border-1 cursor-pointer  py-1 font-semibold transition duration-100  hover:scale-100 hover:text-white rounded-md text-xs text-center`}>
                             <option value="">Year</option>
                             <option value="">hey</option>
                         </select>
 
-                         <select className="bg-white lg:w-25 w-20 border-1 cursor-pointer border-[#8A2791] py-1 font-semibold text-[#8A2791] transition duration-100 hover:bg-[#8A2791] hover:scale-100 hover:text-white rounded-md text-xs text-center">
+                         <select className={`bg-white ${hoverColor} lg:w-25 w-20 border-1 cursor-pointer  py-1 font-semibold transition duration-100  hover:scale-100 hover:text-white rounded-md text-xs text-center`}>
                             <option value="">Section</option>
                             <option value="">hey</option>
                         </select>

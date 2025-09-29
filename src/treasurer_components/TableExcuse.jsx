@@ -9,14 +9,25 @@ import "../animate.css";
 function TableExcuse({ code = "cit", excuses = [], viewLetter }) {
   const animate = "card-In";
   /* --------------------------------- colors -------------------------------- */
-  const textColor =
-    code === "cit" ? "text-[#4F1C51]"
-    : code === "coe" ? "text-[#0E2148]"
-    : code === "coc" ? "text-[#3A0519]"
-    : code === "cot" ? "text-[#FFD95F]"
-    : code === "eap" ? "text-[#4B352A]"
-    : code === "osas" ? "text-[#27391C]"
-    : "text-blue";
+  const colors = {
+    CIT: "border-[#621668] text-[#621668] bg-[#621668]",
+    COE: "border-[#020180] text-[#020180] bg-[#020180]",
+    COC: "border-[#660A0A] text-[#660A0A] bg-[#660A0A]",
+    COT: "border-[#847714] text-[#847714] bg-[#847714]",
+    ESAF: "border-[#6F3306] text-[#6F3306] bg-[#6F3306]",
+    SSC: "border-[#174515] text-[#174515] bg[#174515]",
+  };
+
+  const color = colors[code] || "border-[#174515] text-[#174515] bg-[#174515]";
+  const hoverColors = {
+            CIT: " hover:bg-[#621668]",
+            COE: "hover:bg-[#020180]",
+            COC: "hover:bg-[#660A0A]",
+            COT: "hover:bg-[#847714]",
+            ESAF: "hover:bg-[#6F3306]",
+            SSC: "hover:bg-[#174515]"
+        };
+  const hoverColor = hoverColors[code] || "hover:bg-[#174515]";
 
 
   /* ---------------------------- sample fallback ---------------------------- */
@@ -40,7 +51,7 @@ function TableExcuse({ code = "cit", excuses = [], viewLetter }) {
       <div className="lg:ml-70 bg-white text-black font-[family-name:Arial] lg:text-sm text-xs flex-grow p-5  mt-3 rounded-lg shadow-[2px_2px_2px_grey]">
         <table className="w-full text-center ">
           <thead>
-            <tr className={`border-b-2 border-[#adadad] ${textColor}`}>
+            <tr className={`border-b-2 border-[#adadad] bg-white ${color}`}>
               <th>Student ID</th>
               <th>Student Name</th>
               <th>Year &amp; Section</th>
@@ -62,7 +73,7 @@ function TableExcuse({ code = "cit", excuses = [], viewLetter }) {
                 <td>{s.eventName}</td>
                 <td>{s.date}</td>
                 <td className="flex justify-center py-3" >
-                  <button onClick={viewLetter} className="bg-white py-1 flex items-center gap-1 justify-center lg:px-5 md:px-5 px-2  border-1 text-sm cursor-pointer hover:bg-[#621668] hover:text-white transition duration-200 border-[#621668] text-[#621668] rounded-md"><i className="fa-regular fa-eye"></i>Letter</button>
+                  <button onClick={viewLetter} className={`bg-white ${hoverColor} ${color} py-1 flex items-center gap-1 justify-center lg:px-5 md:px-5 px-2  border-1 text-sm cursor-pointer  hover:text-white transition duration-200  rounded-md`}><i className="fa-regular fa-eye"></i>Letter</button>
                 </td>
                 
                 <td className="lg:text-lg md:text-lg text-sm">
@@ -75,8 +86,8 @@ function TableExcuse({ code = "cit", excuses = [], viewLetter }) {
         </table>
       </div>
         {/* pagination controls */}
-        <div className=" relative lg:ml-70 font-[family-name:Arial] lg:text-sm text-xs mt-[-10px] flex flex-col-reverse justify-center items-center">
-            <p className='text-[#8A2791] lg:absolute left-9'>Showing of 600</p>  
+        <div className={` ${color} bg-[#fff0] relative lg:ml-70 font-[family-name:Arial] lg:text-sm text-xs mt-[-10px] flex flex-col-reverse justify-center items-center`}>
+            <p className={` ${color} bg-[#fff0] lg:absolute left-9`}>Showing of 600</p>  
         <span className="flex">
              <button
             className=" mx-1 flex items-center rounded-md cursor-pointer  border disabled:opacity-40"
@@ -85,7 +96,7 @@ function TableExcuse({ code = "cit", excuses = [], viewLetter }) {
 
           </button>
 
-            <button className={`px-2 mx-1 rounded-md bg-[#621668] text-white border cursor-pointer`}>1</button>
+            <button className={`px-2 ${color} mx-1 rounded-md text-white border cursor-pointer`}>1</button>
 
           <button
            className=" mx-1 flex items-center cursor-pointer rounded-md border disabled:opacity-40"

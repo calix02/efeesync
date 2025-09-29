@@ -1,11 +1,20 @@
-function FinancialTable({title, financialData =[]}) {
+function FinancialTable({title, financialData =[], code }) {
+ const hoverColors = {
+            CIT: " hover:bg-[#621668]",
+            COE: "hover:bg-[#020180]",
+            COC: "hover:bg-[#660A0A]",
+            COT: "hover:bg-[#847714]",
+            ESAF: "hover:bg-[#6F3306]",
+            SSC: "hover:bg-[#174515]"
+        };
+    const hoverColor = hoverColors[code] || "hover:bg-[#174515]";
    
     return (
         <div className=" w-[100%] h-105 relative bg-white font-[family-name:Arial] border rounded-lg shadow-[2px_2px_grey]">
             <div className="flex justify-between items-center border-b-2 border-[#686767] mx-5 py-3">
                 <h1 className="text-lg font-semibold font-[family-name:Helvetica]">{title}</h1>
                 <span className="flex gap-2">
-                    <button className="border text-xs border-black flex gap-1.5 rounded-md justify-center items-center w-25 py-1">
+                    <button title="Print" onClick={()=>{window.print()}} className={` ${hoverColor} hover:text-white transition duration-200 hover:scale-105 cursor-pointer border text-xs border-black flex gap-1.5 rounded-md justify-center items-center w-25 py-1`}>
                         <i className="fa-solid fa-print"></i> Print
                     </button>
                 </span>

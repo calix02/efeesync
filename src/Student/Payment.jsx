@@ -64,7 +64,7 @@ function Payment(){
             </>
          )   
         }
-        <Header code={currentUserData?.department_code} title ={currentUserData?.organization_name}/>
+        <Header code={currentUserData?.department_code} title ={currentUserData?.department_name}/>
         <div className="w-screen h-screen bg-[#F8F8F8] absolute z-[-1] overflow-y-auto overflow-x-auto ">
              <div className="mt-[110px] lg:ml-70 flex justify-between px-6">
                 <h2 className="text-2xl font-semibold ">My Payments</h2>

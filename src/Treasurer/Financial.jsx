@@ -58,8 +58,8 @@ function CITFinancial(){
                     <FinancialCard title="Ending Balance" amount="P0.00" bgColor="bg-[#CCEBFF]"/>
                 </div>
                 <div className={` ${animate} lg:ml-70 lg:mt-6 mt-3 lg:gap-6 gap-3 flex lg:flex-row flex-col items-center justify-center`}>
-                    <FinancialTable title="Cash Inflow" financialData={cashInFlow}/>
-                    <FinancialTable title="Cash Outflow" financialData={cashOutFlow}/>
+                    <FinancialTable code={currentUserData?.department_code} title="Cash Inflow" financialData={cashInFlow}/>
+                    <FinancialTable code={currentUserData?.department_code}  title="Cash Outflow" financialData={cashOutFlow}/>
 
                 </div>
 

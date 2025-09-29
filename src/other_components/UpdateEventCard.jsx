@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { successAlert, errorAlert } from "../utils/alert.js";
 
 const UpdateEventCard = React.forwardRef(
-  ({ animate, onAnimationEnd, onClose, data, reloadEvents, currentUserData }, ref) => {
+  ({ animate, onAnimationEnd, onClose, data, reloadEvents, currentUserData,code }, ref) => {
     const years = ["1st Year", "2nd Year", "3rd Year", "4th Year"];
     const logOptions = ["AM IN", "AM OUT", "PM IN", "PM OUT"];
 
@@ -135,11 +135,20 @@ const UpdateEventCard = React.forwardRef(
         errorAlert("Failed to update event.");
       }
     };
+     const colors = {
+            CIT: "border-[#621668] text-[#621668] bg-[#621668]",
+            COE: "border-[#020180] text-[#020180] bg-[#020180]",
+            COC: "border-[#660A0A] text-[#660A0A] bg-[#660A0A]",
+            COT: "border-[#847714] text-[#847714] bg-[#847714]",
+            ESAF: "border-[#6F3306] text-[#6F3306] bg-[#6F3306]",
+            SSC: "border-[#174515] text-[#174515] bg-[#174515]"
+        };
+    const color = colors[code] || "border-[#174515] text-[#174515] bg-[#174515]";
 
     return (
       <div
         ref={ref}
-        className={`${animate} lg:w-100 md:w-100 w-80 max-h-[90vh] hide-scrollbar overflow-y-scroll py-6 text-sm font-[family-name:Arial] px-6 bg-white shadow rounded-lg z-80 inset-0 mx-auto`}
+        className={`${animate} ${color} lg:w-100 md:w-100 w-80 max-h-[90vh] hide-scrollbar overflow-y-scroll py-6 text-sm font-[family-name:Arial] px-6 bg-white shadow rounded-lg z-80 inset-0 mx-auto`}
         onAnimationEnd={onAnimationEnd}
       >
         <div className="relative">
@@ -150,8 +159,8 @@ const UpdateEventCard = React.forwardRef(
             disabled_by_default
           </span>
         </div>
-        <div className="border-b-4 border-[#8A2791] mb-4">
-          <span className="text-[#8A2791] font-semibold text-xl">Update Event</span>
+        <div className="border-b-4 mb-4">
+          <span className=" font-semibold text-xl">Update Event</span>
         </div>
 
         <form
@@ -166,20 +175,20 @@ const UpdateEventCard = React.forwardRef(
             type="text"
             value={eventName}
             onChange={(e) => setEventName(e.target.value)}
-            className="border-2 px-2 border-[#8A2791] h-8 rounded-md w-full mb-3"
+            className="border-2 text-black px-2  h-8 rounded-md w-full mb-3"
           />
 
           <label>Event Description:</label>
           <textarea
             value={eventDesc}
             onChange={(e) => setEventDesc(e.target.value)}
-            className="border-2 px-2 border-[#8A2791] h-20 rounded-md w-full mb-3"
+            className="border-2 px-2  text-black h-20 rounded-md w-full mb-3"
           />
 
           <label>Target Year:</label>
-          <div className="flex gap-2 border-2 border-[#8A2791] rounded-md p-2 mb-3">
+          <div className="flex gap-2 border-2  rounded-md p-2 mb-3">
             {years.map((year) => (
-              <label key={year} className="flex items-center gap-1">
+              <label key={year} className="flex text-black items-center gap-1">
                 <input
                   type="checkbox"
                   checked={selectedYear.includes(year)}
@@ -191,9 +200,9 @@ const UpdateEventCard = React.forwardRef(
           </div>
 
           <label>Event Category:</label>
-          <div className="flex gap-2 border-2 border-[#8A2791] rounded-md p-2 mb-3">
+          <div className="flex gap-2 border-2  rounded-md p-2 mb-3">
             {["With Contribution", "With Attendance"].map((type) => (
-              <label key={type} className="flex items-center gap-1">
+              <label key={type} className="flex text-black items-center gap-1">
                 <input
                   type="checkbox"
                   checked={selectedType.includes(type)}
@@ -210,13 +219,13 @@ const UpdateEventCard = React.forwardRef(
               placeholder="Event Fee"
               value={eventFee}
               onChange={(e) => setEventFee(e.target.value)}
-              className="border p-2 w-full mb-3"
+              className="border p-2 w-full mb-3 text-black"
             />
           )}
 
           {selectedType.includes("With Attendance") && (
             <>
-              <div className="border-2 border-[#8A2791] rounded-md p-2 mb-3 text-xs">
+              <div className="border-2  rounded-md p-2 mb-3 text-xs">
                 {dates.map((d, i) => (
                   <div key={d.id} className="mb-2">
                     <p className="font-semibold">
@@ -262,7 +271,7 @@ const UpdateEventCard = React.forwardRef(
 
           <button
             type="submit"
-            className="bg-[#8A2791] rounded-md text-white w-full h-8 mt-4"
+            className={` ${color} rounded-md text-white w-full h-8 mt-4`}
           >
             Update Event
           </button>

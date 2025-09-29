@@ -169,7 +169,7 @@ function Setting(){
         
        
         
-        <Header code={currentUserData?.department_code} title = {currentUserData?.organization_name}/>
+        <Header code={currentUserData?.department_code} title = {currentUserData?.department_name}/>
          <div className="w-screen h-screen bg-[#fafafa] absolute z-[-1] overflow-y-auto overflow-x-auto lg:px-6 md:px-10 px-3 ">
                 <div className="lg:mt-30 mt-25 lg:ml-68">
                     <h2 className="text-2xl font-semibold font-poppins">Manage Settings</h2>

@@ -32,13 +32,23 @@ function PaymentTransaction() {
             fetchCurrentUser();
             console.log(currentUserData);
         }, []);
+
+    const hoverColors = {
+            CIT: " hover:bg-[#621668]",
+            COE: "hover:bg-[#020180]",
+            COC: "hover:bg-[#660A0A]",
+            COT: "hover:bg-[#847714]",
+            ESAF: "hover:bg-[#6F3306]",
+            SSC: "hover:bg-[#174515]"
+        };
+    const hoverColor = hoverColors[currentUserData?.department_code] || "hover:bg-[#174515]";
         
     return (
         <>
         {viewProof.isVisible && (
             <div className="fixed inset-0 flex justify-center items-center bg-[#00000062]  lg:z-40 md:z-50 z-70 pointer-events-auto">
                     {/* Overlay */}
-                    <ProofPayment ref={viewProofRef} data={selectedStudent} onAnimationEnd={viewProof.handleEnd} animate={viewProof.animation} onClose={() => viewProof.setAnimation("fade-out")} />
+                    <ProofPayment code={currentUserData?.department_code} ref={viewProofRef} data={selectedStudent} onAnimationEnd={viewProof.handleEnd} animate={viewProof.animation} onClose={() => viewProof.setAnimation("fade-out")} />
                 </div>
         )}
 
@@ -48,21 +58,19 @@ function PaymentTransaction() {
                 <div className="lg:mt-30 mt-25 lg:ml-70 lg:flex md:flex  md:justify-between   lg:justify-between">
                     <h2 className="text-2xl font-[family-name:Futura Bold] font-semibold">Payments</h2>
                     <div className={`flex ${animateR} items-center lg:px-0 md:px-0 px-3`}>
-                    <input className='lg:w-85 md:w-85 w-[100%] p-1.5 bg-white rounded-md border-2 lg:mt-0 md:mt-0 mt-4   border-[#8A2791] block' type="text" placeholder='Search Student' />
+                    <input className='lg:w-85 md:w-85 w-[100%] p-1.5 bg-white rounded-md border-2 lg:mt-0 md:mt-0 mt-4  block' type="text" placeholder='Search Student' />
                     </div>
                 </div>
 
                <div className=' w-[100%] mt-3 '>
                     <div className={`lg:ml-70 ${animateL} flex lg:justify-start md:justify-start font-[family-name:Arial]  justify-center gap-2.5`}>
-                         <select className='bg-white lg:w-25  w-20 text-xs transition duration-100 hover:scale-100 hover:bg-[#621668] hover:text-white cursor-pointer border-1 border-[#8A2791] py-1  text-[#8A2791] rounded-md text-center'  name="" id="">
+                         <select className={`bg-white lg:w-25 ${hoverColor}  w-20 text-xs transition duration-100 hover:scale-100  hover:text-white cursor-pointer border-1 py-1  rounded-md text-center`}  name="" id="">
                             <option value="">Year</option>
                             <option value="">hey</option>
-
                         </select>
-                         <select className='bg-white lg:w-25  w-20 text-xs transition duration-100 hover:scale-100 hover:bg-[#621668] hover:text-white cursor-pointer border-1 border-[#8A2791] py-1  text-[#8A2791] rounded-md text-center'  name="" id="">
+                         <select className={`bg-white lg:w-25 ${hoverColor}  w-20 text-xs transition duration-100 hover:scale-100  hover:text-white cursor-pointer border-1 py-1  rounded-md text-center`}  name="" id="">
                             <option value="">Sort by</option>
                             <option value="">hey</option>
-
                         </select>
                          
                         
@@ -70,7 +78,7 @@ function PaymentTransaction() {
                     <TablePaymentTransaction viewProof={(row)=>{
                         viewProof.toggle();
                         setSelectedStudent(row)
-                        }}  code="cit" />
+                        }}  code={currentUserData?.department_code} />
                     
                 </div>
             </div>

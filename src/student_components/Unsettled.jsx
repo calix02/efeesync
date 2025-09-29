@@ -1,10 +1,11 @@
 import "../animate.css";
-function Unsettled({unsettledEvents}){
+function Unsettled({unsettledEvents,total}){
     const animate = "right-In";
     return(
-         <div className={` ${animate} w-[100%] h-118  bg-white px-6 border-3 text-[#F1A917] border-[#F1A917] rounded-lg shadow-[2px_2px_3px_grey]`}>
+         <div className={` ${animate} overflow-y-scroll hide-scrollbar w-[100%] h-130  bg-white px-6 border-3 text-[#F1A917] border-[#F1A917] rounded-lg shadow-[2px_2px_3px_grey]`}>
             <div className="border-b-4 border-[#F1A917] p-1.5 mt-2">
                 <span className="text-xl font-semibold">Unsettled</span>
+                <p className="font-[family-name:Arial] text-sm ">Total UnPaid Fees: P{total} </p>
             </div>
             <div>
                 {unsettledEvents.map((ue) => (

@@ -145,7 +145,7 @@ function TableStudent({ code , students = [], show, update, reloadStudents, pagi
       </div>
 
       {/* pagination controls */}
-      <div className={` ${color} bg-white relative lg:ml-[270px] mt-[-10px] flex flex-col-reverse justify-center items-center`}>
+      <div className={` relative lg:ml-[270px] mt-[-10px] flex flex-col-reverse justify-center items-center`}>
         <div className="mt-4 flex justify-center gap-2 items-center">
           <button
             onClick={() => reloadStudents(paginate.page - 1)}

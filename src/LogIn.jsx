@@ -2,6 +2,7 @@ import School from './assets/CBSUA-Image.png';
 import Logo from './assets/Final_Logo.png'
 import Cbsua from './assets/cbsua.png';
 import LogInOption from './other_components/LogInOption.jsx';
+import Pattern from './assets/pattern.png';
 import { okAlert, errorAlert } from "./utils/alert.js"; 
 import React, {useState} from 'react';
 
@@ -86,6 +87,7 @@ function LogIn(){
     }
    
 
+
     return(
         <>
          {showLogInOption === true &&(
@@ -105,13 +107,14 @@ function LogIn(){
                         </span> 
                     </div>
                 </div>
-            <div className="bg-white lg:w-[50%] w-[100%] flex h-screen justify-center items-center">
+            <div className="bg-white lg:w-[50%] relative w-[100%] flex h-screen justify-center items-center">
+                <img src={Pattern} className='lg:w-60  absolute right-0 bottom-0' alt="" />
                 <div className="w-[100%] lg:mt-0 mt-[-230px]">
                     <div className="flex flex-col items-center">
                         <img className="lg:w-25 w-35 lg:z-30 z-40" src={Cbsua} alt="" />
                         <h2 className=" mt-6 text-[#174515] font-bold text-2xl font-poppins">Welcome to eFeeSync</h2>
                     </div>
-                    <div className=" flex flex-col justify-center mt-4 ">
+                    <div className=" flex flex-col z-80 justify-center mt-4 ">
                         <form className="px-6 lg:px-40 md:px-50" >
                             <label className="font-semibold text-md font-poppins" htmlFor="">Email:</label><br />
                             <input type="email" onChange={changeEmail} value={emailData}  className="bg-white mb-2 border-2 font-semibold font-inter text-md border-[#000] w-[100%] px-2 py-2 rounded-md" /><br />

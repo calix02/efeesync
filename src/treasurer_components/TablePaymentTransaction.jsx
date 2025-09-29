@@ -6,17 +6,30 @@ import "../animate.css";
  * @param {string} code       – org code ("cit", "coe", …) to color the header text
  * @param {Array}  payments   – array of { id, name, yearSection }
  */
-function TablePaymentTransaction({ code = "cit",viewProof, payments = [] }) {
+function TablePaymentTransaction({ viewProof, payments = [], code }) {
   const animate = "card-In";
   /* --------------------------------- colors -------------------------------- */
-  const textColor =
-    code === "cit" ? "text-[#4F1C51]"
-    : code === "coe" ? "text-[#0E2148]"
-    : code === "coc" ? "text-[#3A0519]"
-    : code === "cot" ? "text-[#FFD95F]"
-    : code === "eap" ? "text-[#4B352A]"
-    : code === "osas" ? "text-[#27391C]"
-    : "text-blue";
+    const colors = {
+    CIT: "border-[#621668] text-[#621668] bg-[#621668]",
+    COE: "border-[#020180] text-[#020180] bg-[#020180]",
+    COC: "border-[#660A0A] text-[#660A0A] bg-[#660A0A]",
+    COT: "border-[#847714] text-[#847714] bg-[#847714]",
+    ESAF: "border-[#6F3306] text-[#6F3306] bg-[#6F3306]",
+    SSC: "border-[#174515] text-[#174515] bg[#174515]",
+  };
+
+  const color = colors[code] || "border-[#174515] text-[#174515] bg-[#174515]";
+  const hoverColors = {
+            CIT: " hover:bg-[#621668]",
+            COE: "hover:bg-[#020180]",
+            COC: "hover:bg-[#660A0A]",
+            COT: "hover:bg-[#847714]",
+            ESAF: "hover:bg-[#6F3306]",
+            SSC: "hover:bg-[#174515]"
+        };
+  const hoverColor = hoverColors[code] || "hover:bg-[#174515]";
+
+
 
 
   /* ---------------------------- sample fallback ---------------------------- */
@@ -55,7 +68,7 @@ function TablePaymentTransaction({ code = "cit",viewProof, payments = [] }) {
       <div className="lg:ml-70 bg-white font-[family-name:Arial] lg:text-sm text-xs text-black flex-grow lg:p-5 p-2 mt-3 rounded-lg shadow-[2px_2px_2px_grey]">
         <table className="w-full text-center ">
           <thead>
-            <tr className={`border-b-2 border-[#adadad] ${textColor}`}>
+            <tr className={`border-b-2 border-[#adadad] bg-[#fff0] ${color}`}>
               <th className="hidden lg:block">Student ID</th>
               <th>Student Name</th>
               <th>Event Name</th>
@@ -76,7 +89,7 @@ function TablePaymentTransaction({ code = "cit",viewProof, payments = [] }) {
                 <td>{s.amount}</td>
                 <td className="hidden lg:block py-4">{s.date}</td>
                 <td >
-                    <button onClick={() =>viewProof(s)} className="bg-white  gap-1 lg:px-5 md:px-5 px-1 py-1 border-1 lg:text-sm text-xs hover:bg-[#621668] hover:text-white transition duration-200 cursor-pointer border-[#621668] text-[#621668] rounded-lg">
+                    <button onClick={() =>viewProof(s)} className={` ${color} ${hoverColor} bg-white  gap-1 lg:px-5 md:px-5 px-1 py-1 border-1 lg:text-sm text-xs  hover:text-white transition duration-200 cursor-pointer rounded-lg`}>
                       <i className="fa-regular fa-eye"></i>View
                     </button>
 
@@ -98,8 +111,8 @@ function TablePaymentTransaction({ code = "cit",viewProof, payments = [] }) {
         </table>
       </div>
         {/* pagination controls */}
-        <div className=" relative lg:ml-70 mt-[-10px] flex flex-col-reverse justify-center items-center">
-            <p className='text-[#8A2791] lg:absolute left-9'>Showing of 600</p>  
+        <div className={`relative ${color} bg-[#fff0] lg:ml-70 mt-[-10px] flex flex-col-reverse justify-center items-center`}>
+            <p className=' lg:absolute left-9'>Showing of 600</p>  
         <span className="flex">
              <button
             className=" mx-1  cursor-pointer flex items-center rounded-md border disabled:opacity-40"
@@ -108,7 +121,7 @@ function TablePaymentTransaction({ code = "cit",viewProof, payments = [] }) {
 
           </button>
 
-            <button className={`px-2 mx-1 cursor-pointer rounded-md border bg-[#621668] text-white`}>1</button>
+            <button className={` ${color} px-2 mx-1 cursor-pointer rounded-md border text-white`}>1</button>
           <button  className=" mx-1  cursor-pointer flex items-center rounded-md border disabled:opacity-40">
             <span className="material-symbols-outlined">chevron_right</span>
           </button>

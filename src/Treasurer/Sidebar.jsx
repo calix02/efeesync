@@ -70,7 +70,7 @@ const CITSidebar = React.forwardRef(({ animate, onAnimationEnd,onClose ,code },r
                     <DropDownNav code={code} subNavLink1 = "/org/financial" subNavLink2 = "/org/accomplishment" iconName="assignment" navName="Reports" iconName1 = "article" subNavName1 = "Financial Report" iconName2 = "fact_check" subNavName2 = "Accomplishment Report"/>
                     <NavLink code={code} navLink = "/org/payment-transaction" iconName="credit_card" navName="Online Payments"/>
                     <NavLink code={code} navLink = "/org/sanction" iconName="event_busy" navName="Sanctions"/>
-                    <DropDownNav code={code} subNavLink1 = "/org/excuse" subNavLink2="/org/shifting-approval" iconName="approval" navName="Approval Requests" subNavName1="Attendance Excuse" iconName1="inbox_text" subNavName2="Shifting Approval" iconName2="article_person"/>
+                    <NavLink code={code} navLink = "/org/excuse" iconName="approval" navName="Excuse Request"/>
                     <NavLink code={code} navLink = "/org/settings" iconName="settings" navName="Settings"/>
                 </nav>
                 <div className="absolute bottom-2 w-full px-3 lg:hidden block">

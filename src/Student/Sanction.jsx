@@ -41,7 +41,7 @@ function Sanction(){
                     <span>Total Sanction Paid: P1,250.00</span>
                 </div>
             </div>
-            <div className="lg:ml-70 grid lg:grid-cols-2 px-3 md:grid-cols-2 gap-6 mt-6">
+            <div className="lg:ml-70 grid lg:grid-cols-2 px-8 md:grid-cols-2 gap-6 mt-6">
                 <Monetary/>
                 <CommunityService/>
 

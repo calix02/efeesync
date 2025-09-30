@@ -46,22 +46,10 @@ function FinancialReport(){
             <div className="mt-[110px] lg:ml-70">
                 <h2 className="text-2xl font-semibold ml-6">Financial Report</h2>
             </div>
-            <div className="lg:ml-70 grid lg:grid-cols-3 md:grid-cols-3 grid-cols-1 gap-6 lg:px-6 md:px-10 px-3 mt-6">
-                <FinancialCard title="Cash Inflow" amount="P200,000.00" bgColor="bg-[#FFD8CC]"/>
-                <FinancialCard title="Cash Outflow" amount="P200,000.00" bgColor="bg-[#FCBBD8]"/>
-                <FinancialCard title="Current Funds" amount="P200,000.00" bgColor="bg-[#ECCEFC]"/>
-            </div>
-            <div className="lg:ml-70 mt-2 flex gap-4 justify-end lg:px-6 md:px-10 px-3 font-semibold text-sm">
-                <select className="w-35  h-7 bg-white px-4 border-1 border-[#621668] rounded-sm" name="" id="">
-                    <option value="">Semester</option>
-                </select>
-                <select className="w-35  h-6 bg-white px-4 border-1 border-[#621668] rounded-sm" name="" id="">
-                    <option value="">S/Y</option>
-                </select>
-            </div>
+            
             <div className="lg:ml-70 gap-6 lg:px-6 md:px-10 px-3 flex lg:flex-row flex-col mt-2">
                 <FinancialTable title="Cash Inflow" financialData={cashInFlow}/>
-                <FinancialTable title="Cash Inflow" financialData={cashOutFlow}/>
+                <FinancialTable title="Cash Outflow" financialData={cashOutFlow}/>
             </div>
             
         </div>

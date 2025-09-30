@@ -1,7 +1,7 @@
 function FinancialTable({title, financialData =[]}) {
    
     return (
-        <div className="lg:w-[100%] h-100 relative bg-white border rounded-[10px] shadow-[2px_2px_grey]">
+        <div className="lg:w-[100%] h-130 relative bg-white border rounded-[10px] shadow-[2px_2px_grey]">
             <div className="flex justify-between items-center border-b-2 border-[#686767] mx-[15px] py-[10px]">
                 <h1 className="text-[20px] font-semibold">{title}</h1>
             </div>

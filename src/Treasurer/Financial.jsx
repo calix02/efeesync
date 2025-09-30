@@ -2,7 +2,10 @@ import CITHeader from '../other_components/Header_Council.jsx';
 import CITSidebar from './Sidebar.jsx';
 import FinancialCard from '../other_components/FinancialCard.jsx';
 import FinancialTable from '../other_components/FinancialTable.jsx';
-import {useState, useEffect} from 'react';
+import useAnimatedToggle from '../hooks/useAnimatedToggle.js';
+import CashOutflowCard from '../treasurer_components/CashOutflowCard.jsx';
+import EditCashOutflowCard from '../treasurer_components/EditCashOutflowCard.jsx';
+import {useState, useEffect, useRef} from 'react';
 import "../animate.css";
 import EfeeViolet from '../assets/violetlogo.png'
 function CITFinancial(){
@@ -10,6 +13,11 @@ function CITFinancial(){
     const animateR = "right-In";
     const animateL = "left-In";
 
+    const add = useAnimatedToggle();
+    const addRef = useRef(null);
+
+    const edit = useAnimatedToggle();
+    const editRef = useRef(null);
 
      const cashInFlow = Array.from({ length: 16 }, (_, i) => ({
         date: `11-22-25`,
@@ -18,7 +26,7 @@ function CITFinancial(){
     })); 
     const cashOutFlow = Array.from({ length: 3 }, (_, i) => ({
         date: `11-22-25`,
-        event: `IT Week`,
+        event: `IT Week Expenses`,
         fee: "400",
     }));
     
@@ -43,6 +51,16 @@ function CITFinancial(){
           }, []);
     return(
         <>
+        {add.isVisible &&(
+            <div className="fixed inset-0 flex justify-center items-center bg-[#00000062]  lg:z-40 md:z-50 z-70 pointer-events-auto">
+                <CashOutflowCard code={currentUserData?.department_code} ref={addRef} currentUser={currentUserData}  onAnimationEnd={add.handleEnd} animate={add.animation} onClose={() => add.setAnimation("fade-out")} />
+            </div>
+        )}
+         {edit.isVisible &&(
+            <div className="fixed inset-0 flex justify-center items-center bg-[#00000062]  lg:z-40 md:z-50 z-70 pointer-events-auto">
+                <EditCashOutflowCard code={currentUserData?.department_code} ref={editRef} currentUser={currentUserData}  onAnimationEnd={edit.handleEnd} animate={edit.animation} onClose={() => edit.setAnimation("fade-out")} />
+            </div>
+        )}
             <CITHeader code={currentUserData?.department_code} titleCouncil = {currentUserData?.organization_name} abb="CIT Council" />
              <div className="w-screen hide-scrollbar h-screen bg-[#fafafa] absolute z-[-1] overflow-y-auto overflow-x-auto lg:px-6 md:px-10 px-3">
                 <div className="lg:mt-30 mt-25 lg:ml-70">
@@ -50,8 +68,8 @@ function CITFinancial(){
 
                 </div>
                 <div className={` ${animate} lg:ml-70 lg:mt-6 mt-3 lg:gap-6 gap-3 flex lg:flex-row flex-col items-center justify-center`}>
-                    <FinancialTable code={currentUserData?.department_code} title="Cash Inflow" financialData={cashInFlow}/>
-                    <FinancialTable code={currentUserData?.department_code}  title="Cash Outflow" financialData={cashOutFlow}/>
+                    <FinancialTable  total="800" code={currentUserData?.department_code} title="Cash Inflow" financialData={cashInFlow}/>
+                    <FinancialTable total="192" add={add.toggle} edit={edit.toggle} code={currentUserData?.department_code}  title="Cash Outflow" financialData={cashOutFlow}/>
 
                 </div>
 

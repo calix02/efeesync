@@ -32,7 +32,6 @@ function TableExcuse({ code = "cit", excuses = [], viewLetter }) {
 
   /* ---------------------------- sample fallback ---------------------------- */
   const fallback = Array.from({ length: 5 }, (_, i) => ({
-    studID: `22-1034`,
     studName: `Jaspher Yummy`,
     yearSection: `3A`,
     eventName: `IT Night`,
@@ -52,7 +51,6 @@ function TableExcuse({ code = "cit", excuses = [], viewLetter }) {
         <table className="w-full text-center ">
           <thead>
             <tr className={`border-b-2 border-[#adadad] bg-white ${color}`}>
-              <th>Student ID</th>
               <th>Student Name</th>
               <th>Year &amp; Section</th>
               <th>Event Name</th>
@@ -67,7 +65,6 @@ function TableExcuse({ code = "cit", excuses = [], viewLetter }) {
           <tbody>
             {data.map((s, idx) => (
               <tr key={idx} className="border-b border-[#0505057a] ">
-                <td>{s.studID}</td>
                 <td>{s.studName}</td>
                 <td>{s.yearSection}</td>
                 <td>{s.eventName}</td>

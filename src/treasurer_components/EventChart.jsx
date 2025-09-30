@@ -24,7 +24,7 @@ const chartOptions = {
   }
 };
 
-function EventChart({ eventSummary }) {
+function EventChart({ eventSummary, code }) {
 
   const [selectedEvent, setSelectedEvent] = useState("");
 
@@ -42,7 +42,7 @@ function EventChart({ eventSummary }) {
               event.student_summary.third_year.total_paid,
               event.student_summary.fourth_year.total_paid
             ],
-            backgroundColor: "#d492f9"
+            backgroundColor: "#66a810a1"
           },
           {
             label: "Unsettled",
@@ -52,7 +52,7 @@ function EventChart({ eventSummary }) {
               event.student_summary.third_year.total_unsettled,
               event.student_summary.fourth_year.total_unsettled
             ],
-            backgroundColor: "#f97ed4"
+            backgroundColor: "#eab20886"
           },
           {
             label: "Not Paid",
@@ -62,7 +62,7 @@ function EventChart({ eventSummary }) {
               event.student_summary.third_year.total_unpaid,
               event.student_summary.fourth_year.total_unpaid
             ],
-            backgroundColor: "#e24468"
+            backgroundColor: "#de0004ac"
           }
         ]
       };
@@ -74,6 +74,15 @@ function EventChart({ eventSummary }) {
   if (!selectedEvent || !eventsData[selectedEvent]) {
     return <p className="text-gray-500">No event data available</p>;
   }
+   const colors = {
+            CIT: " text-[#621668]",
+            COE: "text-[#020180]",
+            COC: "text-[#660A0A]",
+            COT: "text-[#847714]",
+            ESAF: "text-[#6F3306]",
+            SSC: "text-[#174515]"
+        };
+    const color = colors[code] || "text-[#174515]";
 
   return (
     <div className="w-full max-w-3xl mx-auto p-4">
@@ -92,7 +101,7 @@ function EventChart({ eventSummary }) {
         </select>
       </div>
 
-      <h2 className="text-[#621668] font-bold mb-2">{selectedEvent}</h2>
+      <h2 className={` ${color} font-bold mb-2`}>{selectedEvent}</h2>
 
       <div className="w-full h-60">
         <Bar data={eventsData[selectedEvent]} options={chartOptions} />

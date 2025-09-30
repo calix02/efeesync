@@ -67,12 +67,17 @@ const Sidebar = React.forwardRef(({eFee, animate,code, onAnimationEnd,onClose},r
                     <NavLink code={code} navLink = "/student/attendance" iconName="patient_list" navName="Attendance"/>
                     <NavLink code={code} navLink = "/student/sanction" iconName="event_busy" navName="Sanctions"/>
                     <NavLink code={code} navLink = "/student/excuse" iconName="approval" navName="Excuse Request"/>
+                    <NavLink code={code} navLink = "/student/financial" iconName="article" navName="Financial Report"/>
+                    {/** 
                     <DropDownNav code={code} subNavLink1 = "/student/financial" subNavLink2 = "/student/accomplishment" iconName="assignment" navName="Reports" iconName1 = "article" subNavName1 = "Financial Report" iconName2 = "fact_check" subNavName2 = "Accomplishment Report"/>
+                    */}
                     <NavLink code={code} navLink = "/student/payment" iconName="payments" navName="Payment"/>
                     <NavLink code={code} navLink = "/student/settings" iconName="settings" navName="Settings"/>
                 </nav>
                 <div className="absolute bottom-2 w-full px-3 lg:hidden block">
+                    {/** 
                     <NavLink code={code} navLink = "#" iconName="moon_stars" navName="Dark Mode"  />
+                    */}
                     <Link onClick={logout} className={`flex items-center font-[family-name:Helvetica] transition duration-150 p-2.5 text-md hover:bg-[#621668]  rounded-md hover:text-white hover:shadow-[3px_2px_2px_grey`}>
                         <span className="material-symbols-outlined px-2.5">logout</span>
                         <span>Log Out</span>

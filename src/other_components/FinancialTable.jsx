@@ -10,7 +10,7 @@ function FinancialTable({title, financialData =[], code }) {
     const hoverColor = hoverColors[code] || "hover:bg-[#174515]";
    
     return (
-        <div className=" w-[100%] h-105 relative bg-white font-[family-name:Arial] border rounded-lg shadow-[2px_2px_grey]">
+        <div className=" w-[100%] h-135 relative bg-white font-[family-name:Arial] border rounded-lg shadow-[2px_2px_grey]">
             <div className="flex justify-between items-center border-b-2 border-[#686767] mx-5 py-3">
                 <h1 className="text-lg font-semibold font-[family-name:Helvetica]">{title}</h1>
                 <span className="flex gap-2">
@@ -20,7 +20,7 @@ function FinancialTable({title, financialData =[], code }) {
                 </span>
             </div>
             <form className="mt-3 mx-4" action="">
-                <div className="overflow-y-scroll hide-scrollbar max-h-80">
+                <div className="overflow-y-scroll hide-scrollbar max-h-120 ">
                     <table className="w-full text-center">
                         <thead>
                             <tr className="text-sm border-b-2 border-[#6c6c6c67]">

@@ -2,10 +2,9 @@ import { Link } from 'react-router-dom';
 import React, { useEffect, useRef, useState } from 'react';
 import EfeeViolet from '../assets/violetlogo.png'
 import AccountCard from '../other_components/AccountCard';
-import CITSidebar from '../treasurer/Sidebar.jsx';
+import CITSidebar from './Sidebar.jsx';
 import useAnimatedToggle from '../hooks/useAnimatedToggle.js';
 import NotificationCard from '../other_components/NotificationCard.jsx';
-import OsasSidebar from "../osas/Sidebar.jsx";
 import Crim from "../assets/CRIM.png";
 import Osas from "../assets/osas.png";
 import It from "../assets/CIT.png";
@@ -123,7 +122,7 @@ function Header_Council({code, title}) {
             {/* Overlay */}
           </div>
 
-          <CITSidebar code={props.code} eFee={EfeeViolet} ref={sideRef} onAnimationEnd={sidebar.handleEnd} animate={sidebar.animation} onClose={() => sidebar.setAnimation("fade-out")} />
+          <CITSidebar code={code} eFee={EfeeViolet} ref={sideRef} onAnimationEnd={sidebar.handleEnd} animate={sidebar.animation} onClose={() => sidebar.setAnimation("fade-out")} />
 
         </>
       )

@@ -2,17 +2,18 @@ import React, { useRef, useState, useEffect } from 'react';
 import CITHeader from '../other_components/Header_Council.jsx';
 import CITSidebar from './Sidebar.jsx';
 import EfeeViolet from '../assets/violetlogo.png';
-import TableMonetarySanction from '../treasurer_components/TableMonetarySanction.jsx';
+import TableMonetarySanction from '../treasurer_components/TableUnsettledTransaction.jsx';
 import TableCommunityService from '../treasurer_components/TableCommunityService.jsx';
-import SanctionCollect from '../other_components/SanctionCollect.jsx';
+import UnsettledTransactionsCard from '../treasurer_components/UnsettledTransactionCard.jsx';
 import useAnimatedToggle from '../hooks/useAnimatedToggle.js';
+import { errorAlert } from '../utils/alert.js';
 import "../animate.css";
-function CITSanction() {
+function  UnsettledTransactions() {
     const animateR = "right-In";
     const animateL = "left-In";
 /* ------------------------- Animated States ----------------------------- */
-    const sanctionCollect = useAnimatedToggle();
-    const sanctionRef = useRef(null);
+    const unsettledCard = useAnimatedToggle();
+    const unsettledCardRef = useRef(null);
 
     const [selectedSanction, setSelectedSanction] = useState("Monetary Sanction");
     const [selectedStudent, setSelectedStudent] = useState(null);
@@ -50,13 +51,10 @@ function CITSanction() {
 
     return (
         <>
-        {sanctionCollect.isVisible &&(
+        {unsettledCard.isVisible &&(
              <>
-            {/* Sanction Collection */}
              <div className="fixed flex justify-center items-center inset-0 bg-[#00000062] z-40 pointer-events-auto">
-                    {/* Overlay */}
-                <SanctionCollect ref={sanctionRef} data={selectedStudent} onAnimationEnd={sanctionCollect.handleEnd} animate={sanctionCollect.animation} onClose={() => sanctionCollect.setAnimation("fade-out")} />
-
+                <UnsettledTransactionsCard data={selectedStudent} code={currentUserData?.department_code} ref={unsettledCardRef}  onAnimationEnd={unsettledCard.handleEnd} animate={unsettledCard.animation} onClose={() => unsettledCard.setAnimation("fade-out")} />
             </div>
             </>
         )
@@ -66,13 +64,14 @@ function CITSanction() {
 
             <div className="w-screen h-screen bg-[#fafafa] absolute z-[-1] overflow-y-auto overflow-x-auto lg:px-6 md:px-10 px-3">
                 <div className="lg:mt-30 mt-25 lg:ml-70 lg:flex md:flex  md:justify-between   lg:justify-between">
-                    <h2 className="text-2xl font-[family-name:Futura Bold] font-semibold">Sanctions</h2>
+                    <h2 className="text-2xl font-[family-name:Futura Bold] font-semibold">Manage Transactions</h2>
                     <div className={`flex ${animateR} items-center lg:px-0 md:px-0 px-3`}>
                     <input className='lg:w-85 md:w-85 w-[100%] p-1.5 bg-white rounded-md border-2 lg:mt-0 md:mt-0 mt-4   border-[#8A2791] block' type="text" placeholder='Search Student' />
                     </div>
                 </div>
 
                 <div className="w-100% mt-3">
+                    {/** 
                     <div className={`lg:ml-70 ${animateL} flex lg:justify-start md:justify-start justify-center gap-2.5`}>
                         <select
                             className={`bg-white w-35 ${hoverColor}  border-1  transition duration-100 hover:scale:105  hover:text-white cursor-pointer py-1 font-semibold  rounded-md text-xs text-center`}
@@ -93,15 +92,15 @@ function CITSanction() {
                             <option value="">hey</option>
                         </select>
                     </div>
-
-                    {selectedSanction === "Community Service" ? (
-                        <TableCommunityService code={currentUserData?.department_code} />
-                    ) : (
-                        <TableMonetarySanction code={currentUserData?.department_code} collectSanction={(row) =>{
-                            setSelectedStudent(row);
-                            sanctionCollect.toggle();}}  />
-                    )}
+                    */}
+                  
+                    <TableMonetarySanction code={currentUserData?.department_code} view={(row) =>{
+                        setSelectedStudent(row);
+                        unsettledCard.toggle();
+                    }}  />
+                    
                 </div>
+                
             </div>
 
             <div className="hidden lg:block">
@@ -111,4 +110,4 @@ function CITSanction() {
     );
 }
 
-export default CITSanction;
+export default UnsettledTransactions;

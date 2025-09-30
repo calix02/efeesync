@@ -49,14 +49,6 @@ function CITFinancial(){
                     <h2 className="text-2xl font-medium font-[family-name:Futura Bold]">Financial Report</h2>
 
                 </div>
-                <div className={` ${animate} lg:flex lg:flex-row grid grid-cols-2  lg:ml-70 lg:gap-6 gap-3 lg:justify-center items-center mt-4`}>
-                    <FinancialCard title="Cash Inflow" amount="P200 000.00" bgColor="bg-[#FFD8CC]"/>
-                    <FinancialCard title="Cash Outflow" amount="P100 000.00" bgColor="bg-[#FCBBD8]"/>
-                    <FinancialCard title="Cash On Hand" amount="P50 000.00" bgColor="bg-[#ECCEFC]"/>
-                    <FinancialCard title="Cash In Bank" amount="P15 000.00" bgColor="bg-[#E0D2FF]"/>
-                    <FinancialCard title="Starting Balance" amount="P10 000.00" bgColor="bg-[#D4E4FF]"/>
-                    <FinancialCard title="Ending Balance" amount="P0.00" bgColor="bg-[#CCEBFF]"/>
-                </div>
                 <div className={` ${animate} lg:ml-70 lg:mt-6 mt-3 lg:gap-6 gap-3 flex lg:flex-row flex-col items-center justify-center`}>
                     <FinancialTable code={currentUserData?.department_code} title="Cash Inflow" financialData={cashInFlow}/>
                     <FinancialTable code={currentUserData?.department_code}  title="Cash Outflow" financialData={cashOutFlow}/>

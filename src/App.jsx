@@ -33,7 +33,7 @@ import TreasurerEventContribution from './treasurer/EventContribution.jsx';
 import TreasurerAttendance from './treasurer/Attendance.jsx';
 import TreasurerFinancial from './treasurer/Financial.jsx';
 import TreasurerAccomplishment from './treasurer/Accomplishment.jsx';
-import TreasurerSanction from './treasurer/Sanction.jsx';
+import TreasurerSanction from './treasurer/UnsettledTransaction.jsx';
 import TreasurerExcuse from './treasurer/Excuse.jsx';
 import TreasurerSettings from './treasurer/Settings.jsx';
 import ShiftingApproval from './treasurer/ShiftingApproval.jsx';

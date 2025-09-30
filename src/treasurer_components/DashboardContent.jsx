@@ -28,12 +28,6 @@ function CITDashboard({currentUserData}) {
         "event_summary": []
     });
 
-       const events = [
-    { name: "IT Week", date: "2025-09-30", attendee: "1st Year, 2nd Year, 3rd Year, 4th Year", eventType: "Attendance" },
-    { name: "Sportsfest", date: "2025-10-05", attendee: "1st Year, 2nd Year, 3rd Year, 4th Year", eventType: "Contribution" },
-    { name: "General Assembly", date: "2025-10-08", attendee: "1st Year, 2nd Year, 3rd Year, 4th Year", eventType: "Attendance, Contribution" },
-  ];
-
     const fetchDashboard = async () => {
         if (!currentUserData) return;
         try {
@@ -49,8 +43,26 @@ function CITDashboard({currentUserData}) {
         }
     }
 
+    const [eventsOrg, setEventsOrg] = useState([]);
+    
+      const fetchEvents = async (organizationId=currentUserData.organization_id) => {
+        if (!organizationId) return;
+        try {
+            const res = await fetch(`/api/organizations/${organizationId}/events`, {
+            credentials: "include"
+            });
+            const response = await res.json();
+            if (response.status === "success") {
+            setEventsOrg(response.data);
+            }
+        } catch (err) {
+            console.error("Fetch Failed");
+        }
+      };
+
     useEffect(() => {
         fetchDashboard();
+        fetchEvents();
     }, [currentUserData]);
 
     const studentPopulation = dashboardData.student_population;
@@ -119,7 +131,7 @@ function CITDashboard({currentUserData}) {
         <>
         {eventCalendar.isVisible &&(
             <div className="fixed inset-0 bg-[#00000062] flex justify-center items-center lg:z-40 md:z-50 z-70 pointer-events-auto">
-                <EventsCalendarView events={events}  code={currentUserData?.department_code} ref={calendarRef}  onAnimationEnd={eventCalendar.handleEnd} onClose={() => eventCalendar.setAnimation("fade-out")} animate={eventCalendar.animation}  />  
+                <EventsCalendarView events={eventsOrg}  code={currentUserData?.department_code} ref={calendarRef}  onAnimationEnd={eventCalendar.handleEnd} onClose={() => eventCalendar.setAnimation("fade-out")} animate={eventCalendar.animation}  />  
             </div>
         )
 
@@ -139,7 +151,7 @@ function CITDashboard({currentUserData}) {
                     <StudentGraph graphTitle="Summary of Students" data={data} options={options}/> 
                 </div> 
                 <div className={`bg-white border-1 ${animateChart} p-5 transition duration-300 hover:shadow-[3px_3px_5px_#000] hover:scale-102 border-[#d8d8d8] lg:w-[60%] h-96 lg:my-0 my-8 flex items-center justify-center lg:mx-0 mx-3 rounded-xl shadow-[2px_2px_3px_grey,-2px_-2px_3px_white]`}>
-                    <EventChart eventSummary={dashboardData?.event_summary || []} />
+                    <EventChart  code={currentUserData?.department_code} eventSummary={dashboardData?.event_summary || []} />
                 </div>
                 
             </div>

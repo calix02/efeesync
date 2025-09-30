@@ -7,7 +7,7 @@ import "../animate.css";
  * @param {string} code       – org code ("cit", "coe", …) to color the header text
  * @param {Array}  sanctions   – array of { id, name, yearSection }
  */
-function TableMonetarySanction({ code = "cit", sanctions = [], collectSanction }) {
+function TableUnsettledTransaction({ code = "cit", sanctions = [], view }) {
   const animate = "card-In";
   /* --------------------------------- colors -------------------------------- */
   const colors = {
@@ -31,9 +31,6 @@ function TableMonetarySanction({ code = "cit", sanctions = [], collectSanction }
     studID: `22-1034`,
     studName: `Jaspher Yummy`,
     yearSection: `3A`,
-    eventName: `IT Night`,
-    totalSanction: `400`,
-    balance: `50`
   }));
 
   const data = sanctions.length ? sanctions : fallback;
@@ -59,12 +56,7 @@ function TableMonetarySanction({ code = "cit", sanctions = [], collectSanction }
               <th className="hidden lg:block md:block">Student ID</th>
               <th>Student Name</th>
               <th>Year &amp; Section</th>
-              <th>Event Name</th>
-              <th>Total Sanction</th>
-              <th>Balance</th>
               <th>Action</th>
-
-
             </tr>
           </thead>
 
@@ -74,39 +66,14 @@ function TableMonetarySanction({ code = "cit", sanctions = [], collectSanction }
                 <td className="hidden lg:block md:block">{s.studID}</td>
                 <td>{s.studName}</td>
                 <td>{s.yearSection}</td>
-                <td>{s.eventName}</td>
-                <td>{s.totalSanction}</td>
-                <td>{s.balance}</td>
-
 
                 <td className="py-3 flex justify-center">
-                  {activeRowIndex !== idx ?(
-                    <div className="w-24 ">
-                    <span onClick={() =>clickedPay(idx)}  className="material-symbols-outlined cursor-pointer text-[#65A810] bg-white  shadow-[2px_2px_1px_grey] rounded-md border border-[#65A810] px-1">
-                     payments
+                   <span onClick={ () => view(s)} title="View Unsettled Transaction"
+                     
+                      className="material-symbols-outlined cursor-pointer shadow-[2px_2px_1px_grey] rounded-[5px] text-[#3a2791] border border-[#3a2791] px-[2px]"
+                    >
+                      visibility
                     </span>
-                    </div>
-
-                  ):(
-                      <form
-                        onSubmit={(e) => {
-                          e.preventDefault();
-                          handleSubmit();
-                        }}
-                      >
-                        <input
-                          className="w-24 border-1 px-3 py-1  border-[#000] rounded-sm"
-                          type="number"
-                          onChange={handleChange}
-                          value={amount}
-                          placeholder="Enter amount"
-                        />
-                        <button hidden type="submit">Submit</button>
-                      </form>
-                    )
-
-                  }
-                  
                 </td>
               </tr>
             ))}
@@ -142,4 +109,4 @@ function TableMonetarySanction({ code = "cit", sanctions = [], collectSanction }
 }
 
 
-export default TableMonetarySanction;
+export default TableUnsettledTransaction;

@@ -95,7 +95,7 @@ function TablePaymentTransaction({ viewProof, payments = [], code }) {
 
                 </td>
                 <td>
-                    <span className={`lg:px-5 md:px-5 px-1 border-1 text-black py-1 rounded-sm 
+                    <span className={`lg:px-5 md:px-5 px-1 border-1 text-black py-1.5 rounded-md 
                       ${status === "Approved"? "bg-[#66a810a1]" : 
                       status === "Pending" ? "bg-[#eab20886]" : 
                       status === "Rejected"? "bg-[#de0004ac]" : "" }`}>{status}

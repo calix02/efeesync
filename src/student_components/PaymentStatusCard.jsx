@@ -16,8 +16,8 @@ function PaymentStatusCard({status,view,edit}){
                 <span>Date: May 22, 2025 </span>
             </div>
             <div className="flex justify-center gap-2 mt-4  text-sm">
-                <button onClick={view} className="w-25 h-6 cursor-pointer border-1 text-sm rounded-lg bg-[#DCF5E0] text-[#2CA74D]">View Details</button>
-                <button onClick={edit} className="w-25 h-6 cursor-pointer border-1 rounded-lg bg-[#E6EDFD] text-[#2F6FDD]">Edit</button>
+                <button onClick={view} className="w-25 h-7 cursor-pointer border-1 hover:scale-105 hover:bg-[#346132] transition duration-200 hover:text-white text-sm rounded-lg bg-[#DCF5E0] text-[#174515]">View Details</button>
+                <button onClick={edit} className="w-25 h-7 cursor-pointer border-1 rounded-lg hover:bg-[#2d345b] hover:text-white transition duration-200 hover:scale-105 bg-[#E6EDFD] text-[#2F6FDD]">Edit</button>
             </div>
         </div>
     );

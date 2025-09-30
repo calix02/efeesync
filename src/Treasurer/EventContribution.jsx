@@ -123,6 +123,15 @@ function EventContribution({ data }) {
     setSelectedEvent(event);
     setShowSelectedEvents(true);
   };
+  const colors = {
+      CIT: "border-[#621668] text-[#621668] bg-[#621668]",
+      COE: "border-[#020180] text-[#020180] bg-[#020180]",
+      COC: "border-[#660A0A] text-[#660A0A] bg-[#660A0A]",
+      COT: "border-[#847714] text-[#847714] bg-[#847714]",
+      SCEAP: "border-[#6F3306] text-[#6F3306] bg-[#6F3306]",
+      SSC: "border-[#174515] text-[#174515] bg-[#174515]",
+    };
+    const color = colors[currentUserData?.department_code] || "border-[#174515] text-[#174515] bg-[#174515]";
 
   return (
     <>
@@ -187,7 +196,7 @@ function EventContribution({ data }) {
 
               <div className="lg:ml-70 text-[font-family:Arial] lg:text-sm text-xs mt-3 flex justify-end">
                 <Link to="/org/eventlist">
-                  <button className="bg-[#621668] text-center text-sm font-[family-name:Arial] h-6 hover:bg-white hover:border-[#621668] hover:text-[#621668] hover:scale-102 hover:shadow-[2px_2px_3px_grey] duration-200 transition  rounded-md cursor-pointer px-3 text-white border-1 border-[#804d84]">
+                  <button className={`text-center ${color} text-sm font-[family-name:Arial] h-6 hover:bg-white hover:scale-102 hover:shadow-[2px_2px_3px_grey] duration-200 transition  rounded-md cursor-pointer px-3 text-white border-1 `}>
                     Back to Eventlist
                   </button>
                 </Link>
@@ -227,7 +236,7 @@ function EventContribution({ data }) {
 
             <div className="lg:ml-70 flex justify-end mt-3">
               <button
-                className="bg-[#621668] px-6 text-white rounded-md cursor-pointer hover:scale-102 hover:bg-white hover:text-[#621668] hover:border-[#621668] border-1 hover:shadow-[2px_2px_3px_grey] transition duration-200"
+                className="px-6 text-white rounded-md cursor-pointer hover:scale-102 hover:bg-white hover:text-[#621668] hover:border-[#621668] border-1 hover:shadow-[2px_2px_3px_grey] transition duration-200"
                 onClick={() => setShowSelectedEvents(false)}
               >
                 Back

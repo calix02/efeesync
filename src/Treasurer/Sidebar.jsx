@@ -67,14 +67,19 @@ const CITSidebar = React.forwardRef(({ animate, onAnimationEnd,onClose ,code },r
                     <NavLink code={code} navLink = "/org/dashboard" iconName="dashboard" navName="Dashboard"/>
                     <NavLink code={code} navLink = "/org/student" iconName="person" navName="Student"/>
                     <NavLink code={code} navLink = "/org/eventlist" iconName="event_note" navName="Event List"/>
+                    {/** 
                     <DropDownNav code={code} subNavLink1 = "/org/financial" subNavLink2 = "/org/accomplishment" iconName="assignment" navName="Reports" iconName1 = "article" subNavName1 = "Financial Report" iconName2 = "fact_check" subNavName2 = "Accomplishment Report"/>
+                    */}
+                    <NavLink code={code} navLink = "/org/financial" iconName="article" navName="Financial Report"/>
                     <NavLink code={code} navLink = "/org/payment-transaction" iconName="credit_card" navName="Online Payments"/>
-                    <NavLink code={code} navLink = "/org/sanction" iconName="event_busy" navName="Sanctions"/>
-                    <NavLink code={code} navLink = "/org/excuse" iconName="approval" navName="Excuse Request"/>
+                    <NavLink code={code} navLink = "/org/sanction" iconName="event_busy" navName="Unsettled Transactions"/>
+                    <NavLink code={code} navLink = "/org/excuse" iconName="approval" navName="Request Approval"/>
                     <NavLink code={code} navLink = "/org/settings" iconName="settings" navName="Settings"/>
                 </nav>
                 <div className="absolute bottom-2 w-full px-3 lg:hidden block">
+                    {/** 
                     <NavLink code={code} navLink = "/org/citdashboard" iconName="moon_stars" navName="Dark Mode"  />
+                    */}
                     <Link onClick={logout} className={`flex items-center font-[family-name:Helvetica] transition duration-150 p-2.5 text-md hover:bg-[#621668]  rounded-md hover:text-white hover:shadow-[3px_2px_2px_grey`}>
                         <span className="material-symbols-outlined px-2.5">logout</span>
                         <span>Log Out</span>

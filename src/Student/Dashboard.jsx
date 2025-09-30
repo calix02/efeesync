@@ -128,7 +128,7 @@ function Dashboard(){
             </div>
             <div className={`  lg:ml-70 lg:flex lg:justify-center gap-6`}>
                  <div className={` ${animateL} w-[100%] h-100 bg-[#F8F8F8] shadow-[2px_2px_3px_#434343,-2px_-2px_3px_#ebe4e4] px-5 border-[#ebe4e4] mt-8 rounded-lg overflow-y-scroll hide-scrollbar`}>
-                    <h2 className="font-[family-name:Verdana] text-md font-semibold mt-3">Upcoming Events</h2>
+                    <h2 className="font-[family-name:Verdana] text-md font-semibold mt-6">Upcoming Events</h2>
                     {dashboardData?.upcoming_events?.length > 0 ? (
                         dashboardData.upcoming_events.map((ev) => {
                             const date = new Date(ev.event_end_date);
@@ -154,14 +154,18 @@ function Dashboard(){
                         <p className="text-sm text-gray-500 mt-2">No upcoming events</p>
                     )}
                 </div>
-                <div className={` ${animateR}  w-[100%]  h-100 shadow-[2px_2px_3px_#434343,-2px_-2px_3px_#ebe4e4] px-5 border-[#ebe4e4] mt-8 rounded-lg overflow-y-scroll hide-scrollbar`}>
-                    <h2 className="font-[family-name:Verdana]  gap-3 flex text-md font-semibold mt-3 ml-2">
+                <div className={` ${animateR}  w-[100%]  h-100  shadow-[2px_2px_3px_#434343,-2px_-2px_3px_#ebe4e4] px-5 border-[#ebe4e4] mt-8 rounded-lg overflow-y-scroll hide-scrollbar`}>
+                    <h2 className="font-[family-name:Verdana]  gap-3 flex text-md font-semibold mt-6 ml-2">
                         <span onClick={chooseSanction} className={` bg-[#fff0] border-b-2 cursor-pointer ${isMonetary? (color) : "text-[#000] border-none"}`}>Monetary</span>
                         <span onClick={chooseSanction} className={` bg-[#fff0] border-b-2 cursor-pointer ${isMonetary? "text-[#000] border-none" : (color)}`}>Community Service</span>
                     </h2>
                     {isMonetary === true && (
                         <>
-                        <h2 className={` ${color} bg-[#fff0] font-semibold ml-2 mt-3 font-inter text-md`}>Total Sanctions: P36.00</h2>
+                        <div className=" flex justify-between items-center ">
+                            <h2 className={` ${color} bg-[#fff0] font-semibold ml-2 mt-3 font-inter text-md`}>Total Sanctions: P36.00</h2>
+                            <button className={`${color} px-6 rounded-md py-1 shadow-[2px_2px_2px_grey] hover:scale-105 transition duration-200 cursor-pointer  text-white font-inter text-xs `}>Pay All</button>
+                        </div>
+
                         <MonetarySanction code={currentUserData?.department_code} />
                         </>
                     )}

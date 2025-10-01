@@ -93,17 +93,40 @@ function CITStudent(){
 
     const [file, setFile] = useState(null);
 
-    const handleFile = (e) =>{
+    const handleFile = async (e) => {
         const selected = e.target.files[0];
-        if (selected && !selected.name.endsWith(".csv")){
+        if (selected && !selected.name.endsWith(".csv")) {
             errorAlert("Only CSV file are allowed");
-            e.target.value = "";
-
-        } else if(selected){
-            successAlert("Succesfully Imported CSV File");
+            return;
         }
-
-    }
+        if (selected) {
+            // Prepare form data
+            const formData = new FormData();
+            formData.append("csv_file", selected);
+            try {
+                const response = await fetch("/api/import/csv", {
+                    method: "POST",
+                    body: formData,
+                });
+                const result = await response.json();
+                if (response.ok && result.status === "success") {
+                    successAlert(`
+                        CSV Imported Successfully!\n\n
+                        Imported: ${result.imported.length} student(s)\n
+                        ${result.skipped.length > 0 ? "Skipped: " : ""} \n${result.skipped
+                            .map((e) => `SN: ${e.student_number_id} due to ${e.reason}`)
+                            .join("\n")}
+                        `);
+                    fetchStudents();
+                } else {
+                    errorAlert(result.message || "Failed to import CSV");
+                }
+            } catch (error) {
+                errorAlert("Error uploading CSV");
+            }
+        }
+        e.target.value = "";
+    };
 
     const [selectedStudent, setSelectedStudent] = useState(null);
     const colors = {

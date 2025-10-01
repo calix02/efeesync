@@ -47,9 +47,9 @@ function FinancialTable({title, financialData =[], code, add, edit, total }) {
                         <tbody>
                             {financialData.map((data, i) => (
                                 <tr key={i} className="text-xs font-semibold border-b-2 border-[#6c6c6c67] text-[#4f4e4e]">
-                                    <td className="py-1">{data.date}</td>
-                                    <td>{data.event}</td>
-                                    <td className="py-3">{data.fee}</td>
+                                    <td className="py-1">{data.event_end_date}</td>
+                                    <td>{data.event_name}</td>
+                                    <td className="py-3">{data.total_cash_in}</td>
                                     {title === "Cash Outflow" && (
                                         <td className={`text-[#055e1b] py-2`}>
                                            <span onClick={edit} className={`material-symbols-outlined ${color} cursor-pointer bg-white shadow-[2px_2px_1px_grey] rounded-sm border px-0.5`}>edit_square</span>
@@ -63,7 +63,7 @@ function FinancialTable({title, financialData =[], code, add, edit, total }) {
                 </div>
             </form>
             <div className= " absolute bottom-3  mt-2 px-6">
-                <h2 className="font-semibold text-sm">Total: P{total}</h2>
+                <h2 className="font-semibold text-sm">Total: P {total}</h2>
             </div>
         </div>
     );

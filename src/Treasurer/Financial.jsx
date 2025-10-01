@@ -18,17 +18,6 @@ function CITFinancial(){
 
     const edit = useAnimatedToggle();
     const editRef = useRef(null);
-
-     const cashInFlow = Array.from({ length: 16 }, (_, i) => ({
-        date: `11-22-25`,
-        event: `Baraylihan`,
-        fee: "350",
-    })); 
-    const cashOutFlow = Array.from({ length: 3 }, (_, i) => ({
-        date: `11-22-25`,
-        event: `IT Week Expenses`,
-        fee: "400",
-    }));
     
     const [currentUserData, setCurrentUserData] = useState([]);
         
@@ -45,10 +34,30 @@ function CITFinancial(){
                  errorAlert("Fetch Failed");
              }
           }
+        
+        const [financialReportData, setFinancialReportData] = useState({
+            "cash_in": [],
+            "cash_out": [],
+            "summary": {}
+        });
+        const fetchFinancialReportData = async () => {
+            try {
+                const res = await fetch(`/api/organizations/code/${currentUserData?.organization_code}/financialreport`, { credentials: "include" });
+                const response = await res.json();
+                if (response.status === "success") {
+                    setFinancialReportData(response.data);
+                }
+            } catch (err) {
+                errorAlert("Fetch Failed");
+            }
+        };
           useEffect(() => {
             fetchCurrentUser();
-            console.log(currentUserData);
           }, []);
+
+          useEffect(() => {
+            fetchFinancialReportData();
+          }, [currentUserData]);
     return(
         <>
         {add.isVisible &&(
@@ -68,8 +77,8 @@ function CITFinancial(){
 
                 </div>
                 <div className={` ${animate} lg:ml-70 lg:mt-6 mt-3 lg:gap-6 gap-3 flex lg:flex-row flex-col items-center justify-center`}>
-                    <FinancialTable  total="800" code={currentUserData?.department_code} title="Cash Inflow" financialData={cashInFlow}/>
-                    <FinancialTable total="192" add={add.toggle} edit={edit.toggle} code={currentUserData?.department_code}  title="Cash Outflow" financialData={cashOutFlow}/>
+                    <FinancialTable  total={financialReportData?.summary?.total_cash_in} code={currentUserData?.department_code} title="Cash Inflow" financialData={financialReportData?.cash_in}/>
+                    <FinancialTable total={financialReportData?.summary?.total_cash_out} add={add.toggle} edit={edit.toggle} code={currentUserData?.department_code}  title="Cash Outflow" financialData={financialReportData?.cash_out}/>
 
                 </div>
 

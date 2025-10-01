@@ -106,6 +106,7 @@ function TableStudent({ code , students = [], show, update, reloadStudents, pagi
               <th>Student ID</th>
               <th>Student Name</th>
               <th>Year &amp; Section</th>
+              <th>Program</th>
               <th>Action</th>
             </tr>
           </thead>
@@ -124,6 +125,7 @@ function TableStudent({ code , students = [], show, update, reloadStudents, pagi
                 <td>{s.student_number_id}</td>
                 <td>{s.full_name}</td>
                 <td>{s.student_section}</td>
+                <td>{s.program_code}</td>
                 <td className="flex lg:flex-row flex-col gap-2 justify-center py-3">
                   <span
                     onClick={() => update(s)}

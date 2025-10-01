@@ -7,7 +7,7 @@ import "../animate.css";
  * @param {string} code       – org code ("cit", "coe", …) to color the header text
  * @param {Array}  sanctions   – array of { id, name, yearSection }
  */
-function TableUnsettledTransaction({ code = "cit", sanctions = [], view }) {
+function TableUnsettledTransaction({ code = "cit", sanctions = [], view, paginate, fetchSanctions }) {
   const animate = "card-In";
   /* --------------------------------- colors -------------------------------- */
   const colors = {
@@ -27,11 +27,7 @@ function TableUnsettledTransaction({ code = "cit", sanctions = [], view }) {
 
 
   /* ---------------------------- sample fallback ---------------------------- */
-  const fallback = Array.from({ length: 5 }, (_, i) => ({
-    studID: `22-1034`,
-    studName: `Jaspher Yummy`,
-    yearSection: `3A`,
-  }));
+  const fallback = [];
 
   const data = sanctions.length ? sanctions : fallback;
   
@@ -63,9 +59,9 @@ function TableUnsettledTransaction({ code = "cit", sanctions = [], view }) {
           <tbody>
             {data.map((s, idx) => (
               <tr key={idx} className="border-b border-[#0505057a] ">
-                <td className="hidden lg:block md:block">{s.studID}</td>
-                <td>{s.studName}</td>
-                <td>{s.yearSection}</td>
+                <td className="hidden lg:block md:block">{s.student_number_id}</td>
+                <td>{s.full_name}</td>
+                <td>{s.student_section}</td>
 
                 <td className="py-3 flex justify-center">
                    <span onClick={ () => view(s)} title="View Unsettled Transaction"
@@ -82,26 +78,27 @@ function TableUnsettledTransaction({ code = "cit", sanctions = [], view }) {
       </div>
         {/* pagination controls */}
         <div className=" relative lg:ml-70 font-[family-name:Arial] lg:text-sm text-xs mt-[-10px] flex flex-col-reverse justify-center items-center">
-            <p className={` ${color} bg-[#ffffff00] lg:absolute left-9`}>Showing of 600</p>  
-        <span className="flex">
-             <button
-            className=" mx-1 flex items-center cursor-pointer rounded-md border disabled:opacity-40"
+            <div className="mt-4 flex justify-center gap-2 items-center">
+          <button
+            onClick={() => fetchSanctions(paginate.page - 1)}
+            disabled={paginate.page <= 1}
+            className="cursor-pointer border rounded disabled:opacity-40 p-1"
           >
             <span className="material-symbols-outlined">chevron_left</span>
-
           </button>
 
-            <button
-              className={`px-2 mx-1 rounded-md border cursor-pointer text-white ${color}`}>1
-            </button>
+          <span className="px-3">
+            Page {paginate.page} of {paginate.total_pages}
+          </span>
 
           <button
-           className=" mx-1 flex cursor-pointer items-center rounded-md border disabled:opacity-40"
+            onClick={() => fetchSanctions(paginate.page + 1)}
+            disabled={paginate.page >= paginate.total_pages}
+            className="cursor-pointer border rounded disabled:opacity-40 p-1"
           >
             <span className="material-symbols-outlined">chevron_right</span>
-
           </button>
-        </span>
+        </div>
         </div>
     </div>
    

@@ -34,10 +34,52 @@ function  UnsettledTransactions() {
                 errorAlert("Fetch Failed");
             }
         }
+
+        const [sanctionData, setSanctionData] = useState([]);
+        const [paginate, setPaginate] = useState({
+            page: 1,
+            per_page: 10,
+            total: 0,
+            total_pages: 1
+        });
+        
+        const fetchSanctionData = async (page=1, search="") => {
+            if (!currentUserData) return;
+            try {
+                const res = await fetch(`/api/organizations/code/${currentUserData?.organization_code}/unsettledandsanctions?page=${page}&search=${search}`, {
+                    credentials: "include"
+                });
+                const response = await res.json();
+                if (response.status === "success") {
+                    setSanctionData(response.data);
+                    setPaginate(response.meta);
+                }
+            } catch (err) {
+                errorAlert("Fetch Failed");
+            }
+        }
+
         useEffect(() => {
             fetchCurrentUser();
-            console.log(currentUserData);
         }, []);
+        
+        useEffect(() => {
+            fetchSanctionData();
+        }, [currentUserData]);
+
+        const [debounceTimer, setDebounceTimer] = useState(null);
+        const [searchValue, setSearchValue] = useState();
+        const debounce = (callback, delay=500)  => {
+            clearTimeout(debounceTimer);
+            setDebounceTimer(setTimeout(callback, delay));
+        }
+    
+        const searchSanctions = (search) => {
+            setSearchValue(search);
+            debounce(() => {
+                fetchSanctionData(1, search);
+            }, 500);
+        };
     const hoverColors = {
             CIT: " hover:bg-[#621668]",
             COE: "hover:bg-[#020180]",
@@ -66,7 +108,7 @@ function  UnsettledTransactions() {
                 <div className="lg:mt-30 mt-25 lg:ml-70 lg:flex md:flex  md:justify-between   lg:justify-between">
                     <h2 className="text-2xl font-[family-name:Futura Bold] font-semibold">Manage Unsettled Transactions</h2>
                     <div className={`flex ${animateR} items-center lg:px-0 md:px-0 px-3`}>
-                    <input className='lg:w-85 md:w-85 w-[100%] p-1.5 bg-white rounded-md border-2 lg:mt-0 md:mt-0 mt-4   border-[#8A2791] block' type="text" placeholder='Search Student' />
+                    <input className='lg:w-85 md:w-85 w-[100%] p-1.5 bg-white rounded-md border-2 lg:mt-0 md:mt-0 mt-4   border-[#8A2791] block' type="text" onKeyUp={(e)=>{searchSanctions(e.target.value)}} placeholder='Search Student' />
                     </div>
                 </div>
 
@@ -94,7 +136,7 @@ function  UnsettledTransactions() {
                     </div>
                     */}
                   
-                    <TableMonetarySanction code={currentUserData?.department_code} view={(row) =>{
+                    <TableMonetarySanction fetchSanctions={fetchSanctionData} paginate={paginate} sanctions={sanctionData} code={currentUserData?.department_code} view={(row) =>{
                         setSelectedStudent(row);
                         unsettledCard.toggle();
                     }}  />

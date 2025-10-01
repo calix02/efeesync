@@ -1,4 +1,4 @@
-function FinancialTable({title, financialData =[]}) {
+function FinancialTable({title, total=0, financialData =[]}) {
    
     return (
         <div className="lg:w-[100%] h-130 relative bg-white border rounded-[10px] shadow-[2px_2px_grey]">
@@ -18,9 +18,9 @@ function FinancialTable({title, financialData =[]}) {
                         <tbody>
                             {financialData.map((data, i) => (
                                 <tr key={i} className="text-[12px] font-semibold border-b-2 border-[#6c6c6c67] text-[#4f4e4e]">
-                                    <td className="py-[5px]">{data.date}</td>
-                                    <td>{data.event}</td>
-                                    <td>{data.fee}</td>
+                                    <td className="py-[5px]">{data.event_end_date}</td>
+                                    <td>{data.event_name}</td>
+                                    <td>{data.total_cash_in}</td>
                                 </tr>
                             ))}
                         </tbody>
@@ -28,7 +28,7 @@ function FinancialTable({title, financialData =[]}) {
                 </div>
             </form>
             <div className= " absolute bottom-3 mt-2 px-[15px]">
-                <h2 className="font-semibold text-[14px]">Total</h2>
+                <h2 className="font-semibold text-[14px]">Total: P {total}</h2>
             </div>
         </div>
     );

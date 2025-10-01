@@ -8,17 +8,6 @@ import it from '../assets/it.png';
 
 
 function FinancialReport(){
-     const cashInFlow = Array.from({ length: 5 }, (_, i) => ({
-        date: `11-22-25`,
-        event: `Baraylihan`,
-        fee: "350",
-    })); 
-    const cashOutFlow = Array.from({ length: 3 }, (_, i) => ({
-        date: `11-22-25`,
-        event: `IT Week`,
-        fee: "400",
-    }));
-    
     const [currentUserData, setCurrentUserData] = useState([]);
             
             const fetchCurrentUser = async () => {
@@ -34,10 +23,29 @@ function FinancialReport(){
                     errorAlert("Fetch Failed");
                 }
             }
-            useEffect(() => {
-                fetchCurrentUser();
-                console.log(currentUserData);
-            }, []);
+            const [financialReportData, setFinancialReportData] = useState({
+            "cash_in": [],
+            "cash_out": [],
+            "summary": {}
+        });
+        const fetchFinancialReportData = async () => {
+            try {
+                const res = await fetch(`/api/organizations/code/${currentUserData?.organization_code}/financialreport`, { credentials: "include" });
+                const response = await res.json();
+                if (response.status === "success") {
+                    setFinancialReportData(response.data);
+                }
+            } catch (err) {
+                errorAlert("Fetch Failed");
+            }
+        };
+          useEffect(() => {
+            fetchCurrentUser();
+          }, []);
+
+          useEffect(() => {
+            fetchFinancialReportData();
+          }, [currentUserData]);
        
     return(
         <>
@@ -48,8 +56,8 @@ function FinancialReport(){
             </div>
             
             <div className="lg:ml-70 gap-6 lg:px-6 md:px-10 px-3 flex lg:flex-row flex-col mt-2">
-                <FinancialTable title="Cash Inflow" financialData={cashInFlow}/>
-                <FinancialTable title="Cash Outflow" financialData={cashOutFlow}/>
+                <FinancialTable title="Cash Inflow" financialData={financialReportData?.cash_in}/>
+                <FinancialTable title="Cash Outflow" financialData={financialReportData?.cash_out}/>
             </div>
             
         </div>

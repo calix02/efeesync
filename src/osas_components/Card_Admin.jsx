@@ -19,13 +19,9 @@ function Card_Admin(props){
                     <span className='font-bold font-inter text-md text-[#000]'>Total Budget</span>
                     <div className='w-40 bg-white py-1 text-center rounded-md z-10 text-xl font-bold font-poppins'>₱ {props.budget}</div>
                 </div>
-                <div className='flex text-[#000] justify-between px-8 items-center mt-3'>
+                <div className='flex text-[#000] justify-between px-8 mb-4 items-center mt-3'>
                     <span className='text-sm font-inter '>Cash on Hand:</span>
                     <div className='w-40 text-left font-inter font-bold text-sm'>₱ {props.cashHand}</div>
-                </div>
-                 <div className='flex text-[#000] justify-between px-8 items-center mt-1'>
-                    <span className='text-sm font-inter '>Cash in Bank:</span>
-                    <div className='w-40 text-left font-bold font-inter text-sm'>₱ {props.cashBank}</div>
                 </div>
         </div>
     );

@@ -32,6 +32,9 @@ function Dashboard(){
         "sanctions_collected_per_org": [],
         "total_population_per_department": []
     });
+
+    const [orgs, setOrgs] = useState([]);
+
     const fetchDashboard = async () => {
         try {
             const res = await fetch("/api/admin/dashboard", {
@@ -45,8 +48,32 @@ function Dashboard(){
             errorAlert("Fetch Failed");
         }
     }
+    const fetchOrgs = async () => {
+        try {
+            const res = await fetch("/api/organizations", {
+                credentials: "include"
+            });
+            const response = await res.json();
+            if (response.status === "success") {
+                setOrgs(response.data);
+            }
+        } catch (err) {
+            errorAlert("Fetch Failed");
+        }
+    }
+
+    const orgLogos = {
+        "SSC": ssc,
+        "CCSC": crim,
+        "CESC": educ,
+        "COTSC": cotsc,
+        "SCEAP": esaf,
+        "CITSC": it
+    };
+
     useEffect(() => {
         fetchDashboard();
+        fetchOrgs();
     }, []);
 
     const deptData = dashboardData.total_population_per_department;
@@ -97,12 +124,9 @@ function Dashboard(){
               <CardOsas title="Number of Students" count={dashboardData.total_students} pic={student}/>
             </div>
             <div className={`lg:ml-70 mt-6 ${animate} grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 justify-center gap-6`}>
-                <Card_Admin logo={ssc} title="SSC" budget="67 000.00" cashHand={1262} cashBank={6638}/>
-                <Card_Admin logo={crim} title="CCSC" budget="67 000.00" cashHand={1262} cashBank={6638}/>
-                <Card_Admin logo={educ} title="CESC" budget="67 000.00" cashHand={1262} cashBank={6638}/>
-                <Card_Admin logo={cotsc} title="COTSC" budget="67 000.00" cashHand={1262} cashBank={6638}/>
-                <Card_Admin logo={esaf} title="SCEAP" budget="67 000.00" cashHand={1262} cashBank={6638}/>
-                <Card_Admin logo={it} title="CITSC" budget="67 000.00" cashHand={1262} cashBank={6638}/>
+                {orgs.map((o)=>(
+                    <Card_Admin logo={orgLogos[o.organization_code]} title={o.organization_code} budget={o.total_budget} cashHand={o.cash_on_hand} cashBank={6638}/>
+                ))}
             </div>
             <div className='lg:ml-70 mt-6 flex lg:flex-row flex-col gap-6'>
                 <div className={`lg:w-[40%] flex justify-center ${animateL} border-1 bg-white border-[#000] rounded-lg shadow-[2px_2px_2px_grey]`}>

@@ -2,7 +2,7 @@ import { useState, useEffect, useMemo } from "react";
 import { errorAlert, confirmAlert } from '../utils/alert.js';
 import "../animate.css";
 
-function AttendanceTable({ code, attendees = [], scanAttendee, attendanceKeys, studentAttendees, fetchStudentAttendees, paginate, selectedEvent, searchValue, selectedEventDate}) {
+function AttendanceTable({ code, attendees = [], scanAttendee, attendanceKeys, studentAttendees, setStudentAttendees, fetchStudentAttendees, paginate, selectedEvent, searchValue, selectedEventDate}) {
   const animate = "card-In";
 
   const textColor =

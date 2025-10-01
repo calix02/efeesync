@@ -36,7 +36,6 @@ function TablePaymentTransaction({ viewProof, payments = [], code }) {
   const fallback = Array.from({ length: 7 }, (_, i) => ({
     studID: `22-1031`,
     studName: `Jaspher Yummy`,
-    eventName : `IT Week`,
     amount : `400`,
     date: `06/05/2025`
     
@@ -71,7 +70,6 @@ function TablePaymentTransaction({ viewProof, payments = [], code }) {
             <tr className={`border-b-2 border-[#adadad] bg-[#fff0] ${color}`}>
               <th className="hidden lg:block">Student ID</th>
               <th>Student Name</th>
-              <th>Event Name</th>
               <th>Amount</th>
               <th className="hidden lg:block">Date</th>
               <th>Screenshot</th>
@@ -85,7 +83,6 @@ function TablePaymentTransaction({ viewProof, payments = [], code }) {
               <tr key={idx} className="border-b border-[#0505057a] ">
                 <td className="hidden lg:block">{s.studID}</td>
                 <td>{s.studName}</td>
-                <td>{s.eventName}</td>
                 <td>{s.amount}</td>
                 <td className="hidden lg:block py-4">{s.date}</td>
                 <td >

@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-function CommunitySanction({code}){
+function CommunitySanction({code, communityService}){
     
     const colors = {
             CIT: "border-[#621668] text-[#621668] bg-[#621668]",
@@ -13,16 +13,17 @@ function CommunitySanction({code}){
 
     const color = colors[code] || "border-[#174515] text-[#174515] bg-[#174515]";
     return(
-        <div className={`w-[100%] bg-[#fff] py-4 mt-2 px-4 ${color} rounded-md border-2`}>
-            <div className={`border-l-8 w-[100%] items-center px-3`}>
-                <div className="text-black ">
-                    <h2 className="font-bold font-poppins text-md ">Bast may Baraylihan</h2>
-                    <p  className="flex cursor-pointer gap-2 text-xs items-center"><span>Service Hour: 10 Hours</span></p>
-                    
+        (communityService.map((cs)=>(
+            <div className={`w-[100%] bg-[#fff] py-4 mt-2 px-4 ${color} rounded-md border-2`}>
+                <div className={`border-l-8 w-[100%] items-center px-3`}>
+                    <div className="text-black ">
+                        <h2 className="font-bold font-poppins text-md ">Bast may Baraylihan</h2>
+                        <p  className="flex cursor-pointer gap-2 text-xs items-center"><span>Service Hour: 10 Hours</span></p>
+                        
+                    </div>
                 </div>
             </div>
-
-        </div>
+        )))
     );
 }
 export default CommunitySanction;

@@ -29,6 +29,12 @@ function Dashboard(){
     const cash = <i className="fa-solid fa-money-bills z-[-1] opacity-50"></i>
 
     const [currentUserData, setCurrentUserData] = useState([]);
+    const [sanctionData, setSanctionData] = useState({
+        "monetary_sanctions": [],
+        "community_service": [],
+        "total_sanction_balance": 0,
+        "total_sanctions_paid": 0
+    });
     const [dashboardData, setDashboardData] = useState({
         "num_paid_contributions": "-",
         "num_unpaid_contributions": "-",
@@ -47,7 +53,7 @@ function Dashboard(){
                     setCurrentUserData(response.data);
                 }
             } catch (err) {
-                errorAlert("Fetch Failed");
+                console.error("Fetch Failed");
             }
         }
 
@@ -61,7 +67,21 @@ function Dashboard(){
                     setDashboardData(response.data);
                 }
             } catch (err) {
-                errorAlert("Fetch Failed");
+                console.error("Fetch Failed");
+            }
+        }
+
+        const fetchSanctionData = async () => {
+            try {
+                const res = await fetch("/api/students/current/attendance/sanction", {
+                    credentials: "include"
+                });
+                const response = await res.json();
+                if (response.status === "success") {
+                    setSanctionData(response.data);
+                }
+            } catch (err) {
+                console.error("Fetch Failed");
             }
         }
 
@@ -85,6 +105,7 @@ function Dashboard(){
 
         useEffect(() => {
             fetchCurrentUser();
+            fetchSanctionData();
             fetchDashboardData();
         }, []);
     
@@ -161,18 +182,17 @@ function Dashboard(){
                     </h2>
                     {isMonetary === true && (
                         <>
-                        <div className=" flex justify-between items-center ">
-                            <h2 className={` ${color} bg-[#fff0] font-semibold ml-2 mt-3 font-inter text-md`}>Total Sanctions: P36.00</h2>
-                            <button className={`${color} px-6 rounded-md py-1 shadow-[2px_2px_2px_grey] hover:scale-105 transition duration-200 cursor-pointer  text-white font-inter text-xs `}>Pay All</button>
+                        <div className=" flex justify-start items-center ">
+                            <h2 className={` ${color} bg-[#fff0] font-semibold ml-2 mt-3 font-inter text-md`}>Total Sanctions: P {sanctionData?.total_sanction_balance}</h2>
                         </div>
 
-                        <MonetarySanction code={currentUserData?.department_code} />
+                        <MonetarySanction monetarySanctions={sanctionData?.monetary_sanctions} code={currentUserData?.department_code} />
                         </>
                     )}
                     {isMonetary === false &&(
                         <>
-                        <h2 className={` ${color} bg-[#fff0] font-semibold ml-2 mt-3 font-inter text-md`}>Total Number of Service: 1</h2>
-                        <CommunitySanction code={currentUserData?.department_code} />
+                        <h2 className={` ${color} bg-[#fff0] font-semibold ml-2 mt-3 font-inter text-md`}>Total Number of Service: {sanctionData?.community_service?.length}</h2>
+                        <CommunitySanction communityService={sanctionData?.community_service} code={currentUserData?.department_code} />
                         </>
                     )}
                     

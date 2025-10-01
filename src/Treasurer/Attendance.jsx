@@ -245,6 +245,7 @@ const animateL = "left-In";
                     <AttendanceTable
                         paginate={paginateForStudents}
                         studentAttendees={studentAttendees}
+                        setStudentAttendees={setStudentAttendees}
                         attendanceKeys={attendanceKeys}
                         fetchStudentAttendees={fetchStudentAttendees}
                         selectedEvent={selectedEvent}
@@ -256,7 +257,7 @@ const animateL = "left-In";
                
             </div>
             <div className='hidden lg:block'>
-                <CITSidebar code={currentUserData?.department_code} />
+                <CITSidebar isUnivWide={currentUserData?.university_wide_org} code={currentUserData?.department_code} />
             </div>
         </>
     );

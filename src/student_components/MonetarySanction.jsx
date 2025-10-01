@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-function MonetarySanction({code}){
+function MonetarySanction({code, monetarySanctions}){
     const [showLogs, setShowLogs] = useState(false);
     const clickedLog = () => setShowLogs(!showLogs);
     const colors = {
@@ -14,28 +14,32 @@ function MonetarySanction({code}){
 
     const color = colors[code] || "border-[#174515] text-[#174515] bg-[#174515]";
     return(
-        <div className={`w-[100%] bg-[#fff] py-4 mt-2 px-4 ${color} rounded-md border-2`}>
-            <div className={`border-l-8 w-[100%] items-center grid-cols-[50px_auto] grid px-3`}>
-                <div className="font-bold font-[family-name:Hervetica] text-2xl">36</div>
-                <div className="text-black ">
-                    <h2 className="font-bold font-poppins text-md ">IT Week</h2>
-                    <p onClick={clickedLog} className="flex cursor-pointer gap-2 text-xs items-center"><span>Absence Logs</span>
-                        {showLogs ? (
-                        <i className="fa-solid fa-caret-up"></i>
-                        ) : (
-                        <i className="fa-solid fa-caret-down"></i>
-                        )}
-                    </p>
-                    {showLogs === true &&(
-                        <p className="text-xs">
-                        June 12, 2025 - AM IN, AM OUT
+        monetarySanctions.map((ms)=>(
+            <div className={`w-[100%] bg-[#fff] py-4 mt-2 px-4 ${color} rounded-md border-2`}>
+                <div className={`border-l-8 w-[100%] items-center grid-cols-[50px_auto] grid px-3`}>
+                    <div className="font-bold font-[family-name:Hervetica] text-2xl">{ms.balance}</div>
+                    <div className="text-black ">
+                        <h2 className="font-bold font-poppins text-md ">{ms.event_name}</h2>
+                        <p onClick={clickedLog} className="flex cursor-pointer gap-2 text-xs items-center"><span>Absence Logs</span>
+                            {showLogs ? (
+                            <i className="fa-solid fa-caret-up"></i>
+                            ) : (
+                            <i className="fa-solid fa-caret-down"></i>
+                            )}
                         </p>
-                    )}
-                    
+                        {showLogs === true &&(
+                            (ms.absence_logs.map((al)=>(
+                                <p className="text-xs">
+                                {al.event_attend_date} - {al.event_attend_time.map((t)=>(
+                                    <>{t}, </>
+                                ))}
+                                </p>
+                            )))
+                        )}
+                    </div>
                 </div>
             </div>
-
-        </div>
+        ))
     );
 }
 export default MonetarySanction;

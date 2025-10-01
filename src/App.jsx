@@ -57,7 +57,7 @@ function App() {
           <Route path="/osas/program" element={<Program/>}/>
           <Route path="/osas/organisation" element={<Organisation/>}/>
           <Route path="/osas/student" element={<Student/>}/>
-          <Route path="/osas/account" element={<Account/>}/>
+          <Route path="/osas/treasurer" element={<Account/>}/>
           <Route path="/osas/setting" element={<Setting/>}/>
         </Route>
 /* ----------------------------- Student -------------------------------- */

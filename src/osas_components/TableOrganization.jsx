@@ -89,7 +89,7 @@ function TableOrganisation({ code = "osas", organizations = [] , update, reloadO
               <tr key={idx} className="border-b border-[#0505057a] ">
                 <td>{s.organization_code}</td>
                 <td>{s.organization_name}</td>
-                <td>{s.department_code}</td>
+                <td>{s.department_code != null ? s.department_code : "University Wide"}</td>
                 <td className="flex lg:flex-row flex-col gap-2 justify-center py-2">
                   <span onClick={() =>update(s)} className="material-symbols-outlined cursor-pointer text-[#174515] bg-white  shadow-[2px_2px_1px_grey] rounded-sm border border-[#174515] px-1">
                     edit_square

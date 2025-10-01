@@ -203,7 +203,7 @@ function Setting(){
             </div>
             
           <div className='lg:block hidden' >
-                 <Sidebar code={currentUserData?.department_code} />
+                 <Sidebar isUnivWide={currentUserData?.university_wide_org} code={currentUserData?.department_code} />
             </div>
         </>
     );

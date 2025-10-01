@@ -83,7 +83,7 @@ function CITExcuse() {
             </div>
 
             <div className="hidden lg:block">
-                <CITSidebar code={currentUserData?.department_code} />
+                <CITSidebar isUnivWide={currentUserData?.university_wide_org} code={currentUserData?.department_code} />
             </div>
         </>
     );

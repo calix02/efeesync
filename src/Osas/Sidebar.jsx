@@ -43,7 +43,7 @@ const Sidebar = React.forwardRef(({eFee, animate, onAnimationEnd,onClose},ref) =
                     <NavLink code="OSAS" navLink = "/osas/program" iconName="school" navName="Program"/>
                     <NavLink code="OSAS" navLink = "/osas/organisation" iconName="graph_2" navName="Organization"/>
                     <NavLink code="OSAS" navLink = "/osas/student" iconName="person" navName="Student"/>
-                    <NavLink code="OSAS" navLink = "/osas/account" iconName="person_add" navName="Account"/>
+                    <NavLink code="OSAS" navLink = "/osas/treasurer" iconName="person_add" navName="Treasurer"/>
                     <NavLink code="OSAS" navLink = "/osas/setting" iconName="settings" navName="Settings"/>
                 </nav>
                 <div className="absolute bottom-2 w-full px-3 lg:hidden block">

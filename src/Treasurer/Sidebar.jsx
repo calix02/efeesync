@@ -12,7 +12,7 @@ import Ssc from "../assets/greenlogo.png";
 
 
 
-const CITSidebar = React.forwardRef(({ animate, onAnimationEnd,onClose ,code },ref) =>{
+const CITSidebar = React.forwardRef(({ animate, onAnimationEnd,onClose ,code, isUnivWide },ref) =>{
      const colors = {
         CIT: "border-[#621668] text-[#621668]",
         COE: "border-[#020180] text-[#020180]",
@@ -65,7 +65,9 @@ const CITSidebar = React.forwardRef(({ animate, onAnimationEnd,onClose ,code },r
                 </span>
                 <nav className='pt-5 mx-3'>
                     <NavLink code={code} navLink = "/org/dashboard" iconName="dashboard" navName="Dashboard"/>
-                    <NavLink code={code} navLink = "/org/student" iconName="person" navName="Student"/>
+                    {!isUnivWide && (
+                        <NavLink code={code} navLink = "/org/student" iconName="person" navName="Student"/>
+                    )}
                     <NavLink code={code} navLink = "/org/eventlist" iconName="event_note" navName="Event List"/>
                     {/** 
                     <DropDownNav code={code} subNavLink1 = "/org/financial" subNavLink2 = "/org/accomplishment" iconName="assignment" navName="Reports" iconName1 = "article" subNavName1 = "Financial Report" iconName2 = "fact_check" subNavName2 = "Accomplishment Report"/>

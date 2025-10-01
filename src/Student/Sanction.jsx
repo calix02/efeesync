@@ -10,6 +10,27 @@ import it from '../assets/it.png';
 function Sanction(){
 
     const [currentUserData, setCurrentUserData] = useState([]);
+    const [sanctionData, setSanctionData] = useState({
+            "monetary_sanctions": [],
+            "community_service": [],
+            "total_sanction_balance": 0,
+            "total_sanctions_paid": 0
+        });
+
+        const fetchSanctionData = async () => {
+            try {
+                const res = await fetch("/api/students/current/attendance/sanction", {
+                    credentials: "include"
+                });
+                const response = await res.json();
+                if (response.status === "success") {
+                    setSanctionData(response.data);
+                }
+            } catch (err) {
+                console.error("Fetch Failed");
+            }
+        }
+
             
             const fetchCurrentUser = async () => {
                 try {
@@ -26,7 +47,7 @@ function Sanction(){
             }
             useEffect(() => {
                 fetchCurrentUser();
-                console.log(currentUserData);
+                fetchSanctionData();
             }, []);
        
     return(
@@ -38,12 +59,12 @@ function Sanction(){
             </div>
             <div className="lg:ml-70 lg:px-8 md:px-6 px-3 ">
                 <div className=" bg-white rounded-lg w-100% h-15 border-2 border-[#621668] text-[#621668] shadow-[2px_2px_3px_grey] mt-4 text-lg font-[family-name:arial] font-semibold flex items-center p-3">
-                    <span>Total Sanction Paid: P1,250.00</span>
+                    <span>Total Sanctions Paid: P {sanctionData?.total_sanctions_paid}.00</span>
                 </div>
             </div>
             <div className="lg:ml-70 grid lg:grid-cols-2 px-8 md:grid-cols-2 gap-6 mt-6">
-                <Monetary/>
-                <CommunityService/>
+                <Monetary monetarySanction={sanctionData?.monetary_sanctions}/>
+                <CommunityService communityService={sanctionData?.community_service} />
 
             </div>
             

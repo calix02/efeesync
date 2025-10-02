@@ -5,14 +5,15 @@ import "../animate.css";
 function AttendanceTable({ code, attendees = [], scanAttendee, attendanceKeys, studentAttendees, setStudentAttendees, fetchStudentAttendees, paginate, selectedEvent, searchValue, selectedEventDate}) {
   const animate = "card-In";
 
-  const textColor =
-    code === "cit" ? "text-[#4F1C51]"
-    : code === "coe" ? "text-[#0E2148]"
-    : code === "coc" ? "text-[#3A0519]"
-    : code === "cot" ? "text-[#FFD95F]"
-    : code === "eap" ? "text-[#4B352A]"
-    : code === "osas" ? "text-[#27391C]"
-    : "text-black";
+  const colors = {
+      CIT: "border-[#621668] text-[#621668] bg-[#621668]",
+      COE: "border-[#020180] text-[#020180] bg-[#020180]",
+      COC: "border-[#660A0A] text-[#660A0A] bg-[#660A0A]",
+      COT: "border-[#847714] text-[#847714] bg-[#847714]",
+      ESAF: "border-[#6F3306] text-[#6F3306] bg-[#6F3306]",
+      SSC: "border-[#174515] text-[#174515] bg-[#174515]"
+    };
+    const color = colors[code] || "border-[#174515] text-[#174515] bg-[#174515]";
 
   const fallback = [];
 
@@ -61,7 +62,7 @@ function AttendanceTable({ code, attendees = [], scanAttendee, attendanceKeys, s
       <div className={`lg:ml-70 bg-white text-black flex-grow p-5 mt-3 rounded-lg shadow-[2px_2px_2px_grey]`}>
         <table className="w-full text-center">
           <thead>
-            <tr className={`border-b-2 border-[#adadad] ${textColor}`}>
+            <tr className={`border-b-2 border-[#adadad] ${color}`}>
               <th><input type="checkbox" /></th>
               <th hidden>Id</th>
               <th>Student Name</th>

@@ -18,6 +18,7 @@ function Attendance(){
 const animateR = "right-In";
 const animateL = "left-In";
 
+
 /* ------------------------- Animated States ----------------------------- */
     const scanAttendee = useAnimatedToggle();
     const updateEvent = useAnimatedToggle();
@@ -133,6 +134,25 @@ const animateL = "left-In";
                 fetchStudentAttendees(1, search);
             }, 500);
         };
+    const colors = {
+            CIT: "border-[#621668] text-[#621668] bg-[#621668]",
+            COE: "border-[#020180] text-[#020180] bg-[#020180]",
+            COC: "border-[#660A0A] text-[#660A0A] bg-[#660A0A]",
+            COT: "border-[#847714] text-[#847714] bg-[#847714]",
+            ESAF: "border-[#6F3306] text-[#6F3306] bg-[#6F3306]",
+            SSC: "border-[#174515] text-[#174515] bg-[#174515]"
+        };
+    const color = colors[currentUserData?.department_code] || "border-[#174515] text-[#174515] bg-[#174515]";
+
+    const hoverColors = {
+            CIT: "hover:text-[#621668] ",
+            COE: " hover:text-[#020180] ",
+            COC: " hover:text-[#660A0A] ",
+            COT: "hover:text-[#847714] ",
+            ESAF: "hover:text-[#6F3306] ",
+            SSC: "hover:text-[#174515] "
+        };
+    const hoverColor = hoverColors[currentUserData?.department_code] || " hover:text-[#174515] ";
 
     return(
         <>
@@ -177,7 +197,7 @@ const animateL = "left-In";
                      <div className="lg:mt-30 mt-25 lg:ml-70 lg:flex md:flex  justify-between">
                         <h2 className="text-2xl font-medium font-[family-name:Futura Bold]">Manage Attendance</h2>
                         <div className={`flex ${animateR} items-center lg:px-0 md:px-0 px-3`}>
-                            <input className='lg:w-85 md:w-85 w-[100%] p-1.5 bg-white rounded-md border-2 lg:mt-0 md:mt-0 mt-4   border-[#8A2791] block' type="text" placeholder='Search Events' onKeyUp={(e) => {searchEventAttendance(e.target.value)} } />
+                            <input className='lg:w-85 md:w-85 w-[100%] p-1.5 bg-white rounded-md border-2 lg:mt-0 md:mt-0 mt-4   block' type="text" placeholder='Search Events' onKeyUp={(e) => {searchEventAttendance(e.target.value)} } />
                         </div>
                     </div>
                     <div className=' w-[100%] mt-3 '>
@@ -199,7 +219,7 @@ const animateL = "left-In";
                         </div>
                         <div className="lg:ml-70 text-[font-family:Arial] lg:text-sm text-xs mt-3 flex justify-end">
                             <Link to="/org/eventlist">
-                                <button className='bg-[#621668] text-center hover:bg-white hover:border-[#621668] hover:text-[#621668] hover:scale-102 hover:shadow-[2px_2px_3px_grey] duration-200 transition py-1 rounded-md cursor-pointer px-3 text-white border-1 border-[#804d84]'>Back to Eventlist</button>
+                                    <button className={` ${color} ${hoverColor} text-center hover:bg-white  hover:scale-102 hover:shadow-[2px_2px_3px_grey] duration-200 transition py-1 rounded-md cursor-pointer px-3 text-white border-1 border-[#804d84`}>Back to Eventlist</button>
                             </Link>
                         </div>
                         <TableAttendance
@@ -220,7 +240,7 @@ const animateL = "left-In";
                             {selectedEvent?.event_name || "Event Details"}
                         </h2>
                         <div className={`flex ${animateR} items-center lg:px-0 md:px-0 px-3`}>
-                            <input className="lg:w-85 md:w-85 w-[100%] p-1.5 bg-white rounded-md border-2 lg:mt-0 md:mt-0 mt-4 border-[#8A2791] block"
+                            <input className="lg:w-85 md:w-85 w-[100%] p-1.5 bg-white rounded-md border-2 lg:mt-0 md:mt-0 mt-4 border-black block"
                             type="text"
                             onKeyUp={(e) => {searchStudentAttendees(e.target.value)} }
                             placeholder="Search Student Attendees"/>
@@ -237,12 +257,13 @@ const animateL = "left-In";
                                 ))}
                             </select>
                         </span>
-                        <button className="bg-[#621668] px-6 text-white rounded-md cursor-pointer hover:scale-102 hover:bg-white hover:text-[#621668] hover:border-[#621668] border-1 hover:shadow-[2px_2px_3px_grey] transition duration-200"
+                        <button className={` px-6 text-white rounded-md cursor-pointer hover:scale-102 hover:bg-white border-1 hover:shadow-[2px_2px_3px_grey] transition duration-200`}
                             onClick={() => setShowSelectedEvents(false)}>
                             Back
                         </button>
                     </div>
                     <AttendanceTable
+                        code={currentUserData?.department_code}
                         paginate={paginateForStudents}
                         studentAttendees={studentAttendees}
                         setStudentAttendees={setStudentAttendees}

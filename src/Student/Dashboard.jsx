@@ -8,6 +8,7 @@ import CommunitySanction from "../student_components/CommunitySanction.jsx";
 import SendPayment from "../student_components/SendPayment.jsx";
 import SendExcuse from "../student_components/SendExcuse.jsx";
 import useAnimatedToggle from "../hooks/useAnimatedToggle.js";
+import Footer from "../other_components/Footer.jsx";
 import { useState, useEffect, useRef } from "react";
 import "../animate.css";
 
@@ -132,20 +133,20 @@ function Dashboard(){
         )}
         {sendExcuse.isVisible &&(
             <div className="fixed flex justify-center items-center inset-0 bg-[#00000062] lg:z-40 md:z-50 z-70 pointer-events-auto">
-                <SendExcuse ref={excuseRef} onAnimationEnd={sendExcuse.handleEnd} onClose={()=> sendExcuse.setAnimation("fade-out")} animate={sendExcuse.animation} />  
+                <SendExcuse code={currentUserData?.department_code} ref={excuseRef} onAnimationEnd={sendExcuse.handleEnd} onClose={()=> sendExcuse.setAnimation("fade-out")} animate={sendExcuse.animation} />  
             </div>
         )}
 
         <Header code={currentUserData?.department_code} title ={currentUserData?.department_name}/>
         <div className="w-screen h-screen bg-[#F8F8F8] absolute z-[-1] overflow-y-auto overflow-x-auto lg:px-6 md:px-10 px-3 ">
             <div className="lg:mt-30 mt-25 lg:ml-70">
-                <h2 className="text-2xl font-[family-name:Futura Bold] font-semibold">Welcome, {currentUserData?.full_name}!</h2>
+                <h2 className="text-2xl font-poppins  font-semibold">Welcome, {currentUserData?.full_name}!</h2>
             </div>
             <div className={` ${animate} lg:ml-70 lg:flex lg:justify-center grid grid-cols-2 gap-6 mt-6`}>
-                <CardStudent title="Number of Paid Contributions" value={dashboardData?.num_paid_contributions} icon ={calendar}/>
-                <CardStudent title="Number of Unpaid Contributions" value={dashboardData?.num_unpaid_contributions} icon ={coin}/>
-                <CardStudent title="Number of Unsettled Contributions" value={dashboardData?.num_unsettled_contributions} icon ={cash}/>
-                <CardStudent title="Number of Active Sanctions" value={dashboardData?.num_active_sanctions} icon ={calendar}/>
+                <CardStudent link="/student/contribution" title="Number of Paid Contributions" value={dashboardData?.num_paid_contributions} icon ={calendar}/>
+                <CardStudent link="/student/contribution" title="Number of Unpaid Contributions" value={dashboardData?.num_unpaid_contributions} icon ={coin}/>
+                <CardStudent link="/student/contribution" title="Number of Unsettled Contributions" value={dashboardData?.num_unsettled_contributions} icon ={cash}/>
+                <CardStudent link="/student/sanction" title="Number of Active Sanctions" value={dashboardData?.num_active_sanctions} icon ={calendar}/>
             </div>
             <div className={`  lg:ml-70 lg:flex lg:justify-center gap-6`}>
                  <div className={` ${animateL} w-[100%] h-100 bg-[#F8F8F8] shadow-[2px_2px_3px_#434343,-2px_-2px_3px_#ebe4e4] px-5 border-[#ebe4e4] mt-8 rounded-lg overflow-y-scroll hide-scrollbar`}>
@@ -197,6 +198,9 @@ function Dashboard(){
                     )}
                     
                 </div>
+            </div>
+            <div className="lg:ml-70">
+                <Footer/>
             </div>
         </div>
              <div className='lg:block hidden' >

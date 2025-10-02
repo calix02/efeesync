@@ -289,7 +289,7 @@ return(
 
             {selectedType.includes("With Attendance") && (
             <>
-                <div className="border-2 border-[#8A2791] rounded-md p-2 mb-3 text-xs">
+                <div className="border-2  rounded-md p-2 mb-3 text-xs">
                 {/* Straight or Separate Day Logs */}
                 {(selectedDateType === "Straight Event"
                   ? getDateRange(dateFrom, dateTo)

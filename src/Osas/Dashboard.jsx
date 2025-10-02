@@ -14,6 +14,7 @@ import educ from '../assets/COE.png';
 import cotsc from '../assets/COT.png';
 import esaf from '../assets/ESAF.png';
 import it from '../assets/CIT.png';
+import Footer from '../other_components/Footer.jsx';
 import "../animate.css";
 import { useState, useEffect } from 'react';
 
@@ -146,6 +147,9 @@ function Dashboard(){
                 </div>
             </div> 
             */}
+            <div className="lg:ml-70">
+                <Footer/>
+            </div>
         </div>
 
             <div className='lg:block hidden' >

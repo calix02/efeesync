@@ -91,7 +91,7 @@ function EventChart({ eventSummary, code }) {
           id="event-select"
           value={selectedEvent}
           onChange={(e) => setSelectedEvent(e.target.value)}
-          className="cursor-pointer w-full py-2 px-3 shadow-md rounded font-bold text-lg"
+          className="cursor-pointer w-full mb-3 py-2 px-3 shadow-md rounded font-bold text-lg"
         >
           {Object.keys(eventsData).map((eventName) => (
             <option key={eventName} value={eventName}>
@@ -100,8 +100,6 @@ function EventChart({ eventSummary, code }) {
           ))}
         </select>
       </div>
-
-      <h2 className={` ${color} font-bold mb-2`}>{selectedEvent}</h2>
 
       <div className="w-full h-60">
         <Bar data={eventsData[selectedEvent]} options={chartOptions} />

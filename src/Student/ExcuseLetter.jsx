@@ -19,6 +19,8 @@ function ExcuseLetter(){
     const letterRef = useRef(null);
     const editRef = useRef(null);
 
+    const animate = "card-In";
+
     const [currentUserData, setCurrentUserData] = useState([]);
             
             const fetchCurrentUser = async () => {
@@ -38,6 +40,7 @@ function ExcuseLetter(){
                 fetchCurrentUser();
                 console.log(currentUserData);
             }, []);
+    const [selectedExcuse, setSelectedExcuse] = useState(null);
     
     return(
         <>
@@ -46,7 +49,7 @@ function ExcuseLetter(){
             <>
             <div className="fixed inset-0 flex justify-center items-center  lg:z-40 md:z-50 z-70 bg-[#00000062] pointer-events-auto">
                 {/* Overlay */}
-                <Letter code={currentUserData?.department_code} ref={letterRef} onAnimationEnd={letter.handleEnd} onClose={() => letter.setAnimation("fade-out")} animate={letter.animation} />
+                <Letter data={selectedExcuse} code={currentUserData?.department_code} ref={letterRef} onAnimationEnd={letter.handleEnd} onClose={() => letter.setAnimation("fade-out")} animate={letter.animation} />
             </div>
         </>
 
@@ -63,23 +66,17 @@ function ExcuseLetter(){
             </>
 
          )
-        
-
         }
         <Header code={currentUserData?.department_code} title = {currentUserData?.department_name}/>
-        <div className="w-screen h-screen bg-[#F8F8F8] absolute z-[-1] overflow-y-auto overflow-x-auto ">
-            <div className="mt-[110px] lg:ml-70 flex justify-between px-6">
-                <h2 className="text-2xl font-semibold ">Excuse Letter Request</h2>
+        <div className="w-screen h-screen bg-[#F8F8F8] absolute z-[-1] overflow-y-auto overflow-x-auto lg:px-6 md:px-10 px-3 ">
+            <div className="mt-[110px] lg:ml-70 flex justify-between ">
+                <h2 className="text-2xl font-semibold font-poppins  ">Excuse Letter Request</h2>
             </div>
-            <div className="lg:ml-70 grid lg:grid-cols-3 md:grid-cols-2  gap-5  mt-6 px-8" >
-                <ExcuseStatusCard status="Approved" view={letter.toggle} edit={editExcuse.toggle}/>
-                <ExcuseStatusCard status="Approved" view={letter.toggle} edit={editExcuse.toggle}/>
-                <ExcuseStatusCard status="Approved" view={letter.toggle} edit={editExcuse.toggle}/>
-                <ExcuseStatusCard status="Pending" view={letter.toggle} edit={editExcuse.toggle}/>
-                <ExcuseStatusCard status="Rejected" view={letter.toggle} edit={editExcuse.toggle}/>
-
-
-                
+            <div className={`lg:ml-70 ${animate} grid lg:grid-cols-3 md:grid-cols-2  gap-5  mt-6`}>
+                <ExcuseStatusCard status="Approved" view={(id)=>{
+                    letter.toggle();
+                    setSelectedExcuse(id);
+                    }} edit={editExcuse.toggle}/>
             </div>
             
         </div>

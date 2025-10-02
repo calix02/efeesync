@@ -138,7 +138,7 @@ function CITDashboard({currentUserData}) {
         }
         <div className="w-screen h-screen bg-[#ecececa4] absolute z-[-1] overflow-y-auto overflow-x-auto ">
             <div className="lg:mt-30 mt-25 lg:ml-70">
-                <h2 className="text-2xl font-poppins font-semibold text-[#] ml-6">Dashboard</h2>
+                <h2 className="text-2xl font-poppins font-semibold  ml-6">Dashboard</h2>
             </div>
             <div className="lg:flex lg:flex-row lg:justify-center lg:items-center lg:px-6 md:px-10 px-3 grid grid-cols-2 mt-4 lg:ml-70 lg:gap-6 gap-4">
                <TreasurerCard show={eventCalendar.toggle}  code={currentUserData?.department_code} desc="Number of Events" value={dashboardData.total_events} icon={calendar}/>
@@ -155,7 +155,7 @@ function CITDashboard({currentUserData}) {
                 </div>
                 
             </div>
-            <div className="lg:ml-70 mt-10 px-8">
+            <div className="lg:ml-70 ">
                 <Footer/>
             </div>
         </div>

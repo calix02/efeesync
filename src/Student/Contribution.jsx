@@ -57,9 +57,9 @@ function Contribution(){
     return(
         <>
         <Header code={currentUserData?.department_code} title = {currentUserData?.department_name}/>
-        <div className="w-screen h-screen bg-[#F8F8F8] absolute z-[-1] overflow-y-auto overflow-x-auto ">
+        <div className="w-screen h-screen bg-[#F8F8F8] absolute z-[-1] overflow-y-auto overflow-x-auto lg:px-6 md:px-10 px-3 ">
             <div className="mt-[110px] lg:ml-70">
-                <h2 className="text-2xl font-semibold ml-6">My Contributions</h2>
+                <h2 className="text-2xl font-poppins  font-semibold ">My Contributions</h2>
             </div>
             <div className="lg:ml-70 px-8 ">
                 {/**
@@ -68,7 +68,7 @@ function Contribution(){
                 </div>
                  */}
             </div>
-            <div className={`lg:ml-70 lg:grid md:grid lg:grid-cols-3 md:grid-cols-2 flex flex-col gap-8 mt-8 px-8`}>
+            <div className={`lg:ml-70 lg:grid md:grid lg:grid-cols-3 md:grid-cols-2 flex flex-col gap-8 mt-8 `}>
                 <PaidCard total={contributionStatus?.total_fees_paid} paidEvents={contributionStatus?.paid_events} />
                 <UnpaidCard unpaidEvents={contributionStatus?.unpaid_events}/>
                 <Unsettled unsettledEvents={contributionStatus?.unsettled_events} />

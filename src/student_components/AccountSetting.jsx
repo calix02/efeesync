@@ -6,7 +6,7 @@ function AccountSetting({upload,accName,accRole,accEmail,profile,changePass,chan
         COE: "border-[#020180] text-[#020180] bg-[#020180]",
         COC: "border-[#660A0A] text-[#660A0A] bg-[#660A0A]",
         COT: "border-[#847714] text-[#847714] bg-[#847714]",
-        SCEAP: "border-[#6F3306] text-[#6F3306] bg-[#6F3306]",
+        ESAF: "border-[#6F3306] text-[#6F3306] bg-[#6F3306]",
         SSC: "border-[#174515] text-[#174515] bg-[#174515]"
       };
       const color = colors[code] || "border-[#174515] text-[#174515] bg-[#174515]";
@@ -16,7 +16,7 @@ function AccountSetting({upload,accName,accRole,accEmail,profile,changePass,chan
         COE: "hover:bg-[#020180]",
         COC: "hover:bg-[#660A0A]",
         COT: "hover:bg-[#847714]",
-        SCEAP: "hover:bg-[#6F3306]",
+        ESAF: "hover:bg-[#6F3306]",
         SSC: "hover:bg-[#174515]",
         OSAS: "hover:bg-[#174515]"
 

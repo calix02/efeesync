@@ -1,4 +1,4 @@
-
+import { Link } from "react-router-dom";
 function CardStudent(props){
     const Color = 
     props.title === "Number of Paid Contributions" ? 'bg-[#F1E7FF] text-[#621668] border-[#621668]'
@@ -7,13 +7,14 @@ function CardStudent(props){
     :props.title === "Number of Active Sanctions" ? 'bg-[#EBFDEF] text-[#174515] border-[#174515]' 
     : "bg-[white]";
     return(
-        <div className={`border-2 rounded-md w-[100%] h-28 ${Color} relative px-4 shadow-[2px_2px_3px_grey]`}>
+        <Link to={props.link} className={`border-2 cursor-pointer hover:scale-105 transition duration-500 rounded-md w-[100%] h-28 ${Color} relative px-4 shadow-[2px_2px_3px_grey]`}>
             <div className="text-[#625555] mt-2.5 text-sm font-[family-name:Helvetica]">{props.title}</div>
             <span className="text-4xl font-bold">{props.value}</span>
             <span className="absolute right-3 bottom-4 text-6xl">
                 {props.icon}
             </span>
-        </div>
+        </Link>
+        
     );
 }
 export default CardStudent;

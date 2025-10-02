@@ -92,9 +92,10 @@ function Header_Council(props) {
       </span>
       */}
 
-        <span className="hidden lg:block">
-          <i onClick={() =>{clickedAccBar(); account.toggle();}}  className="fa-solid fa-circle-user lg:text-xl hover:bg-[#174515] transiton duration-150 rounded-full p-1.5 hover:text-white text-sm cursor-pointer"></i>
-        </span>
+        <span onClick={() => { clickedAccBar(); account.toggle(); }}  className={`hidden px-3 font-[family-name:Arial] text-sm rounded-3xl shadow-[1px_1px_1px_grey] hover:bg-[#174515] cursor-pointer transiton duration-150 border-1 border-[#f3f3f3] lg:flex items-center hover:text-white`}>
+            <span><i  className={`fa-solid fa-circle-user lg:text-xl  rounded-full p-1.5 hover:text-white  text-sm cursor-pointer`}></i></span>
+            <span>Account</span>
+          </span>
       </span>
 
       {/* Account Card */}

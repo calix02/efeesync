@@ -20,8 +20,8 @@ function UpcomingEvents({month,day,event,desc,target,type, pay, code, excuse}){
                     <span className="text-3xl font-bold">{day}</span>
                 </div>
                 <div className={` w-[80%] ${color} border-2 py-3  rounded-md relative  bg-white flex items-center px-4`}>
-                    <div className={` ${color} bg-[#fff0]  text-black h-25 border-l-8`}>
-                        <div className="px-4 leading-3">
+                    <div className={` ${color}  w-full bg-[#fff0]  text-black pt-3 pb-1 border-l-8`}>
+                        <div className="px-4 w-full leading-3">
                             <span className="text-lg font-bold">{event}</span><br />
                             <span className="text-sm ">{desc}</span><br />
                             <div className=" mt-4">
@@ -31,14 +31,19 @@ function UpcomingEvents({month,day,event,desc,target,type, pay, code, excuse}){
 
                                  {type=='Contribution' && (
                                 <>
-                                    <button onClick={pay} className={`border-1 absolute inset right-3 bottom-4  ${color} border-[#4b4b4b] hover:scale-110 text-white transition duration-200 scale-102 cursor-pointer w-25  shadow-[2px_2px_2px_grey] py-1 font-inter text-xs rounded-md`}>Pay Now</button> 
+                                <div className="flex justify-end">
+                                    <button onClick={pay} className={`border-1    ${color} border-[#4b4b4b] hover:scale-110 text-white transition duration-200 scale-102 cursor-pointer w-25  shadow-[2px_2px_2px_grey] py-1 font-inter text-xs rounded-md`}>Pay Now</button> 
+                                </div>
                                 </>
                                 )}
                                 {type=='Attendance' && (
                                 <>
-                                    <button onClick={excuse} className={`absolute ${color} bg-white right-3 bottom-4 border-1 border-[#4d4d4d] hover:scale-110  transition duration-200 scale-102 cursor-pointer w-25  shadow-[2px_2px_2px_grey] py-1 font-inter text-xs rounded-md`}>Request Excuse</button>        
+                                <div className="flex justify-end">
+                                    <button onClick={excuse} className={` ${color} bg-white  border-1 border-[#4d4d4d] hover:scale-110  transition duration-200 scale-102 cursor-pointer w-25  shadow-[2px_2px_2px_grey] py-1 font-inter text-xs rounded-md`}>Request Excuse</button>        
+                                </div>
                                 </>
                                 )}
+                                
                                  
 
                             </div>

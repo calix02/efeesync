@@ -28,10 +28,27 @@ function CITExcuse() {
                 errorAlert("Fetch Failed");
             }
         }
+        const [attendanceExcuses, setAttendanceExcuses] = useState([]);
+        const fetchAttendanceExcuse = async () => {
+            if (!currentUserData) return;
+            try {
+                const res = await fetch(`/api/organizations/code/${currentUserData?.organization_code}/attendance/excuses`, {
+                    credentials: "include"
+                });
+                const response = await res.json();
+                if (response.status === "success") {
+                    setAttendanceExcuses(response.data);
+                }
+            } catch (err) {
+                errorAlert("Fetch Failed");
+            }
+        }
         useEffect(() => {
             fetchCurrentUser();
-            console.log(currentUserData);
         }, []);
+        useEffect(() => {
+            fetchAttendanceExcuse();
+        }, [currentUserData]);
 
     const hoverColors = {
             CIT: " hover:bg-[#621668]",
@@ -42,7 +59,7 @@ function CITExcuse() {
             SSC: "hover:bg-[#174515]"
         };
     const hoverColor = hoverColors[currentUserData?.department_code] || "hover:bg-[#174515]";
-
+        const[selectedStudent, setSelectedStudent] = useState(null);
     
     return (
         <>
@@ -50,7 +67,7 @@ function CITExcuse() {
              <>
                 <div className="fixed inset-0 flex justify-center items-center bg-[#00000062]  lg:z-40 md:z-50 z-70 pointer-events-auto">
                     {/* Overlay */}
-                    <Letter ref={viewLetterRef} onAnimationEnd={viewLetter.handleEnd} animate={viewLetter.animation} onClose={() => viewLetter.setAnimation("fade-out")} />
+                    <Letter ref={viewLetterRef} data={selectedStudent}  onAnimationEnd={viewLetter.handleEnd} animate={viewLetter.animation} onClose={() => viewLetter.setAnimation("fade-out")} />
                 </div>
             </>
         )}
@@ -77,7 +94,10 @@ function CITExcuse() {
                         </select>
                     </div>
                    
-                    <TableExcuse viewLetter={viewLetter.toggle}  code={currentUserData?.department_code} />
+                    <TableExcuse excuses={attendanceExcuses} viewLetter={(row) =>{
+                        viewLetter.toggle();
+                        setSelectedStudent(row);
+                    }}  code={currentUserData?.department_code} />
                     
                 </div>
             </div>

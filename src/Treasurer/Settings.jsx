@@ -2,7 +2,7 @@ import OsasLogo from '../assets/osas.png';
 import Header from '../other_components/Header_Council.jsx';
 import Sidebar from './Sidebar.jsx';
 import EfeeOsas from '../assets/Final_logo.png';
-import AccountSetting from '../osas_components/AccountSetting.jsx';
+import AccountSetting from '../treasurer_components/AccountSetting.jsx';
 import SystemSetting from '../osas_components/SystemSetting.jsx';
 import useAnimatedToggle from '../hooks/useAnimatedToggle.js';
 import UploadProfile from '../other_components/UploadProfile.jsx';
@@ -179,7 +179,7 @@ function Setting(){
             <>
                 <div className="fixed inset-0 bg-[#00000062] flex justify-center items-center lg:z-40 md:z-50 z-70 pointer-events-auto">
                     {/* Overlay */}
-                    <PersonalInformation ref={infoRef} code={currentUserData?.department_code} data={accountData} onUpdate={handleInfoUpdate} onAnimationEnd={information.handleEnd} onClose={() => information.setAnimation("fade-out")} animate={information.animation} />  
+                    <PersonalInformation reloadUserInfo={fetchUser} ref={infoRef} code={currentUserData?.department_code} data={accountData} onUpdate={handleInfoUpdate} onAnimationEnd={information.handleEnd} onClose={() => information.setAnimation("fade-out")} animate={information.animation} />  
                 </div>
             </>
 
@@ -197,8 +197,10 @@ function Setting(){
                 <div className='w-[100%] mt-3 '>
                     <div className='lg:ml-70 lg:px-8 '>
                         <AccountSetting code={currentUserData?.department_code} upload={profile.toggle} changeInfo={information.toggle} changePass={changePassword.toggle}  profile={profileImage} accName={accountData.full_name} accRole={accountData.role} accEmail={accountData.email}/>
+                        {/** 
                         <SystemSetting upload={logo.toggle} updateEfeeLogo={efee.toggle} logo={logoOsas} efeeLogo={efeeLogo} title={title.organizationName} systemName={title.systemName}/>
-                    </div>
+                         */}
+                        </div>
                 </div>
             </div>
             

@@ -68,10 +68,14 @@ function App() {
           <Route path="/student/attendance" element={<Attendance/>}/>
           <Route path="/student/sanction" element={<SanctionStudent/>}/>
           <Route path="/student/excuse" element={<ExcuseLetterStudent/>}/>
+          {/* 
           <Route path="/student/shifting" element={<ShiftingRequest/>}/>
+          */}
           <Route path="/student/financial" element={<FinancialReport/>}/>
           <Route path="/student/accomplishment" element={<AccomplishmentReport/>}/>
+          {/* 
           <Route path="/student/payment" element={<Payment/>}/>
+          */}
           <Route path="/student/settings" element={<SettingsStudent/>}/>
         </Route>
 /* ----------------------------- Treasurer -------------------------------- */
@@ -84,10 +88,14 @@ function App() {
           <Route path="/org/attendance" element={<TreasurerAttendance/>}/>
           <Route path="/org/financial" element={<TreasurerFinancial/>}/>
           <Route path="/org/accomplishment" element={<TreasurerAccomplishment/>}/>
+          {/* 
           <Route path="/org/payment-transaction" element={<PaymentTransaction/>}/>
+          */}
           <Route path="/org/sanction" element={<TreasurerSanction/>}/>
           <Route path="/org/excuse" element={<TreasurerExcuse/>}/>
+          {/* 
           <Route path="/org/shifting-approval" element={<ShiftingApproval/>}/>
+          */}
           <Route path="/org/settings" element={<TreasurerSettings/>}/>
         </Route>
         <Route path="*" element={<NotFound />} />

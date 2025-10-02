@@ -1,46 +1,46 @@
 import React,{useState} from "react";
-const PersonalInformation = React.forwardRef(({animate, onAnimationEnd,onClose,code,data,onUpdate}, ref) =>{
+import { successAlert, errorAlert } from "../utils/alert";
+
+const PersonalInformation = React.forwardRef(({animate, onAnimationEnd,onClose,code,data,reloadUserInfo}, ref) =>{
     const [firstName,setFirstName] = useState(data?.firstName || ""); 
     const [middleName, setMiddleName] = useState (data?.middleName || "");
     const [lastName, setLastName] = useState(data?.lastName || "");
-    const [roleId,setRoleId] = useState(data?.roleId || ""); 
-    const [email,setEmail] = useState(data?.email || "");
-    const [roles, setRoles] = useState([]);
-    
-    const fetchRoles = async () => {
-        try {
-            const res = await fetch("/api/roles", {
-                credentials: "include"
-            });
-            const response = await res.json();
-            if (response.status === "success") {
-                setRoles(response.data);
-            }
-        } catch (err) {
-            //alert("Fetch failed");
-        }
-    }
 
     React.useEffect(()=>{
         if(data){
             setFirstName(data.firstName);
             setMiddleName(data.middleName);
             setLastName(data.lastName);
-            setRoleId(data.roleId);
-            setEmail(data.email);
         }
-        fetchRoles();
     },[data]);
 
-    const handleSubmit = () => {
-      onUpdate({
-        firstName: firstName,
-        middleName: middleName,
-        lastName: lastName,
-        role: roleId,
-        email: email,
-      });
-    };
+    const nameUser = {
+        first_name: firstName,
+        last_name: lastName,
+        middle_initial: middleName
+    }
+
+    const updateNameUser = async () =>{
+            try {
+                const res = await fetch("/api/users/current/name", {
+                    method: "PUT",
+                    credentials: "include",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(nameUser)
+                });
+    
+                const response = await res.json();
+                if (response.status === "success") {
+                    await reloadUserInfo();
+                } else {
+                    errorAlert("Failed: " + response.message);
+                }
+            } catch (err) {
+                errorAlert("Fetch failed: " + err);
+            }
+        }
 
      const colors = {
         CIT: "border-[#621668] text-[#621668] bg-[#621668]",
@@ -54,7 +54,7 @@ const PersonalInformation = React.forwardRef(({animate, onAnimationEnd,onClose,c
       const color = colors[code] || "border-black text-black";
 
     return( 
-        <div ref={ref}   className={`${color} ${animate} font-[family-name:Arial] lg:text-sm text-xs lg:w-100 w-80 h-118 px-6 bg-white shadow-[2px_2px_grey,-2px_-2px_white] rounded-lg z-[80] inset-0 mx-auto `}
+        <div ref={ref}   className={`${color} ${animate} font-[family-name:Arial] lg:text-sm text-xs lg:w-100 w-80 h-85 px-6 bg-white shadow-[2px_2px_grey,-2px_-2px_white] rounded-lg z-[80] inset-0 mx-auto `}
         onAnimationEnd={onAnimationEnd}>
             <div className="mt-3 relative">
                 <span onClick={onClose} className="material-symbols-outlined absolute right-0.5 cursor-pointer">disabled_by_default</span>
@@ -64,26 +64,17 @@ const PersonalInformation = React.forwardRef(({animate, onAnimationEnd,onClose,c
             </div>
             <form onSubmit={(e) =>{
                 e.preventDefault();
-                handleSubmit();
-
+                updateNameUser();
+                onClose();
             }}>
             <div className="mt-6">
                 <label>First Name:</label><br />
-                <input type="text" onChange={(e)=>setFirstName(e.target.value)} value={firstName}  className="border-2 px-2 text-[#000] h-8 rounded-md w-[100%] mb-4" required/> <br />
-                <label>Midlle Name:</label><br />
-                <input type="text" onChange={(e)=>setMiddleName(e.target.value)} value={middleName}  className="border-2 px-2 text-[#000] h-8 rounded-md w-[100%] mb-4" required/> <br /> 
+                <input type="text" onChange={(e)=>setFirstName(e.target.value)} value={firstName} maxLength={50}  className="border-2 px-2 text-[#000] h-8 rounded-md w-[100%] mb-4" required/> <br />
+                <label>Middle Initial:</label><br />
+                <input type="text" onChange={(e)=>setMiddleName(e.target.value)} value={middleName} maxLength={4}  className="border-2 px-2 text-[#000] h-8 rounded-md w-[100%] mb-4" required/> <br /> 
                 <label>Last Name:</label><br />
-                <input type="text" onChange={(e)=>setLastName(e.target.value)} value={lastName} required className="border-2 px-2 text-[#000] h-8 rounded-md w-[100%] mb-4" /> <br />
-                <label>Role:</label><br />
-                <select name="" onChange={(e)=>setRoleId(e.target.value)} value={roleId} required className="border-2 px-2 text-[#000] cursor-pointer h-8 rounded-md w-[100%] mb-4">
-                    { roles.map((s) => (
-                        <option key={s.role_id} value={s.role_id}>{s.role_name}</option>
-                    ))}
-                </select>
-                 <label>Institutional Email:</label><br />
-                <input type="text" onChange={(e) =>setEmail(e.target.value)} value={email} className="border-2 px-2 text-[#000]  h-8 rounded-md w-[100%] mb-4" required/> <br />
+                <input type="text" onChange={(e)=>setLastName(e.target.value)} value={lastName} maxLength={50} required className="border-2 px-2 text-[#000] h-8 rounded-md w-[100%] mb-4" /> <br />
             </div>
-            
                 <button type="submit" className={` ${color} cursor-pointer w-[100%] rounded-md text-white h-8`}>Update Information</button>
             </form>
             

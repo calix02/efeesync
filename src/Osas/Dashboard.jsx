@@ -125,10 +125,10 @@ function Dashboard(){
             </div>
             <div className={`lg:ml-70 mt-6 ${animate} grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 justify-center gap-6`}>
                 {orgs.map((o)=>(
-                    <Card_Admin logo={orgLogos[o.organization_code]} title={o.organization_code} budget={o.total_budget} cashHand={o.cash_on_hand} cashBank={6638}/>
+                    <Card_Admin logo={orgLogos[o.organization_code]} title={o.organization_code} budget={o.total_budget} cashHand={o.cash_on_hand} expenses={o.total_deductions}/>
                 ))}
             </div>
-            <div className='lg:ml-70 mt-6 flex lg:flex-row flex-col gap-6'>
+            <div className='lg:ml-70 mt-6 mb-6 flex lg:flex-row flex-col gap-6'>
                 <div className={`lg:w-[40%] flex justify-center ${animateL} border-1 bg-white border-[#000] rounded-lg shadow-[2px_2px_2px_grey]`}>
                     <CouncilGraph data={total_population} graphTitle="Total Student Population" />
                 </div>
@@ -136,6 +136,7 @@ function Dashboard(){
                     <Chart data={sanctions_collected_per_org} title="Total Sanctions Collected"/>
                 </div>
             </div>
+            {/*
             <div className='lg:ml-70 mt-6 lg:flex gap-6'>
                 <div className={` lg:w-[60%] ${animateL} bg-white border-1 border-black rounded-lg mb-6 shadow-[2px_2px_3px_grey]`}>
                     <InOutFlowChart/>
@@ -144,6 +145,7 @@ function Dashboard(){
                     <StudentTreasurerCard/>
                 </div>
             </div> 
+            */}
         </div>
 
             <div className='lg:block hidden' >

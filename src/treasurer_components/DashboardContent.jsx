@@ -45,7 +45,7 @@ function CITDashboard({currentUserData}) {
 
     const [eventsOrg, setEventsOrg] = useState([]);
     
-      const fetchEvents = async (organizationId=currentUserData.organization_id) => {
+      const fetchEvents = async (organizationId=currentUserData?.organization_id) => {
         if (!organizationId) return;
         try {
             const res = await fetch(`/api/organizations/${organizationId}/events`, {

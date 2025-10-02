@@ -76,6 +76,41 @@ function Student(){
         }
     }
 
+    const handleFile = async (e) => {
+            const selected = e.target.files[0];
+            if (selected && !selected.name.endsWith(".csv")) {
+                errorAlert("Only CSV file are allowed");
+                return;
+            }
+            if (selected) {
+                // Prepare form data
+                const formData = new FormData();
+                formData.append("csv_file", selected);
+                try {
+                    const response = await fetch("/api/import/csv", {
+                        method: "POST",
+                        body: formData,
+                    });
+                    const result = await response.json();
+                    if (response.ok && result.status === "success") {
+                        successAlert(`
+                            CSV Imported Successfully!\n\n
+                            Imported: ${result.imported.length} student(s)\n
+                            ${result.skipped.length > 0 ? "Skipped: " : ""} \n${result.skipped
+                                .map((e) => `SN: ${e.student_number_id} due to ${e.reason}`)
+                                .join("\n")}
+                            `);
+                        fetchStudents();
+                    } else {
+                        errorAlert(result.message || "Failed to import CSV");
+                    }
+                } catch (error) {
+                    errorAlert("Error uploading CSV");
+                }
+            }
+            e.target.value = "";
+        };
+
     useEffect(()=> {
         fetchColleges();
         fetchStudents();
@@ -115,15 +150,7 @@ function Student(){
                             <input className='bg-amber-300 lg:w-[150px] w-[100%] h-[35px] block z-[1]  cursor-pointer opacity-0' 
                                 type="file" 
                                 accept=".csv" 
-                                onChange={(e) =>{
-                                    const file = e.target.files[0];
-                                    if(file && !file.name.endsWith(".csv")){
-                                        errorAlert("Only CSV files are allowed!");
-                                        e.target.value = "";
-                                    }else if(file){
-                                        successAlert("CSV file selected: ", file.name);
-                                    }
-                                }}
+                                onChange={(e) =>{handleFile(e)}}
                             />
                             <button className='bg-[#174515] p-1.5 lg:w-38 font-poppins w-[100%] flex items-center justify-center cursor-pointer rounded-md  text-white absolute z-[-1] top-0'>
                                 <span className="material-symbols-outlined">download</span>Import CSV

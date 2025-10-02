@@ -178,7 +178,7 @@ function Setting(){
             <>
                 <div className="fixed inset-0 bg-[#00000062] flex justify-center items-center lg:z-40 md:z-50 z-70 pointer-events-auto">
                     {/* Overlay */}
-                    <PersonalInformation ref={infoRef} code="OSAS" data={accountData} onUpdate={handleInfoUpdate} onAnimationEnd={information.handleEnd} onClose={() => information.setAnimation("fade-out")} animate={information.animation} />  
+                    <PersonalInformation ref={infoRef} fetchUser={fetchUser} code="OSAS" data={accountData} onUpdate={handleInfoUpdate} onAnimationEnd={information.handleEnd} onClose={() => information.setAnimation("fade-out")} animate={information.animation} />  
                 </div>
             </>
 

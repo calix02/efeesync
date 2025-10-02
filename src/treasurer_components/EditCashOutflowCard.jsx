@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 import { successAlert, errorAlert } from "../utils/alert";
 
-const EditCashOutflowCard = React.forwardRef(({animate, onAnimationEnd,onClose, code}, ref) =>{
+const EditCashOutflowCard = React.forwardRef(({animate, onAnimationEnd,onClose, code, currentUserData, fetchFinancialReportData}, ref) =>{
     const colors = {
             CIT: "border-[#621668] text-[#621668] bg-[#621668]",
             COE: "border-[#020180] text-[#020180] bg-[#020180]",
@@ -18,14 +18,30 @@ const EditCashOutflowCard = React.forwardRef(({animate, onAnimationEnd,onClose, 
     const changeDesc = (e) => setDesc(e.target.value);
     const changeAmount = (e) => setAmount(e.target.value);
 
-    const clickedInsert = () =>{
-        successAlert("Description: " + desc +
-            "Amount: " + amount
-        )
-    }
-   
-
+    const deductionData = {
+            description: desc,
+            amount_deducted: amount,
+            organization_id: currentUserData.organization_id
+        }
     
+    const editDeductedBudget = async () => {
+        try {
+            const res = await fetch(`/api/organizations/code/${currentUserData?.organization_code}/budget/deduct`, {
+                method: "PUT",
+                credentials: "include",
+                body: JSON.stringify(deductionData)
+            });
+            const response = await res.json();
+            if (response.status === "success") {
+                await fetchFinancialReportData();
+            } else {
+                errorAlert("Failed: " + response.message);
+            }
+        } catch (err) {
+            errorAlert("Failed: " + err);
+        }
+    };
+   
     return( 
         <div ref={ref}   className={` ${animate} ${color} lg:w-100 w-80 pt-2 pb-6 px-6 font-[family-name:Arial] lg:text-sm text-xs bg-white  rounded-lg  z-80 inset-0 mx-auto `}
         onAnimationEnd={onAnimationEnd}>
@@ -36,7 +52,7 @@ const EditCashOutflowCard = React.forwardRef(({animate, onAnimationEnd,onClose, 
                 <span className="font-semibold lg:text-xl text-lg">Edit Cash Outflow</span>
             </div>
             <form onSubmit={(e)=>{
-                clickedInsert();
+                editDeductedBudget();
                 onClose();
                 e.preventDefault();
 

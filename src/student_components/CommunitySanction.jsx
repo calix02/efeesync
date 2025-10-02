@@ -17,8 +17,8 @@ function CommunitySanction({code, communityService}){
             <div className={`w-[100%] bg-[#fff] py-4 mt-2 px-4 ${color} rounded-md border-2`}>
                 <div className={`border-l-8 w-[100%] items-center px-3`}>
                     <div className="text-black ">
-                        <h2 className="font-bold font-poppins text-md ">Bast may Baraylihan</h2>
-                        <p  className="flex cursor-pointer gap-2 text-xs items-center"><span>Service Hour: 10 Hours</span></p>
+                        <h2 className="font-bold font-poppins text-md ">{cs.event_name}</h2>
+                        <p  className="flex cursor-pointer gap-2 text-xs items-center"><span>{cs.event_end_date}</span></p>
                         
                     </div>
                 </div>

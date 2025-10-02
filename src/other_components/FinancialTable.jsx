@@ -1,4 +1,6 @@
-function FinancialTable({title, financialData =[], code, add, edit, total }) {
+import { confirmAlert, errorAlert } from "../utils/alert";
+
+function FinancialTable({title, financialData =[], code, add, edit, total, fetchFinancialReportData }) {
  const hoverColors = {
             CIT: " hover:bg-[#621668]",
             COE: "hover:bg-[#020180]",
@@ -9,15 +11,39 @@ function FinancialTable({title, financialData =[], code, add, edit, total }) {
         };
     const hoverColor = hoverColors[code] || "hover:bg-[#174515]";
     const colors = {
-    CIT: "border-[#621668] text-[#621668] bg-[#621668]",
-    COE: "border-[#020180] text-[#020180] bg-[#020180]",
-    COC: "border-[#660A0A] text-[#660A0A] bg-[#660A0A]",
-    COT: "border-[#847714] text-[#847714] bg-[#847714]",
-    SCEAP: "border-[#6F3306] text-[#6F3306] bg-[#6F3306]",
-    SSC: "border-[#174515] text-[#174515] bg[#174515]",
-  };
+        CIT: "border-[#621668] text-[#621668] bg-[#621668]",
+        COE: "border-[#020180] text-[#020180] bg-[#020180]",
+        COC: "border-[#660A0A] text-[#660A0A] bg-[#660A0A]",
+        COT: "border-[#847714] text-[#847714] bg-[#847714]",
+        SCEAP: "border-[#6F3306] text-[#6F3306] bg-[#6F3306]",
+        SSC: "border-[#174515] text-[#174515] bg[#174515]",
+    };
 
   const color = colors[code] || "border-[#174515] text-[#174515] bg-[#174515]";
+
+  const deleteDeduction = (s) => {
+    confirmAlert("It will delete permanently").then( async (result) =>{
+          if(result.isConfirmed){
+            try {
+              const res = await fetch("/api/budget/deduct/" + s.budget_deduction_id, {
+                  method: "DELETE",
+                  credentials: "include",
+                  headers: {
+                      "Content-Type": "application/json"
+                  }
+              });
+              const response = await res.json();
+              if (response.status === "success") {
+                  await fetchFinancialReportData();
+              } else {
+                  errorAlert("Failed: " + response.message);
+              }
+          } catch (err) {
+              errorAlert("Fetch failed: " + err);
+          }
+          }
+        });
+    }
    
     return (
         <div className=" w-[100%] h-135 relative bg-white font-[family-name:Arial] border rounded-lg shadow-[2px_2px_grey]">
@@ -47,13 +73,13 @@ function FinancialTable({title, financialData =[], code, add, edit, total }) {
                         <tbody>
                             {financialData.map((data, i) => (
                                 <tr key={i} className="text-xs font-semibold border-b-2 border-[#6c6c6c67] text-[#4f4e4e]">
-                                    <td className="py-1">{data.event_end_date}</td>
-                                    <td>{data.event_name}</td>
-                                    <td className="py-3">{data.total_cash_in}</td>
+                                    <td className="py-1">{title === "Cash Outflow"? data.budget_deducted_at : data.event_end_date}</td>
+                                    <td>{title === "Cash Outflow"? data.budget_deduction_title : data.event_name}</td>
+                                    <td className="py-3">{title === "Cash Outflow"? data.budget_deduction_amount : data.total_cash_in}</td>
                                     {title === "Cash Outflow" && (
                                         <td className={`text-[#055e1b] py-2`}>
                                            <span onClick={edit} className={`material-symbols-outlined ${color} cursor-pointer bg-white shadow-[2px_2px_1px_grey] rounded-sm border px-0.5`}>edit_square</span>
-                                           <span className={`material-symbols-outlined ml-2 text-[#930505] cursor-pointer bg-white shadow-[2px_2px_1px_grey] rounded-sm border px-0.5`}>delete</span>
+                                           <span onClick={(e)=> deleteDeduction(data)} className={`material-symbols-outlined ml-2 text-[#930505] cursor-pointer bg-white shadow-[2px_2px_1px_grey] rounded-sm border px-0.5`}>delete</span>
                                         </td>
                                     )}
                                 </tr>

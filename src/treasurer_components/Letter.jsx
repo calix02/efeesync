@@ -1,5 +1,5 @@
-import React from "react";
-const Letter = React.forwardRef(({animate, onAnimationEnd,onClose,code}, ref) =>{
+import React, {useState} from "react";
+const Letter = React.forwardRef(({animate, onAnimationEnd,onClose,code, data}, ref) =>{
 
     const colors = {
     CIT: "border-[#621668] text-[#621668] ",
@@ -19,11 +19,11 @@ const Letter = React.forwardRef(({animate, onAnimationEnd,onClose,code}, ref) =>
                 <span onClick={onClose} className="material-symbols-outlined absolute right-0.5 cursor-pointer">disabled_by_default</span>
             </div>
             <div className=" text-sm text-[#000] mt-8  flex flex-col">
-                <span className={`text-2xl font-bold ${color}`}>Tech Night 2025</span>
-                <span className="mt-3">Student Name: Jerick Gamboa</span>
-                <span>Year & Section: 3A</span>
-                <span>Absence Date: May 22, 2025</span>
-                <span>Submitted Date: May 22, 2025</span>
+                <span className={`text-2xl font-bold ${color}`}>{data.event_name}</span>
+                <span className="mt-3">Student Name: {data.full_name}</span>
+                <span>Year & Section: {data.student_section}</span>
+                <span>Absence Date: {data.event_date}</span>
+                <span>Submitted Date: {data.submitted_at}</span>
                 <span className="mt-3">Attachment</span>
                 <div className="w-[100%] overflow-y-scroll hide-scrollbar sc p-4 h-70 bg-[#D9D9D9] rounded-md">
                     <p>Dear Charo,</p>

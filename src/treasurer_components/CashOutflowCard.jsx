@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 import { successAlert, errorAlert } from "../utils/alert";
 
-const CashOutflowCard = React.forwardRef(({animate, onAnimationEnd,onClose, code}, ref) =>{
+const CashOutflowCard = React.forwardRef(({animate, onAnimationEnd,onClose, code, currentUserData, fetchFinancialReportData}, ref) =>{
     const colors = {
             CIT: "border-[#621668] text-[#621668] bg-[#621668]",
             COE: "border-[#020180] text-[#020180] bg-[#020180]",
@@ -18,11 +18,29 @@ const CashOutflowCard = React.forwardRef(({animate, onAnimationEnd,onClose, code
     const changeDesc = (e) => setDesc(e.target.value);
     const changeAmount = (e) => setAmount(e.target.value);
 
-    const clickedInsert = () =>{
-        successAlert("Description: " + desc +
-            "Amount: " + amount
-        )
+    const deductionData = {
+        description: desc,
+        amount_deducted: amount,
+        organization_id: currentUserData.organization_id
     }
+
+    const deductBudget = async () => {
+        try {
+            const res = await fetch(`/api/organizations/code/${currentUserData?.organization_code}/budget/deduct`, {
+                method: "POST",
+                credentials: "include",
+                body: JSON.stringify(deductionData)
+            });
+            const response = await res.json();
+            if (response.status === "success") {
+                await fetchFinancialReportData();
+            } else {
+                errorAlert("Failed: " + response.message);
+            }
+        } catch (err) {
+            errorAlert("Failed: " + err);
+        }
+    };
    
 
     
@@ -36,16 +54,15 @@ const CashOutflowCard = React.forwardRef(({animate, onAnimationEnd,onClose, code
                 <span className="font-semibold lg:text-xl text-lg">Cash Outflow</span>
             </div>
             <form onSubmit={(e)=>{
-                clickedInsert();
+                deductBudget();
                 onClose();
                 e.preventDefault();
-
             }} >
             <div className="mt-4">
                 <label>Expenses Description:</label><br />
-                <input type="text" onChange={changeDesc} required value={desc} maxLength={7}  className=" px-2 border-2  h-8 rounded-md w-[100%] mb-4" /> <br />
+                <input type="text" onChange={changeDesc} required value={desc} className=" px-2 border-2  h-8 rounded-md w-[100%] mb-4" /> <br />
                 <label>Amount:</label><br />
-                <input type="text" onChange={changeAmount} required value={amount}  className=" px-2 border-2  h-8 rounded-md w-[100%] mb-4" /> <br />
+                <input type="number" onChange={changeAmount} required value={amount}  className=" px-2 border-2  h-8 rounded-md w-[100%] mb-4" /> <br />
             </div>
             
                 <button type="submit"  className={`${color} w-[100%] cursor-pointer rounded-md text-white h-8`}>Insert Cash Outflow</button>

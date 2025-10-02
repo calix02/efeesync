@@ -82,7 +82,7 @@ function Header_Council(props) {
       </span>
 
       <span className="flex lg:gap-3 absolute right-8">
-        
+        {/** 
       <span className='lg:block hidden'>
         <i  className="fa-solid fa-moon lg:text-xl cursor-pointer hover:bg-[#174515] transiton duration-150 rounded-full p-1.5 hover:text-white"></i>
       </span>
@@ -90,6 +90,7 @@ function Header_Council(props) {
       <span>
         <i onClick={() => {clickedBell(); notification.toggle();}} className="fa-solid fa-bell lg:text-xl hover:bg-[#174515] transiton duration-150 rounded-full p-1.5 hover:text-white  text-sm cursor-pointer"></i>
       </span>
+      */}
 
         <span className="hidden lg:block">
           <i onClick={() =>{clickedAccBar(); account.toggle();}}  className="fa-solid fa-circle-user lg:text-xl hover:bg-[#174515] transiton duration-150 rounded-full p-1.5 hover:text-white text-sm cursor-pointer"></i>

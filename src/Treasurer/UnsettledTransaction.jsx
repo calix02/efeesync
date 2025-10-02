@@ -67,6 +67,20 @@ function  UnsettledTransactions() {
             fetchSanctionData();
         }, [currentUserData]);
 
+        useEffect(() => {
+            if (selectedStudent) {
+                const updated = sanctionData.find(
+                    (s) => s.student_id === selectedStudent.student_id
+                );
+                if (updated) {
+                    setSelectedStudent(updated);
+                } else {
+                    setSelectedStudent(null);
+                    unsettledCard.setAnimation("fade-out");
+                }
+            }
+        }, [sanctionData]);
+
         const [debounceTimer, setDebounceTimer] = useState(null);
         const [searchValue, setSearchValue] = useState();
         const debounce = (callback, delay=500)  => {
@@ -96,11 +110,10 @@ function  UnsettledTransactions() {
         {unsettledCard.isVisible &&(
              <>
              <div className="fixed flex justify-center items-center inset-0 bg-[#00000062] z-40 pointer-events-auto">
-                <UnsettledTransactionsCard data={selectedStudent} code={currentUserData?.department_code} ref={unsettledCardRef}  onAnimationEnd={unsettledCard.handleEnd} animate={unsettledCard.animation} onClose={() => unsettledCard.setAnimation("fade-out")} />
+                <UnsettledTransactionsCard fetchSanctionData={fetchSanctionData} data={selectedStudent} code={currentUserData?.department_code} ref={unsettledCardRef}  onAnimationEnd={unsettledCard.handleEnd} animate={unsettledCard.animation} onClose={() => unsettledCard.setAnimation("fade-out")} />
             </div>
             </>
         )
-           
         }
             <CITHeader code={currentUserData?.department_code} titleCouncil= {currentUserData?.organization_name} abb="CIT Council" />
 

@@ -123,7 +123,7 @@ function Header_Council({code, titleCouncil}) {
             {/* Overlay */}
           </div>
 
-          <CITSidebar code={props.code} eFee={EfeeViolet} ref={sideRef} onAnimationEnd={sidebar.handleEnd} animate={sidebar.animation} onClose={() => sidebar.setAnimation("fade-out")} />
+          <CITSidebar code={code} eFee={EfeeViolet} ref={sideRef} onAnimationEnd={sidebar.handleEnd} animate={sidebar.animation} onClose={() => sidebar.setAnimation("fade-out")} />
 
         </>
       )

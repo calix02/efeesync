@@ -44,8 +44,8 @@ const Sidebar = React.forwardRef(({eFee, animate,code, onAnimationEnd,onClose},r
                        if (response.status === "success") {
                             window.location.reload();
                        }
-                   }catch (err) {
-                               errorAlert("An error occured: " + response.message);
+                   } catch (err) {
+                        errorAlert("An error occured: " + response.message);
                    }
                }
            });
@@ -70,8 +70,8 @@ const Sidebar = React.forwardRef(({eFee, animate,code, onAnimationEnd,onClose},r
                     <NavLink code={code} navLink = "/student/financial" iconName="article" navName="Financial Report"/>
                     {/** 
                     <DropDownNav code={code} subNavLink1 = "/student/financial" subNavLink2 = "/student/accomplishment" iconName="assignment" navName="Reports" iconName1 = "article" subNavName1 = "Financial Report" iconName2 = "fact_check" subNavName2 = "Accomplishment Report"/>
-                    */}
                     <NavLink code={code} navLink = "/student/payment" iconName="payments" navName="Payment"/>
+                    */}
                     <NavLink code={code} navLink = "/student/settings" iconName="settings" navName="Settings"/>
                 </nav>
                 <div className="absolute bottom-2 w-full px-3 lg:hidden block">

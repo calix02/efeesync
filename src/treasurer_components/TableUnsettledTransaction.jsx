@@ -52,6 +52,7 @@ function TableUnsettledTransaction({ code = "cit", sanctions = [], view, paginat
               <th className="hidden lg:block md:block">Student ID</th>
               <th>Student Name</th>
               <th>Year &amp; Section</th>
+              <th>Balance</th>
               <th>Action</th>
             </tr>
           </thead>
@@ -62,7 +63,7 @@ function TableUnsettledTransaction({ code = "cit", sanctions = [], view, paginat
                 <td className="hidden lg:block md:block">{s.student_number_id}</td>
                 <td>{s.full_name}</td>
                 <td>{s.student_section}</td>
-
+                <td>{s.total_balance}</td>
                 <td className="py-3 flex justify-center">
                    <span onClick={ () => view(s)} title="View Unsettled Transaction"
                      

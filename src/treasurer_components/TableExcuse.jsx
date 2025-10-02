@@ -31,17 +31,9 @@ function TableExcuse({ code = "cit", excuses = [], viewLetter }) {
 
 
   /* ---------------------------- sample fallback ---------------------------- */
-  const fallback = Array.from({ length: 5 }, (_, i) => ({
-    studName: `Jaspher Yummy`,
-    yearSection: `3A`,
-    eventName: `IT Night`,
-    date: `06/05/2025`
-    
-  }));
+  const fallback = [];
 
   const data = excuses.length ? excuses : fallback;
-  
-
 
   return (
   
@@ -51,6 +43,7 @@ function TableExcuse({ code = "cit", excuses = [], viewLetter }) {
         <table className="w-full text-center ">
           <thead>
             <tr className={`border-b-2 border-[#adadad] bg-white ${color}`}>
+              <th>ID</th>
               <th>Student Name</th>
               <th>Year &amp; Section</th>
               <th>Event Name</th>
@@ -65,14 +58,14 @@ function TableExcuse({ code = "cit", excuses = [], viewLetter }) {
           <tbody>
             {data.map((s, idx) => (
               <tr key={idx} className="border-b border-[#0505057a] ">
-                <td>{s.studName}</td>
-                <td>{s.yearSection}</td>
-                <td>{s.eventName}</td>
-                <td>{s.date}</td>
+                <td >{s.attendance_excuse_id}</td>
+                <td>{s.full_name}</td>
+                <td>{s.student_section}</td>
+                <td>{s.event_name}</td>
+                <td>{s.submitted_at}</td>
                 <td className="flex justify-center py-3" >
-                  <button onClick={viewLetter} className={`bg-white ${hoverColor} ${color} py-1 flex items-center gap-1 justify-center lg:px-5 md:px-5 px-2  border-1 text-sm cursor-pointer  hover:text-white transition duration-200  rounded-md`}><i className="fa-regular fa-eye"></i>Letter</button>
+                  <button onClick={()=>{viewLetter(s)}} className={`bg-white ${hoverColor} ${color} py-1 flex items-center gap-1 justify-center lg:px-5 md:px-5 px-2  border-1 text-sm cursor-pointer  hover:text-white transition duration-200  rounded-md`}><i className="fa-regular fa-eye"></i>Letter</button>
                 </td>
-                
                 <td className="lg:text-lg md:text-lg text-sm">
                   <i className="fa-solid fa-circle-check cursor-pointer text-[#70B914]"></i>
                   <i className="fa-solid fa-circle-xmark cursor-pointer ml-1 text-[#DE0004]"></i>

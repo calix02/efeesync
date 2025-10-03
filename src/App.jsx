@@ -33,12 +33,14 @@ import TreasurerEventContribution from './treasurer/EventContribution.jsx';
 import TreasurerAttendance from './treasurer/Attendance.jsx';
 import TreasurerFinancial from './treasurer/Financial.jsx';
 import TreasurerAccomplishment from './treasurer/Accomplishment.jsx';
-import TreasurerSanction from './treasurer/UnsettledTransaction.jsx';
+import TreasurerUnsettledTransaction from './treasurer/UnsettledTransaction.jsx';
 import TreasurerExcuse from './treasurer/Excuse.jsx';
+import TreasurerCommunityService from './treasurer/CommunityService.jsx';
 import TreasurerSettings from './treasurer/Settings.jsx';
 import ShiftingApproval from './treasurer/ShiftingApproval.jsx';
 import PaymentTransaction from './treasurer/PaymentTransaction.jsx';
 import './index.css'
+import UnsettledTransactions from './treasurer/UnsettledTransaction.jsx';
 function App() {
   return (
     
@@ -91,7 +93,8 @@ function App() {
           {/* 
           <Route path="/org/payment-transaction" element={<PaymentTransaction/>}/>
           */}
-          <Route path="/org/sanction" element={<TreasurerSanction/>}/>
+          <Route path="/org/unsettled-transaction" element={<TreasurerUnsettledTransaction/>}/>
+          <Route path="/org/community-service" element={<TreasurerCommunityService/>}/>
           <Route path="/org/excuse" element={<TreasurerExcuse/>}/>
           {/* 
           <Route path="/org/shifting-approval" element={<ShiftingApproval/>}/>

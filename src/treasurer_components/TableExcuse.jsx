@@ -58,7 +58,7 @@ function TableExcuse({ code = "cit", excuses = [], viewLetter }) {
           <tbody>
             {data.map((s, idx) => (
               <tr key={idx} className="border-b border-[#0505057a] ">
-                <td >{s.attendance_excuse_id}</td>
+                <td >{data? s.attendance_excuse_id : "No Data" }</td>
                 <td>{s.full_name}</td>
                 <td>{s.student_section}</td>
                 <td>{s.event_name}</td>
@@ -77,7 +77,6 @@ function TableExcuse({ code = "cit", excuses = [], viewLetter }) {
       </div>
         {/* pagination controls */}
         <div className={` ${color} bg-[#fff0] relative lg:ml-70 font-[family-name:Arial] lg:text-sm text-xs mt-[-10px] flex flex-col-reverse justify-center items-center`}>
-            <p className={` ${color} bg-[#fff0] lg:absolute left-9`}>Showing of 600</p>  
         <span className="flex">
              <button
             className=" mx-1 flex items-center rounded-md cursor-pointer  border disabled:opacity-40"

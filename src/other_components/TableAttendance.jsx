@@ -1,18 +1,18 @@
 import { useState, useMemo } from "react";
 import "../animate.css";
 
-function TableAttendance({ code = "cit", events = [], scanAttendee, view, formatDateStr}) {
+function TableAttendance({ code , events = [], scanAttendee, view, formatDateStr}) {
   const animate = "card-In";
 
     const colors = {
     CIT: "border-[#621668] text-[#621668] bg-[#621668]",
-    COE: "border-[#020180] text-[#020180] bg-[#621668]",
-    COC: "border-[#660A0A] text-[#660A0A] bg-[#621668]",
-    COT: "border-[#847714] text-[#847714] bg-[#621668]",
-    SCEAP: "border-[#6F3306] text-[#6F3306] bg-[#621668]",
-    SSC: "border-[#174515] text-[#174515] bg-[#621668]",
+    COE: "border-[#020180] text-[#020180] bg-[#020180]",
+    COC: "border-[#660A0A] text-[#660A0A] bg-[#660A0A]",
+    COT: "border-[#847714] text-[#847714] bg-[#847714]",
+    SCEAP: "border-[#6F3306] text-[#6F3306] bg-[#6F3306]",
+    SSC: "border-[#174515] text-[#174515] bg-[#174515]",
   };
-  const color = colors[code] || "border-black text-black";
+  const color = colors[code] || "border-[#174515] text-[#174515] bg-[#174515]";
 
   const fallback = [];
 
@@ -61,7 +61,7 @@ function TableAttendance({ code = "cit", events = [], scanAttendee, view, format
           <table className="w-full text-center">
             <thead>
               <tr className={`border-b-2 border-[#000] bg-white ${color}`}>
-                <th>
+                <th hidden>
                   <input type="checkbox"
                   checked={allChecked}
                   onChange={handleSelectAll} />
@@ -78,7 +78,7 @@ function TableAttendance({ code = "cit", events = [], scanAttendee, view, format
             <tbody>
               {data.map((s, idx) => (
                 <tr key={idx} className="border-b border-[#0505057a]">
-                  <td>
+                  <td hidden>
                     <input type="checkbox"
                     id={s.event_id}
                     checked={checkedIds.includes(s.event_id)}

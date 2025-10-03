@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 import { successAlert, errorAlert } from "../utils/alert";
 
-const EditCashOutflowCard = React.forwardRef(({animate, onAnimationEnd,onClose, code, currentUserData, fetchFinancialReportData}, ref) =>{
+const EditCashOutflowCard = React.forwardRef(({animate, onAnimationEnd,onClose, code, currentUserData, fetchFinancialReportData, data}, ref) =>{
     const colors = {
             CIT: "border-[#621668] text-[#621668] bg-[#621668]",
             COE: "border-[#020180] text-[#020180] bg-[#020180]",
@@ -12,8 +12,8 @@ const EditCashOutflowCard = React.forwardRef(({animate, onAnimationEnd,onClose, 
         };
     const color = colors[code] || "border-[#174515] text-[#174515] bg-[#174515]";
 
-    const [desc, setDesc] = useState("");
-    const [amount, setAmount] = useState("");
+    const [desc, setDesc] = useState(data?.budget_deduction_title);
+    const [amount, setAmount] = useState(data?.budget_deduction_amount);
     
     const changeDesc = (e) => setDesc(e.target.value);
     const changeAmount = (e) => setAmount(e.target.value);

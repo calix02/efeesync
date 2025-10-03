@@ -13,8 +13,14 @@ const UpdateEventCard = React.forwardRef(
       3: "3rd Year",
       4: "4th Year",
     };
+   
+    const today = new Date().toISOString().split("T")[0];
+
 
     // Setup state
+    const [isSeparate, setIsSeparate] = useState(data?.is_separate_day);
+    const [eventStartDate, setEventStartDate] = useState(data?.event_start_date);
+    const [eventEndDate, setEventEndDate] = useState(data?.event_end_date);
     const [eventName, setEventName] = useState("");
     const [eventDesc, setEventDesc] = useState("");
     const [selectedYear, setSelectedYear] = useState([]);
@@ -23,6 +29,8 @@ const UpdateEventCard = React.forwardRef(
     const [sanctionPerSignature, setSanctionPerSignature] = useState("");
     const [selectedSanctionType, setSelectedSanctionType] = useState("");
     const [dates, setDates] = useState([]); // each day’s info
+
+   
 
     // Init from props
     useEffect(() => {
@@ -198,6 +206,34 @@ const UpdateEventCard = React.forwardRef(
               </label>
             ))}
           </div>
+          {isSeparate == 0 && (
+             <>
+                 <label htmlFor="">Date Range</label>
+                <div className="w-[100%] flex lg:gap-3 md:gap-3 gap-1">
+                    <div className="border-2  h-8 px-2 rounded-md w-[50%] mb-3 grid justify-center items-center">
+                        <input type="date" min={today} onChange={(e) =>setEventStartDate(e.target.value)} required value={eventStartDate}  className="w-[100%] " />
+                    </div>
+                    <div className="border-2  h-8 px-2 rounded-md w-[50%] mb-1 grid justify-center items-center">
+                        <input type="date" min={eventStartDate} onChange={(e) =>setEventEndDate(e.target.value)} value={eventEndDate}  required  className="w-[100%] " />
+                    </div>
+                </div>
+             </>
+          )}
+          {isSeparate == 1 && (
+            <>
+              <label htmlFor="">Date Range</label>
+              {data?.attendance.map((d, id) =>(
+                 <div className="border-2  h-8 px-2 rounded-md w-[100%] mb-3 grid justify-end text-start items-center">
+                    <input type="date" min={today} value={d.event_attend_date}  required  className="w-[100%] " />
+                </div>
+              ))}
+             
+
+
+            </>
+          )
+
+          }
 
           <label>Event Category:</label>
           <div className="flex gap-2 border-2  rounded-md p-2 mb-3">

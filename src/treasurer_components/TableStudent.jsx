@@ -89,14 +89,14 @@ function TableStudent({ code , students = [], show, update, reloadStudents, pagi
     <div className={`w-full ${animate} flex flex-col gap-6 lg:text-sm text-xs font-[family-name:Arial]`}>
       <div className={`lg:ml-70 bg-white text-black flex-grow p-5 mt-3 rounded-lg shadow-[2px_2px_2px_grey]`}>
         {yearLabel && (
-          <p className="text-left text-[#8A2791] font-semibold mb-3">
+          <p className="text-left font-semibold mb-3">
             Showing {yearLabel} Students
           </p>
         )}
         <table className="w-full text-center">
           <thead>
             <tr className={`border-b-2 bg-white border-[#adadad] ${color}`}>
-              <th>
+              <th hidden>
                 <input
                   type="checkbox"
                   checked={allChecked}
@@ -114,7 +114,7 @@ function TableStudent({ code , students = [], show, update, reloadStudents, pagi
           <tbody>
             {data.map((s, idx) => (
               <tr key={idx} className="border-b border-[#0505057a]">
-                <td>
+                <td hidden>
                   <input
                     type="checkbox"
                     id={s.student_id}

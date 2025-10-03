@@ -1,5 +1,6 @@
+import { Link } from "react-router-dom";
 import "../animate.css"
-function CardCouncil({code,icon, value, desc,show}){
+function CardCouncil({code,icon, value, desc,show, link}){
     const animate = 'card-In';
     const textColors = {
     CIT: " text-[#621668]",
@@ -21,14 +22,15 @@ function CardCouncil({code,icon, value, desc,show}){
   const iconColor = iconColors[code] || "text-[#17451573]";
 
     return(
-        <div onClick={show} className={` lg:w-[100%] ${animate} ${show? "cursor-pointer" : " "}  transition duration-300 hover:shadow-[3px_3px_5px_#000] hover:scale-102  max-w-full border-1 border-[#d8d8d8]  h-30 rounded-2xl bg-white relative py-4 px-3 shadow-[2px_2px_3px_grey,-2px_-2px_3px_white]`}>
+      
+        <Link to={link} onClick={show} className={` lg:w-[100%] ${animate} ${show? "cursor-pointer" : " "}  transition duration-300 hover:shadow-[3px_3px_5px_#000] hover:scale-102  max-w-full border-1 border-[#d8d8d8]  h-30 rounded-2xl bg-white relative py-4 px-3 shadow-[2px_2px_3px_grey,-2px_-2px_3px_white]`}>
              <span className=" font-[family-name:Helvetica] text-black lg:text-md text-sm">{desc}</span><br />
              <span className={`lg:text-2xl text-xl ${textColor} font-bold font-[family-name:Verdana]`}>{value}</span>
             <span className={`absolute right-3 bottom-5 lg:text-7xl md:text-7xl text-5xl text- ${iconColor} `}>
                 {icon}
             </span>
            
-        </div>
+        </Link>
     );
 }
 export default CardCouncil;

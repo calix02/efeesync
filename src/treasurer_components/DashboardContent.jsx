@@ -142,9 +142,9 @@ function CITDashboard({currentUserData}) {
             </div>
             <div className="lg:flex lg:flex-row lg:justify-center lg:items-center lg:px-6 md:px-10 px-3 grid grid-cols-2 mt-4 lg:ml-70 lg:gap-6 gap-4">
                <TreasurerCard show={eventCalendar.toggle}  code={currentUserData?.department_code} desc="Number of Events" value={dashboardData.total_events} icon={calendar}/>
-               <TreasurerCard code={currentUserData?.department_code} desc="Number of Students" value={dashboardData.total_students} icon={cap}/>
-               <TreasurerCard code={currentUserData?.department_code} desc="Fees Collected" value={"P " + dashboardData.total_fees_collected} icon={coin}/>
-               <TreasurerCard code={currentUserData?.department_code} desc="Sanction Collected" value={"P " + dashboardData.total_sanctions_collected} icon={sanc}/>
+               <TreasurerCard link="/org/student" code={currentUserData?.department_code} desc="Number of Students" value={dashboardData.total_students} icon={cap}/>
+               <TreasurerCard link="/org/financial" code={currentUserData?.department_code} desc="Fees Collected" value={"P " + dashboardData.total_fees_collected} icon={coin}/>
+               <TreasurerCard link="/org/financial" code={currentUserData?.department_code} desc="Sanction Collected" value={"P " + dashboardData.total_sanctions_collected} icon={sanc}/>
             </div>
             <div className="lg:flex lg:ml-70 mt-8 px-3 md:px-10 lg:px-6 lg:gap-6 ">
                 <div className={`bg-[#ffffff] ${animateGraph} border-1 border-[#d8d8d8] transition duration-300 hover:shadow-[3px_3px_3px_#000] hover:scale-102  lg:w-[40%] h-96 rounded-xl grid justify-center shadow-[2px_2px_3px_grey,-2px_-2px_3px_white]`}>

@@ -87,7 +87,7 @@ function TableEventList({ code, events = [] , addEvent, updateEvent,view, reload
         <table className="w-full text-center ">
           <thead>
             <tr className={`border-b-2 rounded-lg bg-white border-[#adadad] ${color}`}>
-              <th className="py-2">
+              <th hidden  className="py-2">
                 <input type="checkbox" 
                 checked={allChecked}
                 onChange={handleSelectAll}/>
@@ -104,7 +104,7 @@ function TableEventList({ code, events = [] , addEvent, updateEvent,view, reload
           <tbody>
             {data.map((s, idx) => (
               <tr key={idx} className="border-b border-[#0505057a] ">
-                <td><input type="checkbox"
+                <td hidden><input type="checkbox"
                   id={s.event_id}
                   checked={checkedIds.includes(s.event_id)}
                   onChange={(e) => handleCheckboxChange(e, s.event_id)}  

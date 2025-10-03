@@ -63,7 +63,7 @@ function TableEventContribution({ code , events = [], view, formatDateStr }) {
           <table className="w-full text-center">
             <thead>
               <tr className={`border-b-2 border-[#000] bg-white ${color}`}>
-                <th>
+                <th hidden>
                   <input type="checkbox"
                   checked={allChecked}
                   onChange={handleSelectAll} />
@@ -78,7 +78,7 @@ function TableEventContribution({ code , events = [], view, formatDateStr }) {
             <tbody>
               {data.map((s, idx) => (
                 <tr key={idx} className="border-b border-[#0505057a]">
-                  <td>
+                  <td hidden>
                     <input type="checkbox"
                      id={s.id}
                     checked={checkedIds.includes(s.id)}
@@ -110,7 +110,6 @@ function TableEventContribution({ code , events = [], view, formatDateStr }) {
         </div>
       
         <div className=" relative lg:ml-[270px] mt-[-10px] flex flex-col-reverse justify-center items-center">
-            <p className={` ${color} bg-[#fff0] lg:absolute left-9`}>Showing of 600</p>
             <div className="flex">
               <button  className="mx-1 flex items-center rounded-md cursor-pointer border disabled:opacity-40">
                 <span className="material-symbols-outlined">chevron_left</span>

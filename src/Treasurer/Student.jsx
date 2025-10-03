@@ -217,8 +217,9 @@ function CITStudent(){
                             <option value="">Status</option>
                             <option value="">hey</option>
                         </select>
-                        */}
+                       
                         <button title='Print' onClick={()=>{window.print()}} className={`bg-white ${hoverColor} lg:w-25 w-20 transition duration-100 hover:scale-105 hover:text-white text-xs cursor-pointer flex justify-center gap-1 border-1  py-1 rounded-md text-center`}><i className="fa-solid fa-print"></i>Print</button>
+                         */}
                     </div>
 
                 </div>

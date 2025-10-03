@@ -62,8 +62,8 @@ function AttendanceTable({ code, attendees = [], scanAttendee, attendanceKeys, s
       <div className={`lg:ml-70 bg-white text-black flex-grow p-5 mt-3 rounded-lg shadow-[2px_2px_2px_grey]`}>
         <table className="w-full text-center">
           <thead>
-            <tr className={`border-b-2 border-[#adadad] ${color}`}>
-              <th><input type="checkbox" /></th>
+            <tr className={`border-b-2 bg-[#fff0] border-[#adadad] ${color}`}>
+              <th hidden><input type="checkbox" /></th>
               <th hidden>Id</th>
               <th>Student Name</th>
               <th>Year & Section</th>
@@ -75,7 +75,7 @@ function AttendanceTable({ code, attendees = [], scanAttendee, attendanceKeys, s
           <tbody>
             {data.map((attendee, idx) => (
               <tr key={attendee.student_id} className="border-b border-[#0505057a]">
-                <td><input type="checkbox" /></td>
+                <td hidden><input type="checkbox" /></td>
                 <td hidden>{attendee.student_id}</td>
                 <td>{attendee.student_full_name}</td>
                 <td className="py-4">{attendee.student_section}</td>
@@ -141,7 +141,7 @@ function AttendanceTable({ code, attendees = [], scanAttendee, attendanceKeys, s
       </div>
       <button onClick={scanAttendee} 
       disabled={new Date(selectedEventDate) < new Date().setHours(0,0,0,0) } 
-      title="Scan QR Code" className="  h-15 cursor-pointer w-15 absolute right-4 bottom-3 flex justify-center items-center bg-[#621668] disabled:bg-[#7a7a7a] rounded-full">
+      title="Scan QR Code" className={`h-15 ${color} cursor-pointer w-15 absolute right-4 bottom-3 flex justify-center items-center  disabled:bg-[#7a7a7a] rounded-full`}>
             <i className="fa-solid fa-qrcode text-3xl text-white "></i>
           </button>
     </div>

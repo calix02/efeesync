@@ -146,7 +146,7 @@ const ScanAttendance = React.forwardRef(
     return (
       <div
         ref={ref}
-        className={`${animate} ${color} lg:w-200 lg:max-h-140 max-h-130 hide-scrollbar overflow-y-scroll w-80 py-3 px-6 lg:text-sm text-xs font-[family-name:Arial] bg-white shadow-[2px_2px_#8A2791,-2px_-2px_white] rounded-lg z-80 inset-0 mx-auto`}
+        className={`${animate} ${color} lg:w-200 lg:max-h-140 max-h-130 hide-scrollbar overflow-y-scroll w-80 py-3 px-6 lg:text-sm text-xs font-[family-name:Arial] bg-white  rounded-lg z-80 inset-0 mx-auto`}
         onAnimationEnd={onAnimationEnd}
       >
         <div className="flex justify-end">
@@ -168,7 +168,7 @@ const ScanAttendance = React.forwardRef(
               of the camera and wait for the system to confirm.
             </p>
 
-            <div className="w-full bg-[#D9D9D9] lg:h-80 h-60 flex items-center justify-center relative overflow-hidden rounded-md">
+            <div className="w-full lg:h-80 h-60 flex items-center justify-center relative overflow-hidden rounded-md">
               {!usingQuagga ? (
                 <Scanner
                   onScan={handleZXingScan}

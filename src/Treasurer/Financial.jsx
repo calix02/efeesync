@@ -20,6 +20,7 @@ function CITFinancial(){
     const editRef = useRef(null);
     
     const [currentUserData, setCurrentUserData] = useState([]);
+    const[selectedCashOut, setSelectedCashOut] = useState(null);
         
           const fetchCurrentUser = async () => {
              try {
@@ -68,7 +69,7 @@ function CITFinancial(){
         )}
         {edit.isVisible &&(
             <div className="fixed inset-0 flex justify-center items-center bg-[#00000062]  lg:z-40 md:z-50 z-70 pointer-events-auto">
-                <EditCashOutflowCard code={currentUserData?.department_code} ref={editRef} currentUser={currentUserData} currentUserData={currentUserData} onAnimationEnd={edit.handleEnd} animate={edit.animation} onClose={() => edit.setAnimation("fade-out")} />
+                <EditCashOutflowCard data={selectedCashOut} code={currentUserData?.department_code} ref={editRef} currentUser={currentUserData} currentUserData={currentUserData} onAnimationEnd={edit.handleEnd} animate={edit.animation} onClose={() => edit.setAnimation("fade-out")} />
             </div>
         )}
             <CITHeader code={currentUserData?.department_code} titleCouncil = {currentUserData?.organization_name} abb="CIT Council" />
@@ -79,7 +80,11 @@ function CITFinancial(){
                 </div>
                 <div className={` ${animate} lg:ml-70 lg:mt-6 mt-3 lg:gap-6 gap-3 flex lg:flex-row flex-col items-center justify-center`}>
                     <FinancialTable total={financialReportData?.summary?.total_cash_in} code={currentUserData?.department_code} title="Cash Inflow" financialData={financialReportData?.cash_in}/>
-                    <FinancialTable total={financialReportData?.summary?.total_cash_out} add={add.toggle} edit={edit.toggle} code={currentUserData?.department_code} title="Cash Outflow" financialData={financialReportData?.cash_out} fetchFinancialReportData={fetchFinancialReportData}/>
+                    <FinancialTable total={financialReportData?.summary?.total_cash_out} add={add.toggle} 
+                    edit={(row) =>{
+                        edit.toggle();
+                        setSelectedCashOut(row);
+                        }} code={currentUserData?.department_code} title="Cash Outflow" financialData={financialReportData?.cash_out} fetchFinancialReportData={fetchFinancialReportData}/>
                 </div>
             </div>
             <div className='hidden lg:block'>

@@ -82,7 +82,7 @@ function ContributionTable({ code, selectedEvent, paginate, fetchStudentsToContr
         <table className="w-full text-center">
           <thead>
             <tr className={`border-b-2 border-[#adadad] bg-white ${color}`}>
-              <th><input type="checkbox" /></th>
+              <th hidden><input type="checkbox" /></th>
               <th hidden>Id</th>
               <th>Student ID</th>
               <th>Student Name</th>
@@ -96,7 +96,7 @@ function ContributionTable({ code, selectedEvent, paginate, fetchStudentsToContr
             {data.map((s, idx) => {
               return (
                 <tr key={s.id} className="border-b border-[#0505057a]">
-                  <td><input type="checkbox" /></td>
+                  <td  hidden ><input type="checkbox" /></td>
                   <td hidden>{s.student_id}</td>
                   <td>{s.student_number_id}</td>
                   <td>{s.full_name}</td>

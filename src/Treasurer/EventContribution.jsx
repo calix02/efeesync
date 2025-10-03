@@ -132,6 +132,15 @@ function EventContribution({ data }) {
       SSC: "border-[#174515] text-[#174515] bg-[#174515]",
     };
     const color = colors[currentUserData?.department_code] || "border-[#174515] text-[#174515] bg-[#174515]";
+    const hoverColors = {
+            CIT: "hover:text-[#621668] ",
+            COE: " hover:text-[#020180] ",
+            COC: " hover:text-[#660A0A] ",
+            COT: "hover:text-[#847714] ",
+            ESAF: "hover:text-[#6F3306] ",
+            SSC: "hover:text-[#174515] "
+        };
+    const hoverColor = hoverColors[currentUserData?.department_code] || " hover:text-[#174515] ";
 
   return (
     <>
@@ -196,7 +205,7 @@ function EventContribution({ data }) {
 
               <div className="lg:ml-70 text-[font-family:Arial] lg:text-sm text-xs mt-3 flex justify-end">
                 <Link to="/org/eventlist">
-                  <button className={`text-center ${color} text-sm font-[family-name:Arial] h-6 hover:bg-white hover:scale-102 hover:shadow-[2px_2px_3px_grey] duration-200 transition  rounded-md cursor-pointer px-3 text-white border-1 `}>
+                  <button className={`text-center ${color} ${hoverColor} text-sm font-[family-name:Arial] h-6 hover:bg-white hover:scale-102 hover:shadow-[2px_2px_3px_grey] duration-200 transition  rounded-md cursor-pointer px-3 text-white border-1 `}>
                     Back to Eventlist
                   </button>
                 </Link>
@@ -226,7 +235,7 @@ function EventContribution({ data }) {
               </h2>
               <div className={`flex ${animateR} items-center lg:px-0 md:px-0 px-3`}>
                 <input
-                  className="lg:w-85 md:w-85 w-[100%] p-1.5 bg-white rounded-md border-2 lg:mt-0 md:mt-0 mt-4 border-[#8A2791] block"
+                  className="lg:w-85 md:w-85 w-[100%] p-1.5 bg-white rounded-md border-2 lg:mt-0 md:mt-0 mt-4  block"
                   type="text"
                   onKeyUp={(e) => {searchStudentsToContribute(e.target.value)}}
                   placeholder="Search Student"

@@ -129,7 +129,7 @@ function CITEventList(){
         }
         {viewEventDetails.isVisible &&(
             <div className="fixed inset-0 flex justify-center items-center bg-[#00000062] lg:z-40 md:z-50 z-70 pointer-events-auto">
-                <EventDetails reloadEvents={fetchEvents} formatDateStr={formatDateStr} ref={viewDetailsRef} data={selectedEvent} onAnimationEnd={viewEventDetails.handleEnd} animate={viewEventDetails.animation} onClose={() => viewEventDetails.setAnimation("fade-out")}/>
+                <EventDetails code={currentUserData?.department_code} reloadEvents={fetchEvents} formatDateStr={formatDateStr} ref={viewDetailsRef} data={selectedEvent} onAnimationEnd={viewEventDetails.handleEnd} animate={viewEventDetails.animation} onClose={() => viewEventDetails.setAnimation("fade-out")}/>
             </div>
             
         )}
@@ -150,7 +150,7 @@ function CITEventList(){
                 </div>
                 <div className=' w-[100%] mt-3 '>
                     <div className={`lg:ml-70 ${animateL} flex lg:justify-start md:justify-start font-[family-name:Arial]  justify-start gap-2.5`}>
-                         <select title="Select Event Type" className={`bg-white ${hoverColor} lg:w-25 w-20 text-xs transition duration-100 hover:scale-100  hover:text-white cursor-pointer border-1 py-1  rounded-md text-center`} value={selectedType} onChange={(e)=>setSelectedType(e.target.value)}  name="" id="">
+                         <select title="Select Event Type" className={`bg-white ${hoverColor} lg:w-35 w-20 text-xs transition duration-100 hover:scale-100  hover:text-white cursor-pointer border-1 py-1.5  rounded-sm text-center`} value={selectedType} onChange={(e)=>setSelectedType(e.target.value)}  name="" id="">
                             <option value="">Event Type</option>
                             <option value="Event Contribution">Event Contribution</option>
                             <option value="Event Attendance">Event Attendance</option>
@@ -164,9 +164,9 @@ function CITEventList(){
                             <option value="">Year</option>
                             <option value="">hey</option>
                         </select>
-                        */}
-                        <button title='Print Event List' onClick={()=>{window.print()}} className={`${hoverColor} bg-white lg:w-25 w-20 transition duration-100 hover:scale-100  hover:text-white text-xs cursor-pointer flex justify-center gap-1 border-1  py-1 rounded-md text-center`}><i className="fa-solid fa-print"></i>Print</button>
                         
+                        <button title='Print Event List' onClick={()=>{window.print()}} className={`${hoverColor} bg-white lg:w-25 w-20 transition duration-100 hover:scale-100  hover:text-white text-xs cursor-pointer flex justify-center gap-1 border-1  py-1 rounded-md text-center`}><i className="fa-solid fa-print"></i>Print</button>
+                        */}
                     </div>
 
                 <TableEventList paginate={paginate} code={currentUserData?.department_code} formatDateStr={formatDateStr} events={eventsOrg} reloadEvents={fetchEvents} addEvent={addEvent.toggle} 

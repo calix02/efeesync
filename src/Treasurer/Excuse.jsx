@@ -81,8 +81,9 @@ function CITExcuse() {
                     <input className='lg:w-85 md:w-85 w-[100%] p-1.5 bg-white rounded-md border-2 border-black lg:mt-0 md:mt-0 mt-4 block' type="text" placeholder='Search Student' />
                     </div>
                 </div>
-
+               
                <div className=' w-[100%] mt-3 '>
+                 {/** 
                     <div className={`lg:ml-70 ${animateL} flex lg:justify-start md:justify-start font-[family-name:Arial]  justify-center gap-2.5`}>
                          <select className={`bg-white ${hoverColor} lg:w-25  w-20 text-xs transition duration-100 hover:scale-105 hover:text-white cursor-pointer border-1  py-1  rounded-md text-center`}  name="" id="">
                             <option value="">Year</option>
@@ -93,6 +94,7 @@ function CITExcuse() {
                             <option value="">hey</option>
                         </select>
                     </div>
+                */}
                    
                     <TableExcuse excuses={attendanceExcuses} viewLetter={(row) =>{
                         viewLetter.toggle();

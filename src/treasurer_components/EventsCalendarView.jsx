@@ -106,7 +106,7 @@ const EventsCalendarView = React.forwardRef(
 
         <div className="flex lg:flex-row flex-col gap-8 lg:px-10 md:px-10 px-5 py-6 h-90 overflow-y-scroll hide-scrollbar">
           {/* Calendar */}
-          <Calendar className="sticky top-0"
+          <Calendar className="lg:sticky lg:top-0"
             value={selectedDate}
             onChange={setSelectedDate}
             tileClassName={({ date, view }) => {
@@ -124,7 +124,7 @@ const EventsCalendarView = React.forwardRef(
           />
 
           {/* Event List */}
-          <div>
+          <div >
             <h2 className="text-lg font-semibold font-poppins mb-3">
               Events on {selectedDate.toDateString()}
             </h2>
@@ -134,7 +134,7 @@ const EventsCalendarView = React.forwardRef(
                 {filteredEvents.map((ev, idx) => (
                   <li
                     key={idx}
-                    className="px-3 py-2 border-l-7 shadow-[2px_2px_2px_grey] rounded bg-gray-50"
+                    className="px-3 py-2 border-l-7 shadow-[2px_2px_2px_grey] rounded bg-gray-50 mb-2"
                   >
                     <p className="text-xs text-end text-black">
                       {new Date(ev.date).toLocaleDateString()}

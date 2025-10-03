@@ -4,6 +4,8 @@ import {successAlert,errorAlert} from "../utils/alert.js";
 const AddEventListCard = React.forwardRef(({animate, onAnimationEnd,onClose,currentUserData,reloadEvents,code}, ref) =>{
 
 const getToday = () => new Date().toISOString().split("T")[0];
+const today = new Date().toISOString().split("T")[0];
+
 
 const [addDates, setAddDates] = useState([{ id: Date.now(), value: getToday() }]);
 
@@ -125,6 +127,7 @@ const handleSubmit = async () => {
     event_target_year_levels: selectedYear.map(y => y[0]), // "1st Year" → "1"
     event_start_date: firstDate,
     event_end_date: lastDate,
+    is_separate_day: selectedDateType === "Separate Day",
     event_sanction_has_comserv: selectedSanctionType === "Community Service",
     contribution: selectedType.includes("With Contribution")
       ? {
@@ -224,10 +227,10 @@ return(
                  <label htmlFor="">Date Range</label>
                 <div className="w-[100%] flex lg:gap-3 md:gap-3 gap-1">
                     <div className="border-2  h-8 px-2 rounded-md w-[50%] mb-3 grid justify-center items-center">
-                        <input type="date" required onChange={changeDateFrom} value={dateFrom}  className="w-[100%] " />
+                        <input type="date" min={today} required onChange={changeDateFrom} value={dateFrom}  className="w-[100%] " />
                     </div>
                     <div className="border-2  h-8 px-2 rounded-md w-[50%] mb-1 grid justify-center items-center">
-                        <input type="date" required onChange={changeDateTo} value={dateTo} className="w-[100%] " min={dateFrom}/>
+                        <input type="date" min={dateFrom} required onChange={changeDateTo} value={dateTo} className="w-[100%] " />
                     </div>
                 </div>
              </>
@@ -249,6 +252,7 @@ return(
         required
           type="date"
           value={date.value}
+          min={today}
           onChange={(e) => handleDateChange(date.id, e.target.value)}
           className="outline-none flex-1"
         />

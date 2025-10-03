@@ -78,7 +78,7 @@ function FinancialTable({title, financialData =[], code, add, edit, total, fetch
                                     <td className="py-3">{title === "Cash Outflow"? data.budget_deduction_amount : data.total_cash_in}</td>
                                     {title === "Cash Outflow" && (
                                         <td className={`text-[#055e1b] py-2`}>
-                                           <span onClick={edit} className={`material-symbols-outlined ${color} cursor-pointer bg-white shadow-[2px_2px_1px_grey] rounded-sm border px-0.5`}>edit_square</span>
+                                           <span onClick={() => edit(data)} className={`material-symbols-outlined ${color} cursor-pointer bg-white shadow-[2px_2px_1px_grey] rounded-sm border px-0.5`}>edit_square</span>
                                            <span onClick={(e)=> deleteDeduction(data)} className={`material-symbols-outlined ml-2 text-[#930505] cursor-pointer bg-white shadow-[2px_2px_1px_grey] rounded-sm border px-0.5`}>delete</span>
                                         </td>
                                     )}

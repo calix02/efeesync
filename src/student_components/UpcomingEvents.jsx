@@ -1,5 +1,5 @@
 
-function UpcomingEvents({month,day,event,desc,target,type, pay, code, excuse}){
+function UpcomingEvents({month,day,event,desc,target,type,code, excuse}){
     const colors = {
         CIT: "border-[#621668] text-[#621668] bg-[#621668]",
         COE: "border-[#020180] text-[#020180] bg-[#020180]",

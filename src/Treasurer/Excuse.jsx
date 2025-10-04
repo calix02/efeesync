@@ -10,30 +10,37 @@ function CITExcuse() {
     const animateR = "right-In";
     const animateL = "left-In";
 
-    const [currentUserData, setCurrentUserData] = useState([]);
-
     const viewLetter = useAnimatedToggle();
 
     const viewLetterRef  = useRef(null);
         
-        const fetchCurrentUser = async () => {
-            try {
-                const res = await fetch("/api/users/current", {
-                    credentials: "include"
-                });
-                const response = await res.json();
-                if (response.status === "success") {
-                    setCurrentUserData(response.data);
-                }
-            } catch (err) {
-                errorAlert("Fetch Failed");
+    const [currentUserData, setCurrentUserData] = useState(() => {
+    const saved = localStorage.getItem("currentUserData");
+        return saved ? JSON.parse(saved) : null;
+    });
+
+    const [status, setStatus] = useState("");
+    
+    const fetchCurrentUser = async () => {
+        try {
+            const res = await fetch("/api/users/current", {
+                credentials: "include"
+            });
+            const response = await res.json();
+            if (response.status === "success") {
+               setCurrentUserData(response.data);
+               localStorage.setItem("currentUserData", JSON.stringify(response.data));
             }
+        } catch (err) {
+            errorAlert("Fetch Failed");
         }
+    }
+
         const [attendanceExcuses, setAttendanceExcuses] = useState([]);
-        const fetchAttendanceExcuse = async () => {
+        const fetchAttendanceExcuse = async (status="", page=1, search="") => {
             if (!currentUserData) return;
             try {
-                const res = await fetch(`/api/organizations/code/${currentUserData?.organization_code}/attendance/excuses`, {
+                const res = await fetch(`/api/organizations/code/${currentUserData?.organization_code}/attendance/excuses?page=${page}&search=${search}&status=${status}`, {
                     credentials: "include"
                 });
                 const response = await res.json();
@@ -47,9 +54,10 @@ function CITExcuse() {
         useEffect(() => {
             fetchCurrentUser();
         }, []);
+
         useEffect(() => {
-            fetchAttendanceExcuse();
-        }, [currentUserData]);
+            fetchAttendanceExcuse(status);
+        }, [currentUserData, status]);
 
     const hoverColors = {
             CIT: " hover:bg-[#621668]",
@@ -60,8 +68,8 @@ function CITExcuse() {
             SSC: "hover:bg-[#174515]"
         };
     const hoverColor = hoverColors[currentUserData?.department_code] || "hover:bg-[#174515]";
-        const[selectedStudent, setSelectedStudent] = useState(null);
-    
+    const[selectedStudent, setSelectedStudent] = useState(null);
+
     return (
         <>
         {viewLetter.isVisible &&(
@@ -84,20 +92,24 @@ function CITExcuse() {
                 </div>
                
                <div className=' w-[100%] mt-3 '>
-                 {/** 
+               
                     <div className={`lg:ml-70 ${animateL} flex lg:justify-start md:justify-start font-[family-name:Arial]  justify-center gap-2.5`}>
-                         <select className={`bg-white ${hoverColor} lg:w-25  w-20 text-xs transition duration-100 hover:scale-105 hover:text-white cursor-pointer border-1  py-1  rounded-md text-center`}  name="" id="">
-                            <option value="">Year</option>
-                            <option value="">hey</option>
+                         <select className={`bg-white ${hoverColor} lg:w-25  w-20 text-xs transition duration-100 hover:scale-105 hover:text-white cursor-pointer border-1  py-1  rounded-md text-center`} onChange={(e)=>{setStatus(e.target.value)}}   name="" id="">
+                            <option value="">All</option>
+                            <option value="pending">Pending</option>
+                            <option value="approved">Approved</option>
+                            <option value="rejected">Rejected</option>
                         </select>
+                      {/** 
                          <select className={`bg-white ${hoverColor} lg:w-25  w-20 text-xs transition duration-100 hover:scale-105 hover:text-white cursor-pointer border-1  py-1  rounded-md text-center`}  name="" id="">
                             <option value="">Section</option>
                             <option value="">hey</option>
                         </select>
+                         */}
                     </div>
-                */}
+               
                    
-                    <TableExcuse excuses={attendanceExcuses} viewLetter={(row) =>{
+                    <TableExcuse fetchAttendanceExcuse={fetchAttendanceExcuse} excuses={attendanceExcuses} viewLetter={(row) =>{
                         viewLetter.toggle();
                         setSelectedStudent(row);
                     }}  code={currentUserData?.department_code} />

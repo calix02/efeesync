@@ -41,7 +41,6 @@ const [preview, setPreview] = useState(null);
                 clickedSendExcuse();
                 e.preventDefault();
                 onClose();
-
             }}>
             <div className="mt-[15px]">
                 <label htmlFor="">Reason:</label>

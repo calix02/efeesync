@@ -1,5 +1,6 @@
 import { useState, useMemo } from "react";
 import "../animate.css";
+import {confirmAlert,successAlert, errorAlert, okAlert} from "../utils/alert.js";
 
 
 /**
@@ -7,7 +8,7 @@ import "../animate.css";
  * @param {string} code       – org code ("cit", "coe", …) to color the header text
  * @param {Array}  excuses   – array of { id, name, yearSection }
  */
-function TableExcuse({ code = "cit", excuses = [], viewLetter }) {
+function TableExcuse({ code = "cit", excuses = [], viewLetter, fetchAttendanceExcuse }) {
   const animate = "card-In";
   /* --------------------------------- colors -------------------------------- */
   const colors = {
@@ -36,6 +37,23 @@ function TableExcuse({ code = "cit", excuses = [], viewLetter }) {
 
   const data = excuses.length ? excuses : fallback;
 
+  const actionExcuse = async (excuseId, action) =>{
+      try {
+          const res = await fetch(`/api/attendance/excuse/${excuseId}/${action}`, {
+              method: "POST",
+              credentials: "include"
+          });
+          const response = await res.json();
+          if (response.status === "success") {
+              fetchAttendanceExcuse();
+          } else {
+              errorAlert("Failed: " + response.message);
+          }
+      } catch (err) {
+          errorAlert("Failed: " + err);
+      }
+  }
+
   return (
   
     <div className={`w-full ${animate} flex flex-col gap-6`}>
@@ -44,7 +62,6 @@ function TableExcuse({ code = "cit", excuses = [], viewLetter }) {
         <table className="w-full text-center ">
           <thead>
             <tr className={`border-b-2 border-[#adadad] bg-white ${color}`}>
-              <th>ID</th>
               <th>Student Name</th>
               <th>Year &amp; Section</th>
               <th>Event Name</th>
@@ -59,7 +76,6 @@ function TableExcuse({ code = "cit", excuses = [], viewLetter }) {
           <tbody>
             {data.map((s, idx) => (
               <tr key={idx} className="border-b border-[#0505057a] ">
-                <td >{data? s.attendance_excuse_id : "No Data" }</td>
                 <td>{s.full_name}</td>
                 <td>{s.student_section}</td>
                 <td>{s.event_name}</td>
@@ -68,8 +84,18 @@ function TableExcuse({ code = "cit", excuses = [], viewLetter }) {
                   <button onClick={()=>{viewLetter(s)}} className={`bg-white ${hoverColor} ${color} py-1 flex items-center gap-1 justify-center lg:px-5 md:px-5 px-2  border-1 text-sm cursor-pointer  hover:text-white transition duration-200  rounded-md`}><i className="fa-regular fa-eye"></i>Letter</button>
                 </td>
                 <td className="lg:text-lg md:text-lg text-sm">
-                  <i className="fa-solid fa-circle-check cursor-pointer text-[#70B914]"></i>
-                  <i className="fa-solid fa-circle-xmark cursor-pointer ml-1 text-[#DE0004]"></i>
+                  {s.attendance_excuse_status == "PENDING" && (
+                    <>
+                    <i onClick={()=>{actionExcuse(s.attendance_excuse_id, "approve")}} className="fa-solid fa-circle-check cursor-pointer text-[#70B914]"></i>
+                    <i onClick={()=>{actionExcuse(s.attendance_excuse_id, "reject")}} className="fa-solid fa-circle-xmark cursor-pointer ml-1 text-[#DE0004]"></i>
+                    </>
+                  )}
+                  {s.attendance_excuse_status == "APPROVED" && (
+                    <button className="text-sm">APPROVED</button>
+                  )}
+                  {s.attendance_excuse_status == "REJECTED" && (
+                    <button className="text-sm">REJECTED</button>
+                  )}
                 </td>
               </tr>
             ))}

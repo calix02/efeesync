@@ -20,7 +20,6 @@ function CITStudent(){
     const params = new URLSearchParams(location.search);
     const year = params.get("year");
 
-    const [currentUserData, setCurrentUserData] = useState(localStorage.getItem("basta") || []);
     const [searchValue, setSearchValue] = useState("");
     const [students, setStudents] = useState([]);
     const [debounceTimer, setDebounceTimer] = useState(null);
@@ -50,19 +49,25 @@ function CITStudent(){
         }
     };
     
+    const [currentUserData, setCurrentUserData] = useState(() => {
+    const saved = localStorage.getItem("currentUserData");
+        return saved ? JSON.parse(saved) : null;
+    });
+    
     const fetchCurrentUser = async () => {
         try {
-            const res = await fetch("/api/users/current", { credentials: "include" });
+            const res = await fetch("/api/users/current", {
+                credentials: "include"
+            });
             const response = await res.json();
             if (response.status === "success") {
-                const user = response.data;
-                setCurrentUserData(user);
-                await fetchStudents(user.department_code, user.university_wide_org);
+               setCurrentUserData(response.data);
+               localStorage.setItem("currentUserData", JSON.stringify(response.data));
             }
         } catch (err) {
             errorAlert("Fetch Failed");
         }
-    };
+    }
 
     const searchStudent = (search) => {
         setSearchValue(search);
@@ -82,6 +87,7 @@ function CITStudent(){
     }, []);
 
     useEffect(() => {
+        fetchStudents();
     }, [currentUserData]);
 
     const [paginate, setPaginate] = useState({

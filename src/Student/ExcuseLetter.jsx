@@ -23,25 +23,47 @@ function ExcuseLetter(){
 
     const animate = "card-In";
 
-    const [currentUserData, setCurrentUserData] = useState([]);
-            
-            const fetchCurrentUser = async () => {
-                try {
-                    const res = await fetch("/api/users/current", {
-                        credentials: "include"
-                    });
-                    const response = await res.json();
-                    if (response.status === "success") {
-                        setCurrentUserData(response.data);
-                    }
-                } catch (err) {
-                    errorAlert("Fetch Failed");
-                }
+    const [currentUserData, setCurrentUserData] = useState(() => {
+    const saved = localStorage.getItem("currentUserData");
+        return saved ? JSON.parse(saved) : null;
+    });
+    
+    const fetchCurrentUser = async () => {
+        try {
+            const res = await fetch("/api/users/current", {
+                credentials: "include"
+            });
+            const response = await res.json();
+            if (response.status === "success") {
+               setCurrentUserData(response.data);
+               localStorage.setItem("currentUserData", JSON.stringify(response.data));
             }
-            useEffect(() => {
-                fetchCurrentUser();
-                console.log(currentUserData);
-            }, []);
+        } catch (err) {
+            errorAlert("Fetch Failed");
+        }
+    }
+
+    const [excuseData, setExcuseData] = useState([]);
+
+    const fetchExcuses = async () => {
+        try {
+            const res = await fetch("/api/students/current/excuses", {
+                credentials: "include"
+            });
+            const response = await res.json();
+            if (response.status === "success") {
+               setExcuseData(response.data);
+            }
+        } catch (err) {
+            errorAlert("Fetch Failed");
+        }
+    }
+    
+    useEffect(() => {
+        fetchCurrentUser();
+        fetchExcuses();
+    }, []);
+
     const [selectedExcuse, setSelectedExcuse] = useState(null);
     
     return(
@@ -54,7 +76,6 @@ function ExcuseLetter(){
                 <Letter data={selectedExcuse} code={currentUserData?.department_code} ref={letterRef} onAnimationEnd={letter.handleEnd} onClose={() => letter.setAnimation("fade-out")} animate={letter.animation} />
             </div>
         </>
-
         )
         
 
@@ -75,10 +96,12 @@ function ExcuseLetter(){
                 <h2 className="text-2xl font-semibold font-poppins  ">Excuse Letter Request</h2>
             </div>
             <div className={`lg:ml-70 ${animate} grid lg:grid-cols-3 md:grid-cols-2  gap-5  mt-6`}>
-                <ExcuseStatusCard status="Approved" view={(id)=>{
+                {excuseData.map((ed)=>(
+                    <ExcuseStatusCard data={ed} view={(id)=>{
                     letter.toggle();
                     setSelectedExcuse(id);
                     }} edit={editExcuse.toggle}/>
+                ))}
             </div>
             
         </div>

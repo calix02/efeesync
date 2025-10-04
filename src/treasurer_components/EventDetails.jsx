@@ -39,7 +39,7 @@ const EventDetails = React.forwardRef(({animate, onAnimationEnd,onClose,data,for
         COE: "border-[#020180] text-[#020180] ",
         COC: "border-[#660A0A] text-[#660A0A] ",
         COT: "border-[#847714] text-[#847714] ",
-        SCEAP: "border-[#6F3306] text-[#6F3306] ",
+        ESAF: "border-[#6F3306] text-[#6F3306] ",
         SSC: "border-[#174515] text-[#174515] ",
     };
 

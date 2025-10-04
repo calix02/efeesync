@@ -10,7 +10,6 @@ function  CommunityService() {
 /* ------------------------- Animated States ----------------------------- */
 
     const [selectedStudent, setSelectedStudent] = useState(null);
-    const [currentUserData, setCurrentUserData] = useState([]);
     const [comservData, setComservData] = useState([]);
 
     const [debounceTimer, setDebounceTimer] = useState(null);
@@ -27,6 +26,11 @@ function  CommunityService() {
         total_pages: 1
     });
         
+    const [currentUserData, setCurrentUserData] = useState(() => {
+    const saved = localStorage.getItem("currentUserData");
+        return saved ? JSON.parse(saved) : null;
+    });
+    
     const fetchCurrentUser = async () => {
         try {
             const res = await fetch("/api/users/current", {
@@ -34,7 +38,8 @@ function  CommunityService() {
             });
             const response = await res.json();
             if (response.status === "success") {
-                setCurrentUserData(response.data);
+               setCurrentUserData(response.data);
+               localStorage.setItem("currentUserData", JSON.stringify(response.data));
             }
         } catch (err) {
             errorAlert("Fetch Failed");

@@ -28,8 +28,7 @@ function Dashboard(){
     const calendar = <i className="fa-solid fa-calendar-days z-[-1] opacity-50"></i>
     const coin = <i className="fa-solid fa-coins z-[-1] opacity-50"></i>
     const cash = <i className="fa-solid fa-money-bills z-[-1] opacity-50"></i>
-
-    const [currentUserData, setCurrentUserData] = useState([]);
+    
     const [sanctionData, setSanctionData] = useState({
         "monetary_sanctions": [],
         "community_service": [],
@@ -44,19 +43,25 @@ function Dashboard(){
         "upcoming_events": []
     });
         
-        const fetchCurrentUser = async () => {
-            try {
-                const res = await fetch("/api/users/current", {
-                    credentials: "include"
-                });
-                const response = await res.json();
-                if (response.status === "success") {
-                    setCurrentUserData(response.data);
+        const [currentUserData, setCurrentUserData] = useState(() => {
+            const saved = localStorage.getItem("currentUserData");
+                return saved ? JSON.parse(saved) : null;
+            });
+            
+            const fetchCurrentUser = async () => {
+                try {
+                    const res = await fetch("/api/users/current", {
+                        credentials: "include"
+                    });
+                    const response = await res.json();
+                    if (response.status === "success") {
+                       setCurrentUserData(response.data);
+                       localStorage.setItem("currentUserData", JSON.stringify(response.data));
+                    }
+                } catch (err) {
+                    errorAlert("Fetch Failed");
                 }
-            } catch (err) {
-                console.error("Fetch Failed");
             }
-        }
 
         const fetchDashboardData = async () => {
             try {

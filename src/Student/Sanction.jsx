@@ -15,7 +15,6 @@ function Sanction(){
     const animateL = "left-In";
     const animateR = "right-In";
 
-    const [currentUserData, setCurrentUserData] = useState([]);
     const [sanctionData, setSanctionData] = useState({
             "monetary_sanctions": [],
             "community_service": [],
@@ -42,19 +41,25 @@ function Sanction(){
         }
 
             
-            const fetchCurrentUser = async () => {
-                try {
-                    const res = await fetch("/api/users/current", {
-                        credentials: "include"
-                    });
-                    const response = await res.json();
-                    if (response.status === "success") {
-                        setCurrentUserData(response.data);
-                    }
-                } catch (err) {
-                    errorAlert("Fetch Failed");
-                }
+        const [currentUserData, setCurrentUserData] = useState(() => {
+    const saved = localStorage.getItem("currentUserData");
+        return saved ? JSON.parse(saved) : null;
+    });
+    
+    const fetchCurrentUser = async () => {
+        try {
+            const res = await fetch("/api/users/current", {
+                credentials: "include"
+            });
+            const response = await res.json();
+            if (response.status === "success") {
+               setCurrentUserData(response.data);
+               localStorage.setItem("currentUserData", JSON.stringify(response.data));
             }
+        } catch (err) {
+            errorAlert("Fetch Failed");
+        }
+    }
             useEffect(() => {
                 fetchCurrentUser();
                 fetchSanctionData();

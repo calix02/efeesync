@@ -38,24 +38,28 @@ const animateL = "left-In";
     const [selectedAttendanceDate, setSelectedAttendanceDate] = useState("");
     const [searchValue, setSearchValue] = useState("");
     // const [searchValueForAtt, setSearchValueForAtt] = useState("");
-
-    const [currentUserData, setCurrentUserData] = useState([]);
         
     const [eventAttendanceData, setEventAttendanceData] = useState([]);
     
-      const fetchCurrentUser = async () => {
+    const [currentUserData, setCurrentUserData] = useState(() => {
+    const saved = localStorage.getItem("currentUserData");
+        return saved ? JSON.parse(saved) : null;
+    });
+    
+    const fetchCurrentUser = async () => {
         try {
-          const res = await fetch("/api/users/current", {
-            credentials: "include"
-          });
-          const response = await res.json();
-          if (response.status === "success") {
-            setCurrentUserData(response.data);
-          }
+            const res = await fetch("/api/users/current", {
+                credentials: "include"
+            });
+            const response = await res.json();
+            if (response.status === "success") {
+               setCurrentUserData(response.data);
+               localStorage.setItem("currentUserData", JSON.stringify(response.data));
+            }
         } catch (err) {
-          errorAlert("Fetch Failed");
+            errorAlert("Fetch Failed");
         }
-      };
+    }
 
       const fetchEventAttendance =  async (page=1, search="", org_code=currentUserData?.organization_code) => {
         const anotherRes = await fetch(`/api/organizations/code/${org_code}/events?type=attendance&page=${page}&search=${search}`, {

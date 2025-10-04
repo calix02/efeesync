@@ -112,21 +112,26 @@ function Setting(){
         reader.readAsDataURL(file);
         logo.setAnimation("fade-out"); 
     };
-    const [currentUserData, setCurrentUserData] = useState([]);
+    const [currentUserData, setCurrentUserData] = useState(() => {
+    const saved = localStorage.getItem("currentUserData");
+        return saved ? JSON.parse(saved) : null;
+    });
     
-      const fetchCurrentUser = async () => {
-         try {
-             const res = await fetch("/api/users/current", {
-                 credentials: "include"
-             });
-             const response = await res.json();
-             if (response.status === "success") {
-                 setCurrentUserData(response.data);
-             }
-         } catch (err) {
-             errorAlert("Fetch Failed");
-         }
-      }
+    const fetchCurrentUser = async () => {
+        try {
+            const res = await fetch("/api/users/current", {
+                credentials: "include"
+            });
+            const response = await res.json();
+            if (response.status === "success") {
+               setCurrentUserData(response.data);
+               localStorage.setItem("currentUserData", JSON.stringify(response.data));
+            }
+        } catch (err) {
+            errorAlert("Fetch Failed");
+        }
+    }
+    
       useEffect(() => {
         fetchCurrentUser();
         console.log(currentUserData);

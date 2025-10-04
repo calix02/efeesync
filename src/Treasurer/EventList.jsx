@@ -31,24 +31,27 @@ function CITEventList(){
     const [selectedEvent, setSelectedEvent] = useState(null);
     const [selectedType, setSelectedType] = useState("");
 
-    const [currentUserData, setCurrentUserData] = useState([]);
-
     const [searchValue, setSearchValue] = useState("");
-    
-    const fetchCurrentUser = async () => {
-        try {
-            const res = await fetch("/api/users/current", { credentials: "include" });
-            const response = await res.json();
 
-            if (response.status === "success") {
-                const user = response.data;
-                setCurrentUserData(user);
-                fetchEvents(user.organization_id);
+    const [currentUserData, setCurrentUserData] = useState(() => {
+        const saved = localStorage.getItem("currentUserData");
+            return saved ? JSON.parse(saved) : null;
+        });
+        
+        const fetchCurrentUser = async () => {
+            try {
+                const res = await fetch("/api/users/current", {
+                    credentials: "include"
+                });
+                const response = await res.json();
+                if (response.status === "success") {
+                   setCurrentUserData(response.data);
+                   localStorage.setItem("currentUserData", JSON.stringify(response.data));
+                }
+            } catch (err) {
+                errorAlert("Fetch Failed");
             }
-        } catch (err) {
-            console.error("Fetch Failed: " + err);
         }
-    };
 
     const [eventsOrg, setEventsOrg] = useState([]);
 
@@ -86,15 +89,20 @@ function CITEventList(){
     };
 
     const [paginate, setPaginate] = useState({
-                page: 1,
-                per_page: 10,
-                total: 0,
-                total_pages: 1
-            });
+        page: 1,
+        per_page: 10,
+        total: 0,
+        total_pages: 1
+    });
     
     useEffect(() => {
         fetchCurrentUser();
     }, []);
+
+    useEffect(() => {
+        fetchEvents(currentUserData?.organization_id);
+    }, [currentUserData]);
+
     const hoverColors = {
             CIT: " hover:bg-[#621668]",
             COE: "hover:bg-[#020180]",

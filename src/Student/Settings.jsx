@@ -9,6 +9,8 @@ import QrCode from "../student_components/QRCode.jsx";
 import PersonalInformation from '../osas_components/PersonalInformation.jsx';
 import DefaultProfile from '../assets/default.png';
 import React, {useState, useEffect, useRef} from 'react';
+import { errorAlert} from '../utils/alert.js';
+
 
 function Setting(){
     document.title = "Setting";

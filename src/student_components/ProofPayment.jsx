@@ -1,4 +1,5 @@
 import React from "react";
+
 const ProofPayment = React.forwardRef(({animate, onAnimationEnd,onClose}, ref) =>{
 
 

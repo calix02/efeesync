@@ -4,6 +4,7 @@ import CITSidebar from './Sidebar.jsx';
 import useAnimatedToggle from '../hooks/useAnimatedToggle.js';
 import ProofPayment from '../treasurer_components/ProofPayment.jsx';
 import TablePaymentTransaction from '../treasurer_components/TablePaymentTransaction.jsx';
+import {confirmAlert,successAlert, errorAlert, okAlert} from "../utils/alert.js";
 import "../animate.css";
 function PaymentTransaction() {
     const animateR = "right-In";

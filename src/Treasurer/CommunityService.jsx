@@ -2,7 +2,7 @@ import React, { useRef, useState, useEffect } from 'react';
 import CITHeader from '../other_components/Header_Council.jsx';
 import CITSidebar from './Sidebar.jsx';
 import TableCommunityService from '../treasurer_components/TableCommunityService.jsx';
-import { errorAlert, successAlert } from '../utils/alert.js';
+import { errorAlert, successAlert, okAlert, confirmAlert } from '../utils/alert.js';
 import "../animate.css";
 function  CommunityService() {
     const animateR = "right-In";
@@ -11,24 +11,82 @@ function  CommunityService() {
 
     const [selectedStudent, setSelectedStudent] = useState(null);
     const [currentUserData, setCurrentUserData] = useState([]);
+    const [comservData, setComservData] = useState([]);
+
+    const [debounceTimer, setDebounceTimer] = useState(null);
         
-        const fetchCurrentUser = async () => {
-            try {
-                const res = await fetch("/api/users/current", {
-                    credentials: "include"
-                });
-                const response = await res.json();
-                if (response.status === "success") {
-                    setCurrentUserData(response.data);
-                }
-            } catch (err) {
-                errorAlert("Fetch Failed");
+    const debounce = (callback, delay=500)  => {
+        clearTimeout(debounceTimer);
+        setDebounceTimer(setTimeout(callback, delay));
+    }
+
+    const [paginate, setPaginate] = useState({
+        page: 1,
+        per_page: 10,
+        total: 0,
+        total_pages: 1
+    });
+        
+    const fetchCurrentUser = async () => {
+        try {
+            const res = await fetch("/api/users/current", {
+                credentials: "include"
+            });
+            const response = await res.json();
+            if (response.status === "success") {
+                setCurrentUserData(response.data);
             }
+        } catch (err) {
+            errorAlert("Fetch Failed");
         }
-             
-        useEffect(() => {
-            fetchCurrentUser();
-        }, []);
+    }
+
+    const fetchComservData = async (page=1, search="") => {
+        if (!currentUserData) return;
+        try {
+            const res = await fetch(`/api/organizations/code/${currentUserData?.organization_code}/communityservice?page=${page}&search=${search}`, {
+                credentials: "include"
+            });
+            const response = await res.json();
+            if (response.status === "success") {
+                setComservData(response.data);
+                setPaginate(response.meta);
+            }
+        } catch (err) {
+            errorAlert("Fetch Failed");
+        }
+    }
+
+    const searchStudentsWithComserv = (search) => {
+        // setSearchValue(search);
+        debounce(() => {
+            fetchComservData(1, search);
+        }, 500);
+    };
+
+    const addComserv = async (event_id, student_id) => {
+        if (!currentUserData) return;
+        try {
+            const res = await fetch(`/api/communityservice/events/${event_id}/student/${student_id}`, {
+                method: "POST",
+                credentials: "include"
+            });
+            const response = await res.json();
+            if (response.status === "success") {
+                fetchComservData(); 
+            }
+        } catch (err) {
+            errorAlert("Fetch Failed");
+        }
+    }
+         
+    useEffect(() => {
+        fetchCurrentUser();
+    }, []);
+
+    useEffect(() => {
+        fetchComservData();
+    }, [currentUserData]);
         
     const hoverColors = {
             CIT: " hover:bg-[#621668]",
@@ -39,13 +97,6 @@ function  CommunityService() {
             SSC: "hover:bg-[#174515]"
         };
     const hoverColor = hoverColors[currentUserData?.department_code] || "hover:bg-[#174515]";
-    const communityServiceData = Array.from({ length: 3 }, (_, i) => ({
-    studID: `22-1829`,
-    studName: `Jaspher Yummy Bobis`,
-    yearSection: `4A`,
-    eventName: `IT Week`,
-
-  }));
         
 
     return (
@@ -56,23 +107,23 @@ function  CommunityService() {
                 <div className="lg:mt-30 mt-25 lg:ml-70 lg:flex md:flex  md:justify-between   lg:justify-between">
                     <h2 className="text-2xl font-[family-name:Futura Bold] font-semibold">Manage Community Service</h2>
                     <div className={`flex ${animateR} items-center lg:px-0 md:px-0 px-3`}>
-                    <input className='lg:w-85 md:w-85 w-[100%] p-1.5 bg-white rounded-md border-2 lg:mt-0 md:mt-0 mt-4   border-black block' type="text" onKeyUp={(e)=>{searchSanctions(e.target.value)}} placeholder='Search Student' />
+                    <input className='lg:w-85 md:w-85 w-[100%] p-1.5 bg-white rounded-md border-2 lg:mt-0 md:mt-0 mt-4   border-black block' type="text" onKeyUp={(e)=>{searchStudentsWithComserv(e.target.value)}} placeholder='Search Student' />
                     </div>
                 </div>
 
                 <div className="w-100% mt-3">
                     <TableCommunityService 
+                    paginate={paginate}
+                    fetchComservData={fetchComservData}
                     code={currentUserData?.department_code}
-                    communityService={communityServiceData}
+                    communityService={comservData}
                     done={(row) =>{
                         setSelectedStudent(row);
-                        successAlert("Done Student ID: " + selectedStudent?.studID);
+                        addComserv(row.event_id, row.student_id);
                     }}
                     />
                 </div>
-                
             </div>
-
             <div className="hidden lg:block">
                 <CITSidebar isUnivWide={currentUserData?.university_wide_org} code={currentUserData?.department_code} />
             </div>

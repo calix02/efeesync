@@ -7,6 +7,8 @@ import EfeeViolet from '../assets/violetlogo.png';
 import {useState, useEffect} from 'react';
 import it from '../assets/it.png';
 import "../animate.css";
+import { errorAlert} from '../utils/alert.js';
+
 
 
 function Contribution(){

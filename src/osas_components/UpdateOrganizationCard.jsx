@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from "react";
-import { successAlert, errorAlert } from "../utils/alert";
+import { errorAlert } from "../utils/alert";
 
 const UpdateOrganizationCard = React.forwardRef(({animate, onAnimationEnd,onClose,data,reloadOrgs}, ref) =>{
     const [orgCode, setOrgCode] = useState(data?.organization_code || "");

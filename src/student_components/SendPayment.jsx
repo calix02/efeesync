@@ -1,5 +1,5 @@
 import React,{useState} from "react";
-import { errorAlert, successAlert } from "../utils/alert";
+import { errorAlert } from "../utils/alert";
 const SendPayment = React.forwardRef(({animate, onAnimationEnd,onClose, code}, ref) =>{
 
     const [file, setFile] = useState(null); 

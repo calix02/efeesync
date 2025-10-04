@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { successAlert, errorAlert } from "../utils/alert";
+import {confirmAlert,successAlert, errorAlert, okAlert} from "../utils/alert.js";
+
 
 const UnsettledTransactionCard = React.forwardRef(
   ({ animate, onAnimationEnd, onClose, code, data, fetchSanctionData }, ref) => {

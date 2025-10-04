@@ -4,6 +4,8 @@ import DashboardContent from '../treasurer_components/DashboardContent.jsx';
 import CITSidebar from './Sidebar.jsx';
 import EfeeViolet from '../assets/violetlogo.png'
 import { useEffect, useState } from 'react';
+import {confirmAlert,successAlert, errorAlert, okAlert} from "../utils/alert.js";
+
 function CITCouncil(){
 
     const [currentUserData, setCurrentUserData] = useState(null);

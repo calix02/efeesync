@@ -6,6 +6,8 @@ import AddAccomplishmentCard from '../other_components/AddAccomplishmentCard.jsx
 import EfeeViolet from '../assets/violetlogo.png'
 import React, {useRef, useState, useEffect} from 'react';
 import useAnimatedToggle from '../hooks/useAnimatedToggle.js';
+import {confirmAlert,successAlert, errorAlert, okAlert} from "../utils/alert.js";
+
 function CITAccomplishment(){
 /* ------------------------- Animated States ----------------------------- */
     const addAccomplishment = useAnimatedToggle();

@@ -12,7 +12,6 @@ import Educ from "../assets/COE.png";
 import Esaf from "../assets/ESAF.png";
 import Indus from "../assets/COT.png";
 import Ssc from "../assets/SSC.png";
-
 import '../animate.css';
 
 function Header_Council({code, title}) {

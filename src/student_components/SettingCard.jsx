@@ -1,4 +1,5 @@
 import DefaultProfile from '../assets/default.png';
+
 function SettingCard({upload,edit,change,qr}){
     return(
         <div className="w-[100%] py-6 px-6 mb-6 bg-white border-2 border-[#000]  rounded-lg shadow-[2px_2px_3px_grey]">

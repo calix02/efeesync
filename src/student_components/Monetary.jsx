@@ -1,5 +1,5 @@
 
-function Monetary({monetarySanction, code, animate}){
+function Monetary({monetarySanction, code, animate, formatDateStr}){
     const colors = {
             CIT: "border-[#621668] text-[#621668] bg-[#621668]",
             COE: "border-[#020180] text-[#020180] bg-[#020180]",
@@ -15,11 +15,12 @@ function Monetary({monetarySanction, code, animate}){
                 <span>Monetary</span>
             </div>
             {monetarySanction.map((ms)=>(
-                <div className="w-[100%] py-2  flex items-center border-2 px-4 rounded-lg  mt-3">
-                    <div className="w-[100%]  py-2 border-l-4  px-6 flex flex-col">
+                <div className="w-[100%] py-2 flex items-center border-2 px-4 rounded-lg  mt-3">
+                    <div className="border-l-4 font-bold py-4 px-4 font-poppins text-2xl">100</div>
+                    <div className="w-[100%]  py-2   px-3 flex flex-col">
                         <span className="text-xl font-semibold">{ms.event_name}</span>
                         {ms.absence_logs.map((al)=>(
-                            <span className="text-sm text-[#252525]">Date: {al.event_attend_date}</span>
+                            <span className="text-sm text-[#252525]">Date: {formatDateStr(al.event_attend_date)}</span>
                         ))}
                     </div>
                 </div>

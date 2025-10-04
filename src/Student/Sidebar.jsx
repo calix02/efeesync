@@ -1,7 +1,6 @@
 import {Link} from 'react-router-dom';
 import NavLink from '../other_components/NavLink.jsx';
 import DropDownNav from '../other_components/DropDownNav.jsx';
-import {confirmAlert,successAlert, errorAlert} from "../utils/alert.js";
 import Crim from "../assets/maroon logo.png";
 import Educ from "../assets/bluelogo.png";
 import It from "../assets/violetlogo.png";
@@ -9,6 +8,8 @@ import Indus from "../assets/yellow logo.png";
 import Esaf from "../assets/brown logo.png";
 import Ssc from "../assets/greenlogo.png";
 import React from 'react';
+import { errorAlert, successAlert, okAlert, confirmAlert } from '../utils/alert.js';
+
 const Sidebar = React.forwardRef(({eFee, animate,code, onAnimationEnd,onClose},ref) =>{
      const colors = {
         CIT: "border-[#621668] text-[#621668]",

@@ -5,6 +5,7 @@ import FinancialTable from "../student_components/FinancialTable.jsx";
 import FinancialCard from "../student_components/FinancialCard.jsx";
 import {useState, useEffect} from "react";
 import it from '../assets/it.png';
+import { errorAlert} from '../utils/alert.js';
 import "../animate.css";
 
 
@@ -59,8 +60,8 @@ function FinancialReport(){
             </div>
             
             <div className="lg:ml-70 gap-6  flex lg:flex-row flex-col mt-2">
-                <FinancialTable animate={animateL} title="Cash Inflow" financialData={financialReportData?.cash_in}/>
-                <FinancialTable animate={animateR} title="Cash Outflow" financialData={financialReportData?.cash_out}/>
+                <FinancialTable animate={animateL} title="Cash Inflow" total={financialReportData?.summary?.total_cash_in} financialData={financialReportData?.cash_in}/>
+                <FinancialTable animate={animateR} title="Cash Outflow" total={financialReportData?.summary?.total_cash_out} financialData={financialReportData?.cash_out}/>
             </div>
             
         </div>

@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-function CommunitySanction({code, communityService}){
+function CommunitySanction({code, communityService, formatDateStr}){
     
     const colors = {
             CIT: "border-[#621668] text-[#621668] bg-[#621668]",
@@ -18,7 +18,7 @@ function CommunitySanction({code, communityService}){
                 <div className={`border-l-8 w-[100%] items-center px-3`}>
                     <div className="text-black ">
                         <h2 className="font-bold font-poppins text-md ">{cs.event_name}</h2>
-                        <p  className="flex cursor-pointer gap-2 text-xs items-center"><span>{cs.event_end_date}</span></p>
+                        <p  className="flex cursor-pointer gap-2 text-xs items-center"><span>{formatDateStr(cs.event_end_date)}</span></p>
                         
                     </div>
                 </div>

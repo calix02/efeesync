@@ -1,4 +1,5 @@
 import React from "react";
+
 const QrCode = React.forwardRef(({animate, onAnimationEnd,onClose,code}, ref) =>{
     const colors = {
        CIT: "border-[#621668] text-[#621668] bg-[#621668]",

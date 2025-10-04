@@ -12,6 +12,8 @@ import DefaultProfile from '../assets/default.png';
 import UploadLogo from '../osas_components/UploadLogo.jsx';
 import UploadEfee from '../osas_components/UploadEfee.jsx';
 import React, {useState, useEffect, useRef} from 'react';
+import {confirmAlert,successAlert, errorAlert, okAlert} from "../utils/alert.js";
+
 
 function Setting(){
     document.title = "Setting";

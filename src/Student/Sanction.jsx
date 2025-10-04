@@ -6,6 +6,8 @@ import EfeeViolet from '../assets/violetlogo.png';
 import {useState, useEffect} from "react";
 import it from '../assets/it.png';
 import "../animate.css";
+import { errorAlert} from '../utils/alert.js';
+
 
 
 function Sanction(){
@@ -33,6 +35,10 @@ function Sanction(){
             } catch (err) {
                 console.error("Fetch Failed");
             }
+        }
+
+        const formatDateStr = (dateString) => {
+            return new Date(dateString).toLocaleDateString('en-US', {year:'numeric',month:'long',day:'numeric'});
         }
 
             
@@ -72,12 +78,12 @@ function Sanction(){
             </div>
             <div className="lg:ml-70 ">
                 <div className={` ${animate} bg-white ${color} rounded-lg w-100% h-15 border-2  shadow-[2px_2px_3px_grey] mt-4 text-lg font-[family-name:arial] font-semibold flex items-center p-3`}>
-                    <span>Total Sanctions Paid: P {sanctionData?.total_sanctions_paid}.00</span>
+                    <span>Total Sanctions Paid: P {sanctionData?.total_sanctions_paid}</span>
                 </div>
             </div>
             <div className="lg:ml-70 grid lg:grid-cols-2  md:grid-cols-2 gap-6 mt-6">
-                <Monetary animate={animateL} code={currentUserData?.department_code} monetarySanction={sanctionData?.monetary_sanctions}/>
-                <CommunityService animate={animateR} communityService={sanctionData?.community_service} />
+                <Monetary formatDateStr={formatDateStr} animate={animateL} code={currentUserData?.department_code} monetarySanction={sanctionData?.monetary_sanctions}/>
+                <CommunityService formatDateStr={formatDateStr} animate={animateR} communityService={sanctionData?.community_service} />
 
             </div>
             

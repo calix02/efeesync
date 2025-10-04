@@ -103,6 +103,9 @@ function Dashboard(){
             return arr.map((n) => `${getOrdinal(n)} Year`).join(" - ");
         };
 
+        const formatDateStr = (dateString) => {
+            return new Date(dateString).toLocaleDateString('en-US', {year:'numeric',month:'long',day:'numeric'});
+        }
 
         useEffect(() => {
             fetchCurrentUser();
@@ -187,13 +190,13 @@ function Dashboard(){
                             <h2 className={` ${color} bg-[#fff0] font-semibold ml-2 mt-3 font-inter text-md`}>Total Sanctions: P {sanctionData?.total_sanction_balance}</h2>
                         </div>
 
-                        <MonetarySanction monetarySanctions={sanctionData?.monetary_sanctions} code={currentUserData?.department_code} />
+                        <MonetarySanction formatDateStr={formatDateStr} monetarySanctions={sanctionData?.monetary_sanctions} code={currentUserData?.department_code} />
                         </>
                     )}
                     {isMonetary === false &&(
                         <>
                         <h2 className={` ${color} bg-[#fff0] font-semibold ml-2 mt-3 font-inter text-md`}>Total Number of Service: {sanctionData?.community_service?.length}</h2>
-                        <CommunitySanction communityService={sanctionData?.community_service} code={currentUserData?.department_code} />
+                        <CommunitySanction formatDateStr={formatDateStr} communityService={sanctionData?.community_service} code={currentUserData?.department_code} />
                         </>
                     )}
                     

@@ -1,4 +1,5 @@
 import "../animate.css";
+
 function EventExcuse({attendanceExcuse}){
     const animate = "right-In";
     return(

@@ -1,6 +1,7 @@
 import { useState, useMemo } from "react";
 import "../animate.css";
 
+
 /**
  * TableStudent
  * @param {string} code       – org code ("cit", "coe", …) to color the header text

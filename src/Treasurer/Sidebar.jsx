@@ -2,7 +2,7 @@ import {Link} from 'react-router-dom';
 import DropDownNav from '../other_components/DropDownNav.jsx';
 import NavLink from '../other_components/NavLink.jsx';
 import React from 'react';
-import {confirmAlert,successAlert, errorAlert} from "../utils/alert.js";
+import {confirmAlert,successAlert, errorAlert, okAlert} from "../utils/alert.js";
 import Crim from "../assets/maroon logo.png";
 import Educ from "../assets/bluelogo.png";
 import It from "../assets/violetlogo.png";

@@ -6,6 +6,8 @@ import useAnimatedToggle from '../hooks/useAnimatedToggle.js';
 import CashOutflowCard from '../treasurer_components/CashOutflowCard.jsx';
 import EditCashOutflowCard from '../treasurer_components/EditCashOutflowCard.jsx';
 import {useState, useEffect, useRef} from 'react';
+import {confirmAlert,successAlert, errorAlert, okAlert} from "../utils/alert.js";
+
 import "../animate.css";
 import EfeeViolet from '../assets/violetlogo.png'
 function CITFinancial(){
@@ -41,8 +43,9 @@ function CITFinancial(){
             "cash_out": [],
             "summary": {}
         });
+
         const fetchFinancialReportData = async () => {
-            if (currentUserData.length == 0) return;
+            if (currentUserData.length === 0) return;
             try {
                 const res = await fetch(`/api/organizations/code/${currentUserData?.organization_code}/financialreport`, { credentials: "include" });
                 const response = await res.json();
@@ -69,7 +72,7 @@ function CITFinancial(){
         )}
         {edit.isVisible &&(
             <div className="fixed inset-0 flex justify-center items-center bg-[#00000062]  lg:z-40 md:z-50 z-70 pointer-events-auto">
-                <EditCashOutflowCard data={selectedCashOut} code={currentUserData?.department_code} ref={editRef} currentUser={currentUserData} currentUserData={currentUserData} onAnimationEnd={edit.handleEnd} animate={edit.animation} onClose={() => edit.setAnimation("fade-out")} />
+                <EditCashOutflowCard data={selectedCashOut} code={currentUserData?.department_code} fetchFinancialReportData={fetchFinancialReportData} ref={editRef} currentUser={currentUserData} currentUserData={currentUserData} onAnimationEnd={edit.handleEnd} animate={edit.animation} onClose={() => edit.setAnimation("fade-out")} />
             </div>
         )}
             <CITHeader code={currentUserData?.department_code} titleCouncil = {currentUserData?.organization_name} abb="CIT Council" />
@@ -80,11 +83,12 @@ function CITFinancial(){
                 </div>
                 <div className={` ${animate} lg:ml-70 lg:mt-6 mt-3 lg:gap-6 gap-3 flex lg:flex-row flex-col items-center justify-center`}>
                     <FinancialTable total={financialReportData?.summary?.total_cash_in} code={currentUserData?.department_code} title="Cash Inflow" financialData={financialReportData?.cash_in}/>
-                    <FinancialTable total={financialReportData?.summary?.total_cash_out} add={add.toggle} 
-                    edit={(row) =>{
+                    <FinancialTable total={financialReportData?.summary?.total_cash_out} code={currentUserData?.department_code} title="Cash Outflow" financialData={financialReportData?.cash_out} fetchFinancialReportData={fetchFinancialReportData}
+                    add={add.toggle}
+                    edit={(row) => {
                         edit.toggle();
                         setSelectedCashOut(row);
-                        }} code={currentUserData?.department_code} title="Cash Outflow" financialData={financialReportData?.cash_out} fetchFinancialReportData={fetchFinancialReportData}/>
+                    }}/>
                 </div>
             </div>
             <div className='hidden lg:block'>

@@ -15,6 +15,7 @@ import cotsc from '../assets/COT.png';
 import esaf from '../assets/ESAF.png';
 import it from '../assets/CIT.png';
 import Footer from '../other_components/Footer.jsx';
+import { errorAlert } from '../utils/alert.js';
 import "../animate.css";
 import { useState, useEffect } from 'react';
 

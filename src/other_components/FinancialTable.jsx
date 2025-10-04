@@ -75,7 +75,7 @@ function FinancialTable({title, financialData =[], code, add, edit, total, fetch
                                 <tr key={i} className="text-xs font-semibold border-b-2 border-[#6c6c6c67] text-[#4f4e4e]">
                                     <td className="py-1">{title === "Cash Outflow"? data.budget_deducted_at : data.event_end_date}</td>
                                     <td>{title === "Cash Outflow"? data.budget_deduction_title : data.event_name}</td>
-                                    <td className="py-3">{title === "Cash Outflow"? data.budget_deduction_amount : data.total_cash_in}</td>
+                                    <td className="py-3">₱ {title === "Cash Outflow"? data.budget_deduction_amount : data.total_cash_in}</td>
                                     {title === "Cash Outflow" && (
                                         <td className={`text-[#055e1b] py-2`}>
                                            <span onClick={() => edit(data)} className={`material-symbols-outlined ${color} cursor-pointer bg-white shadow-[2px_2px_1px_grey] rounded-sm border px-0.5`}>edit_square</span>
@@ -89,7 +89,7 @@ function FinancialTable({title, financialData =[], code, add, edit, total, fetch
                 </div>
             </form>
             <div className= " absolute bottom-3  mt-2 px-6">
-                <h2 className="font-semibold text-sm">Total: P {total}</h2>
+                <h2 className="font-semibold text-sm">Total: ₱ {total}</h2>
             </div>
         </div>
     );

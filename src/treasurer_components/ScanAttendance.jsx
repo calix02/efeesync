@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Scanner } from "@yudiel/react-qr-scanner";
 import Quagga from "quagga";
 
+
 const ScanAttendance = React.forwardRef(
   ({ animate, onAnimationEnd, onClose, code, selectedEvent, selectedEventDate, fetchStudentAttendees }, ref) => {
     const colors = {
@@ -45,6 +46,19 @@ const ScanAttendance = React.forwardRef(
       }
     };
 
+    const fetchStudentName = async (student_number_id) => {
+      const apiAttendance = `/api/students/number/${student_number_id}`;
+      const res = await fetch(apiAttendance, {
+        credentials: "include"
+      });
+      const response = await res.json();
+      if (response.status === "success") {
+        setStudentName((response.data)[0].full_name);
+      } else {
+        setStudentName("");
+      }
+    }
+
     // --- ZXing Handler (QR codes) ---
     const handleZXingScan = (results) => {
       if (results && results.length > 0) {
@@ -58,12 +72,12 @@ const ScanAttendance = React.forwardRef(
         setAttendanceMessage("Please select a time slot before marking attendance.");
         return;
       }
+      fetchStudentName(student_number_id);
       fetchStudentAttendees();
       const splittedTimeInout = timeInout.split(' ');
       const time = splittedTimeInout[0];
       const inout = splittedTimeInout[1];
       const apiAttendance = `/api/events/${selectedEvent.event_id}/attendance/${selectedEventDate}/${time}/${inout}/number/${student_number_id}`;
-      console.log(apiAttendance);
       const res = await fetch(apiAttendance, {
         method: "POST",
         credentials: "include"
@@ -86,6 +100,8 @@ const ScanAttendance = React.forwardRef(
       if (attendanceMessage) {
         const timer = setTimeout(() => {
           setAttendanceMessage("");
+          setStudentId("");
+          setStudentName("");
           setIsErrorAttendance(false); // also reset error state
         }, 3000);
 

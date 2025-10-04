@@ -39,20 +39,33 @@ function AttendanceTable({ code, attendees = [], scanAttendee, attendanceKeys, s
       if (response.status !== "success") {
         errorAlert(response.message);
       }
-    } else if (target === "Excused") {
-      const res = await fetch(`/api/events/${selectedEvent.event_id}/attendance/${selectedEventDate}/number/${student_number_id}`, {
-        method: "PUT",
-        credentials: "include"
+    } /* else if (target === "Excused") {
+      confirmAlert("This student will be excused for the whole day.").then( async (result) =>{
+        if(result.isConfirmed){
+          const res = await fetch(`/api/events/${selectedEvent.event_id}/attendance/${selectedEventDate}/number/${student_number_id}`, {
+            method: "PUT",
+            credentials: "include"
+          });
+          const response = await res.json();
+          if (response.status !== "success") {
+            errorAlert(response.message);
+          }
+        }
       });
-      const response = await res.json();
-      if (response.status !== "success") {
-        errorAlert(response.message);
-      }
-    }
+    } */
   };
 
   useEffect(() => {
-    fetchStudentAttendees();
+    fetchStudentAttendees().then((res) => {
+      // after loading data, check if any row is fully excused
+      const updated = res.map((att) => {
+        if (Object.values(att.attendance).every(v => v === "Excused")) {
+          att.attendanceConfirmedExcuse = true;
+        }
+        return att;
+      });
+      setStudentAttendees(updated);
+    });
   }, [selectedEvent, selectedEventDate]);
 
   const data = studentAttendees.length ? studentAttendees : fallback;
@@ -91,16 +104,51 @@ function AttendanceTable({ code, attendees = [], scanAttendee, attendanceKeys, s
                       <select
                         value={value}
                         disabled={
-                          value === "Excused" ||               // disable if excused
-                          new Date(selectedEventDate) < new Date().setHours(0,0,0,0) 
-                        // disable if past date
+                          value === "Excused" ||
+                          attendee.attendanceConfirmedExcuse || // disable whole row if excused
+                          new Date(selectedEventDate) < new Date().setHours(0, 0, 0, 0)
                         }
                         className="disabled:text-[#b0b0b0]"
-                        onChange={(e) => {
-                          const newData = [...studentAttendees];
-                          newData[idx].attendance[key] = e.target.value;
-                          setStudentAttendees(newData);
-                          changeStudentAttendance(attendee.student_number_id, key, e.target.value);
+                        onChange={async (e) => {
+                          const prevValue = value;
+                          const newValue = e.target.value;
+
+                          if (newValue === "Excused") {
+                            confirmAlert(`This student will be excused for the whole day. (Irreversible Action)`).then(async (result) => {
+                              if (result.isConfirmed) {
+                                const res = await fetch(
+                                  `/api/events/${selectedEvent.event_id}/attendance/${selectedEventDate}/number/${attendee.student_number_id}`,
+                                  {
+                                    method: "PUT",
+                                    credentials: "include"
+                                  }
+                                );
+                                const response = await res.json();
+                                if (response.status === "success") {
+                                  // ✅ Mark all keys for this student as Excused
+                                  const newData = [...studentAttendees];
+                                  attendanceKeys.forEach((k) => {
+                                    newData[idx].attendance[k] = "Excused";
+                                  });
+                                  newData[idx].attendanceConfirmedExcuse = true; // disable row
+                                  setStudentAttendees(newData);
+                                } else {
+                                  errorAlert(response.message);
+                                }
+                              } else {
+                                // ❌ Cancel → revert back to old value
+                                const newData = [...studentAttendees];
+                                newData[idx].attendance[key] = prevValue;
+                                setStudentAttendees(newData);
+                              }
+                            });
+                          } else {
+                            // Normal Present / Absent
+                            const newData = [...studentAttendees];
+                            newData[idx].attendance[key] = newValue;
+                            setStudentAttendees(newData);
+                            changeStudentAttendance(attendee.student_number_id, key, newValue);
+                          }
                         }}
                       >
                         <option value="" hidden>Status</option>

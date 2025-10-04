@@ -19,14 +19,15 @@ const EditCashOutflowCard = React.forwardRef(({animate, onAnimationEnd,onClose, 
     const changeAmount = (e) => setAmount(e.target.value);
 
     const deductionData = {
-            description: desc,
-            amount_deducted: amount,
-            organization_id: currentUserData.organization_id
-        }
+        description: desc,
+        amount_deducted: amount
+    }
+        
     
     const editDeductedBudget = async () => {
+        if (!data.budget_deduction_id) return;
         try {
-            const res = await fetch(`/api/organizations/code/${currentUserData?.organization_code}/budget/deduct`, {
+            const res = await fetch(`/api/budget/deduct/${data?.budget_deduction_id}`, {
                 method: "PUT",
                 credentials: "include",
                 body: JSON.stringify(deductionData)
@@ -64,7 +65,7 @@ const EditCashOutflowCard = React.forwardRef(({animate, onAnimationEnd,onClose, 
                 <input type="text" onChange={changeAmount} required value={amount}  className=" px-2 border-2  h-8 rounded-md w-[100%] mb-4" /> <br />
             </div>
             
-                <button type="submit"  className={`${color} w-[100%] cursor-pointer rounded-md text-white h-8`}>Insert Cash Outflow</button>
+                <button type="submit"  className={`${color} w-[100%] cursor-pointer rounded-md text-white h-8`}>Update Cash Out</button>
             </form>
         </div>
        

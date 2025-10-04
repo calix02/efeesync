@@ -9,9 +9,6 @@ import React, {useState, useEffect, useRef} from 'react';
 import useAnimatedToggle from '../hooks/useAnimatedToggle.js';
 import '../animate.css';
 
-
-
-
 function Program(){
     document.title = "Program";
     const animateL = "left-In";

@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { confirmAlert } from "../utils/alert";
+import {confirmAlert,successAlert, errorAlert, okAlert} from "../utils/alert.js";
+
 import "../animate.css";
 
 function TableStudent({ code , students = [], show, update, reloadStudents, paginate, year }) {

@@ -1,4 +1,5 @@
 import React, {useState} from "react";
+
 const Letter = React.forwardRef(({animate, onAnimationEnd,onClose,code, data}, ref) =>{
 
     const colors = {

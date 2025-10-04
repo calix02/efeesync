@@ -15,7 +15,7 @@ function UpcomingEvents({month,day,event,desc,target,type, pay, code, excuse}){
         
        <div className=" p-2  rounded-xl">
         <div className="py-2 flex gap-2">
-                <div className={`border-2 ${color} py-4 font-[family-name:Hervetica] w-[20%]  rounded-md bg-white flex flex-col justify-center items-center`}>
+                <div className={`border-2 ${color} py-4 font-poppins w-[20%]  rounded-md bg-white flex flex-col justify-center items-center`}>
                     <span className="text-md">{month}</span>
                     <span className="text-3xl font-bold">{day}</span>
                 </div>
@@ -28,7 +28,7 @@ function UpcomingEvents({month,day,event,desc,target,type, pay, code, excuse}){
                                  <span className="text-sm mt-1">Open to: {target}</span><br />
                                  <span className="text-sm">Type: {type}</span>
 
-
+                                {/** 
                                  {type=='Contribution' && (
                                 <>
                                 <div className="flex justify-end">
@@ -36,6 +36,7 @@ function UpcomingEvents({month,day,event,desc,target,type, pay, code, excuse}){
                                 </div>
                                 </>
                                 )}
+                                */}
                                 {type=='Attendance' && (
                                 <>
                                 <div className="flex justify-end">

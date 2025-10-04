@@ -1,5 +1,6 @@
 import React,{useState} from "react";
-import { successAlert } from "../utils/alert";
+import {confirmAlert,successAlert, errorAlert, okAlert} from "../utils/alert.js";
+
 const UpdateEventContributionCard = React.forwardRef(({animate, onAnimationEnd,onClose,data}, ref) =>{
 
     const [eventName, setEventName] = useState(data?.eventName);

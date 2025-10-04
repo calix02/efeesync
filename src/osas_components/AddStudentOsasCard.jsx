@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import { successAlert, errorAlert } from "../utils/alert";
+import { errorAlert } from "../utils/alert";
 
 const AddStudentOsasCard = React.forwardRef(({animate, onAnimationEnd,onClose,colleges,reloadStudents}, ref) =>{
     const [studId, setStudId] = useState("");

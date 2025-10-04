@@ -9,6 +9,8 @@ import it from '../assets/it.png';
 import React, {useRef, useState, useEffect} from 'react';
 import useAnimatedToggle from "../hooks/useAnimatedToggle.js";
 import '../animate.css';
+import { errorAlert } from '../utils/alert.js';
+
 
 
 

@@ -1,5 +1,5 @@
 import React,{useState} from "react";
-import { successAlert } from "../utils/alert";
+import { successAlert, errorAlert } from "../utils/alert";
 const UpdateStudentCard = React.forwardRef(({animate, onAnimationEnd,onClose,data,reloadStudents,code}, ref) =>{
  const colors = {
             CIT: "border-[#621668] text-[#621668] bg-[#621668]",

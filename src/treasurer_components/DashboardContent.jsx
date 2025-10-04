@@ -6,7 +6,8 @@ import useAnimatedToggle from '../hooks/useAnimatedToggle.js';
 import Footer from '../other_components/Footer.jsx';
 import '../animate.css';
 import { useEffect, useState, useRef } from 'react';
-import { useNavigate } from "react-router-dom"; // ✅ added
+import { useNavigate } from "react-router-dom"; 
+
 
 function CITDashboard({currentUserData}) {
 

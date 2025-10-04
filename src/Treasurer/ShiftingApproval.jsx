@@ -4,6 +4,7 @@ import CITSidebar from './Sidebar.jsx';
 import it from '../assets/it.png';
 import EfeeViolet from '../assets/violetlogo.png';
 import TableShifting from '../treasurer_components/TableShifting.jsx';
+import {confirmAlert,successAlert, errorAlert, okAlert} from "../utils/alert.js";
 import "../animate.css";
 function ShiftingApproval() {
     const animateL = "left-In";

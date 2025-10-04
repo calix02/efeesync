@@ -136,7 +136,6 @@ function TableAttendance({ code , events = [], scanAttendee, view, formatDateStr
         </div>
       
         <div className={`${animate} relative lg:ml-[270px] mt-[-10px] z-[-1] flex flex-col-reverse justify-center items-center`}>
-            <p className=" lg:absolute left-9">Showing of 600</p>
             <div className="flex">
               <button  className="mx-1 cursor-pointer flex items-center rounded-md border disabled:opacity-40">
                 <span className="material-symbols-outlined">chevron_left</span>

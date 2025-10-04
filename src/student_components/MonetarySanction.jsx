@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-function MonetarySanction({ code, monetarySanctions }) {
+function MonetarySanction({ code, monetarySanctions, formatDateStr }) {
   const [openLogId, setOpenLogId] = useState(null);
 
   const toggleLog = (id) => {
@@ -29,7 +29,7 @@ function MonetarySanction({ code, monetarySanctions }) {
           className={`w-[100%] bg-[#fff] py-4 mt-2 px-4 ${color} rounded-md border-2`}
         >
           <div className="border-l-8 w-[100%] items-center grid-cols-[50px_auto] grid px-3">
-            <div className="font-bold font-[family-name:Hervetica] text-2xl">
+            <div className="font-bold font-poppins text-2xl">
               {ms.balance}
             </div>
             <div className="text-black">
@@ -51,7 +51,7 @@ function MonetarySanction({ code, monetarySanctions }) {
 
               {isOpen && ms.absence_logs.map((al, i) => (
                 <p key={i} className="text-xs">
-                  {al.event_attend_date} -{" "}
+                  {formatDateStr(al.event_attend_date)} -{" "}
                   {al.event_attend_time.map((t, j) => (
                     <span key={j}>{t}, </span>
                   ))}

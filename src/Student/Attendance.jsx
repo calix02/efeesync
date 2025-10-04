@@ -5,6 +5,8 @@ import EventExcuse from "../student_components/EventExcuse.jsx";
 import EfeeViolet from '../assets/violetlogo.png';
 import {useState, useEffect} from 'react';
 import it from '../assets/it.png';
+import { errorAlert } from '../utils/alert.js';
+
 
 
 function Attendance(){

@@ -3,6 +3,7 @@ import CITHeader from '../other_components/Header_Council.jsx';
 import CITSidebar from './Sidebar.jsx';
 import TableExcuse from '../treasurer_components/TableExcuse.jsx';
 import Letter from '../treasurer_components/Letter.jsx';
+import {confirmAlert,successAlert, errorAlert, okAlert} from "../utils/alert.js";
 import "../animate.css";
 import useAnimatedToggle from '../hooks/useAnimatedToggle.js';
 function CITExcuse() {

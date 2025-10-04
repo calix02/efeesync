@@ -4,7 +4,7 @@ import CITSidebar from './Sidebar.jsx';
 import TableMonetarySanction from '../treasurer_components/TableUnsettledTransaction.jsx';
 import UnsettledTransactionsCard from '../treasurer_components/UnsettledTransactionCard.jsx';
 import useAnimatedToggle from '../hooks/useAnimatedToggle.js';
-import { errorAlert } from '../utils/alert.js';
+import {confirmAlert,successAlert, errorAlert, okAlert} from "../utils/alert.js";
 import "../animate.css";
 function  UnsettledTransaction() {
     const animateR = "right-In";

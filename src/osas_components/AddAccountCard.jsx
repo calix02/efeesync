@@ -1,5 +1,6 @@
 import React,{useState, useEffect} from "react";
-import { successAlert, errorAlert } from "../utils/alert";
+import { errorAlert} from '../utils/alert.js';
+
 
 const AddAccountCard = React.forwardRef(({animate, onAnimationEnd,onClose,reloadTreasurers}, ref) =>{
     const [org, setOrg] = useState("");

@@ -8,6 +8,8 @@ import EditExcuse from "../student_components/EditExcuse.jsx";
 import Letter from '../student_components/Letter.jsx';
 import useAnimatedToggle from "../hooks/useAnimatedToggle.js";
 import it from '../assets/it.png';
+import { errorAlert } from '../utils/alert.js';
+
 import '../animate.css';
 
 

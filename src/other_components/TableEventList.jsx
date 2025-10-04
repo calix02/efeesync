@@ -1,7 +1,7 @@
 import { useState, useMemo } from "react";
 import {Link} from 'react-router-dom';
 import "../animate.css";
-import { confirmAlert, successAlert } from "../utils/alert";
+import { confirmAlert} from "../utils/alert";
 
 /**
  * TableStudent

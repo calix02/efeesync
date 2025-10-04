@@ -8,7 +8,8 @@ import ContributionTable from '../treasurer_components/ContributionTable.jsx';
 import useAnimatedToggle from '../hooks/useAnimatedToggle.js';
 import "../animate.css";
 import EfeeViolet from '../assets/violetlogo.png';
-import { errorAlert } from "../utils/alert";
+import {confirmAlert,successAlert, errorAlert, okAlert} from "../utils/alert.js";
+
 
 function EventContribution({ data }) {
   /* --------------------------------- animation -------------------------------- */

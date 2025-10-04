@@ -1,7 +1,7 @@
 import {Link} from 'react-router-dom';
 import NavLink from '../other_components/NavLink.jsx';
 import React from 'react';
-import { confirmAlert, successAlert, errorAlert } from '../utils/alert.js';
+import { confirmAlert,  errorAlert } from '../utils/alert.js';
 
 const Sidebar = React.forwardRef(({eFee, animate, onAnimationEnd,onClose},ref) =>{
     

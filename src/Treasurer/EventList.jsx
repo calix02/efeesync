@@ -11,6 +11,7 @@ import useAnimatedToggle from '../hooks/useAnimatedToggle.js';
 import EfeeViolet from '../assets/violetlogo.png'
 import "../animate.css";
 
+
 function CITEventList(){
 /* --------------------------------- animation -------------------------------- */
     const animateR = "right-In";

@@ -7,6 +7,8 @@ import EditShift from "../student_components/EditShift.jsx";
 import React, {useRef, useState, useEffect} from 'react';
 import useAnimatedToggle from "../hooks/useAnimatedToggle.js";
 import it from '../assets/it.png';
+import { errorAlert} from '../utils/alert.js';
+
 
 
 function ShiftingRequest(){

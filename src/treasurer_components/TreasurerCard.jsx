@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import "../animate.css"
+
 function CardCouncil({code,icon, value, desc,show, link}){
     const animate = 'card-In';
     const textColors = {

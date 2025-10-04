@@ -1,6 +1,6 @@
 import {Link} from 'react-router-dom';
 import React, { useState, useEffect } from 'react';
-import {confirmAlert,successAlert, errorAlert} from "../utils/alert.js";
+import {confirmAlert,errorAlert} from "../utils/alert.js";
 
 const AccountCard = React.forwardRef(({ animate, onAnimationEnd,code}, ref) => {
     const [user, setUser] = useState([]);

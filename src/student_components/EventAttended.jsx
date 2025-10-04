@@ -1,6 +1,7 @@
 import "../animate.css";
 import { useState } from "react";
 
+
 function EventAttended({ eventAttended }) {
   const animate = "left-In";
   const [showLogs, setShowLogs] = useState(false);

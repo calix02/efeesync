@@ -1,5 +1,6 @@
 import React,{useState} from "react";
-import { successAlert } from "../utils/alert";
+import { errorAlert, successAlert} from '../utils/alert.js';
+
 const EditExcuse = React.forwardRef(({animate, onAnimationEnd,onClose,code}, ref) =>{
      const colors = {
         CIT: "border-[#621668] text-[#621668] bg-[#621668]",
@@ -53,7 +54,9 @@ const EditExcuse = React.forwardRef(({animate, onAnimationEnd,onClose,code}, ref
             <div className="mt-[10px] relative">
                 <span onClick={onClose} className="material-symbols-outlined absolute right-0.5 cursor-pointer">disabled_by_default</span>
             </div>
+
             <div className=" border-b-4 ">
+
                 <span className=" font-semibold text-[22px]">Edit Excuse Letter</span>
             </div>
             <form action="" onSubmit={(e) =>{
@@ -76,6 +79,9 @@ const EditExcuse = React.forwardRef(({animate, onAnimationEnd,onClose,code}, ref
 
                  </div>
                  */}
+                 <label htmlFor="">Reason</label><br />
+                <input type="text" className=" h-8 w-[100%] border-2 rounded-md mb-3" /> <br />
+
                  <label>Upload Excuse Letter:</label><br />
                  <div className="bg-[#c3c3c3c2] flex flex-col justify-center items-center  w-[100%] h-50 rounded-lg mb-4">
                     <i className="fa-solid fa-arrow-up-from-bracket text-xl"></i>

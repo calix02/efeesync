@@ -72,7 +72,7 @@ function EventChart({ eventSummary, code }) {
   }, [eventSummary]);
 
   if (!selectedEvent || !eventsData[selectedEvent]) {
-    return <p className="text-gray-500">No event data available</p>;
+    return <p className="text-gray-500">No event contribution data available</p>;
   }
    const colors = {
             CIT: " text-[#621668]",

@@ -1,4 +1,5 @@
 import "../animate.css";
+
 function PaidCard({paidEvents, total}){
     const animate = "left-In";
     return(

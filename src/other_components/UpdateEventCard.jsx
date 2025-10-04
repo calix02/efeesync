@@ -227,9 +227,6 @@ const UpdateEventCard = React.forwardRef(
                     <input type="date" min={today} value={d.event_attend_date}  required  className="w-[100%] " />
                 </div>
               ))}
-             
-
-
             </>
           )
 

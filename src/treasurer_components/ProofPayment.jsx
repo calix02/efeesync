@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+
 const ProofPayment = React.forwardRef(({animate, onAnimationEnd,onClose,data,code}, ref) =>{
     const[eventName, setEventName] = useState(data?.eventName);
     const[studentName, setStudentName] = useState(data?.studName);

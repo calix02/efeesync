@@ -6,7 +6,7 @@ import UpdateStudentCard from '../other_components/UpdateStudentCard.jsx';
 import EfeeViolet from '../assets/violetlogo.png'
 import React, {useState,useRef, useEffect} from 'react';
 import useAnimatedToggle from '../hooks/useAnimatedToggle.js';
-import { errorAlert,successAlert } from '../utils/alert.js';
+import {confirmAlert,successAlert, errorAlert, okAlert} from "../utils/alert.js";
 import { useLocation } from "react-router-dom";
 
 import '../animate.css';

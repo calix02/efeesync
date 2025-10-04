@@ -11,6 +11,7 @@ import AttendanceTable from '../treasurer_components/AttendanceTable.jsx';
 import React, {useRef,useState,useEffect} from 'react';
 import useAnimatedToggle from '../hooks/useAnimatedToggle.js';
 import EfeeViolet from '../assets/violetlogo.png'
+import {confirmAlert,successAlert, errorAlert, okAlert} from "../utils/alert.js";
 import "../animate.css"
 
 function Attendance(){
@@ -257,7 +258,7 @@ const animateL = "left-In";
                                 ))}
                             </select>
                         </span>
-                        <button className={` px-6 text-white rounded-md cursor-pointer hover:scale-102 hover:bg-white border-1 hover:shadow-[2px_2px_3px_grey] transition duration-200`}
+                        <button className={`${color} ${hoverColor} px-6 text-white rounded-md cursor-pointer hover:scale-102 hover:bg-white border-1 hover:shadow-[2px_2px_3px_grey] transition duration-200`}
                             onClick={() => setShowSelectedEvents(false)}>
                             Back
                         </button>

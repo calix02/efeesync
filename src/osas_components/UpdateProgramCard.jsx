@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import { successAlert, errorAlert } from "../utils/alert";
+import {  errorAlert } from "../utils/alert";
 
 const UpdateProgramCard = React.forwardRef(({animate, onAnimationEnd,onClose,data,reloadPrograms}, ref) =>{
     const [programCode, setProgramCode] = useState(data?.program_code || "");

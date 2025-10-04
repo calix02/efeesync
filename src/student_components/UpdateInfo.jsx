@@ -1,7 +1,6 @@
 import React from "react";
+
 const UpdateInfo = React.forwardRef(({animate, onAnimationEnd,onClose}, ref) =>{
-
-
     return( 
         <div ref={ref}   className={` ${animate} lg:w-[420px] w-[390px] h-120 px-8 bg-white shadow-[2px_2px_#8A2791,-2px_-2px_white] rounded-lg  z-50 inset-0 mx-auto  `}
         onAnimationEnd={onAnimationEnd}>

@@ -1,5 +1,5 @@
 import React,{useState} from "react";
-import { successAlert, errorAlert } from "../utils/alert";
+import {  errorAlert } from "../utils/alert";
 
 const PersonalInformation = React.forwardRef(({animate, onAnimationEnd,onClose,code,data,reloadUserInfo}, ref) =>{
     const [firstName,setFirstName] = useState(data?.firstName || ""); 

@@ -1,4 +1,5 @@
 import "../animate.css";
+
 function UnpaidCard({unpaidEvents,total}){
     const animate = "card-In";
     return(

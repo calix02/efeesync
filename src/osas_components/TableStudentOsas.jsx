@@ -1,5 +1,5 @@
 import { useState, useMemo } from "react";
-import { confirmAlert, errorAlert, okayAlert } from "../utils/alert";
+import { confirmAlert } from "../utils/alert";
 import "../animate.css";
 
 /**

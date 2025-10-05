@@ -43,7 +43,8 @@ function TableCommunityService({ code , communityService = [],done, paginate, fe
           </thead>
 
           <tbody>
-            {data.map((s, idx) => (
+            {data.length > 0 ?
+            (data.map((s, idx) => (
               <tr key={idx} className="border-b border-[#0505057a] ">
                 <td>{s.student_number_id}</td>
                 <td>{s.student_full_name}</td>
@@ -55,7 +56,13 @@ function TableCommunityService({ code , communityService = [],done, paginate, fe
                   <button disabled={s.done} onClick={() => done(s)} className=" disabled:border-[#353535] disabled:text-[#353535] disabled:hover:bg-[#fff0] disabled:scale-100 disabled:cursor-default px-2 py-1 border border-[#1a6718] text-[#1a6718] rounded-md cursor-pointer hover:bg-[#1a6718] hover:text-white  transition duration-300 hover:scale-105">Done</button>
                 </td>
               </tr>
-            ))}
+            ))) :
+            (
+              <tr>
+                <td colSpan="6" className="py-5 text-gray-500 italic text-center">No Community Service Found</td>
+              </tr>
+            )
+          }
           </tbody>
         </table>
       </div>

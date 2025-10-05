@@ -119,7 +119,7 @@ const UnsettledTransactionCard = React.forwardRef(
         </div>
 
         {/* === Sanctions Table === */}
-        {data?.attendance_sanctions.length > 0 && (
+        {data?.attendance_sanctions.length > 0 ? (
           <div className="h-50 overflow-y-scroll hide-scrollbar">
             <h3 className="font-bold sticky top-0 font-inter text-lg mt-3">
               Sanctions
@@ -156,10 +156,12 @@ const UnsettledTransactionCard = React.forwardRef(
               </tbody>
             </table>
           </div>
+        ):(
+          <p className="pt-5">No Unsettled Sanction Found</p>
         )}
 
         {/* === Contributions Table === */}
-        {data?.contributions_needed.length > 0 && (
+        {data?.contributions_needed.length > 0 ? (
           <div className="h-50 overflow-y-scroll hide-scrollbar mt-8">
             <h3 className="font-bold font-inter bg-white sticky top-0 text-lg mt-3">
               Unsettled Contributions
@@ -217,6 +219,8 @@ const UnsettledTransactionCard = React.forwardRef(
               </tbody>
             </table>
           </div>
+        ):(
+          <p className="pt-5">No Unsettled Contribution Found</p>
         )}
       </div>
     );

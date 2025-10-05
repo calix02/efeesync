@@ -123,7 +123,8 @@ function ExcuseLetter(){
                 <h2 className="text-2xl font-semibold font-poppins  ">Excuse Letter Request</h2>
             </div>
             <div className={`lg:ml-70 ${animate} grid lg:grid-cols-3 md:grid-cols-2  gap-5  mt-6`}>
-                {excuseData.map((ed)=>(
+                {excuseData.length > 0 ?
+                (excuseData.map((ed)=>(
                     <ExcuseStatusCard formatDateStr={formatDateStr} data={ed} view={()=>{
                     letter.toggle();
                     setSelectedExcuse(ed);
@@ -134,7 +135,11 @@ function ExcuseLetter(){
                         clickedDelete(ed?.attendance_excuse_id)
                     }}
                     />
-                ))}
+                ))):
+                (
+                    <p>No Excuse Letter Request</p>
+                )
+                }
             </div>
             
         </div>

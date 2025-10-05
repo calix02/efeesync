@@ -74,7 +74,8 @@ function TableExcuse({ code = "cit", excuses = [], viewLetter, fetchAttendanceEx
           </thead>
 
           <tbody>
-            {data.map((s, idx) => (
+            {data.length > 0 ? (
+            data.map((s, idx) => (
               <tr key={idx} className="border-b border-[#0505057a] ">
                 <td>{s.full_name}</td>
                 <td>{s.student_section}</td>
@@ -99,7 +100,11 @@ function TableExcuse({ code = "cit", excuses = [], viewLetter, fetchAttendanceEx
                   )}
                 </td>
               </tr>
-            ))}
+            ))) : ( 
+            <tr>
+              <td colSpan="6" className="py-5 text-gray-500 italic text-center">No Excuse Request Found</td>
+            </tr>)
+            }
           </tbody>
         </table>
       </div>

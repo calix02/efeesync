@@ -113,7 +113,8 @@ function TableStudent({ code , students = [], show, update, reloadStudents, pagi
           </thead>
 
           <tbody>
-            {data.map((s, idx) => (
+            {data.length > 0 ? 
+            (data.map((s, idx) => (
               <tr key={idx} className="border-b border-[#0505057a]">
                 <td hidden>
                   <input
@@ -142,7 +143,13 @@ function TableStudent({ code , students = [], show, update, reloadStudents, pagi
                   </span>
                 </td>
               </tr>
-            ))}
+            ))) :
+            (
+              <tr>
+                <td colSpan="5" className="py-5 text-gray-500 italic text-center">No Student Data</td>
+              </tr>
+            )
+            }
           </tbody>
         </table>
       </div>

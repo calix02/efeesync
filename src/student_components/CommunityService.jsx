@@ -5,14 +5,19 @@ function CommunityService({communityService, animate, formatDateStr}){
             <div className="border-b-4 border-[#F1A917] text-xl pt-2 py-1  font-semibold">
                 <span>Community Service</span>
             </div>
-            {communityService.map((cs)=>(
+            {communityService.length > 0 ?
+            (communityService.map((cs)=>(
             <div className="w-[100%] py-2  flex items-center border-2 px-4 rounded-lg border-[#F1A917] mt-3">
                 <div className="w-[100%] py-2 border-l-4 border-[#F1A917] px-6 flex flex-col">
                     <span className="text-xl font-semibold">{cs.event_name}</span>
                     <span className="text-sm text-[#252525]">Date: {formatDateStr(cs.event_end_date)}</span>
                 </div>
             </div>
-            ))}
+            ))):
+            (
+                <p>No Community Service</p>
+            )
+            }
         </div>
     );
 }

@@ -10,7 +10,7 @@ function TableEventContribution({ code , events = [], view, formatDateStr }) {
     COE: "border-[#020180] text-[#020180] bg-[#020180]",
     COC: "border-[#660A0A] text-[#660A0A] bg-[#660A0A]",
     COT: "border-[#847714] text-[#847714] bg-[#847714]",
-    SCEAP: "border-[#6F3306] text-[#6F3306] bg-[#6F3306]",
+    ESAF: "border-[#6F3306] text-[#6F3306] bg-[#6F3306]",
     SSC: "border-[#174515] text-[#174515] bg-[#174515]",
   };
   const color = colors[code] || "border-[#174515] text-[#174515] bg-[#174515]";
@@ -76,7 +76,8 @@ function TableEventContribution({ code , events = [], view, formatDateStr }) {
               </tr>
             </thead>
             <tbody>
-              {data.map((s, idx) => (
+              {data.length > 0 ? 
+              (data.map((s, idx) => (
                 <tr key={idx} className="border-b border-[#0505057a]">
                   <td hidden>
                     <input type="checkbox"
@@ -101,7 +102,13 @@ function TableEventContribution({ code , events = [], view, formatDateStr }) {
                     </span>
                   </td>
                 </tr>
-              ))}
+              ))) :
+              (
+                <tr>
+                  <td colSpan="4" className="py-5 text-gray-500 italic text-center">No Contribution Data</td>
+                </tr>
+              )
+              }
             </tbody>
           </table>
 

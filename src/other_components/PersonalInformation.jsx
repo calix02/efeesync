@@ -99,9 +99,6 @@ const PersonalInformation = React.forwardRef(({animate, onAnimationEnd,onClose,c
                 <input type="text" onChange={(e)=>setLastName(e.target.value)} value={lastName} maxLength={50} required className="border-2 px-2 text-[#000] h-8 rounded-md w-[100%] mb-4" /> <br />
                 <label>Section:</label><br />
                 <input type="text" onChange={(e)=>setSection(e.target.value)} value={section} maxLength={50} required className="border-2 px-2 text-[#000] h-8 rounded-md w-[100%] mb-4" /> <br />
-
-                
-
             </div>
                 <button type="submit" className={` ${color} cursor-pointer w-[100%] rounded-md text-white h-8`}>Update Information</button>
             </form>

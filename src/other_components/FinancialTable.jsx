@@ -1,3 +1,4 @@
+import CashOutflowCard from "../treasurer_components/CashOutflowCard";
 import { confirmAlert, errorAlert } from "../utils/alert";
 
 function FinancialTable({title, financialData =[], code, add, edit, total, fetchFinancialReportData }) {
@@ -71,7 +72,8 @@ function FinancialTable({title, financialData =[], code, add, edit, total, fetch
                             </tr>
                         </thead>
                         <tbody>
-                            {financialData.map((data, i) => (
+                            {financialData.length > 0 ? 
+                            (financialData.map((data, i) => (
                                 <tr key={i} className="text-xs font-semibold border-b-2 border-[#6c6c6c67] text-[#4f4e4e]">
                                     <td className="py-1">{title === "Cash Outflow"? data.budget_deducted_at : data.event_end_date}</td>
                                     <td>{title === "Cash Outflow"? data.budget_deduction_title : data.event_name}</td>
@@ -83,7 +85,13 @@ function FinancialTable({title, financialData =[], code, add, edit, total, fetch
                                         </td>
                                     )}
                                 </tr>
-                            ))}
+                            ))) :
+                            (
+                            <tr>
+                                <td colSpan={title === "Cash Outflow"?  4  : 3} className="py-5 text-gray-500 italic text-center">No Financial Data</td>
+                            </tr>
+                            )
+                            }
                         </tbody>
                     </table>
                 </div>

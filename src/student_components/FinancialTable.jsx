@@ -17,13 +17,20 @@ function FinancialTable({title, total=0, financialData =[], animate, color}) {
                             </tr>
                         </thead>
                         <tbody>
-                            {financialData.map((data, i) => (
+                            {financialData.length > 0 ? 
+                            (financialData.map((data, i) => (
                                 <tr key={i} className="text-xs font-semibold border-b-2 border-[#6c6c6c67] text-[#4f4e4e]">
                                     <td className="py-1">{title === "Cash Outflow"? data.budget_deducted_at : data.event_end_date}</td>
                                     <td>{title === "Cash Outflow"? data.budget_deduction_title : data.event_name}</td>
                                     <td className="py-3">₱ {title === "Cash Outflow"? data.budget_deduction_amount : data.total_cash_in}</td>
                                 </tr>
-                            ))}
+                            ))) : 
+                            (
+                                <tr>
+                                    <td colSpan="3" className="py-5 text-gray-500 italic text-center">No Financial Data</td>
+                                </tr>
+                            )
+                            }
                         </tbody>
                     </table>
                 </div>

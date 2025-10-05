@@ -59,7 +59,8 @@ function TableUnsettledTransaction({ code = "cit", sanctions = [], view, paginat
           </thead>
 
           <tbody>
-            {data.map((s, idx) => (
+            {data.length > 0 ? 
+            (data.map((s, idx) => (
               <tr key={idx} className="border-b border-[#0505057a] ">
                 <td className="hidden lg:block md:block">{s.student_number_id}</td>
                 <td>{s.full_name}</td>
@@ -74,7 +75,13 @@ function TableUnsettledTransaction({ code = "cit", sanctions = [], view, paginat
                     </span>
                 </td>
               </tr>
-            ))}
+            ))) :
+            (
+              <tr>
+                <td colSpan="5" className="py-5 text-gray-500 italic text-center">No Unsettled Transaction Data</td>
+              </tr>
+            )
+            }
           </tbody>
         </table>
       </div>

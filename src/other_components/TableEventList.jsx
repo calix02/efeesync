@@ -102,7 +102,8 @@ function TableEventList({ code, events = [] , addEvent, updateEvent,view, reload
           </thead>
 
           <tbody>
-            {data.map((s, idx) => (
+            {data.length > 0 ?
+            (data.map((s, idx) => (
               <tr key={idx} className="border-b border-[#0505057a] ">
                 <td hidden><input type="checkbox"
                   id={s.event_id}
@@ -137,7 +138,13 @@ function TableEventList({ code, events = [] , addEvent, updateEvent,view, reload
                   
                 </td>
               </tr>
-            ))}
+            ))) :
+            (
+              <tr>
+                <td colSpan="4" className="py-5 text-gray-500 italic text-center">No Event Data</td>
+              </tr>
+            )
+          }
           </tbody>
         </table>
       </div>

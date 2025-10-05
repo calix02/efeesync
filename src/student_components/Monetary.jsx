@@ -14,7 +14,8 @@ function Monetary({monetarySanction, code, animate, formatDateStr}){
             <div className="border-b-4  text-xl pt-2 py-1  font-semibold">
                 <span>Monetary</span>
             </div>
-            {monetarySanction.map((ms)=>(
+            {monetarySanction.length > 0 ? 
+            (monetarySanction.map((ms)=>(
                 <div className="w-[100%] py-2 flex items-center border-2 px-4 rounded-lg  mt-3">
                     <div className="border-l-4 font-bold py-4 px-4 font-poppins text-2xl">100</div>
                     <div className="w-[100%]  py-2   px-3 flex flex-col">
@@ -24,7 +25,11 @@ function Monetary({monetarySanction, code, animate, formatDateStr}){
                         ))}
                     </div>
                 </div>
-            ))}
+            ))):
+            (
+                <p>No Monetary Sanction</p>
+            )
+            }
         </div>
     );
 }

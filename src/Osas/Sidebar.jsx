@@ -15,6 +15,7 @@ const Sidebar = React.forwardRef(({eFee, animate, onAnimationEnd,onClose},ref) =
                 });
                     const response = await res.json();
                     if (response.status === "success") {
+                        localStorage.setItem("currentUserData", JSON.stringify({}));
                         window.location.reload();
                     }
                 }catch (err) {
@@ -47,7 +48,7 @@ const Sidebar = React.forwardRef(({eFee, animate, onAnimationEnd,onClose},ref) =
                     <NavLink code="OSAS" navLink = "/osas/setting" iconName="settings" navName="Settings"/>
                 </nav>
                 <div className="absolute bottom-2 w-full px-3 lg:hidden block">
-                    <NavLink code="OSAS" navLink = "#" iconName="moon_stars" navName="Dark Mode"  />
+                    {/*<NavLink code="OSAS" navLink = "#" iconName="moon_stars" navName="Dark Mode"  />*/}
                       <Link onClick={logout} className={`flex items-center font-[family-name:Helvetica] transition duration-150 p-2.5 text-md hover:bg-[#174515]  rounded-md hover:text-white hover:shadow-[3px_2px_2px_grey`}>
                         <span className="material-symbols-outlined px-2.5">logout</span>
                             <span>Log Out</span>

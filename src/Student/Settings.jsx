@@ -6,7 +6,7 @@ import useAnimatedToggle from '../hooks/useAnimatedToggle.js';
 import UploadProfile from '../other_components/UploadProfile.jsx';
 import ChangePassword from '../other_components/ChangePassword.jsx';
 import QrCode from "../student_components/QRCode.jsx";
-import PersonalInformation from '../osas_components/PersonalInformation.jsx';
+import PersonalInformation from '../other_components/PersonalInformation.jsx';
 import DefaultProfile from '../assets/default.png';
 import React, {useState, useEffect, useRef} from 'react';
 import { errorAlert} from '../utils/alert.js';
@@ -26,16 +26,14 @@ function Setting(){
     
     const [profileImage, setProfileImage] = useState(DefaultProfile);
     
-    const [title, setTitle] = useState({
-        organizationName: "Office of Student Affairs and Services",
-        systemName : "eFeeSync",
-    });
+    
 
     const [accountData, setAccountData] = useState({
         full_name: "",
         firstName: "",
         middleName: "",
         lastName: "",
+        section: "",
         roleId: "",
         role: "",
         email: "",
@@ -54,6 +52,7 @@ function Setting(){
                     firstName: response.data.first_name,
                     middleName: response.data.middle_initial,
                     lastName: response.data.last_name,
+                    section: response.data.student_section,
                     roleId: response.data.role_id,
                     role: response.data.role_name,
                     email: response.data.institutional_email,
@@ -191,7 +190,9 @@ function Setting(){
                         profile={profileImage} 
                         accName={accountData.full_name} 
                         accEmail={accountData.email}/>
+                        {/** 
                         <QrCodeSetting code={currentUserData?.department_code} show={qr.toggle}/>
+                        */}
                     </div>
                 </div>
             </div>

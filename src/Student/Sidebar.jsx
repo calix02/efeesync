@@ -43,6 +43,7 @@ const Sidebar = React.forwardRef(({eFee, animate,code, onAnimationEnd,onClose},r
                    });
                        const response = await res.json();
                        if (response.status === "success") {
+                            localStorage.setItem("currentUserData", JSON.stringify({}));
                             window.location.reload();
                        }
                    } catch (err) {

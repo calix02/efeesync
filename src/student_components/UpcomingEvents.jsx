@@ -1,5 +1,5 @@
 
-function UpcomingEvents({month,day,event,desc,target,type,code, excuse}){
+function UpcomingEvents({month,day,event,desc,target,type,code, excuse,data}){
     const colors = {
         CIT: "border-[#621668] text-[#621668] bg-[#621668]",
         COE: "border-[#020180] text-[#020180] bg-[#020180]",
@@ -40,7 +40,7 @@ function UpcomingEvents({month,day,event,desc,target,type,code, excuse}){
                                 {type=='Attendance' && (
                                 <>
                                 <div className="flex justify-end">
-                                    <button onClick={excuse} className={` ${color} bg-white  border-1 border-[#4d4d4d] hover:scale-110  transition duration-200 scale-102 cursor-pointer w-25  shadow-[2px_2px_2px_grey] py-1 font-inter text-xs rounded-md`}>Request Excuse</button>        
+                                    <button onClick={()=> excuse(data)} className={` ${color} bg-white  border-1 border-[#4d4d4d] hover:scale-110  transition duration-200 scale-102 cursor-pointer w-25  shadow-[2px_2px_2px_grey] py-1 font-inter text-xs rounded-md`}>Request Excuse</button>        
                                 </div>
                                 </>
                                 )}

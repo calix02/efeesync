@@ -159,6 +159,7 @@ function Student(){
                     </div> 
 
                 </div>
+                {/** 
                   <div className=' w-[100%] mt-3 '>
                     <div className={`lg:ml-70 ${animateL} flex lg:justify-start md:justify-start font-[family-name:Arial]  justify-center gap-2.5`}>
                          <select className='bg-white lg:w-25  w-20 text-xs transition duration-100 hover:scale-100 hover:bg-[#174515] hover:text-white cursor-pointer border-1 border-[#174515] py-1  text-[#174515] rounded-md text-center'  name="" id="">
@@ -176,6 +177,7 @@ function Student(){
                           
                     </div>
                 </div>
+                */}
              <TableStudentOsas paginate={paginate} reloadStudents={fetchStudents} students={students} update={(row) =>{
                 setSelectedStudent(row);
                 updateStudent.toggle();

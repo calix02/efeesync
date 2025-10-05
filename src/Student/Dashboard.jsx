@@ -131,7 +131,7 @@ function Dashboard(){
         };
 
     const color = colors[currentUserData?.department_code] || "border-[#174515] text-[#174515] bg-[#174515]";
-    
+    const [selectedEvent, setSelectedEvent] = useState(null);
     return(
         <>
         {sendPayment.isVisible &&(
@@ -141,7 +141,7 @@ function Dashboard(){
         )}
         {sendExcuse.isVisible &&(
             <div className="fixed flex justify-center items-center inset-0 bg-[#00000062] lg:z-40 md:z-50 z-70 pointer-events-auto">
-                <SendExcuse code={currentUserData?.department_code} ref={excuseRef} onAnimationEnd={sendExcuse.handleEnd} onClose={()=> sendExcuse.setAnimation("fade-out")} animate={sendExcuse.animation} />  
+                <SendExcuse formatDateStr={formatDateStr} selectedEvent={selectedEvent} code={currentUserData?.department_code} ref={excuseRef} onAnimationEnd={sendExcuse.handleEnd} onClose={()=> sendExcuse.setAnimation("fade-out")} animate={sendExcuse.animation} />  
             </div>
         )}
 
@@ -167,10 +167,12 @@ function Dashboard(){
 
                             return (
                             <UpcomingEvents
-                                excuse={sendExcuse.toggle}
+                                data={ev}
+                                excuse={(ev) =>{sendExcuse.toggle(); setSelectedEvent(ev)}}
                                 pay ={sendPayment.toggle}
                                 key={ev.event_id}
                                 month={month}
+                                id ={ev.event_id}
                                 day={day}
                                 event={ev.event_name}
                                 desc={ev.event_description}

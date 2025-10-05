@@ -8,7 +8,7 @@ import {confirmAlert,successAlert, errorAlert, okAlert} from "../utils/alert.js"
  * @param {string} code       – org code ("cit", "coe", …) to color the header text
  * @param {Array}  excuses   – array of { id, name, yearSection }
  */
-function TableExcuse({ code = "cit", excuses = [], viewLetter, fetchAttendanceExcuse }) {
+function TableExcuse({ code = "cit", excuses = [], viewLetter, fetchAttendanceExcuse, paginate, status, formatDateStr }) {
   const animate = "card-In";
   /* --------------------------------- colors -------------------------------- */
   const colors = {
@@ -65,7 +65,7 @@ function TableExcuse({ code = "cit", excuses = [], viewLetter, fetchAttendanceEx
               <th>Student Name</th>
               <th>Year &amp; Section</th>
               <th>Event Name</th>
-              <th>Date</th>
+              <th>Date Submitted</th>
               <th>Preview Letter</th>
               <th>Action</th>
 
@@ -79,7 +79,7 @@ function TableExcuse({ code = "cit", excuses = [], viewLetter, fetchAttendanceEx
                 <td>{s.full_name}</td>
                 <td>{s.student_section}</td>
                 <td>{s.event_name}</td>
-                <td>{s.submitted_at}</td>
+                <td>{formatDateStr(s.submitted_at)}</td>
                 <td className="flex justify-center py-3" >
                   <button onClick={()=>{viewLetter(s)}} className={`bg-white ${hoverColor} ${color} py-1 flex items-center gap-1 justify-center lg:px-5 md:px-5 px-2  border-1 text-sm cursor-pointer  hover:text-white transition duration-200  rounded-md`}><i className="fa-regular fa-eye"></i>Letter</button>
                 </td>
@@ -91,10 +91,11 @@ function TableExcuse({ code = "cit", excuses = [], viewLetter, fetchAttendanceEx
                     </>
                   )}
                   {s.attendance_excuse_status == "APPROVED" && (
-                    <button className="text-sm">APPROVED</button>
+                    <button className="text-sm bg-[#368642] text-white px-2 py-1 rounded-md">APPROVED</button>
                   )}
                   {s.attendance_excuse_status == "REJECTED" && (
-                    <button className="text-sm">REJECTED</button>
+                    <button className="text-sm bg-[#c92c2c] text-white px-2 py-1 rounded-md">REJECTED</button>
+
                   )}
                 </td>
               </tr>
@@ -103,24 +104,26 @@ function TableExcuse({ code = "cit", excuses = [], viewLetter, fetchAttendanceEx
         </table>
       </div>
         {/* pagination controls */}
-        <div className={` ${color} bg-[#fff0] relative lg:ml-70 font-[family-name:Arial] lg:text-sm text-xs mt-[-10px] flex flex-col-reverse justify-center items-center`}>
-        <span className="flex">
-             <button
-            className=" mx-1 flex items-center rounded-md cursor-pointer  border disabled:opacity-40"
+        <div className="mt-4 lg:ml-60 flex justify-center gap-2 items-center">
+          <button
+            onClick={() => fetchAttendanceExcuse(status, paginate.page - 1)}
+            disabled={paginate.page <= 1}
+            className="cursor-pointer border rounded disabled:opacity-40 p-1"
           >
             <span className="material-symbols-outlined">chevron_left</span>
-
           </button>
 
-            <button className={`px-2 ${color} mx-1 rounded-md text-white border cursor-pointer`}>1</button>
+          <span className="px-3">
+            Page {paginate.page} of {paginate.total_pages}
+          </span>
 
           <button
-           className=" mx-1 flex items-center cursor-pointer rounded-md border disabled:opacity-40"
+            onClick={() => fetchAttendanceExcuse(status, paginate.page + 1)}
+            disabled={paginate.page >= paginate.total_pages}
+            className="cursor-pointer border rounded disabled:opacity-40 p-1"
           >
             <span className="material-symbols-outlined">chevron_right</span>
-
           </button>
-        </span>
         </div>
     </div>
    

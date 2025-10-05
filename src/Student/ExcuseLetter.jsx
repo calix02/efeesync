@@ -8,7 +8,7 @@ import EditExcuse from "../student_components/EditExcuse.jsx";
 import Letter from '../student_components/Letter.jsx';
 import useAnimatedToggle from "../hooks/useAnimatedToggle.js";
 import it from '../assets/it.png';
-import { errorAlert } from '../utils/alert.js';
+import { errorAlert, confirmAlert } from '../utils/alert.js';
 
 import '../animate.css';
 
@@ -43,6 +43,10 @@ function ExcuseLetter(){
         }
     }
 
+    const formatDateStr = (dateString) => {
+            return new Date(dateString).toLocaleDateString('en-US', {year:'numeric',month:'long',day:'numeric'});
+        }
+
     const [excuseData, setExcuseData] = useState([]);
 
     const fetchExcuses = async () => {
@@ -65,6 +69,29 @@ function ExcuseLetter(){
     }, []);
 
     const [selectedExcuse, setSelectedExcuse] = useState(null);
+    const clickedDelete = (id) => {
+    confirmAlert("It will delete permanently").then( async (result) =>{
+        if(result.isConfirmed){
+          try {
+            const res = await fetch("/students/current/excuses/" + id, {
+                method: "DELETE",
+                credentials: "include",
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            });
+            const response = await res.json();
+            if (response.status === "success") {
+                fetchExcuses();
+            } else {
+                alert("Failed: " + response.message);
+            }
+        } catch (err) {
+            alert("Fetch failed: " + err);
+        }
+        }
+      });
+    }
     
     return(
         <>
@@ -73,7 +100,7 @@ function ExcuseLetter(){
             <>
             <div className="fixed inset-0 flex justify-center items-center  lg:z-40 md:z-50 z-70 bg-[#00000062] pointer-events-auto">
                 {/* Overlay */}
-                <Letter data={selectedExcuse} code={currentUserData?.department_code} ref={letterRef} onAnimationEnd={letter.handleEnd} onClose={() => letter.setAnimation("fade-out")} animate={letter.animation} />
+                <Letter formatDateStr={formatDateStr} data={selectedExcuse} code={currentUserData?.department_code} ref={letterRef} onAnimationEnd={letter.handleEnd} onClose={() => letter.setAnimation("fade-out")} animate={letter.animation} />
             </div>
         </>
         )
@@ -84,7 +111,7 @@ function ExcuseLetter(){
             <>
             <div className="fixed flex justify-center items-center inset-0 lg:z-40 md:z-50 z-70  bg-[#00000062]  pointer-events-auto">
                 {/* Overlay */}
-                <EditExcuse code={currentUserData?.department_code} ref={editRef} onAnimationEnd={editExcuse.handleEnd} onClose={() => editExcuse.setAnimation("fade-out")} animate={editExcuse.animation} />
+                <EditExcuse data={selectedExcuse} fetchExcuses={fetchExcuses} code={currentUserData?.department_code} ref={editRef} onAnimationEnd={editExcuse.handleEnd} onClose={() => editExcuse.setAnimation("fade-out")} animate={editExcuse.animation} />
             </div>
             </>
 
@@ -97,10 +124,16 @@ function ExcuseLetter(){
             </div>
             <div className={`lg:ml-70 ${animate} grid lg:grid-cols-3 md:grid-cols-2  gap-5  mt-6`}>
                 {excuseData.map((ed)=>(
-                    <ExcuseStatusCard data={ed} view={(id)=>{
+                    <ExcuseStatusCard formatDateStr={formatDateStr} data={ed} view={()=>{
                     letter.toggle();
-                    setSelectedExcuse(id);
-                    }} edit={editExcuse.toggle}/>
+                    setSelectedExcuse(ed);
+                    }} edit={() =>{
+                        editExcuse.toggle();
+                        setSelectedExcuse(ed)
+                    }} del={()=>{
+                        clickedDelete(ed?.attendance_excuse_id)
+                    }}
+                    />
                 ))}
             </div>
             

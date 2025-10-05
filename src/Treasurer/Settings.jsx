@@ -7,7 +7,7 @@ import SystemSetting from '../osas_components/SystemSetting.jsx';
 import useAnimatedToggle from '../hooks/useAnimatedToggle.js';
 import UploadProfile from '../other_components/UploadProfile.jsx';
 import ChangePassword from '../other_components/ChangePassword.jsx';
-import PersonalInformation from '../osas_components/PersonalInformation.jsx';
+import PersonalInformation from '../other_components/PersonalInformation.jsx';
 import DefaultProfile from '../assets/default.png';
 import UploadLogo from '../osas_components/UploadLogo.jsx';
 import UploadEfee from '../osas_components/UploadEfee.jsx';
@@ -43,6 +43,7 @@ function Setting(){
         firstName: "",
         middleName: "",
         lastName: "",
+        section: "",
         roleId: "",
         role: "",
         email: "",
@@ -60,6 +61,7 @@ function Setting(){
                     firstName: response.data.first_name,
                     middleName: response.data.middle_initial,
                     lastName: response.data.last_name,
+                    section: response.data.student_section,
                     roleId: response.data.role_id,
                     role: response.data.role_name,
                     email: response.data.institutional_email,

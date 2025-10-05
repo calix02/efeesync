@@ -36,28 +36,53 @@ function CITExcuse() {
         }
     }
 
-        const [attendanceExcuses, setAttendanceExcuses] = useState([]);
-        const fetchAttendanceExcuse = async (status="", page=1, search="") => {
-            if (!currentUserData) return;
-            try {
-                const res = await fetch(`/api/organizations/code/${currentUserData?.organization_code}/attendance/excuses?page=${page}&search=${search}&status=${status}`, {
-                    credentials: "include"
-                });
-                const response = await res.json();
-                if (response.status === "success") {
-                    setAttendanceExcuses(response.data);
-                }
-            } catch (err) {
-                errorAlert("Fetch Failed");
+    const [attendanceExcuses, setAttendanceExcuses] = useState([]);
+    const fetchAttendanceExcuse = async (status="", page=1, search="") => {
+        if (!currentUserData) return;
+        try {
+            const res = await fetch(`/api/organizations/code/${currentUserData?.organization_code}/attendance/excuses?page=${page}&search=${search}&status=${status}`, {
+                credentials: "include"
+            });
+            const response = await res.json();
+            if (response.status === "success") {
+                setAttendanceExcuses(response.data);
+                setPaginate(response.meta);
             }
+        } catch (err) {
+            errorAlert("Fetch Failed");
         }
-        useEffect(() => {
-            fetchCurrentUser();
-        }, []);
+    }
 
-        useEffect(() => {
-            fetchAttendanceExcuse(status);
-        }, [currentUserData, status]);
+    const [searchValue, setSearchValue] = useState("");
+
+    const [paginate, setPaginate] = useState({
+        page: 1,
+        per_page: 10,
+        total: 0,
+        total_pages: 1
+    });
+
+    const [debounceTimer, setDebounceTimer] = useState(null);
+    
+    function debounce(callback, delay=500) {
+        clearTimeout(debounceTimer);
+        setDebounceTimer(setTimeout(callback, delay));
+    }
+
+    const searchAttendanceExcuse = (search) => {
+        setSearchValue(search);
+        debounce(() => {
+            fetchAttendanceExcuse(status, 1, search);
+        }, 500);
+    };
+
+    useEffect(() => {
+        fetchCurrentUser();
+    }, []);
+
+    useEffect(() => {
+        fetchAttendanceExcuse(status);
+    }, [currentUserData, status]);
 
     const hoverColors = {
             CIT: " hover:bg-[#621668]",
@@ -69,6 +94,10 @@ function CITExcuse() {
         };
     const hoverColor = hoverColors[currentUserData?.department_code] || "hover:bg-[#174515]";
     const[selectedStudent, setSelectedStudent] = useState(null);
+    
+    const formatDateStr = (dateString) => {
+            return new Date(dateString).toLocaleDateString('en-US', {year:'numeric',month:'long',day:'numeric'});
+        }
 
     return (
         <>
@@ -76,7 +105,7 @@ function CITExcuse() {
              <>
                 <div className="fixed inset-0 flex justify-center items-center bg-[#00000062]  lg:z-40 md:z-50 z-70 pointer-events-auto">
                     {/* Overlay */}
-                    <Letter ref={viewLetterRef} data={selectedStudent}  onAnimationEnd={viewLetter.handleEnd} animate={viewLetter.animation} onClose={() => viewLetter.setAnimation("fade-out")} />
+                    <Letter code={currentUserData?.department_code} formatDateStr={formatDateStr} ref={viewLetterRef} data={selectedStudent}  onAnimationEnd={viewLetter.handleEnd} animate={viewLetter.animation} onClose={() => viewLetter.setAnimation("fade-out")} />
                 </div>
             </>
         )}
@@ -87,7 +116,7 @@ function CITExcuse() {
                 <div className="lg:mt-30 mt-25 lg:ml-70 lg:flex md:flex  md:justify-between   lg:justify-between">
                     <h2 className="text-2xl font-[family-name:Futura Bold] font-semibold">Manage Excuse Approval</h2>
                     <div className={`flex ${animateR} items-center lg:px-0 md:px-0 px-3`}>
-                    <input className='lg:w-85 md:w-85 w-[100%] p-1.5 bg-white rounded-md border-2 border-black lg:mt-0 md:mt-0 mt-4 block' type="text" placeholder='Search Student' />
+                    <input className='lg:w-85 md:w-85 w-[100%] p-1.5 bg-white rounded-md border-2 border-black lg:mt-0 md:mt-0 mt-4 block' type="text" onKeyUp={(e)=>{searchAttendanceExcuse(e.target.value)}} placeholder='Search Student' />
                     </div>
                 </div>
                
@@ -109,7 +138,7 @@ function CITExcuse() {
                     </div>
                
                    
-                    <TableExcuse fetchAttendanceExcuse={fetchAttendanceExcuse} excuses={attendanceExcuses} viewLetter={(row) =>{
+                    <TableExcuse formatDateStr={formatDateStr} fetchAttendanceExcuse={fetchAttendanceExcuse} status={status} paginate={paginate} excuses={attendanceExcuses} viewLetter={(row) =>{
                         viewLetter.toggle();
                         setSelectedStudent(row);
                     }}  code={currentUserData?.department_code} />

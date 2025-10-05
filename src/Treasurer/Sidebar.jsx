@@ -44,10 +44,11 @@ const CITSidebar = React.forwardRef(({ animate, onAnimationEnd,onClose ,code, is
                 });
                     const response = await res.json();
                     if (response.status === "success") {
+                        localStorage.setItem("currentUserData", JSON.stringify({}));
                         window.location.reload();
                     }
                 }catch (err) {
-                            errorAlert("An error occured: " + response.message);
+                    errorAlert("An error occured: " + response.message);
                 }
             }
         });

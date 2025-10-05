@@ -108,7 +108,7 @@ function LogIn(){
                     </div>
                 </div>
             <div className="bg-white lg:w-[50%] relative w-[100%] flex h-screen justify-center items-center">
-                <img src={Pattern} className='lg:w-60  absolute right-0 bottom-0' alt="" />
+                <img src={Pattern} className='lg:w-60 hidden lg:block  absolute right-0 bottom-0' alt="" />
                 <div className="w-[100%] lg:mt-0 mt-[-230px]">
                     <div className="flex flex-col items-center">
                         <img className="lg:w-25 w-35 lg:z-30 z-40" src={Cbsua} alt="" />

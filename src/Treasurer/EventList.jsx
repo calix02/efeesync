@@ -153,13 +153,13 @@ function CITEventList(){
              <div className="w-screen hide-scrollbar h-screen bg-[#fafafa] absolute z-[-1] overflow-y-auto overflow-x-auto lg:px-6 md:px-10 px-3">
                 <div className="lg:mt-30 mt-25 lg:ml-70 lg:flex md:flex  md:justify-between   lg:justify-between">
                     <h2 className="text-2xl font-[family-name:Futura Bold] font-semibold">Manage Events</h2>
-                    <div className={`flex ${animateR} items-center lg:px-0 md:px-0 px-3`}>
+                    <div className={`flex ${animateR} items-center lg:px-0 md:px-0 `}>
                     <input className='lg:w-85 md:w-85 w-[100%] border-black p-1.5 bg-white rounded-md border-2 lg:mt-0 md:mt-0 mt-4 block' type="text" onKeyUp={(e) => { searchEvents(e.target.value) }} placeholder='Search Events' />
                     </div>
                 </div>
-                <div className=' w-[100%] mt-3 '>
+                <div className=' w-[100%] mt-3'>
                     <div className={`lg:ml-70 ${animateL} flex lg:justify-start md:justify-start font-[family-name:Arial]  justify-start gap-2.5`}>
-                         <select title="Select Event Type" className={`bg-white ${hoverColor} lg:w-35 w-20 text-xs transition duration-100 hover:scale-100  hover:text-white cursor-pointer border-1 py-1.5  rounded-sm text-center`} value={selectedType} onChange={(e)=>setSelectedType(e.target.value)}  name="" id="">
+                         <select title="Select Event Type" className={`bg-white ${hoverColor} w-35  text-xs transition duration-100 hover:scale-100  hover:text-white cursor-pointer border-1 py-1.5  rounded-sm text-center`} value={selectedType} onChange={(e)=>setSelectedType(e.target.value)}  name="" id="">
                             <option value="">Event Type</option>
                             <option value="Event Contribution">Event Contribution</option>
                             <option value="Event Attendance">Event Attendance</option>

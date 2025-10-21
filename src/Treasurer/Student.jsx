@@ -43,6 +43,7 @@ function CITStudent(){
             const response = await res.json();
             if (response.status === "success") {
                 setStudents(response.data);
+                setPaginate(response.meta);
             }
         } catch (err) {
             errorAlert("Fetch Failed");

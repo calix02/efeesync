@@ -136,7 +136,7 @@ function Dashboard(){
         <>
         {sendPayment.isVisible &&(
              <div className="fixed lg:z-40 md:z-50 z-70 flex justify-center items-center  inset-0 bg-[#00000062] pointer-events-auto">
-                <SendPayment code={currentUserData?.department_code} ref={paymentRef} onAnimationEnd={sendPayment.handleEnd} onClose={()=> sendPayment.setAnimation("fade-out")} animate={sendPayment.animation} />  
+                <SendPayment fetchDashboardData={fetchDashboardData} data={selectedEvent} code={currentUserData?.department_code} ref={paymentRef} onAnimationEnd={sendPayment.handleEnd} onClose={()=> sendPayment.setAnimation("fade-out")} animate={sendPayment.animation} />  
             </div>
         )}
         {sendExcuse.isVisible &&(
@@ -169,7 +169,7 @@ function Dashboard(){
                             <UpcomingEvents
                                 data={ev}
                                 excuse={(ev) =>{sendExcuse.toggle(); setSelectedEvent(ev)}}
-                                pay ={sendPayment.toggle}
+                                pay ={(data)=>{sendPayment.toggle(); setSelectedEvent(data)}}
                                 key={ev.event_id}
                                 month={month}
                                 id ={ev.event_id}

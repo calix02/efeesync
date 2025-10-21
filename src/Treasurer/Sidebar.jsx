@@ -75,9 +75,7 @@ const CITSidebar = React.forwardRef(({ animate, onAnimationEnd,onClose ,code, is
                     */}
                     <NavLink code={code} navLink = "/org/excuse" iconName="approval" navName="Excuse Requests"/>
                     <NavLink code={code} navLink = "/org/financial" iconName="article" navName="Financial Report"/>
-                    {/* 
-                    <NavLink code={code} navLink = "/org/payment-transaction" iconName="credit_card" navName="Online Payments"/>
-                    */}
+                    <NavLink code={code} navLink = "/org/payment-transaction" iconName="credit_card" navName="Online Contribution Payments"/>
                     <NavLink code={code} navLink = "/org/unsettled-transaction" iconName="event_busy" navName="Unsettled Transactions"/>
                     <NavLink code={code} navLink = "/org/community-service" iconName="cleaning_services" navName="Community Service"/>
                     <NavLink code={code} navLink = "/org/settings" iconName="settings" navName="Settings"/>

@@ -4,10 +4,13 @@ import PaidCard from "../student_components/PaidCard.jsx";
 import UnpaidCard from "../student_components/UnpaidCard.jsx";
 import Unsettled from "../student_components/Unsettled.jsx";
 import EfeeViolet from '../assets/violetlogo.png';
-import {useState, useEffect} from 'react';
+import {useState, useEffect, useRef} from 'react';
+import SendPayment from "../student_components/SendPayment.jsx";
+import useAnimatedToggle from "../hooks/useAnimatedToggle.js";
 import it from '../assets/it.png';
 import "../animate.css";
 import { errorAlert} from '../utils/alert.js';
+import { use } from "react";
 
 
 
@@ -36,6 +39,8 @@ function Contribution(){
 
             const [contributionStatus, setContributionStatus] = useState({
                 "total_fees_paid": 0,
+                "total_fees_unpaid": 0,
+                "total_fees_unsettled": 0,
                 "paid_events": [],
                 "unpaid_events": [],
                 "unsettled_events": []
@@ -55,13 +60,28 @@ function Contribution(){
                 }
             }
 
+            const formatDateStr = (dateString) => {
+                return new Date(dateString).toLocaleDateString('en-US', {year:'numeric',month:'long',day:'numeric'});
+            }
+
             useEffect(() => {
                 fetchCurrentUser();
                 fetchContributionStatus();
             }, []);
+
+        const sendPayment = useAnimatedToggle();
+        const paymentRef = useRef(null);
+        const [selectedEvent, setSelectedEvent] = useState(null);
        
     return(
         <>
+        {sendPayment.isVisible && (
+          
+             <div className="fixed lg:z-40 md:z-50 z-70 flex justify-center items-center  inset-0 bg-[#00000062] pointer-events-auto">
+                <SendPayment data={selectedEvent} code={currentUserData?.department_code} ref={paymentRef} onAnimationEnd={sendPayment.handleEnd} onClose={()=> sendPayment.setAnimation("fade-out")} animate={sendPayment.animation} />  
+            </div>
+        )}
+    
         <Header code={currentUserData?.department_code} title = {currentUserData?.department_name}/>
         <div className="w-screen h-screen bg-[#F8F8F8] absolute z-[-1] overflow-y-auto overflow-x-auto lg:px-6 md:px-10 px-3 ">
             <div className="mt-[110px] lg:ml-70">
@@ -75,9 +95,9 @@ function Contribution(){
                  */}
             </div>
             <div className={`lg:ml-70 lg:grid md:grid lg:grid-cols-3 md:grid-cols-2 flex flex-col gap-8 mt-8 `}>
-                <PaidCard total={contributionStatus?.total_fees_paid} paidEvents={contributionStatus?.paid_events} />
-                <UnpaidCard unpaidEvents={contributionStatus?.unpaid_events}/>
-                <Unsettled unsettledEvents={contributionStatus?.unsettled_events} />
+                <PaidCard formatDateStr={formatDateStr} total={contributionStatus?.total_fees_paid} paidEvents={contributionStatus?.paid_events} />
+                <UnpaidCard pay={(data)=>{sendPayment.toggle(); setSelectedEvent(data); }} formatDateStr={formatDateStr} total={contributionStatus?.total_fees_unpaid} unpaidEvents={contributionStatus?.unpaid_events}/>
+                <Unsettled formatDateStr={formatDateStr} total={contributionStatus?.total_fees_unsettled} unsettledEvents={contributionStatus?.unsettled_events} />
             </div>
             
         </div>

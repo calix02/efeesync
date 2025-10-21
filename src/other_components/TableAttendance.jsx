@@ -57,7 +57,7 @@ function TableAttendance({ code , events = [], scanAttendee, view, formatDateStr
       {/* ===================== EVENT TABLE ===================== */}
       {selectedEventIndex === null && (
         <>
-        <div className={` ${color} ${animate} lg:ml-70 bg-white lg:text-sm text-xs font-[font-family:Arial] text-black flex-grow p-5 mt-3 rounded-lg shadow-[2px_2px_2px_grey]`}>
+        <div className={` ${color} ${animate}  lg:ml-70 bg-white lg:text-sm text-xs font-[font-family:Arial] text-black flex-grow p-5 mt-3 rounded-lg shadow-[2px_2px_2px_grey]`}>
           <table className="w-full text-center">
             <thead>
               <tr className={`border-b-2 border-[#000] bg-white ${color}`}>

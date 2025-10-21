@@ -305,9 +305,9 @@ return(
                         <p className="font-semibold">
                         Day {i + 1}: {d.toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" })}
                         </p>
-                        <div className="flex gap-5  justify-center flex-wrap">
+                        <div className="flex lg:gap-5 gap-2  justify-center flex-wrap">
                         {logOptions.map((opt) => (
-                            <label key={opt} className="flex items-center gap-1">
+                            <label key={opt} className="flex items-center gap-0.5">
                             <input
                                 type="checkbox"
                                 checked={logs[dateKey]?.includes(opt) || false}

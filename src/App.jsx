@@ -90,9 +90,7 @@ function App() {
           <Route path="/org/attendance" element={<TreasurerAttendance/>}/>
           <Route path="/org/financial" element={<TreasurerFinancial/>}/>
           <Route path="/org/accomplishment" element={<TreasurerAccomplishment/>}/>
-          {/* 
           <Route path="/org/payment-transaction" element={<PaymentTransaction/>}/>
-          */}
           <Route path="/org/unsettled-transaction" element={<TreasurerUnsettledTransaction/>}/>
           <Route path="/org/community-service" element={<TreasurerCommunityService/>}/>
           <Route path="/org/excuse" element={<TreasurerExcuse/>}/>

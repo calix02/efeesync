@@ -73,7 +73,7 @@ function ExcuseLetter(){
     confirmAlert("It will delete permanently").then( async (result) =>{
         if(result.isConfirmed){
           try {
-            const res = await fetch("/students/current/excuses/" + id, {
+            const res = await fetch("/api/students/current/excuses/" + id, {
                 method: "DELETE",
                 credentials: "include",
                 headers: {

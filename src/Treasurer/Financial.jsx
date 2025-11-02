@@ -10,6 +10,7 @@ import {confirmAlert,successAlert, errorAlert, okAlert} from "../utils/alert.js"
 
 import "../animate.css";
 import EfeeViolet from '../assets/violetlogo.png'
+
 function CITFinancial(){
     const animate = "card-In";
     const animateR = "right-In";
@@ -24,12 +25,15 @@ function CITFinancial(){
     const[selectedCashOut, setSelectedCashOut] = useState(null);
         
     const [currentUserData, setCurrentUserData] = useState(() => {
-    const saved = localStorage.getItem("currentUserData");
+        const saved = localStorage.getItem("currentUserData");
         return saved ? JSON.parse(saved) : null;
     });
-    
+
+    const [loading, setLoading] = useState(true);
+
     const fetchCurrentUser = async () => {
         try {
+            setLoading(true);
             const res = await fetch("/api/users/current", {
                 credentials: "include"
             });
@@ -41,33 +45,66 @@ function CITFinancial(){
         } catch (err) {
             errorAlert("Fetch Failed");
         }
+        // keep loading true until financial data fetch clears it
     }
         
-        const [financialReportData, setFinancialReportData] = useState({
-            "cash_in": [],
-            "cash_out": [],
-            "summary": {}
-        });
+    const [financialReportData, setFinancialReportData] = useState({
+        "cash_in": [],
+        "cash_out": [],
+        "summary": {}
+    });
 
-        const fetchFinancialReportData = async () => {
-            if (currentUserData.length === 0) return;
-            try {
-                const res = await fetch(`/api/organizations/code/${currentUserData?.organization_code}/financialreport`, { credentials: "include" });
-                const response = await res.json();
-                if (response.status === "success") {
-                    setFinancialReportData(response.data);
-                }
-            } catch (err) {
-                errorAlert("Fetch Failed");
+    const fetchFinancialReportData = async () => {
+        // ensure we have organization code
+        if (!currentUserData?.organization_code) {
+            setFinancialReportData({
+                cash_in: [],
+                cash_out: [],
+                summary: {}
+            });
+            setLoading(false);
+            return;
+        }
+
+        setLoading(true);
+        try {
+            const res = await fetch(`/api/organizations/code/${encodeURIComponent(currentUserData.organization_code)}/financialreport`, { credentials: "include" });
+            const response = await res.json();
+            if (response.status === "success") {
+                setFinancialReportData(response.data);
             }
-        };
-          useEffect(() => {
-            fetchCurrentUser();
-          }, []);
+        } catch (err) {
+            errorAlert("Fetch Failed");
+        } finally {
+            setLoading(false);
+        }
+    };
 
-          useEffect(() => {
-            fetchFinancialReportData();
-          }, [currentUserData]);
+    useEffect(() => {
+        fetchCurrentUser();
+    }, []);
+
+    useEffect(() => {
+        if (currentUserData) fetchFinancialReportData();
+    }, [currentUserData]);
+
+    /* ------------------------- Skeletons ----------------------------- */
+    const SkeletonTable = () => (
+        <div className="bg-white border border-gray-200 rounded-lg p-4 w-full">
+            <div className="h-6 bg-gray-200 rounded w-1/3 mb-4 animate-pulse"></div>
+            <div className="space-y-2">
+                {[...Array(6)].map((_, i) => (
+                    <div key={i} className="flex items-center justify-between gap-4 p-3 border-b border-gray-100">
+                        <div className="h-4 bg-gray-200 rounded w-24 animate-pulse"></div>
+                        <div className="h-4 bg-gray-200 rounded w-40 animate-pulse"></div>
+                        <div className="h-4 bg-gray-200 rounded w-28 animate-pulse"></div>
+                        <div className="h-4 bg-gray-200 rounded w-20 animate-pulse"></div>
+                    </div>
+                ))}
+            </div>
+        </div>
+    );
+
     return(
         <>
         {add.isVisible &&(
@@ -84,17 +121,24 @@ function CITFinancial(){
              <div className="w-screen hide-scrollbar h-screen bg-[#fafafa] absolute z-[-1] overflow-y-auto overflow-x-auto lg:px-6 md:px-10 px-3">
                 <div className="lg:mt-30 mt-25 lg:ml-70">
                     <h2 className="text-2xl font-medium font-[family-name:Futura Bold]">Financial Report</h2>
+                </div>
 
-                </div>
-                <div className={` ${animate} lg:ml-70 lg:mt-6 mt-3 lg:gap-6 gap-3 flex lg:flex-row flex-col items-center justify-center`}>
-                    <FinancialTable total={financialReportData?.summary?.total_cash_in} code={currentUserData?.department_code} title="Cash Inflow" financialData={financialReportData?.cash_in}/>
-                    <FinancialTable total={financialReportData?.summary?.total_cash_out} code={currentUserData?.department_code} title="Cash Outflow" financialData={financialReportData?.cash_out} fetchFinancialReportData={fetchFinancialReportData}
-                    add={add.toggle}
-                    edit={(row) => {
-                        edit.toggle();
-                        setSelectedCashOut(row);
-                    }}/>
-                </div>
+                {loading ? (
+                    <div className="lg:ml-70 lg:mt-6 mt-3 lg:gap-6 gap-3 grid lg:grid-cols-2 grid-cols-1 items-start">
+                        <SkeletonTable />
+                        <SkeletonTable />
+                    </div>
+                ) : (
+                    <div className={` ${animate} lg:ml-70 lg:mt-6 mt-3 lg:gap-6 gap-3 flex lg:flex-row flex-col items-center justify-center`}>
+                        <FinancialTable total={financialReportData?.summary?.total_cash_in} code={currentUserData?.department_code} title="Cash Inflow" financialData={financialReportData?.cash_in}/>
+                        <FinancialTable total={financialReportData?.summary?.total_cash_out} code={currentUserData?.department_code} title="Cash Outflow" financialData={financialReportData?.cash_out} fetchFinancialReportData={fetchFinancialReportData}
+                        add={add.toggle}
+                        edit={(row) => {
+                            edit.toggle();
+                            setSelectedCashOut(row);
+                        }}/>
+                    </div>
+                )}
             </div>
             <div className='hidden lg:block'>
                 <CITSidebar isUnivWide={currentUserData?.university_wide_org} code={currentUserData?.department_code} />

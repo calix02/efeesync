@@ -4,6 +4,7 @@ import CITSidebar from './Sidebar.jsx';
 import TableCommunityService from '../treasurer_components/TableCommunityService.jsx';
 import { errorAlert, successAlert, okAlert, confirmAlert } from '../utils/alert.js';
 import "../animate.css";
+
 function  CommunityService() {
     const animateR = "right-In";
     const animateL = "left-In";
@@ -27,12 +28,15 @@ function  CommunityService() {
     });
         
     const [currentUserData, setCurrentUserData] = useState(() => {
-    const saved = localStorage.getItem("currentUserData");
+        const saved = localStorage.getItem("currentUserData");
         return saved ? JSON.parse(saved) : null;
     });
+
+    const [loading, setLoading] = useState(true);
     
     const fetchCurrentUser = async () => {
         try {
+            setLoading(true);
             const res = await fetch("/api/users/current", {
                 credentials: "include"
             });
@@ -44,12 +48,14 @@ function  CommunityService() {
         } catch (err) {
             errorAlert("Fetch Failed");
         }
+        // keep loading true until fetchComservData clears it
     }
 
     const fetchComservData = async (page=1, search="") => {
         if (!currentUserData) return;
+        setLoading(true);
         try {
-            const res = await fetch(`/api/organizations/code/${currentUserData?.organization_code}/communityservice?page=${page}&search=${search}`, {
+            const res = await fetch(`/api/organizations/code/${encodeURIComponent(currentUserData?.organization_code)}/communityservice?page=${page}&search=${encodeURIComponent(search)}`, {
                 credentials: "include"
             });
             const response = await res.json();
@@ -59,11 +65,14 @@ function  CommunityService() {
             }
         } catch (err) {
             errorAlert("Fetch Failed");
+        } finally {
+            setLoading(false);
         }
     }
 
     const searchStudentsWithComserv = (search) => {
         // setSearchValue(search);
+        setLoading(true);
         debounce(() => {
             fetchComservData(1, search);
         }, 500);
@@ -90,7 +99,7 @@ function  CommunityService() {
     }, []);
 
     useEffect(() => {
-        fetchComservData();
+        if (currentUserData) fetchComservData();
     }, [currentUserData]);
         
     const hoverColors = {
@@ -101,8 +110,40 @@ function  CommunityService() {
             ESAF: "hover:bg-[#6F3306]",
             SSC: "hover:bg-[#174515]"
         };
-    const hoverColor = hoverColors[currentUserData?.department_code] || "hover:bg-[#174515]";
-        
+    const hoverColor = hoverColors[currentUserData?.department_code] || "hover:bg-[#174515']";
+
+    /* ------------------------- Skeleton Loader ----------------------------- */
+    const SkeletonRow = () => (
+        <div className="w-full flex items-center justify-between gap-4 p-3 border-b border-gray-100">
+            <div className="h-4 bg-gray-200 rounded w-24 animate-pulse"></div>
+            <div className="h-4 bg-gray-200 rounded w-48 animate-pulse"></div>
+            <div className="h-4 bg-gray-200 rounded w-32 animate-pulse"></div>
+            <div className="h-4 bg-gray-200 rounded w-28 animate-pulse"></div>
+            <div className="h-4 bg-gray-200 rounded w-20 animate-pulse"></div>
+        </div>
+    );
+
+    const SkeletonTable = () => (
+        <div className="px-4 lg:ml-70 mt-6 space-y-4">
+            <div className="h-12 bg-gray-300 rounded-md w-1/3 animate-pulse"></div>
+            <div className="h-10 bg-gray-300 rounded-md w-full animate-pulse"></div>
+            <div className="flex gap-2">
+                <div className="h-8 bg-gray-300 rounded w-32 animate-pulse"></div>
+            </div>
+
+            <div className="bg-white rounded-lg border border-gray-200 mt-4 overflow-hidden">
+                <div className="flex items-center justify-between p-3 bg-gray-50">
+                    <div className="h-4 bg-gray-200 rounded w-24 animate-pulse"></div>
+                    <div className="h-4 bg-gray-200 rounded w-48 animate-pulse"></div>
+                    <div className="h-4 bg-gray-200 rounded w-32 animate-pulse"></div>
+                    <div className="h-4 bg-gray-200 rounded w-24 animate-pulse"></div>
+                </div>
+                <div className="space-y-2 p-2">
+                    {[...Array(6)].map((_, i) => <SkeletonRow key={i} />)}
+                </div>
+            </div>
+        </div>
+    );
 
     return (
         <>
@@ -117,16 +158,20 @@ function  CommunityService() {
                 </div>
 
                 <div className="w-100% mt-3">
-                    <TableCommunityService 
-                    paginate={paginate}
-                    fetchComservData={fetchComservData}
-                    code={currentUserData?.department_code}
-                    communityService={comservData}
-                    done={(row) =>{
-                        setSelectedStudent(row);
-                        addComserv(row.event_id, row.student_id);
-                    }}
-                    />
+                    {loading ? (
+                        <SkeletonTable />
+                    ) : (
+                        <TableCommunityService 
+                        paginate={paginate}
+                        fetchComservData={fetchComservData}
+                        code={currentUserData?.department_code}
+                        communityService={comservData}
+                        done={(row) =>{
+                            setSelectedStudent(row);
+                            addComserv(row.event_id, row.student_id);
+                        }}
+                        />
+                    )}
                 </div>
             </div>
             <div className="hidden lg:block">

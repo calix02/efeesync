@@ -49,7 +49,10 @@ function Setting(){
         email: "",
     });
 
+    const [loading, setLoading] = useState(true);
+
     const fetchUser = async () => {
+        setLoading(true);
         try {
             const res = await fetch("/api/users/current", {
                 credentials: "include"
@@ -69,6 +72,8 @@ function Setting(){
             }
         } catch (err) {
             alert("Failed to fetch user data");
+        } finally {
+            setLoading(false);
         }
     }
 
@@ -120,6 +125,7 @@ function Setting(){
     });
     
     const fetchCurrentUser = async () => {
+        setLoading(true);
         try {
             const res = await fetch("/api/users/current", {
                 credentials: "include"
@@ -131,15 +137,36 @@ function Setting(){
             }
         } catch (err) {
             errorAlert("Fetch Failed");
+        } finally {
+            setLoading(false);
         }
     }
     
       useEffect(() => {
         fetchCurrentUser();
-        console.log(currentUserData);
       }, []);
     
-    
+
+
+    /* ------------------------- Skeleton for Account Setting ----------------------------- */
+    const SkeletonAccount = () => (
+        <div className="lg:ml-70 lg:px-8">
+            <div className="bg-white rounded-lg p-4 border border-gray-200 w-full">
+                <div className="flex items-center gap-4">
+                    <div className="w-20 h-20 bg-gray-200 rounded-full animate-pulse" />
+                    <div className="flex-1">
+                        <div className="h-5 bg-gray-200 rounded w-1/3 mb-3 animate-pulse" />
+                        <div className="h-4 bg-gray-200 rounded w-1/2 mb-2 animate-pulse" />
+                        <div className="h-4 bg-gray-200 rounded w-2/3 mb-4 animate-pulse" />
+                        <div className="flex gap-2">
+                            <div className="h-8 bg-gray-200 rounded w-24 animate-pulse" />
+                            <div className="h-8 bg-gray-200 rounded w-24 animate-pulse" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    );
 
     return(
         <>
@@ -198,6 +225,7 @@ function Setting(){
         
        
         
+
         <Header code={currentUserData?.department_code}  titleCouncil ={currentUserData?.organization_name}/>
          <div className="w-screen h-screen bg-[#fafafa] absolute z-[-1] overflow-y-auto overflow-x-auto lg:px-6 md:px-10 px-3 ">
                 <div className="lg:mt-30 mt-25 lg:ml-68">
@@ -205,7 +233,11 @@ function Setting(){
                 </div>
                 <div className='w-[100%] mt-3 '>
                     <div className='lg:ml-70 lg:px-8 '>
-                        <AccountSetting code={currentUserData?.department_code} upload={profile.toggle} changeInfo={information.toggle} changePass={changePassword.toggle}  profile={profileImage} accName={accountData.full_name} accRole={accountData.role} accEmail={accountData.email}/>
+                        {loading ? (
+                            <SkeletonAccount />
+                        ) : (
+                            <AccountSetting code={currentUserData?.department_code} upload={profile.toggle} changeInfo={information.toggle} changePass={changePassword.toggle}  profile={profileImage} accName={accountData.full_name} accRole={accountData.role} accEmail={accountData.email}/>
+                        )}
                         {/** 
                         <SystemSetting upload={logo.toggle} updateEfeeLogo={efee.toggle} logo={logoOsas} efeeLogo={efeeLogo} title={title.organizationName} systemName={title.systemName}/>
                          */}

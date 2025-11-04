@@ -141,13 +141,10 @@ function Setting(){
             setLoading(false);
         }
     }
-    
       useEffect(() => {
         fetchCurrentUser();
       }, []);
     
-
-
     /* ------------------------- Skeleton for Account Setting ----------------------------- */
     const SkeletonAccount = () => (
         <div className="lg:ml-70 lg:px-8">
@@ -172,60 +169,40 @@ function Setting(){
         <>
         {profile.isVisible &&(
             <>
-                <div className="fixed inset-0 bg-[#00000062] flex justify-center items-center lg:z-40 md:z-50 z-70 pointer-events-auto">
-                    {/* Overlay */}
-                    <UploadProfile code={currentUserData?.department_code} ref={profileRef}  onAnimationEnd={profile.handleEnd} onClose={() => profile.setAnimation("fade-out")} animate={profile.animation}  onUpdate={handleProfileUpdate} />  
-
-                </div>
+            <div className="fixed inset-0 bg-[#00000062] flex justify-center items-center lg:z-40 md:z-50 z-70 pointer-events-auto">
+                <UploadProfile code={currentUserData?.department_code} ref={profileRef}  onAnimationEnd={profile.handleEnd} onClose={() => profile.setAnimation("fade-out")} animate={profile.animation}  onUpdate={handleProfileUpdate} />  
+            </div>
             </>
-        )
-
-        }
+        )}
         {logo.isVisible &&(
             <>
-                <div className="fixed inset-0 bg-[#00000062] flex justify-center items-center lg:z-40 md:z-50 z-70 pointer-events-auto">
-                    {/* Overlay */}
-                    <UploadLogo code={currentUserData?.department_code} data={title} ref={logoRef} onUpdateTitle={handleTitleUpdate}  onAnimationEnd={logo.handleEnd} onClose={() => logo.setAnimation("fade-out")} animate={logo.animation}  onUpdate={handleLogoUpdate} />  
-                </div>
+            <div className="fixed inset-0 bg-[#00000062] flex justify-center items-center lg:z-40 md:z-50 z-70 pointer-events-auto">
+                <UploadLogo code={currentUserData?.department_code} data={title} ref={logoRef} onUpdateTitle={handleTitleUpdate}  onAnimationEnd={logo.handleEnd} onClose={() => logo.setAnimation("fade-out")} animate={logo.animation}  onUpdate={handleLogoUpdate} />  
+            </div>
             </>
-        )
-
-        }
+        )}
         {efee.isVisible &&(
             <>
-                <div className="fixed inset-0 bg-[#00000062] flex items-center justify-center lg:z-40 md:z-50 z-70 pointer-events-auto">
-                    {/* Overlay */}
-                    <UploadEfee code={currentUserData?.department_code} data={title} ref={efeeRef} onUpdateTitle={handleTitleUpdate}  onAnimationEnd={efee.handleEnd} onClose={() => efee.setAnimation("fade-out")} animate={efee.animation}  onUpdate={handleEfeeUpdate} />  
-                </div>
+            <div className="fixed inset-0 bg-[#00000062] flex items-center justify-center lg:z-40 md:z-50 z-70 pointer-events-auto">
+                <UploadEfee code={currentUserData?.department_code} data={title} ref={efeeRef} onUpdateTitle={handleTitleUpdate}  onAnimationEnd={efee.handleEnd} onClose={() => efee.setAnimation("fade-out")} animate={efee.animation}  onUpdate={handleEfeeUpdate} />  
+            </div>
             </>
-        )
-
-        }
+        )}
         {changePassword.isVisible &&(
             <>
-                <div className="fixed inset-0 bg-[#00000062] flex justify-center items-center lg:z-40 md:z-50 z-70 pointer-events-auto">
-                    {/* Overlay */}
-                    <ChangePassword ref={passwordRef} code={currentUserData?.department_code} onAnimationEnd={changePassword.handleEnd} onClose={() => changePassword.setAnimation("fade-out")} animate={changePassword.animation} />  
-                </div>
+            <div className="fixed inset-0 bg-[#00000062] flex justify-center items-center lg:z-40 md:z-50 z-70 pointer-events-auto">
+                <ChangePassword ref={passwordRef} code={currentUserData?.department_code} onAnimationEnd={changePassword.handleEnd} onClose={() => changePassword.setAnimation("fade-out")} animate={changePassword.animation} />  
+            </div>
             </>
-         )
-            
-        }
+         )}
         {information.isVisible &&(
             <>
-                <div className="fixed inset-0 bg-[#00000062] flex justify-center items-center lg:z-40 md:z-50 z-70 pointer-events-auto">
-                    {/* Overlay */}
-                    <PersonalInformation reloadUserInfo={fetchUser} ref={infoRef} code={currentUserData?.department_code} data={accountData} onUpdate={handleInfoUpdate} onAnimationEnd={information.handleEnd} onClose={() => information.setAnimation("fade-out")} animate={information.animation} />  
-                </div>
+            <div className="fixed inset-0 bg-[#00000062] flex justify-center items-center lg:z-40 md:z-50 z-70 pointer-events-auto">
+                <PersonalInformation reloadUserInfo={fetchUser} ref={infoRef} code={currentUserData?.department_code} data={accountData} onUpdate={handleInfoUpdate} onAnimationEnd={information.handleEnd} onClose={() => information.setAnimation("fade-out")} animate={information.animation} />  
+            </div>
             </>
-
-         )
-            
-        }
+         )}
         
-       
-        
-
         <Header code={currentUserData?.department_code}  titleCouncil ={currentUserData?.organization_name}/>
          <div className="w-screen h-screen bg-[#fafafa] absolute z-[-1] overflow-y-auto overflow-x-auto lg:px-6 md:px-10 px-3 ">
                 <div className="lg:mt-30 mt-25 lg:ml-68">
@@ -238,10 +215,7 @@ function Setting(){
                         ) : (
                             <AccountSetting code={currentUserData?.department_code} upload={profile.toggle} changeInfo={information.toggle} changePass={changePassword.toggle}  profile={profileImage} accName={accountData.full_name} accRole={accountData.role} accEmail={accountData.email}/>
                         )}
-                        {/** 
-                        <SystemSetting upload={logo.toggle} updateEfeeLogo={efee.toggle} logo={logoOsas} efeeLogo={efeeLogo} title={title.organizationName} systemName={title.systemName}/>
-                         */}
-                        </div>
+                    </div>
                 </div>
             </div>
             

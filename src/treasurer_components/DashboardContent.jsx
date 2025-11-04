@@ -154,18 +154,18 @@ function CITDashboard({ currentUserData }) {
       )}
 
       <div className="w-screen h-screen bg-[#ecececa4] absolute z-[-1] overflow-y-auto overflow-x-auto">
-        <div className="lg:mt-30 mt-25 lg:ml-70">
-          <h2 className="text-2xl font-poppins font-semibold ml-6">Dashboard</h2>
-        </div>
+        
 
         {loading ? (
         <>
-            {/*  Skeleton for Cards */}
+           <div className="lg:mt-30 mt-25 lg:ml-70">
+              <div className="w-80 h-8 rounded-md animate-pulse bg-gray-200 ml-6"></div>
+            </div>
             <div className="grid grid-cols-2 lg:flex lg:flex-row lg:justify-center lg:items-center lg:px-6 md:px-10 px-3 mt-4 lg:ml-70 lg:gap-6 gap-4">
             {[...Array(4)].map((_, i) => (
                 <div
                 key={i}
-                className="animate-pulse border border-gray-200 rounded-2xl shadow-sm p-4 bg-white w-full lg:w-64 h-32 flex flex-col justify-between"
+                className="animate-pulse border border-gray-200 rounded-2xl shadow-sm p-4 bg-white w-full  h-32 flex flex-col justify-between"
                 >
                 {/* Text lines */}
                 <div className="space-y-2">
@@ -182,7 +182,7 @@ function CITDashboard({ currentUserData }) {
             <div className="lg:flex lg:ml-70 mt-8 px-3 md:px-10 lg:px-6 lg:gap-6">
             {/* Left Graph (Donut shape) */}
             <div className="animate-pulse bg-white border border-gray-200 rounded-xl h-96 lg:w-[40%] w-full flex items-center justify-center">
-                <div className="relative w-40 h-40">
+                <div className="relative w-60 h-60">
                 <div className="absolute inset-0 bg-gray-200 rounded-full"></div>
                 <div className="absolute inset-6 bg-white rounded-full"></div>
                 </div>
@@ -194,7 +194,7 @@ function CITDashboard({ currentUserData }) {
                 <div
                     key={i}
                     className="bg-gray-300 rounded-t-md w-6"
-                    style={{ height: `${30 + i * 20}px` }}
+                    style={{ height: `${30 + i * 60}px` }}
                 ></div>
                 ))}
             </div>
@@ -207,6 +207,9 @@ function CITDashboard({ currentUserData }) {
         </>
         )  : (
           <>
+            <div className="lg:mt-30 mt-25 lg:ml-70">
+              <h2 className="text-2xl font-poppins font-semibold ml-6">Dashboard</h2>
+            </div>
             {/* Real Dashboard */}
             <div className="lg:flex lg:flex-row lg:justify-center lg:items-center lg:px-6 md:px-10 px-3 grid grid-cols-2 mt-4 lg:ml-70 lg:gap-6 gap-4">
               <TreasurerCard show={eventCalendar.toggle} code={currentUserData?.department_code} desc="Number of Events" value={dashboardData.total_events} icon={calendar} />

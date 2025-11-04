@@ -4,7 +4,9 @@ import CITSidebar from './Sidebar.jsx';
 import AddStudentCard from '../treasurer_components/AddStudentCard.jsx';
 import TableStudent from '../treasurer_components/TableStudent.jsx';
 import UpdateStudentCard from '../other_components/UpdateStudentCard.jsx';
-import EfeeViolet from '../assets/violetlogo.png'
+import SkeletonTable from '../skeletons/SkeletonTable.jsx';
+import SkeletonHeader from '../skeletons/SkeletonHeader.jsx'
+import SkeletonSideBar from '../skeletons/SkeletonSidebar.jsx';
 import React, { useState, useRef, useEffect } from 'react';
 import useAnimatedToggle from '../hooks/useAnimatedToggle.js';
 import { confirmAlert, successAlert, errorAlert, okAlert } from "../utils/alert.js";
@@ -175,18 +177,7 @@ function CITStudent() {
     const addRef = useRef(null);
     const updateRef = useRef(null);
 
-    // Simple table skeleton row
-    const SkeletonRow = () => (
-        <tr className="animate-pulse">
-            <td className="p-3"><div className="h-4 bg-gray-200 rounded w-24" /></td>
-            <td className="p-3"><div className="h-4 bg-gray-200 rounded w-40" /></td>
-            <td className="p-3"><div className="h-4 bg-gray-200 rounded w-28" /></td>
-            <td className="p-3"><div className="h-4 bg-gray-200 rounded w-20" /></td>
-            <td className="p-3"><div className="h-4 bg-gray-200 rounded w-24" /></td>
-            <td className="p-3"><div className="h-4 bg-gray-200 rounded w-16" /></td>
-        </tr>
-    );
-
+   
     return (
         <>
             {addStudent.isVisible && (
@@ -211,8 +202,31 @@ function CITStudent() {
 
             )
             }
+            {loading ? (
+                <>
+                <SkeletonHeader/>
+                <div className="w-screen h-screen bg-[#fafafa] absolute z-[-1] overflow-y-auto overflow-x-auto lg:px-6 md:px-10 px-3">
+                <div className='lg:ml-70 lg:mt-30 mt-25 lg:flex md:flex md:justify-between lg:justify-between '>
+                    <div className="w-60 h-10 bg-gray-200 rounded-md animate-pulse"></div>
+                    <div className={` lg:flex md:flex ${animateR}  lg:gap-2.5 md:gap-2.5 text-md font-[family-name:Helvetica] lg:mt-0 md:mt-0 mt-4 lg:px-0 md:px-0 px-3 items-center`}>
+                        <div className="lg:w-85 w-[100%] h-8 rounded-md animate-pulse bg-gray-200"></div>
+                        <div className='relative lg:mt-0 md:mt-0 mt-3'>
+                            <input className='bg-amber-300 lg:w-[150px] w-[100%] h-[35px] block z-[1]  cursor-pointer opacity-0' type="file" accept='.csv' onChange={handleFile} />
+                            <div className="lg:w-38 w-[100% absolute z-[-1] bg-gray-200 animate-pulse rounded-full top-0 h-8"></div>
+                           
+                        </div>
+                    </div>
+                </div>
+                <SkeletonTable/>
+                </div>
+                <div className="lg:block hidden">
+                    <SkeletonSideBar/>
+                </div>
+                </>
+                ) : (
+        <>
             <CITHeader code={currentUserData?.department_code} titleCouncil={currentUserData?.organization_name} abb="CIT Council" />
-            <div className="w-screen h-screen bg-[#fafafa] absolute z-[-1] overflow-y-auto overflow-x-auto lg:px-6 md:px-10 px-3">
+            <div className="w-screen h-screen absolute z-[-1] overflow-y-auto overflow-x-auto lg:px-6 md:px-10 px-3">
                 <div className='lg:ml-70 lg:mt-30 mt-25 lg:flex md:flex md:justify-between lg:justify-between '>
                     <h2 className="text-2xl font-medium font-[family-name:Futura Bold]">Manage Students</h2>
                     <div className={` lg:flex md:flex ${animateR}  lg:gap-2.5 md:gap-2.5 text-md font-[family-name:Helvetica] lg:mt-0 md:mt-0 mt-4 lg:px-0 md:px-0 px-3 items-center`}>
@@ -231,29 +245,6 @@ function CITStudent() {
                     </div>
 
                 </div>
-
-                {/* Show table skeleton while loading, otherwise render TableStudent */}
-                {loading ? (
-                    <div className="lg:ml-70 mt-4 px-3">
-                        <div className="overflow-x-auto bg-white rounded-lg border border-gray-200">
-                            <table className="min-w-full divide-y divide-gray-200">
-                                <thead className="bg-gray-50">
-                                    <tr>
-                                        <th className="p-3 text-left text-sm font-medium text-gray-500">SN</th>
-                                        <th className="p-3 text-left text-sm font-medium text-gray-500">Name</th>
-                                        <th className="p-3 text-left text-sm font-medium text-gray-500">Course</th>
-                                        <th className="p-3 text-left text-sm font-medium text-gray-500">Year</th>
-                                        <th className="p-3 text-left text-sm font-medium text-gray-500">Status</th>
-                                        <th className="p-3 text-left text-sm font-medium text-gray-500">Actions</th>
-                                    </tr>
-                                </thead>
-                                <tbody className="divide-y divide-gray-200">
-                                    {[...Array(8)].map((_, i) => <SkeletonRow key={i} />)}
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                ) : (
                     <TableStudent code={currentUserData?.department_code} year={year}
                         reloadStudents={fetchStudents}
                         paginate={paginate}
@@ -263,12 +254,13 @@ function CITStudent() {
                             setSelectedStudent(row);
                             updateStudent.toggle();
                         }} />
-                )}
-
             </div>
+           
             <div className='hidden lg:block'>
                 <CITSidebar isUnivWide={currentUserData?.university_wide_org} code={currentUserData?.department_code} />
             </div>
+             </>
+             )}
         </>
     );
 }

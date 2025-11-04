@@ -5,9 +5,11 @@ import TableEventList from '../other_components/TableEventList.jsx';
 import EventDetails from '../treasurer_components/EventDetails.jsx';
 import AddEventListCard from '../other_components/AddEventListCard.jsx';
 import UpdateEventCard from '../other_components/UpdateEventCard.jsx';
-import Footer from '../other_components/Footer.jsx';
 import React, {useRef, useState, useEffect} from 'react';
 import useAnimatedToggle from '../hooks/useAnimatedToggle.js';
+import SkeletonTable from '../skeletons/SkeletonTable.jsx';
+import SkeletonHeader from '../skeletons/SkeletonHeader.jsx';
+import SkeletonSideBar from '../skeletons/SkeletonSidebar.jsx';
 import EfeeViolet from '../assets/violetlogo.png';
 import "../animate.css";
 import { errorAlert } from "../utils/alert.js";
@@ -116,39 +118,7 @@ function CITEventList(){
     };
     const hoverColor = hoverColors[currentUserData?.department_code] || "hover:bg-[#174515]";
 
-    /* ------------------------- Skeleton Loader ----------------------------- */
-    const SkeletonRow = () => (
-        <div className="w-full flex items-center justify-between gap-4 p-3 border-b border-gray-100">
-            <div className="h-4 bg-gray-200 rounded w-20 animate-pulse"></div>
-            <div className="h-4 bg-gray-200 rounded w-48 animate-pulse"></div>
-            <div className="h-4 bg-gray-200 rounded w-32 animate-pulse"></div>
-            <div className="h-4 bg-gray-200 rounded w-24 animate-pulse"></div>
-            <div className="h-4 bg-gray-200 rounded w-16 animate-pulse"></div>
-        </div>
-    );
-
-    const SkeletonLoader = () => (
-        <div className="px-4 lg:ml-70 mt-6 space-y-4">
-            <div className="h-12 bg-gray-300 rounded-md w-1/3 animate-pulse"></div>
-            <div className="h-10 bg-gray-300 rounded-md w-full animate-pulse"></div>
-            <div className="flex gap-2">
-                <div className="h-8 bg-gray-300 rounded w-32 animate-pulse"></div>
-            </div>
-
-            <div className="bg-white rounded-lg border border-gray-200 mt-4 overflow-hidden">
-                <div className="flex items-center justify-between p-3 bg-gray-50">
-                    <div className="h-4 bg-gray-200 rounded w-24 animate-pulse"></div>
-                    <div className="h-4 bg-gray-200 rounded w-48 animate-pulse"></div>
-                    <div className="h-4 bg-gray-200 rounded w-32 animate-pulse"></div>
-                    <div className="h-4 bg-gray-200 rounded w-24 animate-pulse"></div>
-                </div>
-                <div className="space-y-2 p-2">
-                    {[...Array(6)].map((_, i) => <SkeletonRow key={i} />)}
-                </div>
-            </div>
-        </div>
-    );
-
+   
     return(
         <>
             {addEvent.isVisible &&(
@@ -172,11 +142,27 @@ function CITEventList(){
             {selectedType === "Event Contribution" ? <Navigate to="/org/eventcontribution" replace/> : null}
             {selectedType === "Event Attendance" ? <Navigate to="/org/attendance" replace/> : null}
 
-            <CITHeader code={currentUserData?.department_code} titleCouncil={currentUserData?.organization_name} abb="CIT Council" />
 
             {loading ? (
-                <SkeletonLoader />
+                <>
+                <SkeletonHeader />
+                <div className="w-screen hide-scrollbar h-screen bg-[#fafafa] absolute z-[-1] overflow-y-auto overflow-x-auto lg:px-6 md:px-10 px-3">
+                     <div className="lg:mt-30 mt-25 lg:ml-70 lg:flex md:flex md:justify-between lg:justify-between">
+                        <div className="bg-gray-200 animate-pulse h-8 rounded-md w-60"></div>
+                        <div className={`flex ${animateR} items-center lg:px-0 md:px-0`}>
+                            <div className="w-80 h-8 rounded-md bg-gray-200 animate-pulse"></div>
+                        </div>
+                    </div>
+                    <SkeletonTable />
+                </div>
+                <div className="lg:block hidden">
+                    <SkeletonSideBar/>
+                </div>
+                </>
             ) : (
+            <>
+            <CITHeader code={currentUserData?.department_code} titleCouncil={currentUserData?.organization_name} abb="CIT Council" />
+
                 <div className="w-screen hide-scrollbar h-screen bg-[#fafafa] absolute z-[-1] overflow-y-auto overflow-x-auto lg:px-6 md:px-10 px-3">
                     <div className="lg:mt-30 mt-25 lg:ml-70 lg:flex md:flex md:justify-between lg:justify-between">
                         <h2 className="text-2xl font-[family-name:Futura Bold] font-semibold">Manage Events</h2>
@@ -203,11 +189,11 @@ function CITEventList(){
                         }}/>
                     </div>
                 </div>
-            )}
-
-            <div className='hidden lg:block'>
-                <CITSidebar isUnivWide={currentUserData?.university_wide_org} code={currentUserData?.department_code} />
-            </div>
+                <div className='hidden lg:block'>
+                    <CITSidebar isUnivWide={currentUserData?.university_wide_org} code={currentUserData?.department_code} />
+                </div>
+            </>
+            )} 
         </>
     );
 }

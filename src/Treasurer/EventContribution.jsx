@@ -1,3 +1,4 @@
+// ...existing code...
 import { Link } from 'react-router-dom';
 import CITHeader from '../other_components/Header_Council.jsx';
 import CITSidebar from './Sidebar.jsx';
@@ -6,10 +7,13 @@ import UpdateSpecificEventContribution from '../treasurer_components/UpdateSpeci
 import React, { useState, useRef, useEffect } from 'react';
 import ContributionTable from '../treasurer_components/ContributionTable.jsx';
 import useAnimatedToggle from '../hooks/useAnimatedToggle.js';
+import SkeletonHeader from '../skeletons/SkeletonHeader.jsx';
+import SkeletonTable from '../skeletons/SkeletonTable.jsx';
+import SkeletonSidebar from '../skeletons/SkeletonSidebar.jsx';
 import "../animate.css";
 import EfeeViolet from '../assets/violetlogo.png';
 import {confirmAlert,successAlert, errorAlert, okAlert} from "../utils/alert.js";
-
+// ...existing code...
 
 function EventContribution({ data }) {
   /* --------------------------------- animation -------------------------------- */
@@ -33,6 +37,7 @@ function EventContribution({ data }) {
     });
     
     const fetchCurrentUser = async () => {
+        setLoading(true);
         try {
             const res = await fetch("/api/users/current", {
                 credentials: "include"
@@ -44,19 +49,31 @@ function EventContribution({ data }) {
             }
         } catch (err) {
             errorAlert("Fetch Failed");
+        } finally {
+            setLoading(false);
         }
     }
 
   const [searchValue, setSearchValue] = useState("");
 
+  const [loading, setLoading] = useState(true);
+  const [loadingStudents, setLoadingStudents] = useState(false);
+
   const fetchEventContributions = async (page=1, search="", org_code=currentUserData?.organization_code) => {
-    const anotherRes = await fetch(`/api/organizations/code/${org_code}/events?type=contribution&page=${page}&search=${search}`, {
-          credentials: "include"
-        });
-        const anotherResponse = await anotherRes.json();
-        if (anotherResponse.status === "success") {
-          setEventContributionsData(anotherResponse.data);
-        }
+    setLoading(true);
+    try {
+      const anotherRes = await fetch(`/api/organizations/code/${org_code}/events?type=contribution&page=${page}&search=${search}`, {
+            credentials: "include"
+          });
+          const anotherResponse = await anotherRes.json();
+          if (anotherResponse.status === "success") {
+            setEventContributionsData(anotherResponse.data);
+          }
+    } catch (err) {
+      errorAlert("Fetch Failed");
+    } finally {
+      setLoading(false);
+    }
   }
 
   const [debounceTimer, setDebounceTimer] = useState(null);
@@ -100,6 +117,8 @@ function EventContribution({ data }) {
   const [studentsToContribute, setStudentsToContribute] = useState([]);
 
   const fetchStudentsToContribute = async (page=1, search="") => {
+      if (!selectedEvent) return;
+      setLoadingStudents(true);
       try {
         const res = await fetch(`/api/events/${selectedEvent.event_id}/contributions/made?page=${page}&search=${search}`, {
           credentials: "include"
@@ -113,6 +132,8 @@ function EventContribution({ data }) {
         }
       } catch (err) {
         errorAlert(err);
+      } finally {
+        setLoadingStudents(false);
       }
     };
 
@@ -128,7 +149,11 @@ function EventContribution({ data }) {
   const clickedView = (event) => {
     setSelectedEvent(event);
     setShowSelectedEvents(true);
+    // fetch students for this event
+    fetchStudentsToContribute(1, "");
   };
+
+
   const colors = {
       CIT: "border-[#621668] text-[#621668] bg-[#621668]",
       COE: "border-[#020180] text-[#020180] bg-[#020180]",
@@ -164,18 +189,45 @@ function EventContribution({ data }) {
         </div>
       )}
 
-      <CITHeader
-        code={currentUserData?.department_code}
-        titleCouncil={currentUserData?.organization_name}
-        abb="CIT Council"
-      />
+      {loading ? (
+        <SkeletonHeader />
+      ) : (
+        <CITHeader
+          code={currentUserData?.department_code}
+          titleCouncil={currentUserData?.organization_name}
+          abb="CIT Council"
+        />
+      )}
 
       <div className="w-screen h-screen bg-[#fafafa] absolute z-[-1] overflow-y-auto overflow-x-auto lg:px-6 md:px-10 px-3">
 
-        {/* When NO event is selected */}
         {!showSelectedEvents && (
           <>
+          {loading ? (
+            <>
             <div className="lg:mt-30 mt-25 lg:ml-70 lg:flex md:flex justify-between">
+              <div className="w-80 h-8 bg-gray-200 animate-pulse rounded-md"></div>
+              <div className={`flex ${animateR} items-center lg:px-0 md:px-0 px-3`}>
+               <div className="w-80 h-8 rounded-md bg-gray-200 animate-pulse"></div>
+              </div>
+            </div>
+
+            <div className=" w-[100%] mt-3 ">
+              <div className={`lg:ml-70 ${animateL} flex lg:justify-between md:justify-start font-[family-name:Arial] justify-center `}>
+              </div>
+
+              <div className="lg:ml-70 text-[font-family:Arial] lg:text-sm text-xs mt-3 flex justify-end">
+                <div className="w-30 bg-gray-200 animate-pulse rounded-full h-6"></div>
+              </div>
+            </div>
+             <SkeletonTable />
+             </>
+
+
+            
+            ) : (
+              <>
+               <div className="lg:mt-30 mt-25 lg:ml-70 lg:flex md:flex justify-between">
               <h2 className="text-2xl font-medium font-[family-name:Futura Bold]">
                 Event Contribution
               </h2>
@@ -191,22 +243,6 @@ function EventContribution({ data }) {
 
             <div className=" w-[100%] mt-3 ">
               <div className={`lg:ml-70 ${animateL} flex lg:justify-between md:justify-start font-[family-name:Arial] justify-center `}>
-                {/*
-                <span>
-                  <select className="bg-white mx-1 lg:w-25 w-20 text-xs cursor-pointer transition duration-100 hover:scale-100 hover:bg-[#621668] hover:text-white border-1 border-[#8A2791] py-1 text-[#8A2791] rounded-md text-center">
-                  <option value="">S/Y</option>
-                  <option value="">hey</option>
-                </select>
-                <select className="bg-white mx-1 lg:w-25 w-20 text-xs cursor-pointer transition duration-100 hover:scale-100 hover:bg-[#621668] hover:text-white border-1 border-[#8A2791] py-1 text-[#8A2791] rounded-md text-center">
-                  <option value="">Semester</option>
-                  <option value="">hey</option>
-                </select>
-                <select className="bg-white mx-1 lg:w-25 w-20 text-xs cursor-pointer transition duration-100 hover:scale-100 hover:bg-[#621668] hover:text-white border-1 border-[#8A2791] py-1 text-[#8A2791] rounded-md text-center">
-                  <option value="">Month</option>
-                  <option value="">hey</option>
-                </select>
-                </span>
-                */}
               </div>
 
               <div className="lg:ml-70 text-[font-family:Arial] lg:text-sm text-xs mt-3 flex justify-end">
@@ -217,25 +253,41 @@ function EventContribution({ data }) {
                 </Link>
               </div>
             </div>
-
-            <TableEventContribution
-              code={currentUserData?.department_code}
-              formatDateStr={formatDateStr}
-              selectedEvent={selectedEvent}
-              events={eventContributionsData}
-              view={(row) => clickedView(row)}
-              updateContribution={(row) => {
-                setSelectedAttendee(row);
-                specificContribution.toggle();
-              }}
-             
-            />
+              <TableEventContribution
+                code={currentUserData?.department_code}
+                formatDateStr={formatDateStr}
+                selectedEvent={selectedEvent}
+                events={eventContributionsData}
+                view={(row) => clickedView(row)}
+                updateContribution={(row) => {
+                  setSelectedAttendee(row);
+                  specificContribution.toggle();
+                }}
+              />
+              </>
+            )}
           </>
         )}
 
         {showSelectedEvents && (
           <>
+          {loadingStudents ? (
+            <>
             <div className="lg:mt-30 mt-25 lg:ml-70 lg:flex md:flex justify-between">
+              <div className="w-80 rounded-md bg-gray-200 animate-pulse h-8"></div>
+              <div className={`flex ${animateR} items-center lg:px-0 md:px-0 px-3`}>
+                <div className="w-80 h-8 bg-gray-200 animate-pulse rounded-md"></div>
+              </div>
+            </div>
+
+            <div className="lg:ml-70 flex justify-end mt-3">
+              <div className="w-30 h-6 rounded-full animate-pulse bg-gray-200"></div>
+            </div>
+            <SkeletonTable />
+            </>
+            ) : (
+              <>
+              <div className="lg:mt-30 mt-25 lg:ml-70 lg:flex md:flex justify-between">
               <h2 className="text-2xl font-medium font-[family-name:Futura Bold]">
                 {selectedEvent?.event_name || "Event Details"}
               </h2>
@@ -257,21 +309,28 @@ function EventContribution({ data }) {
                 Back
               </button>
             </div>
-            <ContributionTable
-              paginate={paginateForStudents}
-              fetchStudentsToContribute={fetchStudentsToContribute}
-              studentsToContribute={studentsToContribute}
-              selectedEvent={selectedEvent}
-              code={currentUserData?.department_code}/>
+              <ContributionTable
+                paginate={paginateForStudents}
+                fetchStudentsToContribute={fetchStudentsToContribute}
+                studentsToContribute={studentsToContribute}
+                selectedEvent={selectedEvent}
+                code={currentUserData?.department_code}/>
+            </>
+            )}
           </>
         )}
       </div>
-
+      {loading ? (
+        <SkeletonSidebar />
+      ) :(
       <div className="hidden lg:block">
         <CITSidebar isUnivWide={currentUserData?.university_wide_org} code={currentUserData?.department_code} />
       </div>
+      )
+    }
     </>
   );
 }
 
 export default EventContribution;
+// ...existing code...

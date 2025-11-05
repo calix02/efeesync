@@ -3,6 +3,9 @@ import CITHeader from '../other_components/Header_Council.jsx';
 import CITSidebar from './Sidebar.jsx';
 import TableExcuse from '../treasurer_components/TableExcuse.jsx';
 import Letter from '../treasurer_components/Letter.jsx';
+import SkeletonTable from '../skeletons/SkeletonTable.jsx';
+import SkeletonHeader from '../skeletons/SkeletonHeader.jsx';
+import SkeletonSidebar from '../skeletons/SkeletonSidebar.jsx';
 import {confirmAlert,successAlert, errorAlert, okAlert} from "../utils/alert.js";
 import "../animate.css";
 import useAnimatedToggle from '../hooks/useAnimatedToggle.js';
@@ -106,38 +109,6 @@ function CITExcuse() {
         return new Date(dateString).toLocaleDateString('en-US', {year:'numeric',month:'long',day:'numeric'});
     }
 
-    /* ------------------------- Skeleton Loader ----------------------------- */
-    const SkeletonRow = () => (
-        <div className="w-full flex items-center justify-between gap-4 p-3 border-b border-gray-100">
-            <div className="h-4 bg-gray-200 rounded w-24 animate-pulse"></div>
-            <div className="h-4 bg-gray-200 rounded w-48 animate-pulse"></div>
-            <div className="h-4 bg-gray-200 rounded w-32 animate-pulse"></div>
-            <div className="h-4 bg-gray-200 rounded w-28 animate-pulse"></div>
-            <div className="h-4 bg-gray-200 rounded w-20 animate-pulse"></div>
-        </div>
-    );
-
-    const SkeletonLoader = () => (
-        <div className="px-4 lg:ml-70 mt-6 space-y-4">
-            <div className="h-12 bg-gray-300 rounded-md w-1/3 animate-pulse"></div>
-            <div className="h-10 bg-gray-300 rounded-md w-full animate-pulse"></div>
-            <div className="flex gap-2">
-                <div className="h-8 bg-gray-300 rounded w-32 animate-pulse"></div>
-            </div>
-
-            <div className="bg-white rounded-lg border border-gray-200 mt-4 overflow-hidden">
-                <div className="flex items-center justify-between p-3 bg-gray-50">
-                    <div className="h-4 bg-gray-200 rounded w-24 animate-pulse"></div>
-                    <div className="h-4 bg-gray-200 rounded w-48 animate-pulse"></div>
-                    <div className="h-4 bg-gray-200 rounded w-32 animate-pulse"></div>
-                    <div className="h-4 bg-gray-200 rounded w-24 animate-pulse"></div>
-                </div>
-                <div className="space-y-2 p-2">
-                    {[...Array(6)].map((_, i) => <SkeletonRow key={i} />)}
-                </div>
-            </div>
-        </div>
-    );
 
     return (
         <>
@@ -149,11 +120,33 @@ function CITExcuse() {
             </>
         )}
 
-        <CITHeader code={currentUserData?.department_code} titleCouncil={currentUserData?.organization_name} abb="CIT Council" />
 
         {loading ? (
-            <SkeletonLoader />
+            <>
+            <SkeletonHeader />
+             <div className="w-screen h-screen bg-[#fafafa] absolute z-[-1] overflow-y-auto overflow-x-auto lg:px-6 md:px-10 px-3">
+                <div className="lg:mt-30 mt-25 lg:ml-70 lg:flex md:flex  md:justify-between   lg:justify-between">
+                    <div className="w-80 rounded-md bg-gray-200 animate-pulse"></div>
+                    <div className={`flex items-center lg:px-0 md:px-0`}>
+                        <div className="w-80 h-8 bg-gray-200 animate-pulse rounded-md"></div>
+                    </div>
+                </div>
+
+                <div className=' w-[100%] mt-3 '>
+                    <div className={`lg:ml-70  flex justify-start font-[family-name:Arial] gap-2.5`}>
+                       <div className="w-50 h-4 animate-pulse bg-gray-200 rounded-md"></div>
+                    </div>
+                    <SkeletonTable/>
+                </div>
+            </div>
+            <div className="lg:block hidden">
+                <SkeletonSidebar />
+            </div>  
+            </>
         ) : (
+            <>
+            <CITHeader code={currentUserData?.department_code} titleCouncil={currentUserData?.organization_name} abb="CIT Council" />
+
             <div className="w-screen h-screen bg-[#fafafa] absolute z-[-1] overflow-y-auto overflow-x-auto lg:px-6 md:px-10 px-3">
                 <div className="lg:mt-30 mt-25 lg:ml-70 lg:flex md:flex  md:justify-between   lg:justify-between">
                     <h2 className="text-2xl font-[family-name:Futura Bold] font-semibold">Manage Excuse Approval</h2>
@@ -178,11 +171,13 @@ function CITExcuse() {
                     }}  code={currentUserData?.department_code} />
                 </div>
             </div>
+             <div className="hidden lg:block">
+                <CITSidebar isUnivWide={currentUserData?.university_wide_org} code={currentUserData?.department_code} />
+            </div>
+            </>
         )}
 
-        <div className="hidden lg:block">
-            <CITSidebar isUnivWide={currentUserData?.university_wide_org} code={currentUserData?.department_code} />
-        </div>
+       
         </>
     );
 }

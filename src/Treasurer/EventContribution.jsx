@@ -206,7 +206,7 @@ function EventContribution({ data }) {
           {loading ? (
             <>
             <div className="lg:mt-30 mt-25 lg:ml-70 lg:flex md:flex justify-between">
-              <div className="w-80 h-8 bg-gray-200 animate-pulse rounded-md"></div>
+              <div className="lg:w-80 w h-8 bg-gray-200 animate-pulse rounded-md"></div>
               <div className={`flex ${animateR} items-center lg:px-0 md:px-0 px-3`}>
                <div className="w-80 h-8 rounded-md bg-gray-200 animate-pulse"></div>
               </div>
@@ -222,8 +222,6 @@ function EventContribution({ data }) {
             </div>
              <SkeletonTable />
              </>
-
-
             
             ) : (
               <>

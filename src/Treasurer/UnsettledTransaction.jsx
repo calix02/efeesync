@@ -4,6 +4,9 @@ import CITSidebar from './Sidebar.jsx';
 import TableMonetarySanction from '../treasurer_components/TableUnsettledTransaction.jsx';
 import UnsettledTransactionsCard from '../treasurer_components/UnsettledTransactionCard.jsx';
 import useAnimatedToggle from '../hooks/useAnimatedToggle.js';
+import SkeletonHeader from '../skeletons/SkeletonHeader.jsx';
+import SkeletonSideBar from '../skeletons/SkeletonSidebar.jsx';
+import SkeletonTable from '../skeletons/SkeletonTable.jsx';
 import {confirmAlert,successAlert, errorAlert, okAlert} from "../utils/alert.js";
 import "../animate.css";
 
@@ -125,38 +128,6 @@ function  UnsettledTransaction() {
     };
     const hoverColor = hoverColors[currentUserData?.department_code] || "hover:bg-[#174515]";
 
-    /* ------------------------- Skeleton Loader ----------------------------- */
-    const SkeletonRow = () => (
-        <div className="w-full flex items-center justify-between gap-4 p-3 border-b border-gray-100">
-            <div className="h-4 bg-gray-200 rounded w-20 animate-pulse"></div>
-            <div className="h-4 bg-gray-200 rounded w-48 animate-pulse"></div>
-            <div className="h-4 bg-gray-200 rounded w-32 animate-pulse"></div>
-            <div className="h-4 bg-gray-200 rounded w-24 animate-pulse"></div>
-            <div className="h-4 bg-gray-200 rounded w-16 animate-pulse"></div>
-        </div>
-    );
-
-    const SkeletonLoader = () => (
-        <div className="px-4 lg:ml-70 mt-6 space-y-4">
-            <div className="h-12 bg-gray-300 rounded-md w-1/3 animate-pulse"></div>
-            <div className="h-10 bg-gray-300 rounded-md w-full animate-pulse"></div>
-            <div className="flex gap-2">
-                <div className="h-8 bg-gray-300 rounded w-32 animate-pulse"></div>
-            </div>
-
-            <div className="bg-white rounded-lg border border-gray-200 mt-4 overflow-hidden">
-                <div className="flex items-center justify-between p-3 bg-gray-50">
-                    <div className="h-4 bg-gray-200 rounded w-24 animate-pulse"></div>
-                    <div className="h-4 bg-gray-200 rounded w-48 animate-pulse"></div>
-                    <div className="h-4 bg-gray-200 rounded w-32 animate-pulse"></div>
-                    <div className="h-4 bg-gray-200 rounded w-24 animate-pulse"></div>
-                </div>
-                <div className="space-y-2 p-2">
-                    {[...Array(6)].map((_, i) => <SkeletonRow key={i} />)}
-                </div>
-            </div>
-        </div>
-    );
 
     return (
         <>
@@ -168,32 +139,49 @@ function  UnsettledTransaction() {
             </>
         )}
 
-        <CITHeader code={currentUserData?.department_code} titleCouncil= {currentUserData?.organization_name} abb="CIT Council" />
-
-        <div className="w-screen h-screen bg-[#fafafa] absolute z-[-1] overflow-y-auto overflow-x-auto lg:px-6 md:px-10 px-3">
-            <div className="lg:mt-30 mt-25 lg:ml-70 lg:flex md:flex  md:justify-between   lg:justify-between">
-                <h2 className="text-2xl font-[family-name:Futura Bold] font-semibold">Manage Unsettled Transactions</h2>
-                <div className={`flex ${animateR} items-center lg:px-0 md:px-0 `}>
-                    <input className='lg:w-85 md:w-85 w-[100%] p-1.5 bg-white rounded-md border-2 lg:mt-0 md:mt-0 mt-4   border-black block' type="text" onKeyUp={(e)=>{searchSanctions(e.target.value)}} placeholder='Search Student' />
-                </div>
-            </div>
-
-            <div className="w-100% mt-3">
+        
                 {loading ? (
-                    <SkeletonLoader />
+                    <>
+                    <SkeletonHeader/>
+                    <div className="w-screen h-screen bg-[#fafafa] absolute z-[-1] overflow-y-auto overflow-x-auto lg:px-6 md:px-10 px-3">
+                        <div className="lg:mt-30 mt-25 lg:ml-70 lg:flex md:flex  md:justify-between   lg:justify-between">
+                            <div className="bg-gray-200 animate-pulse w-60 h-8 rounded-md"></div>
+                            <div className={`flex ${animateR} items-center lg:px-0 md:px-0 `}>
+                                <div className='lg:w-85 md:w-85 w-[100%] animate-pulse p-1.5 bg-gray-200 h-8 rounded-md lg:mt-0 md:mt-0 mt-4  block' > </div>
+                            </div>
+                        </div>
+                        <div className="w-100% mt-3">
+                            <SkeletonTable/>
+                        </div>
+                    </div>
+                    <div className="hidden lg:block">
+                        <SkeletonSideBar/>
+                    </div>
+                    </>
                 ) : (
-                    <TableMonetarySanction fetchSanctions={fetchSanctionData} paginate={paginate} sanctions={sanctionData} code={currentUserData?.department_code} view={(row) =>{
-                        setSelectedStudent(row);
-                        unsettledCard.toggle();
-                    }} />
-                )}
-            </div>
-            
-        </div>
+                    <>
+                    <CITHeader code={currentUserData?.department_code} titleCouncil= {currentUserData?.organization_name} abb="CIT Council" />
 
-        <div className="hidden lg:block">
-            <CITSidebar isUnivWide={currentUserData?.university_wide_org} code={currentUserData?.department_code} />
-        </div>
+                    <div className="w-screen h-screen bg-[#fafafa] absolute z-[-1] overflow-y-auto overflow-x-auto lg:px-6 md:px-10 px-3">
+                        <div className="lg:mt-30 mt-25 lg:ml-70 lg:flex md:flex  md:justify-between   lg:justify-between">
+                            <h2 className="text-2xl font-[family-name:Futura Bold] font-semibold">Manage Unsettled Transactions</h2>
+                            <div className={`flex ${animateR} items-center lg:px-0 md:px-0 `}>
+                                <input className='lg:w-85 md:w-85 w-[100%] p-1.5 bg-white rounded-md border-2 lg:mt-0 md:mt-0 mt-4   border-black block' type="text" onKeyUp={(e)=>{searchSanctions(e.target.value)}} placeholder='Search Student' />
+                            </div>
+                        </div>
+                        <div className="w-100% mt-3">
+                            <TableMonetarySanction fetchSanctions={fetchSanctionData} paginate={paginate} sanctions={sanctionData} code={currentUserData?.department_code} view={(row) =>{
+                                setSelectedStudent(row);
+                                unsettledCard.toggle();
+                            }} />
+                        </div>
+                    </div>
+                    <div className="hidden lg:block">
+                        <CITSidebar isUnivWide={currentUserData?.university_wide_org} code={currentUserData?.department_code} />
+                    </div>
+                    </>
+                )}
+          
         </>
     );
 }

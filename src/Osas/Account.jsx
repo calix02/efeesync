@@ -7,6 +7,9 @@ import AddAccountCard from '../osas_components/AddAccountCard.jsx';
 import UpdateAccountCard from '../osas_components/UpdateAccountCard.jsx';
 import React, {useState, useRef, useEffect} from 'react';
 import useAnimatedToggle from '../hooks/useAnimatedToggle.js';
+import SkeletonHeader from '../skeletons/SkeletonHeader.jsx';
+import SkeletonSideBar from '../skeletons/SkeletonSidebar.jsx';
+import SkeletonTable from '../skeletons/SkeletonTable.jsx';
 import '../animate.css';
 
 function Account(){
@@ -20,8 +23,11 @@ function Account(){
     const [selectedAccount, setSelectedAccount] = useState(null);
 
     const [treasurers, setTreasurers] = useState([]);
+    const [loading, setLoading] = useState(true);
+    
     
     const fetchTreasurers = async () => {
+        setLoading(true);
         try {
             const res = await fetch("/api/organization/officers?designation=treasurer", {
                 credentials: "include"
@@ -32,6 +38,8 @@ function Account(){
             }
         } catch (err) {
             //alert("Fetch failed");
+        }finally{
+            setLoading(false);
         }
     }
 
@@ -60,8 +68,25 @@ function Account(){
         )
             
         }
-        <Header code="osas" logoCouncil={OsasLogo} titleCouncil = "Office of Student Affairs and Services"/>
-             <div className="w-screen h-screen bg-[#fafafa] absolute z-[-1] overflow-y-auto overflow-x-auto lg:px-6 md:px-10 px-3 ">
+        {loading ? (
+            <>
+            <SkeletonHeader/>
+            <div className="w-screen h-screen bg-[#fafafa] absolute z-[-1] overflow-y-auto overflow-x-auto lg:px-6 md:px-10 px-3 ">
+                 <div className='lg:ml-70 lg:mt-30 mt-25 lg:flex lg:justify-between items-center'>
+                   <div className="w-80 h-8 rounded-2xl bg-gray-200 animate-pulse"></div>
+                    <div className='bg-gray-200 animate-pulse rounded-2xl w-40 h-6'></div>
+                </div>
+             <SkeletonTable/>
+             </div>
+
+            <div className='lg:block hidden' >
+                <SkeletonSideBar/>
+            </div>
+            </>
+        ) : (
+            <>
+            <Header code="osas" logoCouncil={OsasLogo} titleCouncil = "Office of Student Affairs and Services"/>
+            <div className="w-screen h-screen bg-[#fafafa] absolute z-[-1] overflow-y-auto overflow-x-auto lg:px-6 md:px-10 px-3 ">
                  <div className='lg:ml-70 lg:mt-30 mt-25 lg:flex lg:justify-between items-center'>
                     <h2 className="text-2xl font-semibold text-[#145712] font-poppins">Manage Treasurers</h2>
                     <button onClick={addTreasurer.toggle} className='bg-[#174515] cursor-pointer w-40 py-1 text-sm flex justify-center items-center text-white rounded-md'>
@@ -75,9 +100,12 @@ function Account(){
 
              </div>
 
-          <div className='lg:block hidden' >
+            <div className='lg:block hidden' >
                  <Sidebar eFee={EfeeOsas}/>
             </div>
+            </>
+        )}
+       
         </>
     );
 }

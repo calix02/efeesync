@@ -7,6 +7,9 @@ import AddCollegeCard from '../osas_components/AddCollegeCard.jsx';
 import UpdateCollegeCard from '../osas_components/UpdateCollegeCard.jsx';
 import React, {useState,useRef, useEffect} from 'react';
 import useAnimatedToggle from '../hooks/useAnimatedToggle.js';
+import SkeletonHeader from '../skeletons/SkeletonHeader.jsx';
+import SkeletonSideBar from '../skeletons/SkeletonSidebar.jsx';
+import SkeletonTable from '../skeletons/SkeletonTable.jsx';
 import '../animate.css';
 
 
@@ -21,8 +24,10 @@ function College() {
 
     const [selectedCollege, setSelectedCollege] = useState(null);
     const [colleges, setColleges] = useState([]);
+    const [loading, setLoading] = useState(true);
 
     const fetchColleges = async () => {
+        setLoading(true);
         try {
             const res = await fetch("/api/departments", {
                 credentials: "include"
@@ -33,6 +38,8 @@ function College() {
             }
         } catch (err) {
             //alert("Fetch failed");
+        }finally{
+            setLoading(false);
         }
     }
 
@@ -65,7 +72,24 @@ function College() {
         )
            
         }
-        <Header code="osas" logoCouncil={OsasLogo} titleCouncil = "Office of Student Affairs and Services"/>
+        {loading ? (
+            <>
+                <SkeletonHeader/>
+                <div className="w-screen h-screen bg-[#fafafa] absolute z-[-1] overflow-y-auto overflow-x-auto lg:px-6 md:px-10 px-3 ">
+                    <div className='lg:ml-68 lg:mr-4 lg:mt-30 mt-25 lg:flex lg:justify-between items-center'>
+                        <div className="w-80 h-8 rounded-2xl bg-gray-200 animate-pulse"></div>
+                        <div className='bg-gray-200 animate-pulse rounded-2xl w-40 h-6'></div>
+                    </div>
+                    <SkeletonTable/>
+                </div>
+
+                <div className='lg:block hidden' >
+                    <SkeletonSideBar/>
+                </div>    
+            </>
+        ):(
+            <>
+             <Header code="osas" logoCouncil={OsasLogo} titleCouncil = "Office of Student Affairs and Services"/>
              <div className="w-screen h-screen bg-[#fafafa] absolute z-[-1] overflow-y-auto overflow-x-auto lg:px-6 md:px-10 px-3 ">
                 <div className='lg:ml-68 lg:mr-4 lg:mt-30 mt-25 lg:flex lg:justify-between items-center'>
                     <h2 className="text-2xl font-semibold font-poppins text-[#145712]">Manage Colleges</h2>
@@ -78,11 +102,14 @@ function College() {
                 updateCollege.toggle();
              }}/>
 
-             </div>
+            </div>
 
-          <div className='lg:block hidden' >
+            <div className='lg:block hidden' >
                  <Sidebar eFee={EfeeOsas}/>
             </div>
+            </>
+        )}
+       
         </>
     );
 }

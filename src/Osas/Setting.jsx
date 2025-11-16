@@ -11,6 +11,9 @@ import PersonalInformation from '../osas_components/PersonalInformation.jsx';
 import DefaultProfile from '../assets/default.png';
 import UploadLogo from '../osas_components/UploadLogo.jsx';
 import UploadEfee from '../osas_components/UploadEfee.jsx';
+import SkeletonHeader from '../skeletons/SkeletonHeader.jsx';
+import SkeletonSideBar from '../skeletons/SkeletonSidebar.jsx';
+import SkeletonSetting from '../skeletons/SkeletonSetting.jsx';
 import React, {useState, useEffect, useRef} from 'react';
 import { errorAlert } from '../utils/alert.js';
 
@@ -32,6 +35,7 @@ function Setting(){
     const [profileImage, setProfileImage] = useState(DefaultProfile);
     const [logoOsas, setLogoOsas] = useState(OsasLogo);
     const [efeeLogo, setEfeeLogo] = useState(EfeeOsas);
+    const [loading, setLoading] = useState(true);
     
     const [title, setTitle] = useState({
         organizationName: "Office of Student Affairs and Services",
@@ -49,6 +53,7 @@ function Setting(){
     });
 
     const fetchUser = async () => {
+        setLoading(true);
         try {
             const res = await fetch("/api/users/current", {
                 credentials: "include"
@@ -67,6 +72,8 @@ function Setting(){
             }
         } catch (err) {
             alert("Failed to fetch user data");
+        }finally{
+            setLoading(false);
         }
     }
 
@@ -116,6 +123,7 @@ function Setting(){
     const [currentUserData, setCurrentUserData] = useState([]);
             
     const fetchCurrentUser = async () => {
+        setLoading(true);
        try {
            const res = await fetch("/api/users/current", {
                credentials: "include"
@@ -126,6 +134,8 @@ function Setting(){
            }
        } catch (err) {
            errorAlert("Fetch Failed");
+       }finally{
+        setLoading(false);
        }
     }
     useEffect(() => {
@@ -187,27 +197,51 @@ function Setting(){
          )
             
         }
-        
-       
-        
-        <Header code="osas"logoCouncil={OsasLogo} titleCouncil = "Office of Student Affairs and Services"/>
-         <div className="w-screen h-screen bg-[#fafafa] absolute z-[-1] overflow-y-auto overflow-x-auto lg:px-6 md:px-10 px-3 ">
-                <div className="lg:mt-30 mt-25 lg:ml-68">
-                    <h2 className="text-2xl font-semibold font-poppins">Manage Settings</h2>
-                </div>
-                <div className='w-[100%] mt-3 '>
-                    <div className='lg:ml-70 lg:px-8 '>
-                        <AccountSetting code="OSAS" upload={profile.toggle}  changeInfo={information.toggle} changePass={changePassword.toggle}  profile={profileImage} accName={accountData.full_name} accRole={accountData.role} accEmail={accountData.email}/>
-                        {/** 
-                        <SystemSetting upload={logo.toggle} updateEfeeLogo={efee.toggle} logo={logoOsas} efeeLogo={efeeLogo} title={title.organizationName} systemName={title.systemName}/>
-                        */}
+        {loading ? (
+            <>
+            <SkeletonHeader/>
+            <div className="w-screen h-screen bg-[#fafafa] absolute z-[-1] overflow-y-auto overflow-x-auto lg:px-6 md:px-10 px-3 ">
+                    <div className="lg:mt-30 mt-25 lg:ml-68">
+                        <div className="w-80 h-8 rounded-2xl bg-gray-200 animate-pulse"></div>
+                    </div>
+                    <div className='w-[100%] mt-3 '>
+                        <div className='lg:ml-70 lg:px-8 '>
+                            <SkeletonSetting/>
+                            {/** 
+                            <SystemSetting upload={logo.toggle} updateEfeeLogo={efee.toggle} logo={logoOsas} efeeLogo={efeeLogo} title={title.organizationName} systemName={title.systemName}/>
+                            */}
+                        </div>
                     </div>
                 </div>
+                
+            <div className='lg:block hidden' >
+                <SkeletonSideBar/>
             </div>
-            
-          <div className='lg:block hidden' >
-                 <Sidebar eFee={EfeeOsas}/>
+            </>
+
+        ): (
+            <>
+            <Header code="osas"logoCouncil={OsasLogo} titleCouncil = "Office of Student Affairs and Services"/>
+            <div className="w-screen h-screen bg-[#fafafa] absolute z-[-1] overflow-y-auto overflow-x-auto lg:px-6 md:px-10 px-3 ">
+                    <div className="lg:mt-30 mt-25 lg:ml-68">
+                        <h2 className="text-2xl font-semibold font-poppins">Manage Settings</h2>
+                    </div>
+                    <div className='w-[100%] mt-3 '>
+                        <div className='lg:ml-70 lg:px-8 '>
+                            <AccountSetting code="OSAS" upload={profile.toggle}  changeInfo={information.toggle} changePass={changePassword.toggle}  profile={profileImage} accName={accountData.full_name} accRole={accountData.role} accEmail={accountData.email}/>
+                            {/** 
+                            <SystemSetting upload={logo.toggle} updateEfeeLogo={efee.toggle} logo={logoOsas} efeeLogo={efeeLogo} title={title.organizationName} systemName={title.systemName}/>
+                            */}
+                        </div>
+                    </div>
+                </div>
+                
+            <div className='lg:block hidden' >
+                <Sidebar eFee={EfeeOsas}/>
             </div>
+            </>
+        )}
+        
         </>
     );
 }

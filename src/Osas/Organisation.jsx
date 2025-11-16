@@ -5,6 +5,9 @@ import EfeeOsas from '../assets/Final_logo.png';
 import TableOrganization from '../osas_components/TableOrganization.jsx';
 import AddOrganizationCard from '../osas_components/AddOrganizationCard.jsx';
 import UpdateOrganizationCard from '../osas_components/UpdateOrganizationCard.jsx';
+import SkeletonHeader from '../skeletons/SkeletonHeader.jsx';
+import SkeletonSideBar from '../skeletons/SkeletonSidebar.jsx';
+import SkeletonTable from '../skeletons/SkeletonTable.jsx';
 import React, {useState, useEffect, useRef} from 'react';
 import useAnimatedToggle from '../hooks/useAnimatedToggle.js';
 import '../animate.css';
@@ -23,8 +26,10 @@ function Organisation(){
 
     const [selectedOrg, setSelectedOrg] = useState(null);
     const [orgs, setOrgs] = useState([]);
+    const [loading, setLoading] = useState(true);
 
     const fetchOrgs = async () => {
+        setLoading(true);
         try {
             const res = await fetch("/api/organizations", {
                 credentials: "include"
@@ -35,6 +40,8 @@ function Organisation(){
             }
         } catch (err) {
             // alert("Fetch failed");
+        }finally{
+            setLoading(false);
         }
     }
 
@@ -62,6 +69,22 @@ function Organisation(){
             </>
         )
         }
+        {loading ? (
+        <>
+        <SkeletonHeader/>
+             <div className="w-screen h-screen bg-[#fafafa] absolute z-[-1] overflow-y-auto overflow-x-auto lg:px-6 md:px-10 px-3">
+                <div className='lg:ml-68 text-[#145712] lg:mt-30 mt-25 lg:flex lg:justify-between items-center '>
+                    <div className="w-80 h-8 rounded-2xl bg-gray-200 animate-pulse"></div>
+                    <div className='bg-gray-200 animate-pulse rounded-2xl w-40 h-6'></div>
+                </div>
+                <SkeletonTable/>
+             </div>
+        <div className='lg:block hidden' >
+            <SkeletonSideBar/>
+        </div>
+        </>
+        ) : (
+        <>
         <Header code="osas" logoCouncil={OsasLogo} titleCouncil = "Office of Student Affairs and Services"/>
              <div className="w-screen h-screen bg-[#fafafa] absolute z-[-1] overflow-y-auto overflow-x-auto lg:px-6 md:px-10 px-3">
                 <div className='lg:ml-68 text-[#145712] lg:mt-30 mt-25 lg:flex lg:justify-between items-center '>
@@ -79,9 +102,11 @@ function Organisation(){
 
              </div>
 
-          <div className='lg:block hidden' >
-                 <Sidebar eFee={EfeeOsas}/>
-            </div>
+        <div className='lg:block hidden' >
+            <Sidebar eFee={EfeeOsas}/>
+        </div>
+        </>
+        )}
         </>
     );
 }

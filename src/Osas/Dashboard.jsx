@@ -15,9 +15,13 @@ import cotsc from '../assets/COT.png';
 import esaf from '../assets/ESAF.png';
 import it from '../assets/CIT.png';
 import Footer from '../other_components/Footer.jsx';
+import SkeletonCard from '../skeletons/SkeletonCard.jsx';
+import SkeletonHeader from '../skeletons/SkeletonHeader.jsx';
+import SkeletonSideBar from '../skeletons/SkeletonSidebar.jsx';
 import { errorAlert } from '../utils/alert.js';
 import "../animate.css";
 import { useState, useEffect } from 'react';
+import SkeletonSetting from '../skeletons/SkeletonSetting.jsx';
 
 function Dashboard(){
     document.title = "Dashboard";
@@ -35,9 +39,11 @@ function Dashboard(){
         "total_population_per_department": []
     });
 
+    const [loading, setLoading] = useState(true);
     const [orgs, setOrgs] = useState([]);
 
     const fetchDashboard = async () => {
+        setLoading(true);
         try {
             const res = await fetch("/api/admin/dashboard", {
                 credentials: "include"
@@ -48,9 +54,12 @@ function Dashboard(){
             }
         } catch (err) {
             errorAlert("Fetch Failed");
+        }finally{
+            setLoading(false);
         }
     }
     const fetchOrgs = async () => {
+        setLoading(true);
         try {
             const res = await fetch("/api/organizations", {
                 credentials: "include"
@@ -61,6 +70,8 @@ function Dashboard(){
             }
         } catch (err) {
             errorAlert("Fetch Failed");
+        }finally{
+            setLoading(false);
         }
     }
 
@@ -114,7 +125,57 @@ function Dashboard(){
     
     return(
         <>
-        <Header code="osas" logoCouncil={OsasLogo} titleCouncil = "Office of Student Affairs and Services"/>
+        {loading ? (
+        <>
+        <SkeletonHeader/>
+        <div className="w-screen h-screen bg-[#F8F8F8]  absolute z-[-1] overflow-y-auto overflow-x-auto lg:px-6 md:px-10 px-3">
+            <div className="lg:mt-24 mt-24 lg:ml-68">
+                <div className="w-80 h-8 rounded-2xl bg-gray-200 animate-pulse"></div>
+            </div>
+            <div className={`lg:flex lg:flex-row lg:justify-center lg:items-center ${animate} grid grid-cols-2 mt-4 gap-6 lg:ml-70`}>
+              <SkeletonCard/>
+              <SkeletonCard/>
+              <SkeletonCard/>
+              <SkeletonCard/>
+
+            </div>
+            <div className={`lg:ml-70 mt-6 ${animate} grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 justify-center gap-6`}>
+                {orgs.map((o)=>(
+                    <SkeletonCard/>
+                    
+                ))}
+            </div>
+            <div className='lg:ml-70 mt-6 mb-6 flex lg:flex-row flex-col gap-6'>
+                <div className={`lg:w-[40%]  py-5 flex flex-col gap-5 justify-center items-center ${animateL} border-1 bg-white border-[#000] rounded-lg shadow-[2px_2px_2px_grey]`}>
+                    <div className="w-60 h-60 bg-gray-200 animate-pulse rounded-full"></div>
+                    <div className="flex flex-col items-center gap-3 justify-center">
+                        <div className="w-60 h-3 rounded-full bg-gray-200 animate-pulse"></div>
+                        <div className="w-80 h-3 rounded-full bg-gray-200 animate-pulse"></div>
+                    </div>
+                    
+                </div>
+                <div className={`bg-white border-1 gap-10 border-[#000] ${animateR} rounded-lg lg:w-[60%] flex justify-center  items-end`}>
+                    <div className="w-15 h-70 animate-pulse bg-gray-200 rounded-md"></div>
+                    <div className="w-15 h-60 animate-pulse bg-gray-200 rounded-md"></div>
+                    <div className="w-15 h-50 animate-pulse bg-gray-200 rounded-md"></div>
+                    <div className="w-15 h-40 animate-pulse bg-gray-200 rounded-md"></div>
+                    <div className="w-15 h-30 animate-pulse bg-gray-200 rounded-md"></div>
+
+
+                </div>
+            </div>
+            <div className="lg:ml-70 py-5 gap-2 flex flex-col justify-center items-center">
+                <div className="w-140 h-3 bg-gray-200 rounded-full animate-pulse"></div>
+                <div className="w-200 h-3 bg-gray-200 rounded-full animate-pulse"></div>
+
+            </div>
+        </div>
+        <div className='lg:block hidden' >
+            <SkeletonSideBar/>
+        </div>
+        </> ) : (
+            <>
+            <Header code="osas" logoCouncil={OsasLogo} titleCouncil = "Office of Student Affairs and Services"/>
         <div className="w-screen h-screen bg-[#F8F8F8]  absolute z-[-1] overflow-y-auto overflow-x-auto lg:px-6 md:px-10 px-3">
             <div className="lg:mt-24 mt-24 lg:ml-68">
                 <h2 className="text-lg sm:text-md md:text-2xl lg:text-2xl text-[#145712] font-bold font-poppins">Welcome, Admin!</h2>
@@ -138,26 +199,16 @@ function Dashboard(){
                     <Chart data={sanctions_collected_per_org} title="Total Sanctions Collected"/>
                 </div>
             </div>
-            {/*
-            <div className='lg:ml-70 mt-6 lg:flex gap-6'>
-                <div className={` lg:w-[60%] ${animateL} bg-white border-1 border-black rounded-lg mb-6 shadow-[2px_2px_3px_grey]`}>
-                    <InOutFlowChart/>
-                </div>
-                <div className={`flex justify-center items-center ${animateR} rounded-lg bg-white lg:w-[40%] w-[100%] h-92 border-1 border-[#000]`}>
-                    <StudentTreasurerCard/>
-                </div>
-            </div> 
-            */}
             <div className="lg:ml-70">
                 <Footer/>
             </div>
         </div>
-
-            <div className='lg:block hidden' >
-                 <Sidebar eFee={EfeeOsas}/>
-            </div>
+        <div className='lg:block hidden' >
+            <Sidebar eFee={EfeeOsas}/>
+        </div>
         </>
-      
+        )}
+        </>
     );
 }
 export default Dashboard;

@@ -3,6 +3,9 @@ import CITHeader from '../other_components/Header_Council.jsx';
 import CITSidebar from './Sidebar.jsx';
 import TableCommunityService from '../treasurer_components/TableCommunityService.jsx';
 import { errorAlert, successAlert, okAlert, confirmAlert } from '../utils/alert.js';
+import SkeletonSideBar from '../skeletons/SkeletonSidebar.jsx';
+import SkeletonHeader from '../skeletons/SkeletonHeader.jsx';
+import SkeletonTable from '../skeletons/SkeletonTable.jsx';
 import "../animate.css";
 
 function  CommunityService() {
@@ -112,71 +115,59 @@ function  CommunityService() {
         };
     const hoverColor = hoverColors[currentUserData?.department_code] || "hover:bg-[#174515']";
 
-    /* ------------------------- Skeleton Loader ----------------------------- */
-    const SkeletonRow = () => (
-        <div className="w-full flex items-center justify-between gap-4 p-3 border-b border-gray-100">
-            <div className="h-4 bg-gray-200 rounded w-24 animate-pulse"></div>
-            <div className="h-4 bg-gray-200 rounded w-48 animate-pulse"></div>
-            <div className="h-4 bg-gray-200 rounded w-32 animate-pulse"></div>
-            <div className="h-4 bg-gray-200 rounded w-28 animate-pulse"></div>
-            <div className="h-4 bg-gray-200 rounded w-20 animate-pulse"></div>
-        </div>
-    );
-
-    const SkeletonTable = () => (
-        <div className="px-4 lg:ml-70 mt-6 space-y-4">
-            <div className="h-12 bg-gray-300 rounded-md w-1/3 animate-pulse"></div>
-            <div className="h-10 bg-gray-300 rounded-md w-full animate-pulse"></div>
-            <div className="flex gap-2">
-                <div className="h-8 bg-gray-300 rounded w-32 animate-pulse"></div>
-            </div>
-
-            <div className="bg-white rounded-lg border border-gray-200 mt-4 overflow-hidden">
-                <div className="flex items-center justify-between p-3 bg-gray-50">
-                    <div className="h-4 bg-gray-200 rounded w-24 animate-pulse"></div>
-                    <div className="h-4 bg-gray-200 rounded w-48 animate-pulse"></div>
-                    <div className="h-4 bg-gray-200 rounded w-32 animate-pulse"></div>
-                    <div className="h-4 bg-gray-200 rounded w-24 animate-pulse"></div>
-                </div>
-                <div className="space-y-2 p-2">
-                    {[...Array(6)].map((_, i) => <SkeletonRow key={i} />)}
-                </div>
-            </div>
-        </div>
-    );
 
     return (
         <>
-            <CITHeader code={currentUserData?.department_code} titleCouncil= {currentUserData?.organization_name} abb="CIT Council" />
-
-            <div className="w-screen h-screen bg-[#fafafa] absolute z-[-1] overflow-y-auto overflow-x-auto lg:px-6 md:px-10 px-3">
-                <div className="lg:mt-30 mt-25 lg:ml-70 lg:flex md:flex  md:justify-between   lg:justify-between">
-                    <h2 className="text-2xl font-[family-name:Futura Bold] font-semibold">Manage Community Service</h2>
-                    <div className={`flex ${animateR} items-center lg:px-0 md:px-0`}>
-                    <input className='lg:w-85 md:w-85 w-[100%] p-1.5 bg-white rounded-md border-2 lg:mt-0 md:mt-0 mt-4   border-black block' type="text" onKeyUp={(e)=>{searchStudentsWithComserv(e.target.value)}} placeholder='Search Student' />
-                    </div>
-                </div>
-
-                <div className="w-100% mt-3">
+           
                     {loading ? (
-                        <SkeletonTable />
+                        <>
+                        <SkeletonHeader/>
+                        <div className="w-screen h-screen bg-[#fafafa] absolute z-[-1] overflow-y-auto overflow-x-auto lg:px-6 md:px-10 px-3">
+                            <div className="lg:mt-30 mt-25 lg:ml-70 lg:flex md:flex  md:justify-between   lg:justify-between">
+                                <div className="w-60 h-8 rounded-md bg-gray-200 animate-pulse"></div>
+                                <div className={`flex ${animateR} items-center lg:px-0 md:px-0`}>
+                                    <div className='lg:w-85 md:w-85 h-8 w-[100%] p-1.5 bg-gray-200 rounded-md  lg:mt-0 md:mt-0 mt-4 border-black block' ></div>
+                                </div>
+                            </div>
+
+                            <div className="w-100% mt-3">
+                                <SkeletonTable/>
+                            </div>
+                        </div>
+                        <div className="hidden lg:block">
+                            <SkeletonSideBar/>
+                        </div>
+                        </>
+
                     ) : (
-                        <TableCommunityService 
-                        paginate={paginate}
-                        fetchComservData={fetchComservData}
-                        code={currentUserData?.department_code}
-                        communityService={comservData}
-                        done={(row) =>{
-                            setSelectedStudent(row);
-                            addComserv(row.event_id, row.student_id);
-                        }}
-                        />
+                        <>
+                        <CITHeader code={currentUserData?.department_code} titleCouncil= {currentUserData?.organization_name} abb="CIT Council" />
+                        <div className="w-screen h-screen bg-[#fafafa] absolute z-[-1] overflow-y-auto overflow-x-auto lg:px-6 md:px-10 px-3">
+                            <div className="lg:mt-30 mt-25 lg:ml-70 lg:flex md:flex  md:justify-between   lg:justify-between">
+                                <h2 className="text-2xl font-[family-name:Futura Bold] font-semibold">Manage Community Service</h2>
+                                <div className={`flex ${animateR} items-center lg:px-0 md:px-0`}>
+                                <input className='lg:w-85 md:w-85 w-[100%] p-1.5 bg-white rounded-md border-2 lg:mt-0 md:mt-0 mt-4   border-black block' type="text" onKeyUp={(e)=>{searchStudentsWithComserv(e.target.value)}} placeholder='Search Student' />
+                                </div>
+                            </div>
+
+                            <div className="w-100% mt-3">
+                            <TableCommunityService 
+                            paginate={paginate}
+                            fetchComservData={fetchComservData}
+                            code={currentUserData?.department_code}
+                            communityService={comservData}
+                            done={(row) =>{
+                                setSelectedStudent(row);
+                                addComserv(row.event_id, row.student_id);}}/>
+                            </div>
+                        </div>
+                        <div className="hidden lg:block">
+                            <CITSidebar isUnivWide={currentUserData?.university_wide_org} code={currentUserData?.department_code} />
+                        </div>
+                    </>
                     )}
-                </div>
-            </div>
-            <div className="hidden lg:block">
-                <CITSidebar isUnivWide={currentUserData?.university_wide_org} code={currentUserData?.department_code} />
-            </div>
+             
+           
         </>
     );
 }

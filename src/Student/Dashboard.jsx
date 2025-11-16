@@ -8,6 +8,9 @@ import CommunitySanction from "../student_components/CommunitySanction.jsx";
 import SendPayment from "../student_components/SendPayment.jsx";
 import SendExcuse from "../student_components/SendExcuse.jsx";
 import useAnimatedToggle from "../hooks/useAnimatedToggle.js";
+import SkeletonHeader from "../skeletons/SkeletonHeader.jsx";
+import SkeletonCard from "../skeletons/SkeletonCard.jsx";
+import SkeletonBox from "../skeletons/SkeletonBox.jsx";
 import Footer from "../other_components/Footer.jsx";
 import { useState, useEffect, useRef } from "react";
 import "../animate.css";
@@ -42,13 +45,17 @@ function Dashboard(){
         "num_active_sanctions": "-",
         "upcoming_events": []
     });
-        
+    const [loadingUser, setLoadingUser] = useState(true);
+    const [dashboardLoading, setDashboardLoading] = useState(true);
+    const [sanctionLoading, setSanctionLoading] = useState(true);
+
         const [currentUserData, setCurrentUserData] = useState(() => {
             const saved = localStorage.getItem("currentUserData");
                 return saved ? JSON.parse(saved) : null;
             });
             
             const fetchCurrentUser = async () => {
+                setLoadingUser(true);
                 try {
                     const res = await fetch("/api/users/current", {
                         credentials: "include"
@@ -60,10 +67,13 @@ function Dashboard(){
                     }
                 } catch (err) {
                     errorAlert("Fetch Failed");
+                }finally{
+                    setLoadingUser(false);
                 }
             }
 
         const fetchDashboardData = async () => {
+            setDashboardLoading(true);
             try {
                 const res = await fetch("/api/student/dashboard", {
                     credentials: "include"
@@ -74,10 +84,13 @@ function Dashboard(){
                 }
             } catch (err) {
                 console.error("Fetch Failed");
+            }finally{
+                setDashboardLoading(false);
             }
         }
 
         const fetchSanctionData = async () => {
+            setSanctionLoading(true);
             try {
                 const res = await fetch("/api/students/current/attendance/sanction", {
                     credentials: "include"
@@ -88,6 +101,8 @@ function Dashboard(){
                 }
             } catch (err) {
                 console.error("Fetch Failed");
+            }finally{
+                setSanctionLoading(false);
             }
         }
 
@@ -144,19 +159,39 @@ function Dashboard(){
                 <SendExcuse formatDateStr={formatDateStr} selectedEvent={selectedEvent} code={currentUserData?.department_code} ref={excuseRef} onAnimationEnd={sendExcuse.handleEnd} onClose={()=> sendExcuse.setAnimation("fade-out")} animate={sendExcuse.animation} />  
             </div>
         )}
-
-        <Header code={currentUserData?.department_code} title ={currentUserData?.department_name}/>
+        {loadingUser ? (
+            <SkeletonHeader/>
+        ) : (
+            <Header code={currentUserData?.department_code} title ={currentUserData?.department_name}/>
+        )}
         <div className="w-screen h-screen bg-[#F8F8F8] absolute z-[-1] overflow-y-auto overflow-x-auto lg:px-6 md:px-10 px-3 ">
             <div className="lg:mt-30 mt-25 lg:ml-70">
                 <h2 className="text-2xl font-poppins  font-semibold">Welcome, {currentUserData?.full_name}!</h2>
             </div>
             <div className={` ${animate} lg:ml-70 lg:flex lg:justify-center grid grid-cols-2 gap-6 mt-6`}>
+                {dashboardLoading ? (
+                    <>
+                    <SkeletonCard/>
+                    <SkeletonCard/>
+                    <SkeletonCard/>
+                    <SkeletonCard/>
+
+                    </>
+
+                ) : (
+                <>
                 <CardStudent link="/student/contribution" title="Number of Paid Contributions" value={dashboardData?.num_paid_contributions} icon ={calendar}/>
                 <CardStudent link="/student/contribution" title="Number of Unpaid Contributions" value={dashboardData?.num_unpaid_contributions} icon ={coin}/>
                 <CardStudent link="/student/contribution" title="Number of Unsettled Contributions" value={dashboardData?.num_unsettled_contributions} icon ={cash}/>
                 <CardStudent link="/student/sanction" title="Number of Active Sanctions" value={dashboardData?.num_active_sanctions} icon ={calendar}/>
+                </>
+                )}
             </div>
             <div className={`  lg:ml-70 lg:flex lg:justify-center gap-6`}>
+                {dashboardLoading ? (
+                    <SkeletonBox/>
+
+                ) :(
                  <div className={` ${animateL} w-[100%] h-100 bg-[#F8F8F8] shadow-[2px_2px_3px_#434343,-2px_-2px_3px_#ebe4e4] px-5 border-[#ebe4e4] mt-8 rounded-lg overflow-y-scroll hide-scrollbar`}>
                     <h2 className="font-[family-name:Verdana] text-md font-semibold mt-6">Upcoming Events</h2>
                     {dashboardData?.upcoming_events?.length > 0 ? (
@@ -186,6 +221,11 @@ function Dashboard(){
                         <p className="text-sm text-gray-500 mt-2">No upcoming events</p>
                     )}
                 </div>
+                )}
+                {sanctionLoading ? (
+                    <SkeletonBox/>
+                 ) : (
+
                 <div className={` ${animateR}  w-[100%]  h-100  shadow-[2px_2px_3px_#434343,-2px_-2px_3px_#ebe4e4] px-5 border-[#ebe4e4] mt-8 rounded-lg overflow-y-scroll hide-scrollbar`}>
                     <h2 className="font-[family-name:Verdana]  gap-3 flex text-md font-semibold mt-6 ml-2">
                         <span onClick={chooseSanction} className={` bg-[#fff0] border-b-2 cursor-pointer ${isMonetary? (color) : "text-[#000] border-none"}`}>Monetary</span>
@@ -208,7 +248,10 @@ function Dashboard(){
                     )}
                     
                 </div>
+                  )}
+               
             </div>
+           
             <div className="lg:ml-70">
                 <Footer/>
             </div>

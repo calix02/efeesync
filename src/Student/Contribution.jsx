@@ -7,6 +7,8 @@ import EfeeViolet from '../assets/violetlogo.png';
 import {useState, useEffect, useRef} from 'react';
 import SendPayment from "../student_components/SendPayment.jsx";
 import useAnimatedToggle from "../hooks/useAnimatedToggle.js";
+import SkeletonHeader from "../skeletons/SkeletonHeader.jsx";
+import SkeletonBox from "../skeletons/SkeletonBox.jsx";
 import it from '../assets/it.png';
 import "../animate.css";
 import { errorAlert} from '../utils/alert.js';
@@ -16,6 +18,8 @@ import { use } from "react";
 
 function Contribution(){
     const animate = "card-In";
+    const [userLoading, setUserLoading] = useState(true);
+    const [contributionLoading, setContributionLoading] = useState(true);
 
     const [currentUserData, setCurrentUserData] = useState(() => {
     const saved = localStorage.getItem("currentUserData");
@@ -23,6 +27,7 @@ function Contribution(){
     });
     
     const fetchCurrentUser = async () => {
+        setUserLoading(true);
         try {
             const res = await fetch("/api/users/current", {
                 credentials: "include"
@@ -34,6 +39,8 @@ function Contribution(){
             }
         } catch (err) {
             errorAlert("Fetch Failed");
+        }finally{
+            setUserLoading(false);
         }
     }
 
@@ -47,6 +54,7 @@ function Contribution(){
             });
 
             const fetchContributionStatus = async () => {
+                setContributionLoading(true);
                 try {
                     const res = await fetch(`/api/students/current/contribution/status`, {
                         credentials: "include"
@@ -57,6 +65,8 @@ function Contribution(){
                     }
                 } catch (err) {
                     errorAlert("Fetch Failed");
+                }finally{
+                    setContributionLoading(false);
                 }
             }
 
@@ -81,8 +91,11 @@ function Contribution(){
                 <SendPayment data={selectedEvent} code={currentUserData?.department_code} ref={paymentRef} onAnimationEnd={sendPayment.handleEnd} onClose={()=> sendPayment.setAnimation("fade-out")} animate={sendPayment.animation} />  
             </div>
         )}
-    
-        <Header code={currentUserData?.department_code} title = {currentUserData?.department_name}/>
+        {userLoading ? (
+            <SkeletonHeader/>
+        ) : (
+            <Header code={currentUserData?.department_code} title = {currentUserData?.department_name}/>
+        )}
         <div className="w-screen h-screen bg-[#F8F8F8] absolute z-[-1] overflow-y-auto overflow-x-auto lg:px-6 md:px-10 px-3 ">
             <div className="mt-[110px] lg:ml-70">
                 <h2 className="text-2xl font-poppins  font-semibold ">My Contributions</h2>
@@ -95,9 +108,20 @@ function Contribution(){
                  */}
             </div>
             <div className={`lg:ml-70 lg:grid md:grid lg:grid-cols-3 md:grid-cols-2 flex flex-col gap-8 mt-8 `}>
+                {contributionLoading ? (
+                    <>
+                    <SkeletonBox height="h-130" mt="mt-0"/>
+                    <SkeletonBox height="h-130" mt="mt-0"/>
+                    <SkeletonBox height="h-130" mt="mt-0"/>
+                    </>
+
+                ) : (
+                <>
                 <PaidCard formatDateStr={formatDateStr} total={contributionStatus?.total_fees_paid} paidEvents={contributionStatus?.paid_events} />
                 <UnpaidCard pay={(data)=>{sendPayment.toggle(); setSelectedEvent(data); }} formatDateStr={formatDateStr} total={contributionStatus?.total_fees_unpaid} unpaidEvents={contributionStatus?.unpaid_events}/>
                 <Unsettled formatDateStr={formatDateStr} total={contributionStatus?.total_fees_unsettled} unsettledEvents={contributionStatus?.unsettled_events} />
+                </>
+                )}
             </div>
             
         </div>

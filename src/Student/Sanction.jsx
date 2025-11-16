@@ -4,6 +4,8 @@ import Monetary from "../student_components/Monetary.jsx";
 import CommunityService from "../student_components/CommunityService.jsx";
 import EfeeViolet from '../assets/violetlogo.png';
 import {useState, useEffect} from "react";
+import SkeletonHeader from "../skeletons/SkeletonHeader.jsx";
+import SkeletonBox from "../skeletons/SkeletonBox.jsx";
 import it from '../assets/it.png';
 import "../animate.css";
 import { errorAlert} from '../utils/alert.js';
@@ -15,6 +17,9 @@ function Sanction(){
     const animateL = "left-In";
     const animateR = "right-In";
 
+    const [userLoading, setUserLoading] = useState(true);
+    const [sanctionLoading, setSanctionLoading] = useState(true);
+
     const [sanctionData, setSanctionData] = useState({
             "monetary_sanctions": [],
             "community_service": [],
@@ -23,6 +28,7 @@ function Sanction(){
         });
 
         const fetchSanctionData = async () => {
+            setSanctionLoading(true);
             try {
                 const res = await fetch("/api/students/current/attendance/sanction", {
                     credentials: "include"
@@ -33,6 +39,8 @@ function Sanction(){
                 }
             } catch (err) {
                 console.error("Fetch Failed");
+            }finally{
+                setSanctionLoading(false);
             }
         }
 
@@ -42,11 +50,12 @@ function Sanction(){
 
             
         const [currentUserData, setCurrentUserData] = useState(() => {
-    const saved = localStorage.getItem("currentUserData");
+        const saved = localStorage.getItem("currentUserData");
         return saved ? JSON.parse(saved) : null;
     });
     
     const fetchCurrentUser = async () => {
+        setUserLoading(true);
         try {
             const res = await fetch("/api/users/current", {
                 credentials: "include"
@@ -58,6 +67,8 @@ function Sanction(){
             }
         } catch (err) {
             errorAlert("Fetch Failed");
+        }finally{
+            setUserLoading(false);
         }
     }
             useEffect(() => {
@@ -76,20 +87,41 @@ function Sanction(){
     
     return(
         <>
-        <Header code={currentUserData?.department_code} title ={currentUserData?.department_name}/>
+        {userLoading ? (
+            <SkeletonHeader/>
+        ) : (
+            <Header code={currentUserData?.department_code} title ={currentUserData?.department_name}/>
+         )}
         <div className="w-screen h-screen bg-[#F8F8F8] absolute z-[-1] overflow-y-auto overflow-x-auto lg:px-6 md:px-10 px-3 ">
             <div className="mt-[110px] lg:ml-70">
                 <h2 className="text-2xl font-poppins font-semibold ">My Sanction</h2>
             </div>
             <div className="lg:ml-70 ">
+                {sanctionLoading ? (
+                <div className={`bg-white flex-col gap-3 rounded-lg w-100% h-15 border border-[#f4f4f4]  shadow-[2px_2px_3px_grey] mt-4 text-lg font-[family-name:arial] font-semibold flex  p-3`}>
+                    <div className="w-120 h-3 bg-gray-200 animate-pulse rounded-full"></div>
+                    <div className="w-100 h-3 bg-gray-200 animate-pulse rounded-full"></div>
+
+                </div>
+                ) : (
                 <div className={` ${animate} bg-white ${color} rounded-lg w-100% h-15 border-2  shadow-[2px_2px_3px_grey] mt-4 text-lg font-[family-name:arial] font-semibold flex items-center p-3`}>
                     <span>Total Sanctions Paid: P {sanctionData?.total_sanctions_paid}</span>
                 </div>
+                )}
             </div>
             <div className="lg:ml-70 grid lg:grid-cols-2  md:grid-cols-2 gap-6 mt-6">
+                {sanctionLoading ? (
+                    <>
+                        <SkeletonBox height="h-120" mt="mt-0"/>
+                        <SkeletonBox height="h-120" mt="mt-0"/>
+                    </>
+                ) : (
+               
+                <>
                 <Monetary formatDateStr={formatDateStr} animate={animateL} code={currentUserData?.department_code} monetarySanction={sanctionData?.monetary_sanctions}/>
                 <CommunityService formatDateStr={formatDateStr} animate={animateR} communityService={sanctionData?.community_service} />
-
+                </>
+                 )}
             </div>
             
         </div>

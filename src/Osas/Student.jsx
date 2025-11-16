@@ -7,6 +7,9 @@ import AddStudentOsasCard from '../osas_components/AddStudentOsasCard.jsx';
 import UpdateStudentOsasCard from '../osas_components/UpdateStudentOsasCard.jsx';
 import React, {useState,useEffect,useRef} from 'react';
 import { errorAlert, successAlert } from '../utils/alert.js';
+import SkeletonHeader from '../skeletons/SkeletonHeader.jsx';
+import SkeletonSideBar from '../skeletons/SkeletonSidebar.jsx';
+import SkeletonTable from '../skeletons/SkeletonTable.jsx';
 import '../animate.css';
 import useAnimatedToggle from '../hooks/useAnimatedToggle.js';
 
@@ -24,6 +27,7 @@ function Student(){
     const [selectedStudent, setSelectedStudent] = useState(null);
     const [colleges, setColleges] = useState([]);
     const [students, setStudents] = useState([]);
+    const [loading, setLoading] = useState(true);
 
     const [paginate, setPaginate] = useState({
         page: 1,
@@ -48,6 +52,7 @@ function Student(){
     };
 
     const fetchStudents = async (page=1, search="") => {
+        setLoading(true);
         try {
             const res = await fetch(`/api/students?page=${page}&search=${search}`, {
                 credentials: "include"
@@ -59,6 +64,8 @@ function Student(){
             }
         } catch (err) {
             errorAlert("Fetch Failed");
+        }finally{
+            setLoading(false);
         }
     }
 
@@ -140,7 +147,31 @@ function Student(){
 
         )
         }
-        <Header code="osas" logoCouncil={OsasLogo} titleCouncil = "Office of Student Affairs and Services"/>
+        {loading ? (
+            <>
+            <SkeletonHeader/>
+             <div className="w-screen h-screen bg-[#fafafa] absolute z-[-1] overflow-y-auto overflow-x-auto lg:px-6 md:px-10 px-3">
+                 <div className='lg:ml-68 lg:mt-30 mt-25 lg:flex md:flex md:justify-between lg:justify-between '>
+                        <div className="w-80 h-8 rounded-md bg-gray-200 animate-pulse"></div>
+
+                    <div className={` lg:flex md:flex ${animateR}  lg:gap-2.5 md:gap-2.5 text-md font-[family-name:Helvetica] lg:mt-0 md:mt-0 mt-4 lg:px-0 md:px-0 px-3 items-center`}>
+                        <div className="w-80 h-8 rounded-md bg-gray-200 animate-pulse"></div>
+                        <div className='bg-gray-200 animate-pulse rounded-2xl w-30 h-8'></div> 
+                    </div> 
+
+                </div>
+                <SkeletonTable/>
+             </div>
+
+            <div className='lg:block hidden' >
+                <SkeletonSideBar/>
+            </div>
+            
+            </>
+
+        ) : (
+             <>
+            <Header code="osas" logoCouncil={OsasLogo} titleCouncil = "Office of Student Affairs and Services"/>
              <div className="w-screen h-screen bg-[#fafafa] absolute z-[-1] overflow-y-auto overflow-x-auto lg:px-6 md:px-10 px-3">
                  <div className='lg:ml-68 lg:mt-30 mt-25 lg:flex md:flex md:justify-between lg:justify-between '>
                     <h2 className="text-2xl font-semibold text-[#145712] font-poppins">Manage Students</h2>
@@ -159,25 +190,6 @@ function Student(){
                     </div> 
 
                 </div>
-                {/** 
-                  <div className=' w-[100%] mt-3 '>
-                    <div className={`lg:ml-70 ${animateL} flex lg:justify-start md:justify-start font-[family-name:Arial]  justify-center gap-2.5`}>
-                         <select className='bg-white lg:w-25  w-20 text-xs transition duration-100 hover:scale-100 hover:bg-[#174515] hover:text-white cursor-pointer border-1 border-[#174515] py-1  text-[#174515] rounded-md text-center'  name="" id="">
-                            <option value="">Sort by</option>
-                            <option value="">hey</option>
-
-                        </select>
-                         <select className='bg-white lg:w-25 w-20 text-xs transition duration-100 hover:scale-100 hover:bg-[#174515] hover:text-white cursor-pointer border-1 border-[#174515] py-1  text-[#174515] rounded-md text-center'  name="" id="">
-                            <option value="">Year</option>
-                            <option value="">hey</option>
-
-                        </select>
-                        <button className='bg-white lg:w-25 w-20 flex items-center justify-center text-xs transition duration-100 hover:scale-100 hover:bg-[#174515] hover:text-white cursor-pointer border-1 border-[#174515]  text-[#174515] rounded-md text-center'><span className="material-symbols-outlined">print</span>Print</button>
-
-                          
-                    </div>
-                </div>
-                */}
              <TableStudentOsas paginate={paginate} reloadStudents={fetchStudents} students={students} update={(row) =>{
                 setSelectedStudent(row);
                 updateStudent.toggle();
@@ -188,6 +200,9 @@ function Student(){
           <div className='lg:block hidden' >
                  <Sidebar eFee={EfeeOsas}/>
             </div>
+            
+            </>
+        )}
         </>
     );
 }

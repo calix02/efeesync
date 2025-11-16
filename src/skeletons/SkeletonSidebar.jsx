@@ -1,7 +1,7 @@
 
 function SkeletonSideBar(){
     return(
-        <div  className={`w-70 h-screen overflow-y-scroll hide-scrollbar lg:z-10 md:z-30  z-40 fixed bg-white`}>
+        <div  className={`w-70 h-screen shadow-[2px_2px_2px_gray] lg:z-10 md:z-30  z-40 fixed bg-white`}>
             <div className='mt-[95px]'>
                 <div className="flex gap-2 justify-center">
                     <div className="w-12 h-12 bg-gray-200 animate-pulse rounded-full"></div>

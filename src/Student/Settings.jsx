@@ -7,6 +7,8 @@ import UploadProfile from '../other_components/UploadProfile.jsx';
 import ChangePassword from '../other_components/ChangePassword.jsx';
 import QrCode from "../student_components/QRCode.jsx";
 import PersonalInformation from '../other_components/PersonalInformation.jsx';
+import SkeletonHeader from '../skeletons/SkeletonHeader.jsx';
+import SkeletonSetting from '../skeletons/SkeletonSetting.jsx';
 import DefaultProfile from '../assets/default.png';
 import React, {useState, useEffect, useRef} from 'react';
 import { errorAlert} from '../utils/alert.js';
@@ -25,6 +27,8 @@ function Setting(){
     const qrRef = useRef(null);
     
     const [profileImage, setProfileImage] = useState(DefaultProfile);
+    const [userLoading, setUserLoading] = useState(true);
+    const [settingLoading, setSettingLoading] = useState(true);
     
     
 
@@ -41,6 +45,7 @@ function Setting(){
     
 
     const fetchUser = async () => {
+        setSettingLoading(true);
         try {
             const res = await fetch("/api/users/current", {
                 credentials: "include"
@@ -60,6 +65,8 @@ function Setting(){
             }
         } catch (err) {
             alert("Failed to fetch user data");
+        }finally{
+            setSettingLoading(false);
         }
     }
 
@@ -112,6 +119,7 @@ function Setting(){
     });
     
     const fetchCurrentUser = async () => {
+        setUserLoading(true);
         try {
             const res = await fetch("/api/users/current", {
                 credentials: "include"
@@ -123,6 +131,8 @@ function Setting(){
             }
         } catch (err) {
             errorAlert("Fetch Failed");
+        }finally{
+            setUserLoading(false);
         }
     }
 
@@ -172,16 +182,20 @@ function Setting(){
 
         )
         }
-        
-       
-        
-        <Header code={currentUserData?.department_code} title = {currentUserData?.department_name}/>
+        {userLoading ? ( 
+            <SkeletonHeader/>
+        ) : (
+            <Header code={currentUserData?.department_code} title = {currentUserData?.department_name}/>
+        )}
          <div className="w-screen h-screen bg-[#fafafa] absolute z-[-1] overflow-y-auto overflow-x-auto lg:px-6 md:px-10 px-3 ">
                 <div className=" mt-[110px]  lg:ml-70">
                     <h2 className="text-2xl font-semibold font-poppins">Manage Settings</h2>
                 </div>
                 <div className='w-[100%] mt-3 '>
                     <div className='lg:ml-70 lg:px-8 flex flex-col gap-4'>
+                        {settingLoading ? ( 
+                            <SkeletonSetting/>
+                        ) : (
                         <AccountSetting 
                         code={currentUserData?.department_code} 
                         upload={profile.toggle} 
@@ -190,6 +204,7 @@ function Setting(){
                         profile={profileImage} 
                         accName={accountData.full_name} 
                         accEmail={accountData.email}/>
+                        )}
                         {/** 
                         <QrCodeSetting code={currentUserData?.department_code} show={qr.toggle}/>
                         */}

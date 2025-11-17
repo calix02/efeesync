@@ -7,6 +7,8 @@ import SendExcuse from "../student_components/SendExcuse.jsx";
 import EditExcuse from "../student_components/EditExcuse.jsx";
 import Letter from '../student_components/Letter.jsx';
 import useAnimatedToggle from "../hooks/useAnimatedToggle.js";
+import SkeletonHeader from '../skeletons/SkeletonHeader.jsx';
+import SkeletonExcuseBox from "../skeletons/SkeletonExcuseBox.jsx";
 import it from '../assets/it.png';
 import { errorAlert, confirmAlert } from '../utils/alert.js';
 
@@ -27,8 +29,12 @@ function ExcuseLetter(){
     const saved = localStorage.getItem("currentUserData");
         return saved ? JSON.parse(saved) : null;
     });
+
+    const [userLoading, setUserLoading] = useState(true);
+    const [excuseLoading, setExcuseLoading] = useState(true);
     
     const fetchCurrentUser = async () => {
+        setUserLoading(true);
         try {
             const res = await fetch("/api/users/current", {
                 credentials: "include"
@@ -40,6 +46,8 @@ function ExcuseLetter(){
             }
         } catch (err) {
             errorAlert("Fetch Failed");
+        }finally{
+            setUserLoading(false);
         }
     }
 
@@ -50,6 +58,7 @@ function ExcuseLetter(){
     const [excuseData, setExcuseData] = useState([]);
 
     const fetchExcuses = async () => {
+        setExcuseLoading(true);
         try {
             const res = await fetch("/api/students/current/excuses", {
                 credentials: "include"
@@ -60,6 +69,8 @@ function ExcuseLetter(){
             }
         } catch (err) {
             errorAlert("Fetch Failed");
+        }finally{
+            setExcuseLoading(false);
         }
     }
     
@@ -117,13 +128,29 @@ function ExcuseLetter(){
 
          )
         }
-        <Header code={currentUserData?.department_code} title = {currentUserData?.department_name}/>
+        {userLoading ? (
+            <SkeletonHeader/>
+        ) :(
+            <Header code={currentUserData?.department_code} title = {currentUserData?.department_name}/>
+         )}
         <div className="w-screen h-screen bg-[#F8F8F8] absolute z-[-1] overflow-y-auto overflow-x-auto lg:px-6 md:px-10 px-3 ">
             <div className="mt-[110px] lg:ml-70 flex justify-between ">
                 <h2 className="text-2xl font-semibold font-poppins  ">Excuse Letter Request</h2>
             </div>
             <div className={`lg:ml-70 ${animate} grid lg:grid-cols-3 md:grid-cols-2  gap-5  mt-6`}>
-                {excuseData.length > 0 ?
+                {excuseLoading ? (
+                    <>
+                    <SkeletonExcuseBox/>
+                    <SkeletonExcuseBox/>
+                    <SkeletonExcuseBox/>
+                    <SkeletonExcuseBox/>
+                    <SkeletonExcuseBox/>
+                    <SkeletonExcuseBox/>
+
+                    </>
+
+                 ) :(
+                excuseData.length > 0 ?
                 (excuseData.map((ed)=>(
                     <ExcuseStatusCard formatDateStr={formatDateStr} data={ed} view={()=>{
                     letter.toggle();
@@ -139,7 +166,8 @@ function ExcuseLetter(){
                 (
                     <p>No Excuse Letter Request</p>
                 )
-                }
+                
+                )}
             </div>
             
         </div>

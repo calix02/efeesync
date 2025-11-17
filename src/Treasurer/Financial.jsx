@@ -7,6 +7,7 @@ import CashOutflowCard from '../treasurer_components/CashOutflowCard.jsx';
 import EditCashOutflowCard from '../treasurer_components/EditCashOutflowCard.jsx';
 import SkeletonHeader from '../skeletons/SkeletonHeader.jsx';
 import SkeletonSideBar from '../skeletons/SkeletonSidebar.jsx';
+import SkeletonFinancialTable from '../skeletons/SkeletonFinancialTable.jsx';
 import {useState, useEffect, useRef} from 'react';
 import {confirmAlert,successAlert, errorAlert, okAlert} from "../utils/alert.js";
 
@@ -90,22 +91,7 @@ function CITFinancial(){
         if (currentUserData) fetchFinancialReportData();
     }, [currentUserData]);
 
-    /* ------------------------- Skeletons ----------------------------- */
-    const SkeletonTable = () => (
-        <div className="bg-white border mt-5 border-gray-200 rounded-lg p-4 w-full">
-            <div className="h-6 bg-gray-200 rounded w-1/3 mb-4 animate-pulse"></div>
-            <div className="space-y-2">
-                {[...Array(8)].map((_, i) => (
-                    <div key={i} className="flex items-center justify-between gap-4 p-3 border-b border-gray-100">
-                        <div className="h-4 bg-gray-200 rounded w-24 animate-pulse"></div>
-                        <div className="h-4 bg-gray-200 rounded w-40 animate-pulse"></div>
-                        <div className="h-4 bg-gray-200 rounded w-28 animate-pulse"></div>
-                        <div className="h-4 bg-gray-200 rounded w-20 animate-pulse"></div>
-                    </div>
-                ))}
-            </div>
-        </div>
-    );
+
 
     return(
         <>
@@ -129,8 +115,8 @@ function CITFinancial(){
                             <div className="w-80 h-8 rounded-md animate-pulse bg-gray-200"></div>
                         </div>
                     <div className="lg:ml-70 lg:mt-6 mt-3 lg:gap-6 gap-3 grid lg:grid-cols-2 grid-cols-1 items-start">
-                        <SkeletonTable />
-                        <SkeletonTable />
+                        <SkeletonFinancialTable />
+                        <SkeletonFinancialTable />
                     </div>
                     </div>
                     <div className="lg:block hidden">

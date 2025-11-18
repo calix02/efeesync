@@ -2,8 +2,6 @@ import CITHeader from '../other_components/Header_Council.jsx';
 import it from '../assets/it.png';
 import DashboardContent from '../treasurer_components/DashboardContent.jsx';
 import CITSidebar from './Sidebar.jsx';
-import EfeeViolet from '../assets/violetlogo.png';
-import SkeletonSideBar from '../skeletons/SkeletonSidebar.jsx';
 import SkeletonHeader from '../skeletons/SkeletonHeader.jsx';
 import { useEffect, useState } from 'react';
 import { confirmAlert, successAlert, errorAlert, okAlert } from "../utils/alert.js";
@@ -14,7 +12,7 @@ function CITCouncil() {
     return saved ? JSON.parse(saved) : null;
   });
 
-  const [loading, setLoading] = useState(!currentUserData);
+  const [loading, setLoading] = useState(true);
 
   const fetchCurrentUser = async () => {
     setLoading(true);
@@ -37,32 +35,25 @@ function CITCouncil() {
   useEffect(() => {
     fetchCurrentUser();
   }, []);
-
-  /* --------------------------- Skeleton Header --------------------------- */
  
-
   return (
     <>
       {loading ? (
         <>
         <SkeletonHeader />
-        <div className="lg:block hidden">
-          <SkeletonSideBar/>
-        </div>
         </>
       ) : (
-        <>
+       
         <CITHeader
           code={currentUserData?.department_code}
           titleCouncil={currentUserData?.organization_name}
           abb="CIT Council"/>
-      <div className="lg:block hidden">
+       )}
+       <div className="lg:block hidden">
         <CITSidebar
           isUnivWide={currentUserData?.university_wide_org}
           code={currentUserData?.department_code}/>
       </div>
-      </>
-       )}
 
       <DashboardContent currentUserData={currentUserData} className="hide-scrollbar" />
 

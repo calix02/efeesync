@@ -4,6 +4,7 @@ import EventChart from './EventChart.jsx';
 import EventsCalendarView from "./EventsCalendarView.jsx";
 import useAnimatedToggle from '../hooks/useAnimatedToggle.js';
 import Footer from '../other_components/Footer.jsx';
+import SkeletonCalendar from '../skeletons/SkeletonCalendar.jsx';
 import '../animate.css';
 import { useEffect, useState, useRef } from 'react';
 import { useNavigate } from "react-router-dom";
@@ -17,6 +18,7 @@ function CITDashboard({ currentUserData }) {
   const animateChart = "right-In";
 
   const [loading, setLoading] = useState(true);
+  const [loadingCalendar, setLoadingCalendar] = useState(true);
   const [dashboardData, setDashboardData] = useState({
     total_events: 0,
     total_students: 0,
@@ -62,6 +64,8 @@ function CITDashboard({ currentUserData }) {
       }
     } catch (err) {
       console.error("Events fetch failed");
+    }finally{
+      setLoadingCalendar(true);
     }
   };
 
@@ -131,17 +135,19 @@ function CITDashboard({ currentUserData }) {
   const coin = <i className="fa-solid fa-coins z-[-1]"></i>;
   const sanc = <i className="fa-solid fa-money-check z-[-1]"></i>;
 
-  //  Reusable Skeleton Component
-  const Skeleton = ({ className }) => (
-    <div className={`animate-pulse bg-gray-300 dark:bg-gray-700 rounded-md ${className}`}>
-
-    </div>
-  );
-
+  
   return (
     <>
       {eventCalendar.isVisible && (
         <div className="fixed inset-0 bg-[#00000062] flex justify-center items-center lg:z-40 md:z-50 z-70 pointer-events-auto">
+          {loadingCalendar ? (
+            <SkeletonCalendar
+            ref={calendarRef}
+            onAnimationEnd={eventCalendar.handleEnd}
+            onClose={() => eventCalendar.setAnimation("fade-out")}
+            animate={eventCalendar.animation}/>
+          ) :(
+
           <EventsCalendarView
             events={eventsOrg}
             code={currentUserData?.department_code}
@@ -150,17 +156,18 @@ function CITDashboard({ currentUserData }) {
             onClose={() => eventCalendar.setAnimation("fade-out")}
             animate={eventCalendar.animation}
           />
+          )}
         </div>
       )}
 
       <div className="w-screen h-screen bg-[#ecececa4] absolute z-[-1] overflow-y-auto overflow-x-auto">
         
-
+         <div className="lg:mt-30 mt-25 lg:ml-70">
+            <h2 className="text-2xl font-poppins font-semibold ml-6">Dashboard</h2>
+          </div>
         {loading ? (
         <>
-           <div className="lg:mt-30 mt-25 lg:ml-70">
-              <div className="w-80 h-8 rounded-md animate-pulse bg-gray-200 ml-6"></div>
-            </div>
+          
             <div className="grid grid-cols-2 lg:flex lg:flex-row lg:justify-center lg:items-center lg:px-6 md:px-10 px-3 mt-4 lg:ml-70 lg:gap-6 gap-4">
             {[...Array(4)].map((_, i) => (
                 <div
@@ -181,7 +188,7 @@ function CITDashboard({ currentUserData }) {
             {/*  Skeleton for Graph and Chart */}
             <div className="lg:flex lg:ml-70 mt-8 px-3 md:px-10 lg:px-6 lg:gap-6">
             {/* Left Graph (Donut shape) */}
-            <div className="animate-pulse bg-white border border-gray-200 rounded-xl h-96 lg:w-[40%] w-full flex items-center justify-center">
+            <div className="animate-pulse shadow-[2px_2px_2px_gray] bg-white border border-gray-200 rounded-xl h-96 lg:w-[40%] w-full flex items-center justify-center">
                 <div className="relative w-60 h-60">
                 <div className="absolute inset-0 bg-gray-200 rounded-full"></div>
                 <div className="absolute inset-6 bg-white rounded-full"></div>
@@ -189,12 +196,12 @@ function CITDashboard({ currentUserData }) {
             </div>
 
             {/* Right Chart (Bars) */}
-            <div className="animate-pulse bg-white border border-gray-200 rounded-xl h-96 lg:w-[60%] w-full mt-6 lg:mt-0 flex items-end justify-around p-6">
+            <div className="animate-pulse shadow-[2px_2px_2px_gray] bg-white border border-gray-200 rounded-xl h-96 lg:w-[60%] w-full mt-6 lg:mt-0 flex items-end justify-around p-6">
                 {[...Array(5)].map((_, i) => (
                 <div
                     key={i}
-                    className="bg-gray-300 rounded-t-md w-6"
-                    style={{ height: `${30 + i * 60}px` }}
+                    className="bg-gray-300 rounded-t-md w-20"
+                    style={{ height: `${300 - i * 60 }px` }}
                 ></div>
                 ))}
             </div>
@@ -207,9 +214,7 @@ function CITDashboard({ currentUserData }) {
         </>
         )  : (
           <>
-            <div className="lg:mt-30 mt-25 lg:ml-70">
-              <h2 className="text-2xl font-poppins font-semibold ml-6">Dashboard</h2>
-            </div>
+           
             {/* Real Dashboard */}
             <div className="lg:flex lg:flex-row lg:justify-center lg:items-center lg:px-6 md:px-10 px-3 grid grid-cols-2 mt-4 lg:ml-70 lg:gap-6 gap-4">
               <TreasurerCard show={eventCalendar.toggle} code={currentUserData?.department_code} desc="Number of Events" value={dashboardData.total_events} icon={calendar} />

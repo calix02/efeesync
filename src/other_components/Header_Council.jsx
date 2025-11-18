@@ -70,10 +70,7 @@ function Header_Council({code, titleCouncil}) {
     notification.setIsVisible(false);
   }
 
-  /* ------------------ Dark Mode Toggle ------------------ */
-  const toggleDarkMode = () => {
-    document.documentElement.classList.toggle("dark");
-  };
+ 
 
   return (
     <>

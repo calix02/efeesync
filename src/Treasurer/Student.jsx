@@ -79,7 +79,6 @@ function CITStudent() {
         } catch (err) {
             errorAlert("Fetch Failed");
         }
-        // don't setLoading(false) here — fetchStudents will clear loading when data loads
     }
 
     const searchStudent = (search) => {
@@ -177,6 +176,12 @@ function CITStudent() {
     const addRef = useRef(null);
     const updateRef = useRef(null);
 
+    const [selectedMajor, setSelectedMajor] = useState("");
+
+    const handleSelectedMajor = (e) =>{
+        setSelectedMajor(e.target.value);
+
+    }
    
     return (
         <>
@@ -242,6 +247,12 @@ function CITStudent() {
                 </div>
                 <div className=' w-[100%] mt-3 '>
                     <div className={`lg:ml-70 ${animateL} flex lg:justify-start md:justify-start font-[family-name:Arial]  justify-center gap-2.5`}>
+                        <select onChange={handleSelectedMajor} className='w-50 font-poppins text-sm font-semibold px-2 border border-[#c0c0c0] py-2 rounded-2xl shadow-[2px_2px_2px_gray] text-center' name="" id="">
+                            <option value=""> -- Major --</option>
+                            <option value="Basta"> -- Basta --</option>
+                            <option value="Aray Ko"> -- Aray ko --</option>
+
+                        </select>
                     </div>
 
                 </div>

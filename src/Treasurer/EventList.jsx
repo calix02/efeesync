@@ -172,7 +172,7 @@ function CITEventList(){
                     </div>
                     <div className=' w-[100%] mt-3'>
                         <div className={`lg:ml-70 ${animateL} flex lg:justify-start md:justify-start font-[family-name:Arial] justify-start gap-2.5`}>
-                            <select title="Select Event Type" className={`bg-white ${hoverColor} w-35 text-xs transition duration-100 hover:scale-100 hover:text-white cursor-pointer border-1 py-1.5 rounded-sm text-center`} value={selectedType} onChange={(e)=>setSelectedType(e.target.value)}  name="" id="">
+                            <select title="Select Event Type" className={`bg-white ${hoverColor} w-60 text-sm font-semibold transition duration-100 hover:scale-100 hover:text-white cursor-pointer border-1 border-[#c0c0c0] py-2 shadow-[2px_2px_2px_gray] rounded-2xl font-poppins text-center`} value={selectedType} onChange={(e)=>setSelectedType(e.target.value)}  name="" id="">
                                 <option value="">Event Type</option>
                                 <option value="Event Contribution">Event Contribution</option>
                                 <option value="Event Attendance">Event Attendance</option>

@@ -10,6 +10,7 @@ import useAnimatedToggle from '../hooks/useAnimatedToggle.js';
 import SkeletonTable from '../skeletons/SkeletonTable.jsx';
 import SkeletonHeader from '../skeletons/SkeletonHeader.jsx';
 import SkeletonSideBar from '../skeletons/SkeletonSidebar.jsx';
+import SkeletonModal from '../skeletons/SkeletonModal.jsx';
 import EfeeViolet from '../assets/violetlogo.png';
 import "../animate.css";
 import { errorAlert } from "../utils/alert.js";
@@ -33,7 +34,8 @@ function CITEventList(){
     const [selectedEvent, setSelectedEvent] = useState(null);
     const [selectedType, setSelectedType] = useState("");
     const [searchValue, setSearchValue] = useState("");
-    const [loading, setLoading] = useState(true);
+    const [loadingUser, setLoadingUser] = useState(true);
+    const [loadingEvent, setLoadingEvents] = useState(true);
 
     const [currentUserData, setCurrentUserData] = useState(() => {
         const saved = localStorage.getItem("currentUserData");
@@ -42,7 +44,7 @@ function CITEventList(){
 
     const fetchCurrentUser = async () => {
         try {
-            setLoading(true);
+            setLoadingUser(true);
             const res = await fetch("/api/users/current", { credentials: "include" });
             const response = await res.json();
             if (response.status === "success") {
@@ -51,8 +53,9 @@ function CITEventList(){
             }
         } catch (err) {
             errorAlert("Fetch Failed");
+        }finally{
+            setLoadingUser(false);
         }
-        // do not setLoading(false) here — fetchEvents will clear loading when events arrive
     };
 
     const [eventsOrg, setEventsOrg] = useState([]);
@@ -64,10 +67,10 @@ function CITEventList(){
     const fetchEvents = async (organizationId = currentUserData?.organization_id, page = 1, search = "") => {
         if (!organizationId) {
             // if we don't have org id, ensure loading stops to avoid infinite spinner
-            setLoading(false);
+            setLoadingEvents(false);
             return;
         }
-        setLoading(true);
+        setLoadingEvents(true);
         try {
             const res = await fetch(`/api/organizations/${organizationId}/events?page=${page}&search=${encodeURIComponent(search)}`, { credentials: "include" });
             const response = await res.json();
@@ -75,7 +78,7 @@ function CITEventList(){
         } catch (err) {
             console.error("Fetch Failed");
         } finally {
-            setLoading(false);
+            setLoadingEvents(false);
         }
     };
 
@@ -87,7 +90,6 @@ function CITEventList(){
 
     const searchEvents = (search) => {
         setSearchValue(search);
-        setLoading(true);
         debounce(() => {
             fetchEvents(currentUserData?.organization_id, 1, search);
         }, 500);
@@ -129,7 +131,11 @@ function CITEventList(){
 
             {updateEvent.isVisible &&(
                 <div className="fixed inset-0 flex justify-center items-center bg-[#00000062] lg:z-40 md:z-50 z-70 pointer-events-auto">
-                    <UpdateEventCard code={currentUserData?.department_code} reloadEvents={fetchEvents} currentUserData={currentUserData} ref={updateRef} data={selectedEvent} onAnimationEnd={updateEvent.handleEnd} animate={updateEvent.animation} onClose={() => updateEvent.setAnimation("fade-out")} />
+                    {loadingEvent ? (
+                        <SkeletonModal/>
+                    ) : (
+                        <UpdateEventCard code={currentUserData?.department_code} reloadEvents={fetchEvents} currentUserData={currentUserData} ref={updateRef} data={selectedEvent} onAnimationEnd={updateEvent.handleEnd} animate={updateEvent.animation} onClose={() => updateEvent.setAnimation("fade-out")} />
+                    )}
                 </div>
             )}
 
@@ -142,58 +148,53 @@ function CITEventList(){
             {selectedType === "Event Contribution" ? <Navigate to="/org/eventcontribution" replace/> : null}
             {selectedType === "Event Attendance" ? <Navigate to="/org/attendance" replace/> : null}
 
-
-            {loading ? (
-                <>
-                <SkeletonHeader />
-                <div className="w-screen hide-scrollbar h-screen bg-[#fafafa] absolute z-[-1] overflow-y-auto overflow-x-auto lg:px-6 md:px-10 px-3">
-                     <div className="lg:mt-30 mt-25 lg:ml-70 lg:flex md:flex md:justify-between lg:justify-between">
-                        <div className="bg-gray-200 animate-pulse h-8 rounded-md w-60"></div>
-                        <div className={`flex ${animateR} items-center lg:px-0 md:px-0`}>
-                            <div className="w-80 h-8 rounded-md bg-gray-200 animate-pulse"></div>
-                        </div>
-                    </div>
-                    <SkeletonTable />
-                </div>
-                <div className="lg:block hidden">
-                    <SkeletonSideBar/>
-                </div>
-                </>
-            ) : (
             <>
-            <CITHeader code={currentUserData?.department_code} titleCouncil={currentUserData?.organization_name} abb="CIT Council" />
+            {loadingUser ? (
+                <SkeletonHeader/>
+            ) : (
+                <CITHeader code={currentUserData?.department_code} titleCouncil={currentUserData?.organization_name} abb="CIT Council" />
+            )}
 
                 <div className="w-screen hide-scrollbar h-screen bg-[#fafafa] absolute z-[-1] overflow-y-auto overflow-x-auto lg:px-6 md:px-10 px-3">
                     <div className="lg:mt-30 mt-25 lg:ml-70 lg:flex md:flex md:justify-between lg:justify-between">
                         <h2 className="text-2xl font-[family-name:Futura Bold] font-semibold">Manage Events</h2>
                         <div className={`flex ${animateR} items-center lg:px-0 md:px-0`}>
-                            <input className='lg:w-85 md:w-85 w-[100%] border-black p-1.5 bg-white rounded-md border-2 lg:mt-0 md:mt-0 mt-4 block' type="text" onKeyUp={(e) => { searchEvents(e.target.value) }} placeholder='Search Events' />
+                            <input className='lg:w-120 md:w-85 px-8 relative w-[100%] h-12 bg-white font-poppins  rounded-xl shadow-[2px_2px_1px_gray] border-1 border-[#e0e0e0] lg:mt-0 md:mt-0 mt-4 block' type="text" onKeyUp={(e) => { searchEvents(e.target.value) }} placeholder='Search Events' />
+                            <i className="fa-solid fa-magnifying-glass absolute left-2 text-lg "></i>
+
                         </div>
                     </div>
                     <div className=' w-[100%] mt-3'>
                         <div className={`lg:ml-70 ${animateL} flex lg:justify-start md:justify-start font-[family-name:Arial] justify-start gap-2.5`}>
-                            <select title="Select Event Type" className={`bg-white ${hoverColor} w-60 text-sm font-semibold transition duration-100 hover:scale-100 hover:text-white cursor-pointer border-1 border-[#c0c0c0] py-2 shadow-[2px_2px_2px_gray] rounded-2xl font-poppins text-center`} value={selectedType} onChange={(e)=>setSelectedType(e.target.value)}  name="" id="">
-                                <option value="">Event Type</option>
+                            <select title="Select Event Type" className={`bg-white ${hoverColor} w-60 lg:text-sm text-xs font-semibold transition duration-100 hover:scale-100 hover:text-white cursor-pointer border-1 border-[#c0c0c0] py-2 shadow-[2px_2px_2px_gray] rounded-2xl font-poppins text-center`} value={selectedType} onChange={(e)=>setSelectedType(e.target.value)}  name="" id="">
+                                <option value=""> --Event Type-- </option>
                                 <option value="Event Contribution">Event Contribution</option>
                                 <option value="Event Attendance">Event Attendance</option>
                             </select>  
                         </div>
-
-                        <TableEventList paginate={paginate} code={currentUserData?.department_code} formatDateStr={formatDateStr} events={eventsOrg} reloadEvents={fetchEvents} addEvent={addEvent.toggle} 
-                        view={(row) =>{
-                            viewEventDetails.toggle();
-                            setSelectedEvent(row);
-                        }} updateEvent={(row) =>{
-                            updateEvent.toggle();
-                            setSelectedEvent(row);
-                        }}/>
+                        {loadingEvent ? (
+                            <SkeletonTable/>
+                        ) : (
+                            <TableEventList paginate={paginate} code={currentUserData?.department_code} formatDateStr={formatDateStr} events={eventsOrg} reloadEvents={fetchEvents} addEvent={addEvent.toggle} 
+                            view={(row) =>{
+                                viewEventDetails.toggle();
+                                setSelectedEvent(row);
+                            }} updateEvent={(row) =>{
+                                updateEvent.toggle();
+                                setSelectedEvent(row);
+                            }}/>
+                        )}
                     </div>
                 </div>
                 <div className='hidden lg:block'>
-                    <CITSidebar isUnivWide={currentUserData?.university_wide_org} code={currentUserData?.department_code} />
+                    {loadingUser ? (
+                        <SkeletonSideBar/>
+                    ) : (
+                        <CITSidebar isUnivWide={currentUserData?.university_wide_org} code={currentUserData?.department_code} />
+                    )}
                 </div>
             </>
-            )} 
+          
         </>
     );
 }

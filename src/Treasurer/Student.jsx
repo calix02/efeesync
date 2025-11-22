@@ -7,6 +7,7 @@ import UpdateStudentCard from '../other_components/UpdateStudentCard.jsx';
 import SkeletonTable from '../skeletons/SkeletonTable.jsx';
 import SkeletonHeader from '../skeletons/SkeletonHeader.jsx'
 import SkeletonSideBar from '../skeletons/SkeletonSidebar.jsx';
+import SkeletonModal from '../skeletons/SkeletonModal.jsx';
 import React, { useState, useRef, useEffect } from 'react';
 import useAnimatedToggle from '../hooks/useAnimatedToggle.js';
 import { confirmAlert, successAlert, errorAlert, okAlert } from "../utils/alert.js";
@@ -26,16 +27,17 @@ function CITStudent() {
     const [searchValue, setSearchValue] = useState("");
     const [students, setStudents] = useState([]);
     const [debounceTimer, setDebounceTimer] = useState(null);
-    const [loading, setLoading] = useState(true);
+    const [loadingHeader, setLoadingHeader] = useState(true);
+    const [loadingStudents, setLoadingStudents] = useState(true);
+    
 
     function debounce(callback, delay = 500) {
         clearTimeout(debounceTimer);
         setDebounceTimer(setTimeout(callback, delay));
     }
 
-    // safer: compute defaults at call time
     const fetchStudents = async (deptCode, isUnivOrg, page = 1, search = "") => {
-        setLoading(true);
+        setLoadingStudents(true);
         try {
             const _dept = deptCode ?? currentUserData?.department_code;
             const _isUniv = typeof isUnivOrg === "boolean" ? isUnivOrg : currentUserData?.university_wide_org;
@@ -55,9 +57,9 @@ function CITStudent() {
             }
         } catch (err) {
             errorAlert("Fetch Failed");
-        } finally {
-            setLoading(false);
-        }
+        }finally{
+            setLoadingStudents(false);
+        } 
     };
 
     const [currentUserData, setCurrentUserData] = useState(() => {
@@ -66,8 +68,8 @@ function CITStudent() {
     });
 
     const fetchCurrentUser = async () => {
+        setLoadingHeader(true);
         try {
-            setLoading(true);
             const res = await fetch("/api/users/current", {
                 credentials: "include"
             });
@@ -78,12 +80,13 @@ function CITStudent() {
             }
         } catch (err) {
             errorAlert("Fetch Failed");
+        }finally{
+            setLoadingHeader(false);
         }
     }
 
     const searchStudent = (search) => {
         setSearchValue(search);
-        setLoading(true);
         debounce(() => {
             fetchStudents(
                 undefined,
@@ -137,7 +140,6 @@ function CITStudent() {
                         .map((e) => `SN: ${e.student_number_id} due to ${e.reason}`)
                         .join("\n")}
                         `);
-                    setLoading(true);
                     fetchStudents();
                 } else {
                     errorAlert(result.message || "Failed to import CSV");
@@ -197,48 +199,30 @@ function CITStudent() {
             )
             }
             {updateStudent.isVisible && (
-                <>
-                    {/* Update Student */}
-                    <div className="fixed inset-0 bg-[#00000062] flex justify-center items-center lg:z-40 md:z-50 z-70 pointer-events-auto">
-                        {/* Overlay */}
+                <div className="fixed inset-0 bg-[#00000062] flex justify-center items-center lg:z-40 md:z-50 z-70 pointer-events-auto">
+                    {loadingStudents ? (
+                        <SkeletonModal ref={updateRef} onAnimationEnd={updateStudent.handleEnd} animate={updateStudent.animation} onClose={() =>updateStudent.setAnimation("fade-out")}/>
+                    ) : (
                         <UpdateStudentCard code={currentUserData?.department_code} ref={updateRef} reloadStudents={fetchStudents} data={selectedStudent} onAnimationEnd={updateStudent.handleEnd} animate={updateStudent.animation} onClose={() => updateStudent.setAnimation("fade-out")} />
-                    </div>
-                </>
-
-            )
-            }
-            {loading ? (
-                <>
-                <SkeletonHeader/>
-                <div className="w-screen h-screen bg-[#fafafa] absolute z-[-1] overflow-y-auto overflow-x-auto lg:px-6 md:px-10 px-3">
-                <div className='lg:ml-70 lg:mt-30 mt-25 lg:flex md:flex md:justify-between lg:justify-between '>
-                    <div className="w-60 h-10 bg-gray-200 rounded-md animate-pulse"></div>
-                    <div className={` lg:flex md:flex ${animateR}  lg:gap-2.5 md:gap-2.5 text-md font-[family-name:Helvetica] lg:mt-0 md:mt-0 mt-4 lg:px-0 md:px-0 px-3 items-center`}>
-                        <div className="lg:w-85 w-[100%] h-8 rounded-md animate-pulse bg-gray-200"></div>
-                        <div className='relative lg:mt-0 md:mt-0 mt-3'>
-                            <input className='bg-amber-300 lg:w-[150px] w-[100%] h-[35px] block z-[1]  cursor-pointer opacity-0' type="file" accept='.csv' onChange={handleFile} />
-                            <div className="lg:w-38 w-[100% absolute z-[-1] bg-gray-200 animate-pulse rounded-full top-0 h-8"></div>
-                           
-                        </div>
-                    </div>
+                    )}
                 </div>
-                <SkeletonTable/>
-                </div>
-                <div className="lg:block hidden">
-                    <SkeletonSideBar/>
-                </div>
-                </>
-                ) : (
+            )}
+           
         <>
-            <CITHeader code={currentUserData?.department_code} titleCouncil={currentUserData?.organization_name} abb="CIT Council" />
+            {loadingHeader ? (
+                <SkeletonHeader/>
+            ) : (
+                <CITHeader code={currentUserData?.department_code} titleCouncil={currentUserData?.organization_name} abb="CIT Council" />
+            )}
             <div className="w-screen h-screen absolute z-[-1] overflow-y-auto overflow-x-auto lg:px-6 md:px-10 px-3">
                 <div className='lg:ml-70 lg:mt-30 mt-25 lg:flex md:flex md:justify-between lg:justify-between '>
                     <h2 className="text-2xl font-medium font-[family-name:Futura Bold]">Manage Students</h2>
                     <div className={` lg:flex md:flex ${animateR}  lg:gap-2.5 md:gap-2.5 text-md font-[family-name:Helvetica] lg:mt-0 md:mt-0 mt-4 lg:px-0 md:px-0 px-3 items-center`}>
-                        <input className={`  lg:w-85 w-[100%] p-1.5 bg-white rounded-md border-2 border-black  block`} type="text" onKeyUp={(e) => { searchStudent(e.target.value) }} placeholder='Search Student' />
+                        <input className={`lg:w-85 w-[100%] font-poppins h-12 px-8 relative shadow-[2px_2px_1px_gray]  bg-white rounded-xl border border-[#e0e0e0]  block`} type="text" onKeyUp={(e) => { searchStudent(e.target.value) }} placeholder='Search Student' />
+                        <i className="fa-solid fa-magnifying-glass absolute left-2 text-lg "></i>
                         <div className='relative lg:mt-0 md:mt-0 mt-3'>
                             <input className='bg-amber-300 lg:w-[150px] w-[100%] h-[35px] block z-[1]  cursor-pointer opacity-0' type="file" accept='.csv' onChange={handleFile} />
-                            <button className={` ${color} p-1.5 lg:w-38 w-[100%] flex items-center justify-center cursor-pointer rounded-md  text-white absolute z-[-1] top-0`}>
+                            <button className={` ${color} p-2 lg:w-38 w-[100%] flex items-center justify-center cursor-pointer rounded-xl font-poppins text-white absolute z-[-1] top-0`}>
                                 <span className="material-symbols-outlined">download</span>Import CSV
                             </button>
                         </div>
@@ -247,15 +231,17 @@ function CITStudent() {
                 </div>
                 <div className=' w-[100%] mt-3 '>
                     <div className={`lg:ml-70 ${animateL} flex lg:justify-start md:justify-start font-[family-name:Arial]  justify-center gap-2.5`}>
-                        <select onChange={handleSelectedMajor} className='w-50 font-poppins text-sm font-semibold px-2 border border-[#c0c0c0] py-2 rounded-2xl shadow-[2px_2px_2px_gray] text-center' name="" id="">
+                        <select onChange={handleSelectedMajor} className={`w-50  ${hoverColor} hover:text-white cursor-pointer transition hover:bg[] font-poppins text-sm font-semibold px-2 border border-[#c0c0c0] py-2 rounded-2xl shadow-[2px_2px_2px_gray] text-center`} name="" id="">
                             <option value=""> -- Major --</option>
                             <option value="Basta"> -- Basta --</option>
                             <option value="Aray Ko"> -- Aray ko --</option>
-
                         </select>
                     </div>
 
                 </div>
+                    {loadingStudents ? (
+                       <SkeletonTable/>
+                    ):(
                     <TableStudent code={currentUserData?.department_code} year={year}
                         reloadStudents={fetchStudents}
                         paginate={paginate}
@@ -265,13 +251,17 @@ function CITStudent() {
                             setSelectedStudent(row);
                             updateStudent.toggle();
                         }} />
+                    )}
             </div>
-           
             <div className='hidden lg:block'>
-                <CITSidebar isUnivWide={currentUserData?.university_wide_org} code={currentUserData?.department_code} />
+            {loadingHeader ? (
+                    <SkeletonSideBar/>
+                ):(
+                    <CITSidebar isUnivWide={currentUserData?.university_wide_org} code={currentUserData?.department_code} />
+                )}
             </div>
              </>
-             )}
+           
         </>
     );
 }

@@ -77,7 +77,7 @@ function ContributionTable({ code, selectedEvent, paginate, fetchStudentsToContr
   const data = studentsToContribute.length ? studentsToContribute : fallback;
 
   return (
-    <div className={`w-full ${animate} flex flex-col gap-6 lg:text-sm text-xs font-[family-name:Arial]`}>
+    <div className={`w-full ${animate} flex flex-col gap-6 lg:text-sm text-xs font-poppins`}>
       <div className={`lg:ml-70 bg-white text-black flex-grow p-5 mt-3 rounded-lg shadow-[2px_2px_2px_grey]`}>
         <table className="w-full text-center">
           <thead>

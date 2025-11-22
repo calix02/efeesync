@@ -3,6 +3,7 @@ import it from '../assets/it.png';
 import DashboardContent from '../treasurer_components/DashboardContent.jsx';
 import CITSidebar from './Sidebar.jsx';
 import SkeletonHeader from '../skeletons/SkeletonHeader.jsx';
+import SkeletonSideBar from '../skeletons/SkeletonSidebar.jsx';
 import { useEffect, useState } from 'react';
 import { confirmAlert, successAlert, errorAlert, okAlert } from "../utils/alert.js";
 
@@ -50,9 +51,13 @@ function CITCouncil() {
           abb="CIT Council"/>
        )}
        <div className="lg:block hidden">
-        <CITSidebar
-          isUnivWide={currentUserData?.university_wide_org}
-          code={currentUserData?.department_code}/>
+        {loading ? (
+          <SkeletonSideBar/>
+        ) : (
+          <CITSidebar
+            isUnivWide={currentUserData?.university_wide_org}
+            code={currentUserData?.department_code}/>
+            )}
       </div>
 
       <DashboardContent currentUserData={currentUserData} className="hide-scrollbar" />

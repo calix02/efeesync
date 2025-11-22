@@ -56,10 +56,10 @@ function TableEventContribution({ code , events = [], view, formatDateStr }) {
 
   /* -------------------------------- Render ------------------------------- */
   return (
-    <div className={`w-full ${animate} flex flex-col gap-6  font-[family-name:Arial] lg:text-sm text-xs`}>
+    <div className={`w-full ${animate} flex flex-col gap-6  font-poppins lg:text-sm text-xs`}>
       {selectedEventIndex === null && (
         <>
-        <div className={`lg:ml-70 bg-white border-1 font-[family-name:Arial] border-[#d8d8d8] text-black flex-grow p-5  mt-3 rounded-lg shadow-[2px_2px_2px_grey]`}>
+        <div className={`lg:ml-70 bg-white border-1  border-[#d8d8d8] text-black flex-grow p-5  mt-3 rounded-lg shadow-[2px_2px_2px_grey]`}>
           <table className="w-full text-center">
             <thead>
               <tr className={`border-b-2 border-[#000] bg-white ${color}`}>

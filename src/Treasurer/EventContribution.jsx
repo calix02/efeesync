@@ -24,6 +24,9 @@ function EventContribution({ data }) {
   const specificContribution = useAnimatedToggle();
 
   const [showSelectedEvents, setShowSelectedEvents] = useState(false);
+  const [loadingUser, setLoadingUser] = useState(true);
+  const [loadingStudents, setLoadingStudents] = useState(false);
+  const [loadingEvent, setLoadingEvent] = useState(true);
 
   const specificRef = useRef(null);
 
@@ -37,7 +40,7 @@ function EventContribution({ data }) {
     });
     
     const fetchCurrentUser = async () => {
-        setLoading(true);
+        setLoadingUser(true);
         try {
             const res = await fetch("/api/users/current", {
                 credentials: "include"
@@ -50,17 +53,16 @@ function EventContribution({ data }) {
         } catch (err) {
             errorAlert("Fetch Failed");
         } finally {
-            setLoading(false);
+            setLoadingUser(false);
         }
     }
 
   const [searchValue, setSearchValue] = useState("");
 
-  const [loading, setLoading] = useState(true);
-  const [loadingStudents, setLoadingStudents] = useState(false);
+  
 
   const fetchEventContributions = async (page=1, search="", org_code=currentUserData?.organization_code) => {
-    setLoading(true);
+    setLoadingEvent(true);
     try {
       const anotherRes = await fetch(`/api/organizations/code/${org_code}/events?type=contribution&page=${page}&search=${search}`, {
             credentials: "include"
@@ -71,9 +73,9 @@ function EventContribution({ data }) {
           }
     } catch (err) {
       errorAlert("Fetch Failed");
-    } finally {
-      setLoading(false);
-    }
+    }finally{
+      setLoadingEvent(false);
+    } 
   }
 
   const [debounceTimer, setDebounceTimer] = useState(null);
@@ -102,10 +104,7 @@ function EventContribution({ data }) {
       total_pages: 1
   });
   
-  function debounce(callback, delay=500) {
-      clearTimeout(debounceTimer);
-      setDebounceTimer(setTimeout(callback, delay));
-  }
+ 
 
   const searchStudentsToContribute = (search) => {
       setSearchValue(search);
@@ -118,7 +117,7 @@ function EventContribution({ data }) {
 
   const fetchStudentsToContribute = async (page=1, search="") => {
       if (!selectedEvent) return;
-      setLoadingStudents(true);
+
       try {
         const res = await fetch(`/api/events/${selectedEvent.event_id}/contributions/made?page=${page}&search=${search}`, {
           credentials: "include"
@@ -155,27 +154,26 @@ function EventContribution({ data }) {
 
 
   const colors = {
-      CIT: "border-[#621668] text-[#621668] bg-[#621668]",
-      COE: "border-[#020180] text-[#020180] bg-[#020180]",
-      COC: "border-[#660A0A] text-[#660A0A] bg-[#660A0A]",
-      COT: "border-[#847714] text-[#847714] bg-[#847714]",
-      ESAF: "border-[#6F3306] text-[#6F3306] bg-[#6F3306]",
-      SSC: "border-[#174515] text-[#174515] bg-[#174515]",
+      CIT: "text-[#621668]",
+      COE: "text-[#020180] ",
+      COC: "text-[#660A0A] ",
+      COT: "text-[#847714] ",
+      ESAF: "text-[#6F3306] ",
+      SSC: " text-[#174515] ",
     };
     const color = colors[currentUserData?.department_code] || "border-[#174515] text-[#174515] bg-[#174515]";
     const hoverColors = {
-            CIT: "hover:text-[#621668] ",
-            COE: " hover:text-[#020180] ",
-            COC: " hover:text-[#660A0A] ",
-            COT: "hover:text-[#847714] ",
-            ESAF: "hover:text-[#6F3306] ",
-            SSC: "hover:text-[#174515] "
+            CIT: "hover:bg-[#621668] ",
+            COE: " hover:bg-[#020180] ",
+            COC: " hover:bg-[#660A0A] ",
+            COT: "hover:bg-[#847714] ",
+            ESAF: "hover:bg-[#6F3306] ",
+            SSC: "hover:bg-[#174515] "
         };
     const hoverColor = hoverColors[currentUserData?.department_code] || " hover:text-[#174515] ";
 
   return (
     <>
-     
       {/* Specific Contribution */}
       {specificContribution.isVisible && (
         <div className="fixed inset-0 flex justify-center items-center bg-[#00000062] lg:z-40 md:z-50 z-70 pointer-events-auto">
@@ -189,7 +187,7 @@ function EventContribution({ data }) {
         </div>
       )}
 
-      {loading ? (
+      {loadingUser ? (
         <SkeletonHeader />
       ) : (
         <CITHeader
@@ -203,27 +201,7 @@ function EventContribution({ data }) {
 
         {!showSelectedEvents && (
           <>
-          {loading ? (
-            <>
-            <div className="lg:mt-30 mt-25 lg:ml-70 lg:flex md:flex justify-between">
-              <div className="lg:w-80 w h-8 bg-gray-200 animate-pulse rounded-md"></div>
-              <div className={`flex ${animateR} items-center lg:px-0 md:px-0 px-3`}>
-               <div className="w-80 h-8 rounded-md bg-gray-200 animate-pulse"></div>
-              </div>
-            </div>
-
-            <div className=" w-[100%] mt-3 ">
-              <div className={`lg:ml-70 ${animateL} flex lg:justify-between md:justify-start font-[family-name:Arial] justify-center `}>
-              </div>
-
-              <div className="lg:ml-70 text-[font-family:Arial] lg:text-sm text-xs mt-3 flex justify-end">
-                <div className="w-30 bg-gray-200 animate-pulse rounded-full h-6"></div>
-              </div>
-            </div>
-             <SkeletonTable />
-             </>
-            
-            ) : (
+         
               <>
                <div className="lg:mt-30 mt-25 lg:ml-70 lg:flex md:flex justify-between">
               <h2 className="text-2xl font-medium font-[family-name:Futura Bold]">
@@ -231,11 +209,12 @@ function EventContribution({ data }) {
               </h2>
               <div className={`flex ${animateR} items-center lg:px-0 md:px-0 px-3`}>
                 <input
-                  className="lg:w-85 md:w-85 w-[100%] p-1.5 bg-white rounded-md border-2 lg:mt-0 md:mt-0 mt-4 border-black block"
+                  className="lg:w-120 px-8 relative md:w-85 shadow-[2px_2px_1px_gray]  w-[100%] h-12 bg-white rounded-xl border-1 lg:mt-0 md:mt-0 mt-4 border-[#e0e0e0] block"
                   type="text"
                   onKeyUp={(e) => {searchEventContributions(e.target.value)}}
                   placeholder="Search Events"
                 />
+                <i className="fa-solid fa-magnifying-glass absolute left-2 text-lg "></i>
               </div>
             </div>
 
@@ -245,12 +224,15 @@ function EventContribution({ data }) {
 
               <div className="lg:ml-70 text-[font-family:Arial] lg:text-sm text-xs mt-3 flex justify-end">
                 <Link to="/org/eventlist">
-                  <button className={`text-center ${color} ${hoverColor} text-sm font-[family-name:Arial] h-6 hover:bg-white hover:scale-102 hover:shadow-[2px_2px_3px_grey] duration-200 transition  rounded-md cursor-pointer px-3 text-white border-1 `}>
+                  <button className={`text-center ${color} ${hoverColor} hover:text-white text-sm h-8 hover:scale-107 shadow-[2px_2px_1px_grey] duration-200 transition  rounded-2xl cursor-pointer px-3 font-semibold font-poppins bg-white border border-[#e0e0e0]`}>
                     Back to Eventlist
                   </button>
                 </Link>
               </div>
             </div>
+            {loadingEvent ? (
+              <SkeletonTable/>
+            ) : (
               <TableEventContribution
                 code={currentUserData?.department_code}
                 formatDateStr={formatDateStr}
@@ -260,31 +242,14 @@ function EventContribution({ data }) {
                 updateContribution={(row) => {
                   setSelectedAttendee(row);
                   specificContribution.toggle();
-                }}
-              />
+                }}/>
+                )}
               </>
-            )}
           </>
         )}
 
         {showSelectedEvents && (
           <>
-          {loadingStudents ? (
-            <>
-            <div className="lg:mt-30 mt-25 lg:ml-70 lg:flex md:flex justify-between">
-              <div className="w-80 rounded-md bg-gray-200 animate-pulse h-8"></div>
-              <div className={`flex ${animateR} items-center lg:px-0 md:px-0 px-3`}>
-                <div className="w-80 h-8 bg-gray-200 animate-pulse rounded-md"></div>
-              </div>
-            </div>
-
-            <div className="lg:ml-70 flex justify-end mt-3">
-              <div className="w-30 h-6 rounded-full animate-pulse bg-gray-200"></div>
-            </div>
-            <SkeletonTable />
-            </>
-            ) : (
-              <>
               <div className="lg:mt-30 mt-25 lg:ml-70 lg:flex md:flex justify-between">
               <h2 className="text-2xl font-medium font-[family-name:Futura Bold]">
                 {selectedEvent?.event_name || "Event Details"}
@@ -301,24 +266,26 @@ function EventContribution({ data }) {
 
             <div className="lg:ml-70 flex justify-end mt-3">
               <button
-                className={`${color} ${hoverColor} px-6 text-white  rounded-md cursor-pointer hover:scale-102 hover:bg-white  border-1 hover:shadow-[2px_2px_3px_grey] transition duration-200`}
+                className={`${color} ${hoverColor} px-8 h-8 text-sm bg-white font-poppins font-semibold hover:scale-107 cursor-pointer hover:text-white  border-1 border-[#e0e0e0] rounded-2xl shadow-[2px_2px_1px_grey] transition duration-200`}
                 onClick={() => setShowSelectedEvents(false)}
               >
-                Back
+                Back to Event
               </button>
             </div>
-              <ContributionTable
-                paginate={paginateForStudents}
-                fetchStudentsToContribute={fetchStudentsToContribute}
-                studentsToContribute={studentsToContribute}
-                selectedEvent={selectedEvent}
-                code={currentUserData?.department_code}/>
-            </>
-            )}
+              {loadingStudents ? (
+                <SkeletonTable/>
+              ) :(
+                <ContributionTable
+                  paginate={paginateForStudents}
+                  fetchStudentsToContribute={fetchStudentsToContribute}
+                  studentsToContribute={studentsToContribute}
+                  selectedEvent={selectedEvent}
+                  code={currentUserData?.department_code}/>
+              )}
           </>
         )}
       </div>
-      {loading ? (
+      {loadingUser ? (
         <SkeletonSidebar />
       ) :(
       <div className="hidden lg:block">
@@ -331,4 +298,3 @@ function EventContribution({ data }) {
 }
 
 export default EventContribution;
-// ...existing code...

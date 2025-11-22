@@ -79,7 +79,7 @@ function TableEventList({ code, events = [] , addEvent, updateEvent,view, reload
 
   return (
   
-    <div className={`w-full ${animate} flex flex-col gap-6 lg:text-sm text-xs font-[family-name:Arial]`}>
+    <div className={`w-full ${animate} flex flex-col gap-6 lg:text-sm text-xs font-poppins `}>
       {/* table wrapper */}
       {selectedEventIndex === null && (
         <>

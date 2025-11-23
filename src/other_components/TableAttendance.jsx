@@ -57,7 +57,7 @@ function TableAttendance({ code , events = [], scanAttendee, view, formatDateStr
       {/* ===================== EVENT TABLE ===================== */}
       {selectedEventIndex === null && (
         <>
-        <div className={` ${color} ${animate}  lg:ml-70 bg-white lg:text-sm text-xs font-[font-family:Arial] text-black flex-grow p-5 mt-3 rounded-lg shadow-[2px_2px_2px_grey]`}>
+        <div className={` ${color} ${animate} lg:ml-70 bg-white lg:text-sm text-xs font-poppins text-black flex-grow p-5 mt-3 rounded-lg shadow-[2px_2px_2px_grey]`}>
           <table className="w-full text-center">
             <thead>
               <tr className={`border-b-2 border-[#000] bg-white ${color}`}>
@@ -93,7 +93,7 @@ function TableAttendance({ code , events = [], scanAttendee, view, formatDateStr
                   ? formatDateStr(s.event_start_date)
                   : `${formatDateStr(s.event_start_date)} - ${formatDateStr(s.event_end_date)}`}
                   </td>
-                  <td onClick={() => toggleLog(idx)} className="relative flex items-center justify-center cursor-pointer">
+                  <td onClick={() => toggleLog(idx)} className="relative py-6 flex items-center justify-center cursor-pointer">
                     {s.eventLog}
                     <span className="material-symbols-outlined">
                       {activeLogIndex === idx ? "arrow_drop_up" : "arrow_drop_down"}

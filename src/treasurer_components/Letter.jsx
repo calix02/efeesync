@@ -20,11 +20,11 @@ const Letter = React.forwardRef(({ animate, onAnimationEnd, onClose, code, data,
   return (
     <div
       ref={ref}
-      className={`${animate} ${color} lg:w-[420px] w-[390px] pt-2 pb-5 px-8 bg-white rounded-[10px] z-50 inset-0 mx-auto`}
+      className={`${animate} ${color} font-poppins lg:w-[420px] w-[390px] pt-2 pb-5 px-8 bg-white rounded-[10px] z-50 inset-0 mx-auto`}
       onAnimationEnd={onAnimationEnd}
     >
       <div className="mt-[10px] relative">
-        <span onClick={onClose} className="material-symbols-outlined absolute right-0.5 cursor-pointer">
+        <span onClick={onClose} className="material-symbols-outlined absolute  right-0.5 cursor-pointer">
           disabled_by_default
         </span>
       </div>

@@ -128,7 +128,7 @@ function TableStudent({ code , students = [], show, update, reloadStudents, pagi
                 <td>{s.full_name}</td>
                 <td>{s.student_section}</td>
                 <td>{s.program_code}</td>
-                <td className="flex lg:flex-row flex-col gap-2 justify-center py-3">
+                <td className="flex lg:flex-row flex-col gap-2 justify-center py-6">
                   <span
                     onClick={() => update(s)}
                     className={`material-symbols-outlined ${color} cursor-pointer bg-white shadow-[2px_2px_1px_grey] rounded-sm border px-0.5`}

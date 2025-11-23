@@ -93,7 +93,7 @@ function TableEventContribution({ code , events = [], view, formatDateStr }) {
                   : `${formatDateStr(s.event_start_date)} - ${formatDateStr(s.event_end_date)}`}
                   </td>
                   <td>{s?.contribution?.event_contri_fee}</td>
-                  <td className="flex lg:flex-row flex-col gap-2 justify-center py-3">
+                  <td className="flex lg:flex-row flex-col gap-2 justify-center py-6">
                     <span onClick={ () => view(s)} title="View Participants Contribution"
                      
                       className="material-symbols-outlined cursor-pointer shadow-[2px_2px_1px_grey] rounded-[5px] text-[#3a2791] border border-[#3a2791] px-[2px]"

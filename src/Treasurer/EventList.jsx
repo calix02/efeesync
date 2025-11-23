@@ -160,7 +160,6 @@ function CITEventList(){
                         <h2 className="text-2xl font-[family-name:Futura Bold] font-semibold">Manage Events</h2>
                         <div className={`flex ${animateR} items-center lg:px-0 md:px-0`}>
                             <input className='lg:w-120 md:w-85 px-8 relative w-[100%] h-12 bg-white font-poppins  rounded-xl shadow-[2px_2px_1px_gray] border-1 border-[#e0e0e0] lg:mt-0 md:mt-0 mt-4 block' type="text" onKeyUp={(e) => { searchEvents(e.target.value) }} placeholder='Search Events' />
-                            <i className="fa-solid fa-magnifying-glass absolute left-2 text-lg "></i>
 
                         </div>
                     </div>

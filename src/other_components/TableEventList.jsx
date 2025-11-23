@@ -127,7 +127,7 @@ function TableEventList({ code, events = [] , addEvent, updateEvent,view, reload
                   {!s.attendance?.length && !s.contribution && "—"}
                 </td>
                 
-                <td  className="flex lg:flex-row flex-col gap-2 justify-center py-3">
+                <td  className="flex lg:flex-row flex-col gap-2 justify-center py-6">
                     <span title="View Event Details" onClick={() => view(s)} className="material-symbols-outlined cursor-pointer  shadow-[2px_2px_1px_grey] rounded-[5px] text-[#3a2791] border border-[#3a2791] px-[2px]">visibility</span>
                   <span title="Update Event" onClick={() => updateEvent(s)} className={`material-symbols-outlined cursor-pointer ${color} border-1 bg-white  shadow-[2px_2px_1px_grey] rounded-sm px-0.5`}>
                     edit_square

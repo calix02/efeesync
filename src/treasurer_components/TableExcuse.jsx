@@ -58,7 +58,7 @@ function TableExcuse({ code = "cit", excuses = [], viewLetter, fetchAttendanceEx
   
     <div className={`w-full ${animate} flex flex-col gap-6`}>
       {/* table wrapper */}
-      <div className="lg:ml-70 bg-white text-black font-[family-name:Arial] lg:text-sm text-xs flex-grow p-5  mt-3 rounded-lg shadow-[2px_2px_2px_grey]">
+      <div className="lg:ml-70 bg-white text-black font-poppins lg:text-sm text-xs flex-grow p-5  mt-3 rounded-lg shadow-[2px_2px_2px_grey]">
         <table className="w-full text-center ">
           <thead>
             <tr className={`border-b-2 border-[#adadad] bg-white ${color}`}>
@@ -81,8 +81,8 @@ function TableExcuse({ code = "cit", excuses = [], viewLetter, fetchAttendanceEx
                 <td>{s.student_section}</td>
                 <td>{s.event_name}</td>
                 <td>{formatDateStr(s.submitted_at)}</td>
-                <td className="flex justify-center py-3" >
-                  <button onClick={()=>{viewLetter(s)}} className={`bg-white ${hoverColor} ${color} py-1 flex items-center gap-1 justify-center lg:px-5 md:px-5 px-2  border-1 text-sm cursor-pointer  hover:text-white transition duration-200  rounded-md`}><i className="fa-regular fa-eye"></i>Letter</button>
+                <td className="flex justify-center py-6" >
+                  <button onClick={()=>{viewLetter(s)}} className={`bg-white ${hoverColor} ${color} py-1 flex items-center gap-1 justify-center lg:px-5 md:px-5 px-2  border-1 text-sm cursor-pointer shadow-[2px_2px_1px_gray]  hover:text-white transition duration-200  rounded-2xl`}><i className="fa-regular fa-eye"></i>Letter</button>
                 </td>
                 <td className="lg:text-lg md:text-lg text-sm">
                   {s.attendance_excuse_status == "PENDING" && (

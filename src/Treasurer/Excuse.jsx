@@ -6,6 +6,7 @@ import Letter from '../treasurer_components/Letter.jsx';
 import SkeletonTable from '../skeletons/SkeletonTable.jsx';
 import SkeletonHeader from '../skeletons/SkeletonHeader.jsx';
 import SkeletonSidebar from '../skeletons/SkeletonSidebar.jsx';
+import SkeletonModal from '../skeletons/SkeletonModal.jsx';
 import {confirmAlert,successAlert, errorAlert, okAlert} from "../utils/alert.js";
 import "../animate.css";
 import useAnimatedToggle from '../hooks/useAnimatedToggle.js';
@@ -17,7 +18,8 @@ function CITExcuse() {
     const viewLetter = useAnimatedToggle();
     const viewLetterRef  = useRef(null);
 
-    const [loading, setLoading] = useState(true);
+    const [loadingUser, setLoadingUser] = useState(true);
+    const [loadingExcuse, setLoadingExcuse] = useState(true);
 
     const [currentUserData, setCurrentUserData] = useState(() => {
         const saved = localStorage.getItem("currentUserData");
@@ -27,8 +29,8 @@ function CITExcuse() {
     const [status, setStatus] = useState("");
 
     const fetchCurrentUser = async () => {
+        setLoadingUser(true);
         try {
-            setLoading(true);
             const res = await fetch("/api/users/current", {
                 credentials: "include"
             });
@@ -39,6 +41,8 @@ function CITExcuse() {
             }
         } catch (err) {
             errorAlert("Fetch Failed");
+        }finally{
+            setLoadingUser(false);
         }
         // do not setLoading(false) here — fetchAttendanceExcuse will clear loading when data arrives
     }
@@ -46,7 +50,7 @@ function CITExcuse() {
     const [attendanceExcuses, setAttendanceExcuses] = useState([]);
     const fetchAttendanceExcuse = async (statusArg = "", page = 1, search = "") => {
         if (!currentUserData) return;
-        setLoading(true);
+        setLoadingExcuse(true);
         try {
             const res = await fetch(`/api/organizations/code/${currentUserData?.organization_code}/attendance/excuses?page=${page}&search=${encodeURIComponent(search)}&status=${statusArg}`, {
                 credentials: "include"
@@ -59,7 +63,7 @@ function CITExcuse() {
         } catch (err) {
             errorAlert("Fetch Failed");
         } finally {
-            setLoading(false);
+            setLoadingExcuse(false);
         }
     }
 
@@ -115,69 +119,57 @@ function CITExcuse() {
         {viewLetter.isVisible &&(
             <>
                 <div className="fixed inset-0 flex justify-center items-center bg-[#00000062]  lg:z-40 md:z-50 z-70 pointer-events-auto">
+                    {loadingExcuse ? (
+                        <SkeletonModal ref={viewLetterRef}  onAnimationEnd={viewLetter.handleEnd} animate={viewLetter.animation} onClose={() => viewLetter.setAnimation("fade-out")} />
+                    ) : (
                     <Letter code={currentUserData?.department_code} formatDateStr={formatDateStr} ref={viewLetterRef} data={selectedStudent}  onAnimationEnd={viewLetter.handleEnd} animate={viewLetter.animation} onClose={() => viewLetter.setAnimation("fade-out")} />
+                    )}
                 </div>
             </>
         )}
 
 
-        {loading ? (
             <>
-            <SkeletonHeader />
-             <div className="w-screen h-screen bg-[#fafafa] absolute z-[-1] overflow-y-auto overflow-x-auto lg:px-6 md:px-10 px-3">
-                <div className="lg:mt-30 mt-25 lg:ml-70 lg:flex md:flex  md:justify-between   lg:justify-between">
-                    <div className="w-80 rounded-md bg-gray-200 animate-pulse"></div>
-                    <div className={`flex items-center lg:px-0 md:px-0`}>
-                        <div className="w-80 h-8 bg-gray-200 animate-pulse rounded-md"></div>
-                    </div>
-                </div>
-
-                <div className=' w-[100%] mt-3 '>
-                    <div className={`lg:ml-70  flex justify-start font-[family-name:Arial] gap-2.5`}>
-                       <div className="w-50 h-4 animate-pulse bg-gray-200 rounded-md"></div>
-                    </div>
-                    <SkeletonTable/>
-                </div>
-            </div>
-            <div className="lg:block hidden">
-                <SkeletonSidebar />
-            </div>  
-            </>
-        ) : (
-            <>
-            <CITHeader code={currentUserData?.department_code} titleCouncil={currentUserData?.organization_name} abb="CIT Council" />
-
+            {loadingUser ? (
+                <SkeletonHeader/>
+            ) :(
+                <CITHeader code={currentUserData?.department_code} titleCouncil={currentUserData?.organization_name} abb="CIT Council" />
+            )}
             <div className="w-screen h-screen bg-[#fafafa] absolute z-[-1] overflow-y-auto overflow-x-auto lg:px-6 md:px-10 px-3">
                 <div className="lg:mt-30 mt-25 lg:ml-70 lg:flex md:flex  md:justify-between   lg:justify-between">
                     <h2 className="text-2xl font-[family-name:Futura Bold] font-semibold">Manage Excuse Approval</h2>
                     <div className={`flex ${animateR} items-center lg:px-0 md:px-0`}>
-                        <input className='lg:w-85 md:w-85 w-[100%] p-1.5 bg-white rounded-md border-2 border-black lg:mt-0 md:mt-0 mt-4 block' type="text" onKeyUp={(e)=>{searchAttendanceExcuse(e.target.value)}} placeholder='Search Student' />
+                        <input className='lg:w-120 h-12 w-[100%]  bg-white rounded-2xl border-2 border-[#e0e0e0] px-8 shadow-[2px_2px_1px_gray] font-poppins lg:mt-0 md:mt-0 mt-4 block' type="text" onKeyUp={(e)=>{searchAttendanceExcuse(e.target.value)}} placeholder='Search Student' />
                     </div>
                 </div>
 
                 <div className=' w-[100%] mt-3 '>
                     <div className={`lg:ml-70 ${animateL} flex justify-start font-[family-name:Arial] gap-2.5`}>
-                        <select className={`bg-white ${hoverColor} w-25 text-xs transition duration-100 hover:scale-105 hover:text-white cursor-pointer border-1  py-1  rounded-md text-center`} onChange={(e)=>{setStatus(e.target.value)}}   name="" id="">
+                        <select className={`bg-white ${hoverColor} w-40 lg:text-sm text-xs font-poppins rounded-2xl font-semibold transition duration-200 hover:scale-107 hover:text-white cursor-pointer border-1  py-2   text-center`} onChange={(e)=>{setStatus(e.target.value)}}   name="" id="">
                             <option value="">All</option>
                             <option value="pending">Pending</option>
                             <option value="approved">Approved</option>
                             <option value="rejected">Rejected</option>
                         </select>
                     </div>
-
-                    <TableExcuse formatDateStr={formatDateStr} fetchAttendanceExcuse={fetchAttendanceExcuse} status={status} paginate={paginate} excuses={attendanceExcuses} viewLetter={(row) =>{
-                        viewLetter.toggle();
-                        setSelectedStudent(row);
-                    }}  code={currentUserData?.department_code} />
+                    {loadingUser ? (
+                        <SkeletonTable/>
+                    ) : (
+                        <TableExcuse formatDateStr={formatDateStr} fetchAttendanceExcuse={fetchAttendanceExcuse} status={status} paginate={paginate} excuses={attendanceExcuses} viewLetter={(row) =>{
+                            viewLetter.toggle();
+                            setSelectedStudent(row);
+                        }}  code={currentUserData?.department_code} />
+                    )}
                 </div>
             </div>
              <div className="hidden lg:block">
-                <CITSidebar isUnivWide={currentUserData?.university_wide_org} code={currentUserData?.department_code} />
+                {loadingUser ? (
+                    <SkeletonSidebar/>
+                ) : (
+                    <CITSidebar isUnivWide={currentUserData?.university_wide_org} code={currentUserData?.department_code} />
+                )}
             </div>
             </>
-        )}
-
-       
         </>
     );
 }

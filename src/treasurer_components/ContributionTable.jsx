@@ -103,7 +103,7 @@ function ContributionTable({ code, selectedEvent, paginate, fetchStudentsToContr
                   <td>{s.student_section}</td>
                   <td>P {s.event_contri_fee}</td>
                   <td>P {s.remaining_balance}</td>
-                  <td className="flex gap-2 justify-center font-semibold text-xs py-3">
+                  <td className="flex gap-2 justify-center font-semibold text-xs py-6">
                     {s.remaining_balance == 0 ? (
                       <>
                         <button

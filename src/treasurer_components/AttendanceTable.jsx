@@ -92,7 +92,7 @@ AttendanceTable({ code, attendees = [], scanAttendee, attendanceKeys, studentAtt
                 <td hidden><input type="checkbox" /></td>
                 <td hidden>{attendee.student_id}</td>
                 <td>{attendee.student_full_name}</td>
-                <td className="py-4">{attendee.student_section}</td>
+                <td className="py-6">{attendee.student_section}</td>
 
                 {attendanceKeys.map((key) => {
                   const value = attendee.attendance[key]; // "Absent", "Present", etc.

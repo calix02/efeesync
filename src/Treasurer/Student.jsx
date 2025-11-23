@@ -219,7 +219,6 @@ function CITStudent() {
                     <h2 className="text-2xl font-medium font-[family-name:Futura Bold]">Manage Students</h2>
                     <div className={` lg:flex md:flex ${animateR}  lg:gap-2.5 md:gap-2.5 text-md font-[family-name:Helvetica] lg:mt-0 md:mt-0 mt-4 lg:px-0 md:px-0 px-3 items-center`}>
                         <input className={`lg:w-85 w-[100%] font-poppins h-12 px-8 relative shadow-[2px_2px_1px_gray]  bg-white rounded-xl border border-[#e0e0e0]  block`} type="text" onKeyUp={(e) => { searchStudent(e.target.value) }} placeholder='Search Student' />
-                        <i className="fa-solid fa-magnifying-glass absolute left-2 text-lg "></i>
                         <div className='relative lg:mt-0 md:mt-0 mt-3'>
                             <input className='bg-amber-300 lg:w-[150px] w-[100%] h-[35px] block z-[1]  cursor-pointer opacity-0' type="file" accept='.csv' onChange={handleFile} />
                             <button className={` ${color} p-2 lg:w-38 w-[100%] flex items-center justify-center cursor-pointer rounded-xl font-poppins text-white absolute z-[-1] top-0`}>

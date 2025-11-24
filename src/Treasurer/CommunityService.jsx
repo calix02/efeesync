@@ -35,11 +35,12 @@ function  CommunityService() {
         return saved ? JSON.parse(saved) : null;
     });
 
-    const [loading, setLoading] = useState(true);
+    const [loadingUser, setLoadingUser] = useState(true);
+    const [loadingData, setLoadingData] = useState(true);
     
     const fetchCurrentUser = async () => {
         try {
-            setLoading(true);
+            setLoadingUser(true);
             const res = await fetch("/api/users/current", {
                 credentials: "include"
             });
@@ -50,13 +51,14 @@ function  CommunityService() {
             }
         } catch (err) {
             errorAlert("Fetch Failed");
+        }finally{
+            setLoadingUser(false);
         }
-        // keep loading true until fetchComservData clears it
     }
 
     const fetchComservData = async (page=1, search="") => {
         if (!currentUserData) return;
-        setLoading(true);
+        setLoadingData(true);
         try {
             const res = await fetch(`/api/organizations/code/${encodeURIComponent(currentUserData?.organization_code)}/communityservice?page=${page}&search=${encodeURIComponent(search)}`, {
                 credentials: "include"
@@ -69,13 +71,13 @@ function  CommunityService() {
         } catch (err) {
             errorAlert("Fetch Failed");
         } finally {
-            setLoading(false);
+            setLoadingData(false);
         }
     }
 
     const searchStudentsWithComserv = (search) => {
         // setSearchValue(search);
-        setLoading(true);
+        setLoadingData(true);
         debounce(() => {
             fetchComservData(1, search);
         }, 500);
@@ -117,57 +119,41 @@ function  CommunityService() {
 
 
     return (
-        <>
-           
-                    {loading ? (
-                        <>
-                        <SkeletonHeader/>
-                        <div className="w-screen h-screen bg-[#fafafa] absolute z-[-1] overflow-y-auto overflow-x-auto lg:px-6 md:px-10 px-3">
-                            <div className="lg:mt-30 mt-25 lg:ml-70 lg:flex md:flex  md:justify-between   lg:justify-between">
-                                <div className="w-60 h-8 rounded-md bg-gray-200 animate-pulse"></div>
-                                <div className={`flex ${animateR} items-center lg:px-0 md:px-0`}>
-                                    <div className='lg:w-85 md:w-85 h-8 w-[100%] p-1.5 bg-gray-200 rounded-md  lg:mt-0 md:mt-0 mt-4 border-black block' ></div>
-                                </div>
-                            </div>
-
-                            <div className="w-100% mt-3">
-                                <SkeletonTable/>
-                            </div>
-                        </div>
-                        <div className="hidden lg:block">
-                            <SkeletonSideBar/>
-                        </div>
-                        </>
-
-                    ) : (
-                        <>
-                        <CITHeader code={currentUserData?.department_code} titleCouncil= {currentUserData?.organization_name} abb="CIT Council" />
-                        <div className="w-screen h-screen bg-[#fafafa] absolute z-[-1] overflow-y-auto overflow-x-auto lg:px-6 md:px-10 px-3">
-                            <div className="lg:mt-30 mt-25 lg:ml-70 lg:flex md:flex  md:justify-between   lg:justify-between">
-                                <h2 className="text-2xl font-[family-name:Futura Bold] font-semibold">Manage Community Service</h2>
-                                <div className={`flex ${animateR} items-center lg:px-0 md:px-0`}>
-                                <input className='lg:w-85 md:w-85 w-[100%] p-1.5 bg-white rounded-md border-2 lg:mt-0 md:mt-0 mt-4   border-black block' type="text" onKeyUp={(e)=>{searchStudentsWithComserv(e.target.value)}} placeholder='Search Student' />
-                                </div>
-                            </div>
-
-                            <div className="w-100% mt-3">
-                            <TableCommunityService 
-                            paginate={paginate}
-                            fetchComservData={fetchComservData}
-                            code={currentUserData?.department_code}
-                            communityService={comservData}
-                            done={(row) =>{
-                                setSelectedStudent(row);
-                                addComserv(row.event_id, row.student_id);}}/>
-                            </div>
-                        </div>
-                        <div className="hidden lg:block">
-                            <CITSidebar isUnivWide={currentUserData?.university_wide_org} code={currentUserData?.department_code} />
-                        </div>
-                    </>
-                    )}
-             
-           
+        <>  
+        {loadingUser ? ( 
+            <SkeletonHeader/>
+        ) : (  
+            <CITHeader code={currentUserData?.department_code} titleCouncil= {currentUserData?.organization_name} abb="CIT Council" />
+        )} 
+        <div className="w-screen h-screen bg-[#fafafa] absolute z-[-1] overflow-y-auto overflow-x-auto lg:px-6 md:px-10 px-3">
+            <div className="lg:mt-30 mt-25 lg:ml-70 lg:flex md:flex  md:justify-between   lg:justify-between">
+                <h2 className="text-2xl font-[family-name:Futura Bold] font-semibold">Manage Community Service</h2>
+                <div className={`flex ${animateR} items-center lg:px-0 md:px-0`}>
+                <input className='lg:w-120  w-[100%] h-12 bg-white rounded-2xl border lg:mt-0 md:mt-0 mt-4 shadow-[2px_2px_1px_gray] px-8 border-[#e0e0e0] block' type="text" onKeyUp={(e)=>{searchStudentsWithComserv(e.target.value)}} placeholder='Search Student' />
+                </div>
+            </div>
+            <div className="w-100% mt-3">
+            {loadingData ? (
+                <SkeletonTable/>
+             ) : (   
+                <TableCommunityService 
+                paginate={paginate}
+                fetchComservData={fetchComservData}
+                code={currentUserData?.department_code}
+                communityService={comservData}
+                done={(row) =>{
+                setSelectedStudent(row);
+                addComserv(row.event_id, row.student_id);}}/>
+            )}
+            </div>
+        </div>
+        <div className="hidden lg:block">
+            {loadingUser ? (
+                <SkeletonSideBar/>
+            ) : (
+                <CITSidebar isUnivWide={currentUserData?.university_wide_org} code={currentUserData?.department_code} />
+            )}
+        </div>
         </>
     );
 }

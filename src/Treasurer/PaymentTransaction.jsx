@@ -23,11 +23,12 @@ function PaymentTransaction() {
     const viewProof = useAnimatedToggle();
     const viewProofRef = useRef(null);
 
-    const [loading, setLoading] = useState(true);
+    const [loadingUser, setLoadingUser] = useState(true);
+    const [loadingPayment, setLoadingPayment] = useState(true);
         
     const fetchCurrentUser = async () => {
         try {
-            setLoading(true);
+            setLoadingUser(true);
             const res = await fetch("/api/users/current", {
                 credentials: "include"
             });
@@ -37,8 +38,9 @@ function PaymentTransaction() {
             }
         } catch (err) {
             errorAlert("Fetch Failed");
+        }finally{
+            setLoadingUser(false);
         }
-        // keep loading true until fetchOnlineContributions clears it
     }
     useEffect(() => {
         fetchCurrentUser();
@@ -59,7 +61,7 @@ function PaymentTransaction() {
     const [onlinePaymentContributions, setOnlinePaymentContributions] = useState([]);
     const fetchOnlineContributions = async (statusArg="", page=1, search="") => {
         if (!currentUserData) return;
-        setLoading(true);
+        setLoadingPayment(true);
         try {
             const res = await fetch(`/api/organizations/code/${encodeURIComponent(currentUserData?.organization_code)}/onlinepayments/contributions?page=${page}&search=${encodeURIComponent(search)}&status=${encodeURIComponent(statusArg)}`, {
                 credentials: "include"
@@ -72,7 +74,7 @@ function PaymentTransaction() {
         } catch (err) {
             errorAlert("Fetch Failed");
         } finally {
-            setLoading(false);
+            setLoadingPayment(false);
         }
     }
 
@@ -94,7 +96,7 @@ function PaymentTransaction() {
 
     const searchOnlineContributions = (search) => {
         setSearchValue(search);
-        setLoading(true);
+        setLoadingPayment(true);
         debounce(() => {
             fetchOnlineContributions(status, 1, search);
         }, 500);
@@ -119,64 +121,48 @@ function PaymentTransaction() {
             </div>
         )}
 
-
-        {loading ? (
             <>
-            <SkeletonHeader/>
-             <div className="w-screen h-screen bg-[#fafafa] absolute z-[-1] overflow-y-auto overflow-x-auto lg:px-6 md:px-10 px-3">
-                <div className="lg:mt-30 mt-25 lg:ml-70 lg:flex md:flex  md:justify-between   lg:justify-between">
-                    <div className="h-8 w-60 rounded animate-pulse bg-gray-200"></div>
-                    <div className={`flex ${animateR} items-center lg:px-0 md:px-0 `}>
-                        <div className='lg:w-85 md:w-85 w-[100%] animate-pulse p-1.5 bg-gray-200 h-8 rounded-md lg:mt-0 md:mt-0 mt-4  block' > </div>
-                    </div>
-                </div>
-            
-                <div className=' w-[100%] mt-3 '>
-                    <div className={`lg:ml-70 ${animateL} flex justify-start font-[family-name:Arial] gap-2.5`}>
-                        <div className={`bg-gray-200 animate-pulse w-25 h-6 rounded-md `} ></div>
-                    </div>
-                    <SkeletonTable/>
-                </div>
-            </div>
-             <div className="hidden lg:block">
-                <SkeletonSidebar/>
-             </div>
-             </>
-
-        ) : (
-            <>
-            <CITHeader code={currentUserData?.department_code} titleCouncil= {currentUserData?.organization_name} abb="CIT Council" />
+            {loadingUser ? (
+                <SkeletonHeader/>
+            ) : (
+                <CITHeader code={currentUserData?.department_code} titleCouncil= {currentUserData?.organization_name} abb="CIT Council" />
+            )}
             <div className="w-screen h-screen bg-[#fafafa] absolute z-[-1] overflow-y-auto overflow-x-auto lg:px-6 md:px-10 px-3">
                 <div className="lg:mt-30 mt-25 lg:ml-70 lg:flex md:flex  md:justify-between   lg:justify-between">
                     <h2 className="text-2xl font-[family-name:Futura Bold] font-semibold">Manage Contributions Payment</h2>
                     <div className={`flex ${animateR} items-center lg:px-0 md:px-0 `}>
-                        <input className='lg:w-85 md:w-85 w-[100%] p-1.5 bg-white rounded-md border-2 lg:mt-0 md:mt-0 mt-4  block' type="text" onKeyUp={(e)=>searchOnlineContributions(e.target.value)} placeholder='Search Student' />
+                        <input className='lg:w-120 w-[100%] h-12 text-sm font-poppins bg-white rounded-2xl px-8 border border-[#e0e0e0] shadow-[2px_2px_1px_gray] lg:mt-0 md:mt-0 mt-4  block' type="text" onKeyUp={(e)=>searchOnlineContributions(e.target.value)} placeholder='Search Student' />
                     </div>
                 </div>
             
                 <div className=' w-[100%] mt-3 '>
                     <div className={`lg:ml-70 ${animateL} flex justify-start font-[family-name:Arial] gap-2.5`}>
-                        <select className={`bg-white w-25 ${hoverColor}  text-xs transition duration-100 hover:scale-100  hover:text-white cursor-pointer border-1 py-1  rounded-md text-center`}  onChange={(e)=>{setStatus(e.target.value)}} name="" id="">
+                        <select className={`bg-white w-40 ${hoverColor} font-poppins font-semibold lg:text-sm text-xs transition duration-100 hover:scale-100  hover:text-white cursor-pointer border shadow-[2px_2px_1px_gray] border-[#e0e0e0] py-2 rounded-2xl text-center`}  onChange={(e)=>{setStatus(e.target.value)}} name="" id="">
                             <option value="">All</option>
                             <option value="pending">Pending</option>
                             <option value="approved">Approved</option>
                             <option value="rejected">Rejected</option>
                         </select>
                     </div>
-                
-                    <TablePaymentTransaction formatDateStr={formatDateStr} paginate={paginate} status={status} payments={onlinePaymentContributions} fetchOnlineContributions={fetchOnlineContributions} viewProof={(row)=>{
-                        viewProof.toggle();
-                        setSelectedStudent(row)
-                    }}  code={currentUserData?.department_code} />
+                    {loadingPayment ? ( 
+                        <SkeletonTable/>
+                    ) : (
+                        <TablePaymentTransaction formatDateStr={formatDateStr} paginate={paginate} status={status} payments={onlinePaymentContributions} fetchOnlineContributions={fetchOnlineContributions} viewProof={(row)=>{
+                            viewProof.toggle();
+                            setSelectedStudent(row)
+                        }}  code={currentUserData?.department_code} />
+                    )}
                 
                 </div>
             </div>
              <div className="hidden lg:block">
-                <CITSidebar isUnivWide={currentUserData?.university_wide_org} code={currentUserData?.department_code} />
+                {loadingUser ? (
+                    <SkeletonSidebar/>
+                ) : (
+                    <CITSidebar isUnivWide={currentUserData?.university_wide_org} code={currentUserData?.department_code} />
+                )}
             </div>
             </>
-        )}
-       
         </>
     );
 }

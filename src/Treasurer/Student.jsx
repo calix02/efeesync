@@ -218,10 +218,10 @@ function CITStudent() {
                 <div className='lg:ml-70 lg:mt-30 mt-25 lg:flex md:flex md:justify-between lg:justify-between '>
                     <h2 className="text-2xl font-medium font-[family-name:Futura Bold]">Manage Students</h2>
                     <div className={` lg:flex md:flex ${animateR}  lg:gap-2.5 md:gap-2.5 text-md font-[family-name:Helvetica] lg:mt-0 md:mt-0 mt-4 lg:px-0 md:px-0 px-3 items-center`}>
-                        <input className={`lg:w-85 w-[100%] font-poppins h-12 px-8 relative shadow-[2px_2px_1px_gray]  bg-white rounded-xl border border-[#e0e0e0]  block`} type="text" onKeyUp={(e) => { searchStudent(e.target.value) }} placeholder='Search Student' />
+                        <input className={`lg:w-85 w-[100%] text-sm  font-poppins h-12 px-8 relative shadow-[2px_2px_1px_gray]  bg-white rounded-xl border border-[#e0e0e0]  block`} type="text" onKeyUp={(e) => { searchStudent(e.target.value) }} placeholder='Search Student' />
                         <div className='relative lg:mt-0 md:mt-0 mt-3'>
                             <input className='bg-amber-300 lg:w-[150px] w-[100%] h-[35px] block z-[1]  cursor-pointer opacity-0' type="file" accept='.csv' onChange={handleFile} />
-                            <button className={` ${color} p-2 lg:w-38 w-[100%] flex items-center justify-center cursor-pointer rounded-xl font-poppins text-white absolute z-[-1] top-0`}>
+                            <button className={` ${color} p-2 lg:w-38 w-[100%] text-sm flex items-center justify-center cursor-pointer rounded-xl font-poppins text-white absolute z-[-1] top-0`}>
                                 <span className="material-symbols-outlined">download</span>Import CSV
                             </button>
                         </div>
@@ -229,8 +229,8 @@ function CITStudent() {
 
                 </div>
                 <div className=' w-[100%] mt-3 '>
-                    <div className={`lg:ml-70 ${animateL} flex lg:justify-start md:justify-start font-[family-name:Arial]  justify-center gap-2.5`}>
-                        <select onChange={handleSelectedMajor} className={`w-50  ${hoverColor} hover:text-white cursor-pointer transition hover:bg[] font-poppins text-sm font-semibold px-2 border border-[#c0c0c0] py-2 rounded-2xl shadow-[2px_2px_2px_gray] text-center`} name="" id="">
+                    <div className={`lg:ml-70 ${animateL} flex justify-start gap-2.5`}>
+                        <select onChange={handleSelectedMajor} className={`w-50  ${hoverColor} hover:text-white cursor-pointer transition  font-poppins lg:text-sm text-xs font-semibold px-2 border border-[#c0c0c0] py-2 rounded-2xl shadow-[2px_2px_2px_gray] text-center`} name="" id="">
                             <option value=""> -- Major --</option>
                             <option value="Basta"> -- Basta --</option>
                             <option value="Aray Ko"> -- Aray ko --</option>

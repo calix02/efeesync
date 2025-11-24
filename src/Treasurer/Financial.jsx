@@ -8,6 +8,7 @@ import EditCashOutflowCard from '../treasurer_components/EditCashOutflowCard.jsx
 import SkeletonHeader from '../skeletons/SkeletonHeader.jsx';
 import SkeletonSideBar from '../skeletons/SkeletonSidebar.jsx';
 import SkeletonFinancialTable from '../skeletons/SkeletonFinancialTable.jsx';
+import SkeletonModal from '../skeletons/SkeletonModal.jsx';
 import {useState, useEffect, useRef} from 'react';
 import {confirmAlert,successAlert, errorAlert, okAlert} from "../utils/alert.js";
 
@@ -32,11 +33,12 @@ function CITFinancial(){
         return saved ? JSON.parse(saved) : null;
     });
 
-    const [loading, setLoading] = useState(true);
+    const [loadingUser, setLoadingUser] = useState(true);
+    const [loadingFinancial, setLoadingFinancial] = useState(true);
 
     const fetchCurrentUser = async () => {
         try {
-            setLoading(true);
+            setLoadingUser(true);
             const res = await fetch("/api/users/current", {
                 credentials: "include"
             });
@@ -47,6 +49,8 @@ function CITFinancial(){
             }
         } catch (err) {
             errorAlert("Fetch Failed");
+        }finally{
+            setLoadingUser(false);
         }
         // keep loading true until financial data fetch clears it
     }
@@ -65,11 +69,10 @@ function CITFinancial(){
                 cash_out: [],
                 summary: {}
             });
-            setLoading(false);
             return;
         }
 
-        setLoading(true);
+        setLoadingFinancial(true);
         try {
             const res = await fetch(`/api/organizations/code/${encodeURIComponent(currentUserData.organization_code)}/financialreport`, { credentials: "include" });
             const response = await res.json();
@@ -79,7 +82,7 @@ function CITFinancial(){
         } catch (err) {
             errorAlert("Fetch Failed");
         } finally {
-            setLoading(false);
+            setLoadingFinancial(false);
         }
     };
 
@@ -102,51 +105,52 @@ function CITFinancial(){
         )}
         {edit.isVisible &&(
             <div className="fixed inset-0 flex justify-center items-center bg-[#00000062]  lg:z-40 md:z-50 z-70 pointer-events-auto">
-                <EditCashOutflowCard data={selectedCashOut} code={currentUserData?.department_code} fetchFinancialReportData={fetchFinancialReportData} ref={editRef} currentUser={currentUserData} currentUserData={currentUserData} onAnimationEnd={edit.handleEnd} animate={edit.animation} onClose={() => edit.setAnimation("fade-out")} />
+                {loadingFinancial ? (
+                    <SkeletonModal ref={editRef} onAnimationEnd={edit.handleEnd} animate={edit.animation} onClose={() => edit.setAnimation("fade-out")} />
+                ) : (
+                    <EditCashOutflowCard data={selectedCashOut} code={currentUserData?.department_code} fetchFinancialReportData={fetchFinancialReportData} ref={editRef} currentUser={currentUserData} currentUserData={currentUserData} onAnimationEnd={edit.handleEnd} animate={edit.animation} onClose={() => edit.setAnimation("fade-out")} />
+                )}
             </div>
         )}
             
-
-                {loading ? (
+        
+            <>
+            {loadingUser ? ( 
+                <SkeletonHeader/>
+            ) :(
+                <CITHeader code={currentUserData?.department_code} titleCouncil = {currentUserData?.organization_name} abb="CIT Council" />
+            )}
+            <div className="w-screen hide-scrollbar h-screen bg-[#fafafa] absolute z-[-1] overflow-y-auto overflow-x-auto lg:px-6 md:px-10 px-3">
+                <div className="lg:mt-30 mt-25 lg:ml-70">
+                    <h2 className="text-2xl font-medium font-[family-name:Futura Bold]">Financial Report</h2>
+                </div>
+            <div className={` ${animate} lg:ml-70 lg:mt-6 mt-3 lg:gap-6 gap-3 flex lg:flex-row flex-col items-center justify-center`}>
+                {loadingFinancial ? (
                     <>
-                    <SkeletonHeader />
-                    <div className="w-screen hide-scrollbar h-screen bg-[#fafafa] absolute z-[-1] overflow-y-auto overflow-x-auto lg:px-6 md:px-10 px-3">
-                        <div className="lg:mt-30 mt-25 lg:ml-70">
-                            <div className="w-80 h-8 rounded-md animate-pulse bg-gray-200"></div>
-                        </div>
-                    <div className="lg:ml-70 lg:mt-6 mt-3 lg:gap-6 gap-3 grid lg:grid-cols-2 grid-cols-1 items-start">
-                        <SkeletonFinancialTable />
-                        <SkeletonFinancialTable />
-                    </div>
-                    </div>
-                    <div className="lg:block hidden">
-                        <SkeletonSideBar />
-                    </div>
+                    <SkeletonFinancialTable/>
+                    <SkeletonFinancialTable/>
                     </>
                 ) : (
-                    <>
-                    <CITHeader code={currentUserData?.department_code} titleCouncil = {currentUserData?.organization_name} abb="CIT Council" />
-                    <div className="w-screen hide-scrollbar h-screen bg-[#fafafa] absolute z-[-1] overflow-y-auto overflow-x-auto lg:px-6 md:px-10 px-3">
-                        <div className="lg:mt-30 mt-25 lg:ml-70">
-                            <h2 className="text-2xl font-medium font-[family-name:Futura Bold]">Financial Report</h2>
-                        </div>
-                    <div className={` ${animate} lg:ml-70 lg:mt-6 mt-3 lg:gap-6 gap-3 flex lg:flex-row flex-col items-center justify-center`}>
-                        <FinancialTable total={financialReportData?.summary?.total_cash_in} code={currentUserData?.department_code} title="Cash Inflow" financialData={financialReportData?.cash_in}/>
-                        <FinancialTable total={financialReportData?.summary?.total_cash_out} code={currentUserData?.department_code} title="Cash Outflow" financialData={financialReportData?.cash_out} fetchFinancialReportData={fetchFinancialReportData}
-                        add={add.toggle}
-                        edit={(row) => {
-                            edit.toggle();
-                            setSelectedCashOut(row);
-                        }}/>
-                    </div>
-                </div>
-                <div className='hidden lg:block'>
-                    <CITSidebar isUnivWide={currentUserData?.university_wide_org} code={currentUserData?.department_code} />
-                </div>
+                <>
+                <FinancialTable total={financialReportData?.summary?.total_cash_in} code={currentUserData?.department_code} title="Cash Inflow" financialData={financialReportData?.cash_in}/>
+                <FinancialTable total={financialReportData?.summary?.total_cash_out} code={currentUserData?.department_code} title="Cash Outflow" financialData={financialReportData?.cash_out} fetchFinancialReportData={fetchFinancialReportData}
+                add={add.toggle}
+                edit={(row) => {
+                    edit.toggle();
+                    setSelectedCashOut(row);
+                }}/>
                 </>
                 )}
-           
-            
+            </div>
+        </div>
+        <div className='hidden lg:block'>
+            {loadingUser ? (
+                <SkeletonSideBar/>
+            ) :(
+                <CITSidebar isUnivWide={currentUserData?.university_wide_org} code={currentUserData?.department_code} />
+            )}
+        </div>
+        </>
         </>
     );
 }

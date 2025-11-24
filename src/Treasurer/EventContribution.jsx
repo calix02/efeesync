@@ -209,7 +209,7 @@ function EventContribution({ data }) {
               </h2>
               <div className={`flex ${animateR} items-center lg:px-0 md:px-0 px-3`}>
                 <input
-                  className="lg:w-120 px-8 relative md:w-85 shadow-[2px_2px_1px_gray]  w-[100%] h-12 bg-white rounded-xl border-1 lg:mt-0 md:mt-0 mt-4 border-[#e0e0e0] block"
+                  className="lg:w-120 px-8 relative text-sm  md:w-85 shadow-[2px_2px_1px_gray]  w-[100%] h-12 bg-white rounded-xl border-1 lg:mt-0 md:mt-0 mt-4 border-[#e0e0e0] block"
                   type="text"
                   onKeyUp={(e) => {searchEventContributions(e.target.value)}}
                   placeholder="Search Events"
@@ -223,7 +223,7 @@ function EventContribution({ data }) {
 
               <div className="lg:ml-70 text-[font-family:Arial] lg:text-sm text-xs mt-3 flex justify-end">
                 <Link to="/org/eventlist">
-                  <button className={`text-center ${color} ${hoverColor} hover:text-white text-sm h-8 hover:scale-107 shadow-[2px_2px_1px_grey] duration-200 transition  rounded-2xl cursor-pointer px-3 font-semibold font-poppins bg-white border border-[#e0e0e0]`}>
+                  <button className={`text-center ${color} ${hoverColor} hover:text-white lg:text-sm text-xs h-8 hover:scale-107 shadow-[2px_2px_1px_grey] duration-200 transition  rounded-2xl cursor-pointer px-3 font-semibold font-poppins bg-white border border-[#e0e0e0]`}>
                     Back to Eventlist
                   </button>
                 </Link>
@@ -255,7 +255,7 @@ function EventContribution({ data }) {
               </h2>
               <div className={`flex ${animateR} items-center lg:px-0 md:px-0 px-3`}>
                 <input
-                  className="lg:w-120 relative px-8 w-[100%] h-12 bg-white rounded-2xl border border-[#e0e0e0] shadow-[2px_2px_1px_gray] lg:mt-0 md:mt-0 mt-4  block"
+                  className="lg:w-120 relative px-8 w-[100%] text-sm h-12 bg-white rounded-2xl border border-[#e0e0e0] shadow-[2px_2px_1px_gray] lg:mt-0 md:mt-0 mt-4  block"
                   type="text"
                   onKeyUp={(e) => {searchStudentsToContribute(e.target.value)}}
                   placeholder="Search Student"
@@ -266,7 +266,7 @@ function EventContribution({ data }) {
 
             <div className="lg:ml-70 flex justify-end mt-3">
               <button
-                className={`${color} ${hoverColor} px-8 h-8 text-sm bg-white font-poppins font-semibold hover:scale-107 cursor-pointer hover:text-white  border-1 border-[#e0e0e0] rounded-2xl shadow-[2px_2px_1px_grey] transition duration-200`}
+                className={`${color} ${hoverColor} px-8 h-8 lg:text-sm text-xs bg-white font-poppins font-semibold hover:scale-107 cursor-pointer hover:text-white  border-1 border-[#e0e0e0] rounded-2xl shadow-[2px_2px_1px_grey] transition duration-200`}
                 onClick={() => setShowSelectedEvents(false)}
               >
                 Back to Event

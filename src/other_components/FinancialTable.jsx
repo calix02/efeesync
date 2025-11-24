@@ -47,12 +47,12 @@ function FinancialTable({title, financialData =[], code, add, edit, total, fetch
     }
    
     return (
-        <div className=" w-[100%] h-135 relative bg-white font-[family-name:Arial] border rounded-lg shadow-[2px_2px_grey]">
+        <div className=" w-[100%] h-135 relative bg-white font-poppins border rounded-lg shadow-[2px_2px_grey]">
             <div className="flex justify-between items-center border-b-2 border-[#686767] mx-5 py-3">
-                <h1 className="text-lg font-semibold font-[family-name:Helvetica]">{title}</h1>
+                <h1 className="roboto text-xl font-semibold">{title}</h1>
                 {title === "Cash Outflow" &&
                 <span className="flex gap-2">
-                    <button onClick={add} title="Add Information"  className={` ${hoverColor} hover:text-white transition duration-200 hover:scale-105 cursor-pointer border text-xs border-black flex gap-1.5 rounded-md justify-center items-center w-25 py-1`}>
+                    <button onClick={add} title="Add Information"  className={` ${hoverColor} hover:text-white transition duration-200 font-semibold hover:scale-105 cursor-pointer border text-xs border-[#e0e0e0] shadow-[2px_2px_1px_gray]  flex gap-1.5 rounded-md justify-center items-center w-25 py-2`}>
                         <i className="fa-solid fa-plus"></i> Add Info
                     </button>
                 </span>
@@ -75,11 +75,11 @@ function FinancialTable({title, financialData =[], code, add, edit, total, fetch
                             {financialData.length > 0 ? 
                             (financialData.map((data, i) => (
                                 <tr key={i} className="text-xs font-semibold border-b-2 border-[#6c6c6c67] text-[#4f4e4e]">
-                                    <td className="py-1">{title === "Cash Outflow"? data.budget_deducted_at : data.event_end_date}</td>
+                                    <td className="py-6">{title === "Cash Outflow"? data.budget_deducted_at : data.event_end_date}</td>
                                     <td>{title === "Cash Outflow"? data.budget_deduction_title : data.event_name}</td>
                                     <td className="py-3">₱ {title === "Cash Outflow"? data.budget_deduction_amount : data.total_cash_in}</td>
                                     {title === "Cash Outflow" && (
-                                        <td className={`text-[#055e1b] py-2`}>
+                                        <td className={`text-[#055e1b] py-6`}>
                                            <span onClick={() => edit(data)} className={`material-symbols-outlined ${color} cursor-pointer bg-white shadow-[2px_2px_1px_grey] rounded-sm border px-0.5`}>edit_square</span>
                                            <span onClick={(e)=> deleteDeduction(data)} className={`material-symbols-outlined ml-2 text-[#930505] cursor-pointer bg-white shadow-[2px_2px_1px_grey] rounded-sm border px-0.5`}>delete</span>
                                         </td>
@@ -97,7 +97,7 @@ function FinancialTable({title, financialData =[], code, add, edit, total, fetch
                 </div>
             </form>
             <div className= " absolute bottom-3  mt-2 px-6">
-                <h2 className="font-semibold text-sm">Total: ₱ {total}</h2>
+                <h2 className="roboto font-semibold text-lg">Total: ₱ {total}</h2>
             </div>
         </div>
     );

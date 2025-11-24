@@ -139,13 +139,13 @@ function CITExcuse() {
                 <div className="lg:mt-30 mt-25 lg:ml-70 lg:flex md:flex  md:justify-between   lg:justify-between">
                     <h2 className="text-2xl font-[family-name:Futura Bold] font-semibold">Manage Excuse Approval</h2>
                     <div className={`flex ${animateR} items-center lg:px-0 md:px-0`}>
-                        <input className='lg:w-120 h-12 w-[100%]  bg-white rounded-2xl border-2 border-[#e0e0e0] px-8 shadow-[2px_2px_1px_gray] font-poppins lg:mt-0 md:mt-0 mt-4 block' type="text" onKeyUp={(e)=>{searchAttendanceExcuse(e.target.value)}} placeholder='Search Student' />
+                        <input className='lg:w-120 h-12 w-[100%] text-sm bg-white rounded-2xl border-2 border-[#e0e0e0] px-8 shadow-[2px_2px_1px_gray] font-poppins lg:mt-0 md:mt-0 mt-4 block' type="text" onKeyUp={(e)=>{searchAttendanceExcuse(e.target.value)}} placeholder='Search Student' />
                     </div>
                 </div>
 
                 <div className=' w-[100%] mt-3 '>
                     <div className={`lg:ml-70 ${animateL} flex justify-start font-[family-name:Arial] gap-2.5`}>
-                        <select className={`bg-white ${hoverColor} w-40 lg:text-sm text-xs font-poppins rounded-2xl font-semibold transition duration-200 hover:scale-107 hover:text-white cursor-pointer border-1  py-2   text-center`} onChange={(e)=>{setStatus(e.target.value)}}   name="" id="">
+                        <select className={`bg-white ${hoverColor} w-40 lg:text-sm text-xs font-poppins rounded-2xl font-semibold transition duration-200 hover:scale-107 hover:text-white cursor-pointer border border-[#e0e0e0] shadow-[2px_2px_1px_gray]  py-2   text-center`} onChange={(e)=>{setStatus(e.target.value)}}   name="" id="">
                             <option value="">All</option>
                             <option value="pending">Pending</option>
                             <option value="approved">Approved</option>

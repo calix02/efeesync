@@ -46,8 +46,8 @@ function TableUnsettledTransaction({ code = "cit", sanctions = [], view, paginat
   
     <div className={`w-full ${animate}  flex flex-col gap-6`}>
       {/* table wrapper */}
-      <div className={`lg:ml-70 font-[family-name:Arial] lg:text-sm text-xs  bg-white text-black flex-grow p-5  mt-3 rounded-lg shadow-[2px_2px_2px_grey]`}>
-        <table className="w-full text-center ">
+      <div className={`lg:ml-70 overflow-x-scroll font-poppins lg:text-sm text-xs  bg-white text-black flex-grow p-5  mt-3 rounded-lg shadow-[2px_2px_2px_grey]`}>
+        <table className="lg:w-full w-230 text-center ">
           <thead>
             <tr className={`border-b-2 border-[#adadad] bg-white ${color}`}>
               <th className="hidden lg:block md:block">Student ID</th>
@@ -66,7 +66,7 @@ function TableUnsettledTransaction({ code = "cit", sanctions = [], view, paginat
                 <td>{s.full_name}</td>
                 <td>{s.student_section}</td>
                 <td>{s.total_balance}</td>
-                <td className="py-3 flex justify-center">
+                <td className="py-6 flex justify-center">
                    <span onClick={ () => view(s)} title="View Unsettled Transaction"
                      
                       className="material-symbols-outlined cursor-pointer shadow-[2px_2px_1px_grey] rounded-[5px] text-[#3a2791] border border-[#3a2791] px-[2px]"

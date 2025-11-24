@@ -24,11 +24,12 @@ function  UnsettledTransaction() {
         return saved ? JSON.parse(saved) : null;
     });
 
-    const [loading, setLoading] = useState(true);
+    const [loadingUser, setLoadingUser] = useState(true);
+    const [loadingSanction, setLoadingSanction] = useState(true);
 
     const fetchCurrentUser = async () => {
         try {
-            setLoading(true);
+            setLoadingUser(true);
             const res = await fetch("/api/users/current", {
                 credentials: "include"
             });
@@ -39,8 +40,9 @@ function  UnsettledTransaction() {
             }
         } catch (err) {
             errorAlert("Fetch Failed");
+        }finally{
+            setLoadingUser(false);
         }
-        // keep loading true until fetchSanctionData clears it
     }
 
     const [sanctionData, setSanctionData] = useState([]);
@@ -61,11 +63,11 @@ function  UnsettledTransaction() {
                 total: 0,
                 total_pages: 1
             });
-            setLoading(false);
+            setLoadingSanction(false);
             return;
         }
 
-        setLoading(true);
+        setLoadingSanction(true);
         try {
             const res = await fetch(`/api/organizations/code/${encodeURIComponent(currentUserData.organization_code)}/unsettledandsanctions?page=${page}&search=${encodeURIComponent(search)}`, {
                 credentials: "include"
@@ -78,7 +80,7 @@ function  UnsettledTransaction() {
         } catch (err) {
             errorAlert("Fetch Failed");
         } finally {
-            setLoading(false);
+            setLoadingSanction(false);
         }
     }
 
@@ -139,48 +141,39 @@ function  UnsettledTransaction() {
             </>
         )}
 
-        
-                {loading ? (
                     <>
-                    <SkeletonHeader/>
-                    <div className="w-screen h-screen bg-[#fafafa] absolute z-[-1] overflow-y-auto overflow-x-auto lg:px-6 md:px-10 px-3">
-                        <div className="lg:mt-30 mt-25 lg:ml-70 lg:flex md:flex  md:justify-between   lg:justify-between">
-                            <div className="bg-gray-200 animate-pulse w-60 h-8 rounded-md"></div>
-                            <div className={`flex ${animateR} items-center lg:px-0 md:px-0 `}>
-                                <div className='lg:w-85 md:w-85 w-[100%] animate-pulse p-1.5 bg-gray-200 h-8 rounded-md lg:mt-0 md:mt-0 mt-4  block' > </div>
-                            </div>
-                        </div>
-                        <div className="w-100% mt-3">
-                            <SkeletonTable/>
-                        </div>
-                    </div>
-                    <div className="hidden lg:block">
-                        <SkeletonSideBar/>
-                    </div>
-                    </>
-                ) : (
-                    <>
-                    <CITHeader code={currentUserData?.department_code} titleCouncil= {currentUserData?.organization_name} abb="CIT Council" />
-
+                    {loadingUser ?(
+                        <SkeletonHeader/>
+                    ) : (
+                        <CITHeader code={currentUserData?.department_code} titleCouncil= {currentUserData?.organization_name} abb="CIT Council" />
+                    )}
                     <div className="w-screen h-screen bg-[#fafafa] absolute z-[-1] overflow-y-auto overflow-x-auto lg:px-6 md:px-10 px-3">
                         <div className="lg:mt-30 mt-25 lg:ml-70 lg:flex md:flex  md:justify-between   lg:justify-between">
                             <h2 className="text-2xl font-[family-name:Futura Bold] font-semibold">Manage Unsettled Transactions</h2>
                             <div className={`flex ${animateR} items-center lg:px-0 md:px-0 `}>
-                                <input className='lg:w-85 md:w-85 w-[100%] p-1.5 bg-white rounded-md border-2 lg:mt-0 md:mt-0 mt-4   border-black block' type="text" onKeyUp={(e)=>{searchSanctions(e.target.value)}} placeholder='Search Student' />
+                                <input className='lg:w-120 px-8 font-poppins text-sm h-12 w-[100%]  bg-white rounded-2xl border lg:mt-0 md:mt-0 mt-4 shadow-[2px_2px_1px_gray]  border-[#e0e0e0] block' type="text" onKeyUp={(e)=>{searchSanctions(e.target.value)}} placeholder='Search Student' />
                             </div>
                         </div>
                         <div className="w-100% mt-3">
-                            <TableMonetarySanction fetchSanctions={fetchSanctionData} paginate={paginate} sanctions={sanctionData} code={currentUserData?.department_code} view={(row) =>{
-                                setSelectedStudent(row);
-                                unsettledCard.toggle();
-                            }} />
+                            {loadingSanction ?(
+                                <SkeletonTable/>
+                            ) :(
+                                <TableMonetarySanction fetchSanctions={fetchSanctionData} paginate={paginate} sanctions={sanctionData} code={currentUserData?.department_code} view={(row) =>{
+                                    setSelectedStudent(row);
+                                    unsettledCard.toggle();
+                                }} />
+                            )}
                         </div>
                     </div>
                     <div className="hidden lg:block">
-                        <CITSidebar isUnivWide={currentUserData?.university_wide_org} code={currentUserData?.department_code} />
+                        {loadingUser ? (
+                            <SkeletonSideBar/>
+                        ) : (
+                            <CITSidebar isUnivWide={currentUserData?.university_wide_org} code={currentUserData?.department_code} />
+                        )}
                     </div>
                     </>
-                )}
+          
           
         </>
     );

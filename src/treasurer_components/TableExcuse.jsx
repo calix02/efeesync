@@ -58,8 +58,8 @@ function TableExcuse({ code = "cit", excuses = [], viewLetter, fetchAttendanceEx
   
     <div className={`w-full ${animate} flex flex-col gap-6`}>
       {/* table wrapper */}
-      <div className="lg:ml-70 bg-white text-black font-poppins lg:text-sm text-xs flex-grow p-5  mt-3 rounded-lg shadow-[2px_2px_2px_grey]">
-        <table className="w-full text-center ">
+      <div className="lg:ml-70 overflow-x-scroll bg-white text-black font-poppins lg:text-sm text-xs flex-grow p-5  mt-3 rounded-lg shadow-[2px_2px_2px_grey]">
+        <table className="lg:w-full w-230 text-center ">
           <thead>
             <tr className={`border-b-2 border-[#adadad] bg-white ${color}`}>
               <th>Student Name</th>

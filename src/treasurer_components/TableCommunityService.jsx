@@ -29,8 +29,8 @@ function TableCommunityService({ code , communityService = [],done, paginate, fe
   return (
   
     <div className={`w-full ${animate} flex flex-col gap-6`}>
-      <div className={`lg:ml-70 ${color} font-[family-name:Arial] lg:text-sm  text-xs bg-white text-black flex-grow p-5  mt-3 rounded-lg shadow-[2px_2px_2px_grey]`}>
-        <table className="w-full text-center ">
+      <div className={`lg:ml-70 overflow-x-scroll ${color} font-poppins lg:text-sm  text-xs bg-white text-black flex-grow p-5  mt-3 rounded-lg shadow-[2px_2px_2px_grey]`}>
+        <table className="lg:w-full w-230 text-center ">
           <thead>
             <tr className={`border-b-2 bg-white border-[#adadad] ${color}`}>
               <th>Student ID</th>
@@ -52,7 +52,7 @@ function TableCommunityService({ code , communityService = [],done, paginate, fe
                 <td>{s.event_name}</td>
                 <td>{s.absences}</td>
 
-                <td className="flex lg:flex-row flex-col gap-2 justify-center py-3">
+                <td className="flex lg:flex-row flex-col gap-2 justify-center py-6">
                   <button disabled={s.done} onClick={() => done(s)} className=" disabled:border-[#353535] disabled:text-[#353535] disabled:hover:bg-[#fff0] disabled:scale-100 disabled:cursor-default px-2 py-1 border border-[#1a6718] text-[#1a6718] rounded-md cursor-pointer hover:bg-[#1a6718] hover:text-white  transition duration-300 hover:scale-105">Done</button>
                 </td>
               </tr>

@@ -83,8 +83,8 @@ function TableEventList({ code, events = [] , addEvent, updateEvent,view, reload
       {/* table wrapper */}
       {selectedEventIndex === null && (
         <>
-      <div className={`lg:ml-70  bg-white text-black flex-grow p-5 mt-3 rounded-lg shadow-[2px_2px_2px_grey]`}>
-        <table className="w-full text-center ">
+      <div className={`lg:ml-70 overflow-x-scroll bg-white text-black flex-grow p-5 mt-3 rounded-lg shadow-[2px_2px_2px_grey]`}>
+        <table className="lg:w-full w-230 text-center ">
           <thead>
             <tr className={`border-b-2 rounded-lg bg-white border-[#adadad] ${color}`}>
               <th hidden  className="py-2">

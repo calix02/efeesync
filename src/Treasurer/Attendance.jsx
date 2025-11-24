@@ -215,7 +215,7 @@ function Attendance() {
                   <h2 className="text-2xl font-medium font-[family-name:Futura Bold]">Manage Attendance</h2>
                   <div className={`flex ${animateR} items-center lg:px-0 md:px-0 px-3`}>
                     <input
-                      className="lg:w-120 px-8 h-12 relative w-[100%] p-1.5 bg-white rounded-md border border-[#e0e0e0] shadow-[2px_2px_1px_gray] lg:mt-0 md:mt-0 mt-4 block"
+                      className="lg:w-120 px-8 h-12 text-sm relative w-[100%] p-1.5 bg-white rounded-md border border-[#e0e0e0] shadow-[2px_2px_1px_gray] lg:mt-0 md:mt-0 mt-4 block"
                       type="text"
                       placeholder="Search Events"
                       onKeyUp={(e) => searchEventAttendance(e.target.value)}
@@ -225,7 +225,7 @@ function Attendance() {
                 <div className="w-[100%] mt-3">
                   <div className="lg:ml-70 text-[font-family:Arial] lg:text-sm text-xs mt-3 flex justify-end">
                     <Link to="/org/eventlist">
-                      <button className={`${color} ${hoverColor} text-center hover:scale-107 font-semibold hover:text-white font-poppins  duration-200 transition h-8 rounded-2xl shadow-[2px_2px_1px_grey] border-[#e0e0e0] cursor-pointer px-3 bg-white border-1`}>
+                      <button className={`${color} ${hoverColor} text-center hover:scale-107 lg:text-sm text-xs font-semibold hover:text-white font-poppins  duration-200 transition h-8 rounded-2xl shadow-[2px_2px_1px_grey] border-[#e0e0e0] cursor-pointer px-3 bg-white border-1`}>
                         Back to Eventlist
                       </button>
                     </Link>
@@ -254,7 +254,7 @@ function Attendance() {
                   </h2>
                   <div className={`flex ${animateR} items-center lg:px-0 md:px-0 px-3`}>
                     <input
-                      className="lg:w-120 relative w-[100%] h-12 px-8 shadow-[2px_2px_1px_gray] bg-white rounded-2xl border  lg:mt-0 md:mt-0 mt-4 border-[#e0e0e0] block"
+                      className="lg:w-120 text-sm relative w-[100%] h-12 px-8 shadow-[2px_2px_1px_gray] bg-white rounded-2xl border  lg:mt-0 md:mt-0 mt-4 border-[#e0e0e0] block"
                       type="text"
                       onKeyUp={(e) => searchStudentAttendees(e.target.value)}
                       placeholder="Search Student Attendees"
@@ -264,10 +264,10 @@ function Attendance() {
                 </div>
                 <div className="lg:ml-70 flex justify-between mt-3">
                   <span className="flex gap-2 font-poppins items-center">
-                    <label className=" text-sm font-medium">Select Date:</label>
+                    <label className=" text-sm  font-medium">Select Date:</label>
                     <select
                       value={selectedAttendanceDate}
-                      className="h-10 px-3 border-1 border-[#e0e0e0] shadow-[2px_2px_1px_gray] cursor-pointer rounded-2xl bg-white text-sm"
+                      className="h-10 px-3 border-1 lg:text-sm text-xs  border-[#e0e0e0] shadow-[2px_2px_1px_gray] cursor-pointer rounded-2xl bg-white"
                       onChange={(e) => setSelectedAttendanceDate(e.target.value)}
                     >
                       {selectedEvent.attendance.map((day) => (

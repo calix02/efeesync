@@ -52,10 +52,11 @@ function Setting(){
         email: "",
     });
 
-    const [loading, setLoading] = useState(true);
+    const [loadingUser, setLoadingUser] = useState(true);
+    const [loadingData, setLoadingData] = useState(true);
 
     const fetchUser = async () => {
-        setLoading(true);
+        setLoadingData(true);
         try {
             const res = await fetch("/api/users/current", {
                 credentials: "include"
@@ -76,7 +77,7 @@ function Setting(){
         } catch (err) {
             alert("Failed to fetch user data");
         } finally {
-            setLoading(false);
+            setLoadingData(false);
         }
     }
 
@@ -128,7 +129,7 @@ function Setting(){
     });
     
     const fetchCurrentUser = async () => {
-        setLoading(true);
+        setLoadingUser(true);
         try {
             const res = await fetch("/api/users/current", {
                 credentials: "include"
@@ -141,7 +142,7 @@ function Setting(){
         } catch (err) {
             errorAlert("Fetch Failed");
         } finally {
-            setLoading(false);
+            setLoadingUser(false);
         }
     }
       useEffect(() => {
@@ -185,44 +186,37 @@ function Setting(){
             </div>
             </>
          )}
-        
-        {loading ? (
-            <>
-            <SkeletonHeader/>
-             <div className="w-screen h-screen bg-[#fafafa] absolute z-[-1] overflow-y-auto overflow-x-auto lg:px-6 md:px-10 px-3 ">
-                <div className="lg:mt-30 mt-25 lg:ml-68">
-                    <div className="h-8 rounded-md bg-gray-200 w-60 animate-pulse"></div>
-                </div>
-                <div className='w-[100%] mt-3 '>
-                    <div className='lg:ml-70 lg:px-8 '>
-                        <SkeletonSetting/>
-                    </div>
-                </div>
-            </div>
-            <div className='lg:block hidden' >
-                <SkeletonSideBar/>
-            </div>
 
-            </>
-            ) : (
-            <>
+        <>
+        {loadingUser ? (
+            <SkeletonHeader/>
+        ) : (
             <Header code={currentUserData?.department_code}  titleCouncil ={currentUserData?.organization_name}/>
-            <div className="w-screen h-screen bg-[#fafafa] absolute z-[-1] overflow-y-auto overflow-x-auto lg:px-6 md:px-10 px-3 ">
-                <div className="lg:mt-30 mt-25 lg:ml-68">
-                    <h2 className="text-2xl font-semibold font-poppins">Manage Settings</h2>
-                </div>
-                <div className='w-[100%] mt-3 '>
-                    <div className='lg:ml-70 lg:px-8 '>
+        )}
+        <div className="w-screen h-screen bg-[#fafafa] absolute z-[-1] overflow-y-auto overflow-x-auto lg:px-6 md:px-10 px-3 ">
+            <div className="lg:mt-30 mt-25 lg:ml-68">
+                <h2 className="text-2xl font-semibold font-poppins">Manage Settings</h2>
+            </div>
+            <div className='w-[100%] mt-3 '>
+                <div className='lg:ml-70 lg:px-8 '>
+                    {loadingData ? (
+                        <SkeletonSetting/>
+                    ) : (
                         <AccountSetting code={currentUserData?.department_code} upload={profile.toggle} changeInfo={information.toggle} changePass={changePassword.toggle}  profile={profileImage} accName={accountData.full_name} accRole={accountData.role} accEmail={accountData.email}/>
-                    </div>
+                    )}
                 </div>
             </div>
-            <div className='lg:block hidden' >
+        </div>
+        <div className='lg:block hidden' >
+            {loadingUser ? (
+                <SkeletonSideBar/>
+            ) : (
                 <Sidebar isUnivWide={currentUserData?.university_wide_org} code={currentUserData?.department_code} />
-            </div>
-            </>
-        )}  
-        </>
+            )}
+        </div>
+        </> 
+    </>
+       
     );
 }
 export default Setting;

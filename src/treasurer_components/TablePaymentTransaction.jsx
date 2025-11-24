@@ -53,10 +53,10 @@ function TablePaymentTransaction({ viewProof, payments = [], code, paginate, sta
 
   /* -------------------------------- render --------------------------------- */
   return (
-    <div className={`w-full ${animate} flex flex-col gap-6`}>
+    <div className={`w-full ${animate}  flex flex-col gap-6`}>
       {/* table wrapper */}
-      <div className="lg:ml-70 bg-white font-[family-name:Arial] lg:text-sm text-xs text-black flex-grow lg:p-5 p-2 mt-3 rounded-lg shadow-[2px_2px_2px_grey]">
-        <table className="w-full text-center ">
+      <div className="lg:ml-70 bg-white overflow-x-scroll font-poppins lg:text-sm text-xs text-black flex-grow lg:p-5 p-2 mt-3 rounded-lg shadow-[2px_2px_2px_grey]">
+        <table className="lg:w-full w-230  text-center ">
           <thead>
             <tr className={`border-b-2 border-[#adadad] bg-[#fff0] ${color}`}>
               <th className="hidden lg:block">Student ID</th>
@@ -77,11 +77,11 @@ function TablePaymentTransaction({ viewProof, payments = [], code, paginate, sta
                 <td>{s.full_name}</td>
                 <td>{s.event_name}</td>
                 <td>{s.event_contri_fee}</td>
-                <td className="hidden lg:block py-4">{formatDateStr((s.payment_date).split(" ")[0])}</td>
+                <td className="hidden lg:block py-6">{formatDateStr((s.payment_date).split(" ")[0])}</td>
                 <td>
                   <button
                     onClick={() => viewProof(s)}
-                    className={`${color} ${hoverColor} bg-white gap-1 lg:px-5 md:px-5 px-1 py-1 border-1 lg:text-sm text-xs hover:text-white transition duration-200 cursor-pointer rounded-lg`}
+                    className={`${color} ${hoverColor} bg-white gap-1 lg:px-5 md:px-5 px-1 py-1 hover:scale-107 shadow-[2px_2px_1px_gray] border-1 lg:text-sm text-xs hover:text-white transition duration-200 cursor-pointer rounded-2xl`}
                   >
                     <i className="fa-regular fa-eye"></i>View
                   </button>

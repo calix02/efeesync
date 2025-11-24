@@ -7,10 +7,10 @@ function CardStudent(props){
     :props.title === "Number of Active Sanctions" ? 'bg-[#EBFDEF] text-[#174515] border-[#174515]' 
     : "bg-[white]";
     return(
-        <Link to={props.link} className={`border-2 cursor-pointer hover:scale-105 transition duration-500 rounded-md w-[100%] h-28 ${Color} relative px-4 shadow-[2px_2px_3px_grey]`}>
+        <Link to={props.link} className={`border-2 cursor-pointer font-poppins hover:scale-105 transition duration-500 rounded-2xl w-[100%] h-30 ${Color} relative px-4 shadow-[2px_2px_3px_grey]`}>
             <div className="text-[#625555] mt-2.5 text-sm font-[family-name:Helvetica]">{props.title}</div>
-            <span className="text-4xl font-bold">{props.value}</span>
-            <span className="absolute right-3 bottom-4 text-6xl">
+            <span className="lg:text-5xl text-4xl ml-2 font-bold">{props.value}</span>
+            <span className="absolute lg:right-3 right-5 bottom-5 lg:bottom-4 lg:text-7xl text-5xl">
                 {props.icon}
             </span>
         </Link>

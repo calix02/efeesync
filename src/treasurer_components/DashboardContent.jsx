@@ -65,7 +65,7 @@ function CITDashboard({ currentUserData }) {
     } catch (err) {
       console.error("Events fetch failed");
     }finally{
-      setLoadingCalendar(true);
+      setLoadingCalendar(false);
     }
   };
 

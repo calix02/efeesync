@@ -26,14 +26,14 @@ function MonetarySanction({ code, monetarySanctions, formatDateStr }) {
       return (
         <div
           key={id}
-          className={`w-[100%] bg-[#fff] py-4 mt-2 px-4 ${color} rounded-md border-2`}
+          className={`w-[100%] bg-[#fcfcfc] min-h-25 py-2 flex items-center mt-2 px-4 ${color} border border-[#e0e0e0] rounded-2xl shadow-[2px_2px_2px_gray]`}
         >
-          <div className="border-l-8 w-[100%] items-center grid-cols-[50px_auto] grid px-3">
+          <div className="border-l-6 w-[100%] py-2  items-center grid-cols-[50px_auto] grid px-3">
             <div className="font-bold font-poppins text-2xl">
               {ms.balance}
             </div>
             <div className="text-black">
-              <h2 className="font-bold font-poppins text-md ">
+              <h2 className="font-semibold font-poppins text-xl ">
                 {ms.event_name}
               </h2>
 

@@ -53,7 +53,7 @@ const Sidebar = React.forwardRef(({eFee, animate,code, onAnimationEnd,onClose},r
            });
        }
     return(
-        <div ref={ref} onAnimationEnd={onAnimationEnd} className={`w-70 h-screen border-r-2 ${color} ${animate} border-b-20  lg:z-10 md:z-30  z-40 fixed bg-white`}>
+        <div ref={ref} onAnimationEnd={onAnimationEnd} className={`w-70 h-screen ${color} ${animate} lg:z-10 md:z-30 shadow-[2px_2px_2px_gray] border-b-20 rounded-md  z-40 fixed bg-white`}>
             <div className='mt-[118px]'>
                 <span onClick={onClose} className='lg:hidden'>
                     <span className="material-symbols-outlined absolute right-1.5 top-23 cursor-pointer text-[#621668]">close</span>

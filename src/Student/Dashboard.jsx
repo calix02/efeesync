@@ -11,6 +11,7 @@ import useAnimatedToggle from "../hooks/useAnimatedToggle.js";
 import SkeletonHeader from "../skeletons/SkeletonHeader.jsx";
 import SkeletonCard from "../skeletons/SkeletonCard.jsx";
 import SkeletonBox from "../skeletons/SkeletonBox.jsx";
+import SkeletonSideBar from "../skeletons/SkeletonSidebar.jsx";
 import Footer from "../other_components/Footer.jsx";
 import { useState, useEffect, useRef } from "react";
 import "../animate.css";
@@ -168,7 +169,7 @@ function Dashboard(){
             <div className="lg:mt-30 mt-25 lg:ml-70">
                 <h2 className="text-2xl font-poppins  font-semibold">Welcome, {currentUserData?.full_name}!</h2>
             </div>
-            <div className={` ${animate} lg:ml-70 lg:flex lg:justify-center grid grid-cols-2 gap-6 mt-6`}>
+            <div className={` ${animate} lg:ml-70 lg:flex lg:justify-center grid grid-cols-2 lg:gap-6 gap-3 mt-6`}>
                 {dashboardLoading ? (
                     <>
                     <SkeletonCard/>
@@ -192,8 +193,8 @@ function Dashboard(){
                     <SkeletonBox/>
 
                 ) :(
-                 <div className={` ${animateL} w-[100%] h-100 bg-[#F8F8F8] shadow-[2px_2px_3px_#434343,-2px_-2px_3px_#ebe4e4] px-5 border-[#ebe4e4] mt-8 rounded-lg overflow-y-scroll hide-scrollbar`}>
-                    <h2 className="font-[family-name:Verdana] text-md font-semibold mt-6">Upcoming Events</h2>
+                 <div className={` ${animateL} w-[100%] font-poppins h-100 bg-white px-5 border-gray-300 border shadow-[4px_4px_2px_gray] mt-8 rounded-2xl overflow-y-scroll hide-scrollbar`}>
+                    <h2 className="font-poppins text-xl font-bold mt-6">Upcoming Events</h2>
                     {dashboardData?.upcoming_events?.length > 0 ? (
                         dashboardData.upcoming_events.map((ev) => {
                             const date = new Date(ev.event_end_date);
@@ -226,8 +227,8 @@ function Dashboard(){
                     <SkeletonBox/>
                  ) : (
 
-                <div className={` ${animateR}  w-[100%]  h-100  shadow-[2px_2px_3px_#434343,-2px_-2px_3px_#ebe4e4] px-5 border-[#ebe4e4] mt-8 rounded-lg overflow-y-scroll hide-scrollbar`}>
-                    <h2 className="font-[family-name:Verdana]  gap-3 flex text-md font-semibold mt-6 ml-2">
+                <div className={` ${animateR} bg-white border-gray-300 border shadow-[4px_4px_2px_gray]   w-[100%] h-100  px-5 mt-8 rounded-2xl overflow-y-scroll hide-scrollbar`}>
+                    <h2 className="font-poppins font-bold  gap-3 flex text-xl  mt-6 ml-2">
                         <span onClick={chooseSanction} className={` bg-[#fff0] border-b-2 cursor-pointer ${isMonetary? (color) : "text-[#000] border-none"}`}>Monetary</span>
                         <span onClick={chooseSanction} className={` bg-[#fff0] border-b-2 cursor-pointer ${isMonetary? "text-[#000] border-none" : (color)}`}>Community Service</span>
                     </h2>
@@ -257,7 +258,11 @@ function Dashboard(){
             </div>
         </div>
              <div className='lg:block hidden' >
-                 <Sidebar code={currentUserData?.department_code} />
+                {loadingUser ? (
+                    <SkeletonSideBar/>
+                ) : (
+                    <Sidebar code={currentUserData?.department_code} />
+                 )}
             </div>
 
         </>

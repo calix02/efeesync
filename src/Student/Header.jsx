@@ -75,7 +75,7 @@ function Header_Council({code, title}) {
 
   return (
     <>
-      <header className={` flex  bg-white fixed top-0 w-screen h-20 lg:z-20 md:z-40 z-60  items-center border-b-3 ${color}`}>
+      <header className={` flex  bg-white fixed top-0 w-screen h-20 lg:z-20 md:z-40 z-60 rounded-xl shadow-[2px_2px_4px_gray]  items-center ${color}`}>
         <span hidden>{code}</span>
         <span className="flex items-center  gap-3 ml-2">
           <span className='lg:hidden block'>
@@ -101,7 +101,7 @@ function Header_Council({code, title}) {
           </span>
         */}
 
-          <span onClick={() => { clickedAccBar(); account.toggle(); }}  className={`hidden px-3 font-[family-name:Arial] text-sm rounded-3xl shadow-[1px_1px_1px_grey] ${hoverColor} cursor-pointer transiton duration-150 border-1 border-[#f3f3f3] lg:flex items-center hover:text-white`}>
+          <span onClick={() => { clickedAccBar(); account.toggle(); }}  className={`hidden px-3 font-poppins text-sm font-semibold rounded-xl  ${hoverColor} ${color} cursor-pointer transiton duration-150   lg:flex items-center hover:text-white`}>
             <span><i  className={`fa-solid fa-circle-user lg:text-xl  rounded-full p-1.5 hover:text-white  text-sm cursor-pointer`}></i></span>
             <span>Account</span>
           </span>

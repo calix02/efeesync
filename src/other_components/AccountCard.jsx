@@ -6,11 +6,11 @@ const AccountCard = React.forwardRef(({ animate, onAnimationEnd,code}, ref) => {
     const [user, setUser] = useState([]);
 /* ------------------------- Color ----------------------------- */
     const colors = {
-    CIT: "text-[#621668]",
-    COE: "text-[#020180]",
-    COC: "text-[#660A0A]",
-    COT: "text-[#847714]",
-    ESAF: " text-[#6F3306]",
+    CITSC: "text-[#621668]",
+    CESC: "text-[#020180]",
+    CCSC: "text-[#660A0A]",
+    COTSC: "text-[#847714]",
+    SCEAP: " text-[#6F3306]",
     SSC: "text-[#174515]"
   };
   const color = colors[code] || " text-[#174515]";

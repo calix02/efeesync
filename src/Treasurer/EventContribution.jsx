@@ -154,23 +154,23 @@ function EventContribution({ data }) {
 
 
   const colors = {
-      CIT: "text-[#621668]",
-      COE: "text-[#020180] ",
-      COC: "text-[#660A0A] ",
-      COT: "text-[#847714] ",
-      ESAF: "text-[#6F3306] ",
+      CITSC: "text-[#621668]",
+      CESC: "text-[#020180] ",
+      CCSC: "text-[#660A0A] ",
+      COTSC: "text-[#847714] ",
+      SCEAP: "text-[#6F3306] ",
       SSC: " text-[#174515] ",
     };
-    const color = colors[currentUserData?.department_code] || "border-[#174515] text-[#174515] bg-[#174515]";
+    const color = colors[currentUserData?.organization_code] || "border-[#174515] text-[#174515] bg-[#174515]";
     const hoverColors = {
-            CIT: "hover:bg-[#621668] ",
-            COE: " hover:bg-[#020180] ",
-            COC: " hover:bg-[#660A0A] ",
-            COT: "hover:bg-[#847714] ",
-            ESAF: "hover:bg-[#6F3306] ",
+            CITSC: "hover:bg-[#621668] ",
+            CESC: " hover:bg-[#020180] ",
+            CCSC: " hover:bg-[#660A0A] ",
+            COTSC: "hover:bg-[#847714] ",
+            SCEAP: "hover:bg-[#6F3306] ",
             SSC: "hover:bg-[#174515] "
         };
-    const hoverColor = hoverColors[currentUserData?.department_code] || " hover:text-[#174515] ";
+    const hoverColor = hoverColors[currentUserData?.organization_code] || " hover:text-[#174515] ";
 
   return (
     <>
@@ -191,7 +191,7 @@ function EventContribution({ data }) {
         <SkeletonHeader />
       ) : (
         <CITHeader
-          code={currentUserData?.department_code}
+          code={currentUserData?.organization_code}
           titleCouncil={currentUserData?.organization_name}
           abb="CIT Council"
         />
@@ -233,7 +233,7 @@ function EventContribution({ data }) {
               <SkeletonTable/>
             ) : (
               <TableEventContribution
-                code={currentUserData?.department_code}
+                code={currentUserData?.organization_code}
                 formatDateStr={formatDateStr}
                 selectedEvent={selectedEvent}
                 events={eventContributionsData}
@@ -280,7 +280,7 @@ function EventContribution({ data }) {
                   fetchStudentsToContribute={fetchStudentsToContribute}
                   studentsToContribute={studentsToContribute}
                   selectedEvent={selectedEvent}
-                  code={currentUserData?.department_code}/>
+                  code={currentUserData?.organization_code}/>
               )}
           </>
         )}
@@ -289,7 +289,7 @@ function EventContribution({ data }) {
         <SkeletonSidebar />
       ) :(
       <div className="hidden lg:block">
-        <CITSidebar isUnivWide={currentUserData?.university_wide_org} code={currentUserData?.department_code} />
+        <CITSidebar isUnivWide={currentUserData?.university_wide_org} code={currentUserData?.organization_code} />
       </div>
       )
     }

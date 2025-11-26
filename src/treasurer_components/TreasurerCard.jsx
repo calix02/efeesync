@@ -4,20 +4,20 @@ import "../animate.css"
 function CardCouncil({code,icon, value, desc,show, link}){
     const animate = 'card-In';
     const textColors = {
-    CIT: " text-[#621668]",
-    COE: " text-[#020180]",
-    COC: " text-[#660A0A]",
-    COT: " text-[#847714]",
-    ESAF: " text-[#6F3306]",
+    CITSC: " text-[#621668]",
+    CESC: " text-[#020180]",
+    CCSC: " text-[#660A0A]",
+    COTSC: " text-[#847714]",
+    SCEAP: " text-[#6F3306]",
     SSC: " text-[#174515]"
   };
   const textColor = textColors[code] || "border-[#174515] text-[#174515]";
   const iconColors = {
-    CIT: " text-[#63166857]",
-    COE: " text-[#0101804e] ",
-    COC: " text-[#660a0a52]",
-    COT: " text-[#8477145d]",
-    ESAF: " text-[#6f33065a]",
+    CITSC: " text-[#63166857]",
+    CESC: " text-[#0101804e] ",
+    CCSC: " text-[#660a0a52]",
+    COTSC: " text-[#8477145d]",
+    SCEAP: " text-[#6f33065a]",
     SSC: " text-[#17451573]"
   };
   const iconColor = iconColors[code] || "text-[#17451573]";

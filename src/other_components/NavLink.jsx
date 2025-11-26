@@ -2,11 +2,11 @@ import{Link} from 'react-router-dom';
 
 function NavLink(props){
     const colors = {
-        CIT: "hover:bg-[#621668] ",
-        COE: "hover:bg-[#020180] ",
-        COC: "hover:bg-[#660A0A] ",
-        COT: "hover:bg-[#847714] ",
-        ESAF: "hover:bg-[#6F3306] ",
+        CITSC: "hover:bg-[#621668] ",
+        CESC: "hover:bg-[#020180] ",
+        CCSC: "hover:bg-[#660A0A] ",
+        COTSC: "hover:bg-[#847714] ",
+        SCEAP: "hover:bg-[#6F3306] ",
         SSC: "hover:bg-[#174515] ",
         OSAS: "hover:bg-[#174515]",
       };

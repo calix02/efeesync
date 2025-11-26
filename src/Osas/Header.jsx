@@ -59,14 +59,10 @@ function Header_Council(props) {
     notification.setIsVisible(false);
   }
   
-  /* ------------------ Dark Mode Toggle ------------------ */
-  const toggleDarkMode = () => {
-    document.documentElement.classList.toggle("dark");
-  };
 
   return (
   <>
-    <header className={` flex  bg-white fixed top-0 w-screen h-18 lg:z-20 md:z-40 z-60  items-center border-b-4 shadow-md ${borderColor}`}>
+    <header className={` flex  bg-white fixed top-0 w-screen h-20 lg:z-20 md:z-40 z-60 rounded-xl items-center shadow-[2px_2px_4px_gray]  ${borderColor}`}>
       <span hidden>{props.code}</span>
       <span className="flex items-center  gap-3 ml-2">
         <span className='lg:hidden block'>
@@ -92,7 +88,7 @@ function Header_Council(props) {
       </span>
       */}
 
-        <span onClick={() => { clickedAccBar(); account.toggle(); }}  className={`hidden px-3 font-[family-name:Arial] text-sm rounded-3xl shadow-[1px_1px_1px_grey] hover:bg-[#174515] cursor-pointer transiton duration-150 border-1 border-[#f3f3f3] lg:flex items-center hover:text-white`}>
+        <span onClick={() => { clickedAccBar(); account.toggle(); }}  className={`hidden px-3 font-poppins text-sm font-semibold rounded-2xl  hover:bg-[#174515] cursor-pointer transiton duration-150  lg:flex items-center hover:text-white`}>
             <span><i  className={`fa-solid fa-circle-user lg:text-xl  rounded-full p-1.5 hover:text-white  text-sm cursor-pointer`}></i></span>
             <span>Account</span>
           </span>

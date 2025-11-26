@@ -155,24 +155,24 @@ function Attendance() {
   };
 
   const colors = {
-    CIT: "text-[#621668]",
-    COE: "text-[#020180] ",
-    COC: "text-[#660A0A] ",
-    COT: "text-[#847714] ",
-    ESAF: "text-[#6F3306] ",
+    CITSC: "text-[#621668]",
+    CESC: "text-[#020180] ",
+    CCSC: "text-[#660A0A] ",
+    COTSC: "text-[#847714] ",
+    SCEAP: "text-[#6F3306] ",
     SSC: " text-[#174515] ",
   };
-  const color = colors[currentUserData?.department_code] || "border-[#174515] text-[#174515] bg-[#174515]";
+  const color = colors[currentUserData?.organization_code] || "border-[#174515] text-[#174515] bg-[#174515]";
 
   const hoverColors = {
-    CIT: "hover:bg-[#621668] ",
-    COE: " hover:bg-[#020180] ",
-    COC: " hover:bg-[#660A0A] ",
-    COT: "hover:bg-[#847714] ",
-    ESAF: "hover:bg-[#6F3306] ",
+    CITSC: "hover:bg-[#621668] ",
+    CESC: " hover:bg-[#020180] ",
+    CCSC: " hover:bg-[#660A0A] ",
+    COTSC: "hover:bg-[#847714] ",
+    SCEAP: "hover:bg-[#6F3306] ",
     SSC: "hover:bg-[#174515] "
   };
-  const hoverColor = hoverColors[currentUserData?.department_code] || "hover:text-[#174515]";
+  const hoverColor = hoverColors[currentUserData?.organization_code] || "hover:text-[#174515]";
 
   return (
     <>
@@ -193,7 +193,7 @@ function Attendance() {
       {/* Scan Attendance Modal */}
       {scanAttendee.isVisible && (
         <div className="fixed inset-0 flex justify-center items-center bg-[#00000062] lg:z-40 md:z-50 z-70 pointer-events-auto">
-          <ScanAttendance ref={scanRef} fetchStudentAttendees={fetchStudentAttendees} selectedEvent={selectedEvent} selectedEventDate={selectedAttendanceDate} code={currentUserData?.department_code} onAnimationEnd={scanAttendee.handleEnd} animate={scanAttendee.animation} onClose={() => scanAttendee.setAnimation("fade-out")} />
+          <ScanAttendance ref={scanRef} fetchStudentAttendees={fetchStudentAttendees} selectedEvent={selectedEvent} selectedEventDate={selectedAttendanceDate} code={currentUserData?.organization_code} onAnimationEnd={scanAttendee.handleEnd} animate={scanAttendee.animation} onClose={() => scanAttendee.setAnimation("fade-out")} />
         </div>
       )}
 
@@ -202,7 +202,7 @@ function Attendance() {
           <SkeletonHeader/>
         ) : (
           <CITHeader
-            code={currentUserData?.department_code}
+            code={currentUserData?.organization_code}
             titleCouncil={currentUserData?.organization_name}
             abb="CIT Council"
           />
@@ -237,7 +237,7 @@ function Attendance() {
                       formatDateStr={formatDateStr}
                       events={eventAttendanceData}
                       searchValue={searchValue}
-                      code={currentUserData?.department_code}
+                      code={currentUserData?.organization_code}
                       updateEvent={updateEvent.toggle}
                       view={(row) => clickedView(row)}
                     />
@@ -289,7 +289,7 @@ function Attendance() {
                   <SkeletonTable/>
                 ) :(
                 <AttendanceTable
-                  code={currentUserData?.department_code}
+                  code={currentUserData?.organization_code}
                   paginate={paginateForStudents}
                   studentAttendees={studentAttendees}
                   setStudentAttendees={setStudentAttendees}
@@ -312,7 +312,7 @@ function Attendance() {
 
       : (
         <div className="hidden lg:block">
-          <CITSidebar isUnivWide={currentUserData?.university_wide_org} code={currentUserData?.department_code} />
+          <CITSidebar isUnivWide={currentUserData?.university_wide_org} code={currentUserData?.organization_code} />
         </div>
       )}
     </>

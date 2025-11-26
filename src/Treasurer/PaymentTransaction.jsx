@@ -47,14 +47,14 @@ function PaymentTransaction() {
     }, []);
 
     const hoverColors = {
-        CIT: " hover:bg-[#621668]",
-        COE: "hover:bg-[#020180]",
-        COC: "hover:bg-[#660A0A]",
-        COT: "hover:bg-[#847714]",
-        ESAF: "hover:bg-[#6F3306]",
+        CITSC: " hover:bg-[#621668]",
+        CESC: "hover:bg-[#020180]",
+        CCSC: "hover:bg-[#660A0A]",
+        COTSC: "hover:bg-[#847714]",
+        SCEAP: "hover:bg-[#6F3306]",
         SSC: "hover:bg-[#174515]"
     };
-    const hoverColor = hoverColors[currentUserData?.department_code] || "hover:bg-[#174515]";
+    const hoverColor = hoverColors[currentUserData?.organization_code] || "hover:bg-[#174515]";
 
     const [status, setStatus] = useState("");
 
@@ -117,7 +117,7 @@ function PaymentTransaction() {
         {viewProof.isVisible && (
             <div className="fixed inset-0 flex justify-center items-center bg-[#00000062]  lg:z-40 md:z-50 z-70 pointer-events-auto">
                 {/* Overlay */}
-                <ProofPayment formatDateStr={formatDateStr} code={currentUserData?.department_code} ref={viewProofRef} data={selectedStudent} onAnimationEnd={viewProof.handleEnd} animate={viewProof.animation} onClose={() => viewProof.setAnimation("fade-out")} />
+                <ProofPayment formatDateStr={formatDateStr} code={currentUserData?.organization_code} ref={viewProofRef} data={selectedStudent} onAnimationEnd={viewProof.handleEnd} animate={viewProof.animation} onClose={() => viewProof.setAnimation("fade-out")} />
             </div>
         )}
 
@@ -125,7 +125,7 @@ function PaymentTransaction() {
             {loadingUser ? (
                 <SkeletonHeader/>
             ) : (
-                <CITHeader code={currentUserData?.department_code} titleCouncil= {currentUserData?.organization_name} abb="CIT Council" />
+                <CITHeader code={currentUserData?.organization_code} titleCouncil= {currentUserData?.organization_name} abb="CIT Council" />
             )}
             <div className="w-screen h-screen bg-[#fafafa] absolute z-[-1] overflow-y-auto overflow-x-auto lg:px-6 md:px-10 px-3">
                 <div className="lg:mt-30 mt-25 lg:ml-70 lg:flex md:flex  md:justify-between   lg:justify-between">
@@ -150,7 +150,7 @@ function PaymentTransaction() {
                         <TablePaymentTransaction formatDateStr={formatDateStr} paginate={paginate} status={status} payments={onlinePaymentContributions} fetchOnlineContributions={fetchOnlineContributions} viewProof={(row)=>{
                             viewProof.toggle();
                             setSelectedStudent(row)
-                        }}  code={currentUserData?.department_code} />
+                        }}  code={currentUserData?.organization_code} />
                     )}
                 
                 </div>
@@ -159,7 +159,7 @@ function PaymentTransaction() {
                 {loadingUser ? (
                     <SkeletonSidebar/>
                 ) : (
-                    <CITSidebar isUnivWide={currentUserData?.university_wide_org} code={currentUserData?.department_code} />
+                    <CITSidebar isUnivWide={currentUserData?.university_wide_org} code={currentUserData?.organization_code} />
                 )}
             </div>
             </>

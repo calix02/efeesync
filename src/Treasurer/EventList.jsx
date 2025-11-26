@@ -111,21 +111,21 @@ function CITEventList(){
     }, [currentUserData]);
 
     const hoverColors = {
-        CIT: " hover:bg-[#621668]",
-        COE: "hover:bg-[#020180]",
-        COC: "hover:bg-[#660A0A]",
-        COT: "hover:bg-[#847714]",
-        ESAF: "hover:bg-[#6F3306]",
+        CITSC: " hover:bg-[#621668]",
+        CESC: "hover:bg-[#020180]",
+        CCSC: "hover:bg-[#660A0A]",
+        COTSC: "hover:bg-[#847714]",
+        SCEAP: "hover:bg-[#6F3306]",
         SSC: "hover:bg-[#174515]"
     };
-    const hoverColor = hoverColors[currentUserData?.department_code] || "hover:bg-[#174515]";
+    const hoverColor = hoverColors[currentUserData?.organization_code] || "hover:bg-[#174515]";
 
    
     return(
         <>
             {addEvent.isVisible &&(
                 <div className="fixed inset-0 flex justify-center items-center bg-[#00000062] lg:z-40 md:z-50 z-70 pointer-events-auto">
-                    <AddEventListCard code={currentUserData?.department_code} reloadEvents={fetchEvents} currentUserData={currentUserData} ref={addRef} addFee={addFee.toggle} onAnimationEnd={addEvent.handleEnd} animate={addEvent.animation} onClose={() => addEvent.setAnimation("fade-out")} />
+                    <AddEventListCard code={currentUserData?.organization_code} reloadEvents={fetchEvents} currentUserData={currentUserData} ref={addRef} addFee={addFee.toggle} onAnimationEnd={addEvent.handleEnd} animate={addEvent.animation} onClose={() => addEvent.setAnimation("fade-out")} />
                 </div>
             )}
 
@@ -134,7 +134,7 @@ function CITEventList(){
                     {loadingEvent ? (
                         <SkeletonModal/>
                     ) : (
-                        <UpdateEventCard code={currentUserData?.department_code} reloadEvents={fetchEvents} currentUserData={currentUserData} ref={updateRef} data={selectedEvent} onAnimationEnd={updateEvent.handleEnd} animate={updateEvent.animation} onClose={() => updateEvent.setAnimation("fade-out")} />
+                        <UpdateEventCard code={currentUserData?.organization_code} reloadEvents={fetchEvents} currentUserData={currentUserData} ref={updateRef} data={selectedEvent} onAnimationEnd={updateEvent.handleEnd} animate={updateEvent.animation} onClose={() => updateEvent.setAnimation("fade-out")} />
                     )}
                 </div>
             )}
@@ -152,7 +152,7 @@ function CITEventList(){
             {loadingUser ? (
                 <SkeletonHeader/>
             ) : (
-                <CITHeader code={currentUserData?.department_code} titleCouncil={currentUserData?.organization_name} abb="CIT Council" />
+                <CITHeader code={currentUserData?.organization_code} titleCouncil={currentUserData?.organization_name} abb="CIT Council" />
             )}
 
                 <div className="w-screen hide-scrollbar h-screen bg-[#fafafa] absolute z-[-1] overflow-y-auto overflow-x-auto lg:px-6 md:px-10 px-3">
@@ -174,7 +174,7 @@ function CITEventList(){
                         {loadingEvent ? (
                             <SkeletonTable/>
                         ) : (
-                            <TableEventList paginate={paginate} code={currentUserData?.department_code} formatDateStr={formatDateStr} events={eventsOrg} reloadEvents={fetchEvents} addEvent={addEvent.toggle} 
+                            <TableEventList paginate={paginate} code={currentUserData?.organization_code} formatDateStr={formatDateStr} events={eventsOrg} reloadEvents={fetchEvents} addEvent={addEvent.toggle} 
                             view={(row) =>{
                                 viewEventDetails.toggle();
                                 setSelectedEvent(row);
@@ -189,7 +189,7 @@ function CITEventList(){
                     {loadingUser ? (
                         <SkeletonSideBar/>
                     ) : (
-                        <CITSidebar isUnivWide={currentUserData?.university_wide_org} code={currentUserData?.department_code} />
+                        <CITSidebar isUnivWide={currentUserData?.university_wide_org} code={currentUserData?.organization_code} />
                     )}
                 </div>
             </>

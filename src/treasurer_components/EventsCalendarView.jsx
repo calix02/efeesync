@@ -75,11 +75,11 @@ const EventsCalendarView = React.forwardRef(
 
     // --- Department colors ---
     const textColors = {
-      CIT: "border-[#621668] text-[#621668]",
-      COE: "border-[#020180] text-[#020180]",
-      COC: "border-[#660A0A] text-[#660A0A]",
-      COT: "border-[#847714] text-[#847714]",
-      ESAF: "border-[#6F3306] text-[#6F3306]",
+      CITSC: "border-[#621668] text-[#621668]",
+      CESC: "border-[#020180] text-[#020180]",
+      CCSC: "border-[#660A0A] text-[#660A0A]",
+      COTSC: "border-[#847714] text-[#847714]",
+      SCEAP: "border-[#6F3306] text-[#6F3306]",
       SSC: "border-[#174515] text-[#174515]",
     };
     const textColor = textColors[code] || "border-[#174515] text-[#174515]";

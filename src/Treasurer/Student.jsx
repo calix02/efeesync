@@ -153,23 +153,23 @@ function CITStudent() {
 
     const [selectedStudent, setSelectedStudent] = useState(null);
     const colors = {
-        CIT: "border-[#621668] bg-[#621668]",
-        COE: "border-[#020180] bg-[#020180]",
-        COC: "border-[#660A0A] bg-[#660A0A]",
-        COT: "border-[#847714] bg-[#847714]",
-        ESAF: "border-[#6F3306] bg-[#6F3306]",
+        CITSC: "border-[#621668] bg-[#621668]",
+        CESC: "border-[#020180] bg-[#020180]",
+        CCSC: "border-[#660A0A] bg-[#660A0A]",
+        COTSC: "border-[#847714] bg-[#847714]",
+        SCEAP: "border-[#6F3306] bg-[#6F3306]",
         SSC: "border-[#174515] bg-[#174515]"
     };
-    const color = colors[currentUserData?.department_code] || "border-[#174515] bg-[#174515]";
+    const color = colors[currentUserData?.organization_code] || "border-[#174515] bg-[#174515]";
     const hoverColors = {
-        CIT: " hover:bg-[#621668]",
-        COE: "hover:bg-[#020180]",
-        COC: "hover:bg-[#660A0A]",
-        COT: "hover:bg-[#847714]",
-        ESAF: "hover:bg-[#6F3306]",
+        CITSC: " hover:bg-[#621668]",
+        CESC: "hover:bg-[#020180]",
+        CCSC: "hover:bg-[#660A0A]",
+        COTSC: "hover:bg-[#847714]",
+        SCEAP: "hover:bg-[#6F3306]",
         SSC: "hover:bg-[#174515]"
     };
-    const hoverColor = hoverColors[currentUserData?.department_code] || "hover:bg-[#174515]";
+    const hoverColor = hoverColors[currentUserData?.organization_code] || "hover:bg-[#174515]";
 
     /* ------------------------- Animated States ----------------------------- */
     const addStudent = useAnimatedToggle();
@@ -192,7 +192,7 @@ function CITStudent() {
                     {/* Add Student*/}
                     <div className="fixed inset-0 flex justify-center items-center bg-[#00000062]  lg:z-40 md:z-50 z-70 pointer-events-auto">
                         {/* Overlay */}
-                        <AddStudentCard code={currentUserData?.department_code} ref={addRef} currentUser={currentUserData} reloadStudents={fetchStudents} onAnimationEnd={addStudent.handleEnd} animate={addStudent.animation} onClose={() => addStudent.setAnimation("fade-out")} />
+                        <AddStudentCard code={currentUserData?.organization_code} ref={addRef} currentUser={currentUserData} reloadStudents={fetchStudents} onAnimationEnd={addStudent.handleEnd} animate={addStudent.animation} onClose={() => addStudent.setAnimation("fade-out")} />
                     </div>
                 </>
 
@@ -203,7 +203,7 @@ function CITStudent() {
                     {loadingStudents ? (
                         <SkeletonModal ref={updateRef} onAnimationEnd={updateStudent.handleEnd} animate={updateStudent.animation} onClose={() =>updateStudent.setAnimation("fade-out")}/>
                     ) : (
-                        <UpdateStudentCard code={currentUserData?.department_code} ref={updateRef} reloadStudents={fetchStudents} data={selectedStudent} onAnimationEnd={updateStudent.handleEnd} animate={updateStudent.animation} onClose={() => updateStudent.setAnimation("fade-out")} />
+                        <UpdateStudentCard code={currentUserData?.organization_code} ref={updateRef} reloadStudents={fetchStudents} data={selectedStudent} onAnimationEnd={updateStudent.handleEnd} animate={updateStudent.animation} onClose={() => updateStudent.setAnimation("fade-out")} />
                     )}
                 </div>
             )}
@@ -212,7 +212,7 @@ function CITStudent() {
             {loadingHeader ? (
                 <SkeletonHeader/>
             ) : (
-                <CITHeader code={currentUserData?.department_code} titleCouncil={currentUserData?.organization_name} abb="CIT Council" />
+                <CITHeader code={currentUserData?.organization_code} titleCouncil={currentUserData?.organization_name} abb="CIT Council" />
             )}
             <div className="w-screen h-screen absolute z-[-1] overflow-y-auto overflow-x-auto lg:px-6 md:px-10 px-3">
                 <div className='lg:ml-70 lg:mt-30 mt-25 lg:flex md:flex md:justify-between lg:justify-between '>
@@ -256,7 +256,7 @@ function CITStudent() {
             {loadingHeader ? (
                     <SkeletonSideBar/>
                 ):(
-                    <CITSidebar isUnivWide={currentUserData?.university_wide_org} code={currentUserData?.department_code} />
+                    <CITSidebar isUnivWide={currentUserData?.university_wide_org} code={currentUserData?.organization_code} />
                 )}
             </div>
              </>

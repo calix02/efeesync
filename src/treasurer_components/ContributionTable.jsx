@@ -12,10 +12,10 @@ function ContributionTable({ code, selectedEvent, paginate, fetchStudentsToContr
   
 
   const colors = {
-    CIT: "border-[#621668] text-[#621668] bg-[#621668]",
-    COE: "border-[#020180] text-[#020180] bg-[#621668]",
-    COC: "border-[#660A0A] text-[#660A0A] bg-[#621668]",
-    COT: "border-[#847714] text-[#847714] bg-[#621668]",
+    CITSC: "border-[#621668] text-[#621668] bg-[#621668]",
+    CESC: "border-[#020180] text-[#020180] bg-[#621668]",
+    CCSC: "border-[#660A0A] text-[#660A0A] bg-[#621668]",
+    COTSC: "border-[#847714] text-[#847714] bg-[#621668]",
     SCEAP: "border-[#6F3306] text-[#6F3306] bg-[#621668]",
     SSC: "border-[#174515] text-[#174515] bg-[#621668]",
   };

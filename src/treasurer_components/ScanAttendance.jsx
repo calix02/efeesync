@@ -6,11 +6,11 @@ import Quagga from "quagga";
 const ScanAttendance = React.forwardRef(
   ({ animate, onAnimationEnd, onClose, code, selectedEvent, selectedEventDate, fetchStudentAttendees }, ref) => {
     const colors = {
-      CIT: "border-[#621668] text-[#621668] bg-[#621668] ",
-      COE: "border-[#020180] text-[#020180] bg-[#020180]",
-      COC: "border-[#660A0A] text-[#660A0A] bg-[#660A0A]",
-      COT: "border-[#847714] text-[#847714] bg-[847714]",
-      ESAF: "border-[#6F3306] text-[#6F3306] bg-[#6F3306]",
+      CITSC: "border-[#621668] text-[#621668] bg-[#621668] ",
+      CESC: "border-[#020180] text-[#020180] bg-[#020180]",
+      CCSC: "border-[#660A0A] text-[#660A0A] bg-[#660A0A]",
+      COTSC: "border-[#847714] text-[#847714] bg-[847714]",
+      SCEAP: "border-[#6F3306] text-[#6F3306] bg-[#6F3306]",
       SSC: "border-[#174515] text-[#174515] bg-[#174515]"
     };
     const color = colors[code] || "border-black text-black";
@@ -210,6 +210,7 @@ const ScanAttendance = React.forwardRef(
             >
               {usingQuagga ? "Scan Qr codes" : "Scan Barcodes"}
             </button>
+            <p className="roboto mt-2 lg:hidden flex items-center gap-2 justify-center">Scroll up to see more Information<i className="fa-solid fa-arrow-up"></i></p>
           </div>
 
           <div className="w-full font-[family-name:Arial] lg:px-6 px-3">

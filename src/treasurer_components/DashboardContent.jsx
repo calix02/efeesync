@@ -76,16 +76,16 @@ function CITDashboard({ currentUserData }) {
 
   const studentPopulation = dashboardData.student_population;
   const departmentColors = {
-    CIT: ['#e0b3ff', '#c480ff', '#9d4edd', '#5a189a'],
-    COE: ['#99ccff', '#4da6ff', '#0059b3', '#003366'],
-    COC: ['#ff9999', '#ff6666', '#cc0000', '#800000'],
-    COT: ['#fff799', '#ffe066', '#ccaa00', '#665c00'],
-    ESAF: ['#ffcc99', '#ff9966', '#cc5200', '#663300'],
+    CITSC: ['#e0b3ff', '#c480ff', '#9d4edd', '#5a189a'],
+    CESC: ['#99ccff', '#4da6ff', '#0059b3', '#003366'],
+    CCSC: ['#ff9999', '#ff6666', '#cc0000', '#800000'],
+    COTSC: ['#fff799', '#ffe066', '#ccaa00', '#665c00'],
+    SCEAP: ['#ffcc99', '#ff9966', '#cc5200', '#663300'],
     SSC: ['#99e699', '#33cc33', '#248f24', '#145214'],
   };
 
   const colors =
-    departmentColors[currentUserData?.department_code] ||
+    departmentColors[currentUserData?.organization_code] ||
     ['#99e699', '#33cc33', '#248f24', '#145214'];
 
   const data = {
@@ -150,7 +150,7 @@ function CITDashboard({ currentUserData }) {
 
           <EventsCalendarView
             events={eventsOrg}
-            code={currentUserData?.department_code}
+            code={currentUserData?.organization_code}
             ref={calendarRef}
             onAnimationEnd={eventCalendar.handleEnd}
             onClose={() => eventCalendar.setAnimation("fade-out")}
@@ -217,10 +217,10 @@ function CITDashboard({ currentUserData }) {
            
             {/* Real Dashboard */}
             <div className="lg:flex lg:flex-row lg:justify-center lg:items-center lg:px-6 md:px-10 px-3 grid grid-cols-2 mt-4 lg:ml-70 lg:gap-6 gap-4">
-              <TreasurerCard show={eventCalendar.toggle} code={currentUserData?.department_code} desc="Number of Events" value={dashboardData.total_events} icon={calendar} />
-              <TreasurerCard link="/org/student" code={currentUserData?.department_code} desc="Number of Students" value={dashboardData.total_students} icon={cap} />
-              <TreasurerCard link="/org/financial" code={currentUserData?.department_code} desc="Fees Collected" value={"P " + dashboardData.total_fees_collected} icon={coin} />
-              <TreasurerCard link="/org/financial" code={currentUserData?.department_code} desc="Sanction Collected" value={"P " + dashboardData.total_sanctions_collected} icon={sanc} />
+              <TreasurerCard show={eventCalendar.toggle} code={currentUserData?.organization_code} desc="Number of Events" value={dashboardData.total_events} icon={calendar} />
+              <TreasurerCard link="/org/student" code={currentUserData?.organization_code} desc="Number of Students" value={dashboardData.total_students} icon={cap} />
+              <TreasurerCard link="/org/financial" code={currentUserData?.organization_code} desc="Fees Collected" value={"P " + dashboardData.total_fees_collected} icon={coin} />
+              <TreasurerCard link="/org/financial" code={currentUserData?.organization_code} desc="Sanction Collected" value={"P " + dashboardData.total_sanctions_collected} icon={sanc} />
             </div>
 
             <div className="lg:flex lg:ml-70 mt-8 px-3 md:px-10 lg:px-6 lg:gap-6">
@@ -228,7 +228,7 @@ function CITDashboard({ currentUserData }) {
                 <StudentGraph graphTitle="Summary of Students" data={data} options={options} />
               </div>
               <div className={`bg-white border-1 ${animateChart} p-5 transition duration-300 hover:shadow-[3px_3px_5px_#000] hover:scale-102 border-[#d8d8d8] lg:w-[60%] h-96 lg:my-0 my-8 flex items-center justify-center lg:mx-0 mx-3 rounded-xl shadow-[2px_2px_3px_grey,-2px_-2px_3px_white]`}>
-                <EventChart code={currentUserData?.department_code} eventSummary={dashboardData?.event_summary || []} />
+                <EventChart code={currentUserData?.organization_code} eventSummary={dashboardData?.event_summary || []} />
               </div>
             </div>
 

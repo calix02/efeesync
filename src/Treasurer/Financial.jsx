@@ -100,7 +100,7 @@ function CITFinancial(){
         <>
         {add.isVisible &&(
             <div className="fixed inset-0 flex justify-center items-center bg-[#00000062]  lg:z-40 md:z-50 z-70 pointer-events-auto">
-                <CashOutflowCard code={currentUserData?.department_code} ref={addRef} fetchFinancialReportData={fetchFinancialReportData} currentUserData={currentUserData} onAnimationEnd={add.handleEnd} animate={add.animation} onClose={() => add.setAnimation("fade-out")} />
+                <CashOutflowCard code={currentUserData?.organization_code} ref={addRef} fetchFinancialReportData={fetchFinancialReportData} currentUserData={currentUserData} onAnimationEnd={add.handleEnd} animate={add.animation} onClose={() => add.setAnimation("fade-out")} />
             </div>
         )}
         {edit.isVisible &&(
@@ -108,7 +108,7 @@ function CITFinancial(){
                 {loadingFinancial ? (
                     <SkeletonModal ref={editRef} onAnimationEnd={edit.handleEnd} animate={edit.animation} onClose={() => edit.setAnimation("fade-out")} />
                 ) : (
-                    <EditCashOutflowCard data={selectedCashOut} code={currentUserData?.department_code} fetchFinancialReportData={fetchFinancialReportData} ref={editRef} currentUser={currentUserData} currentUserData={currentUserData} onAnimationEnd={edit.handleEnd} animate={edit.animation} onClose={() => edit.setAnimation("fade-out")} />
+                    <EditCashOutflowCard data={selectedCashOut} code={currentUserData?.organization_code} fetchFinancialReportData={fetchFinancialReportData} ref={editRef} currentUser={currentUserData} currentUserData={currentUserData} onAnimationEnd={edit.handleEnd} animate={edit.animation} onClose={() => edit.setAnimation("fade-out")} />
                 )}
             </div>
         )}
@@ -118,7 +118,7 @@ function CITFinancial(){
             {loadingUser ? ( 
                 <SkeletonHeader/>
             ) :(
-                <CITHeader code={currentUserData?.department_code} titleCouncil = {currentUserData?.organization_name} abb="CIT Council" />
+                <CITHeader code={currentUserData?.organization_code} titleCouncil = {currentUserData?.organization_name} abb="CIT Council" />
             )}
             <div className="w-screen hide-scrollbar h-screen bg-[#fafafa] absolute z-[-1] overflow-y-auto overflow-x-auto lg:px-6 md:px-10 px-3">
                 <div className="lg:mt-30 mt-25 lg:ml-70">
@@ -132,8 +132,8 @@ function CITFinancial(){
                     </>
                 ) : (
                 <>
-                <FinancialTable total={financialReportData?.summary?.total_cash_in} code={currentUserData?.department_code} title="Cash Inflow" financialData={financialReportData?.cash_in}/>
-                <FinancialTable total={financialReportData?.summary?.total_cash_out} code={currentUserData?.department_code} title="Cash Outflow" financialData={financialReportData?.cash_out} fetchFinancialReportData={fetchFinancialReportData}
+                <FinancialTable total={financialReportData?.summary?.total_cash_in} code={currentUserData?.organization_code} title="Cash Inflow" financialData={financialReportData?.cash_in}/>
+                <FinancialTable total={financialReportData?.summary?.total_cash_out} code={currentUserData?.organization_code} title="Cash Outflow" financialData={financialReportData?.cash_out} fetchFinancialReportData={fetchFinancialReportData}
                 add={add.toggle}
                 edit={(row) => {
                     edit.toggle();
@@ -147,7 +147,7 @@ function CITFinancial(){
             {loadingUser ? (
                 <SkeletonSideBar/>
             ) :(
-                <CITSidebar isUnivWide={currentUserData?.university_wide_org} code={currentUserData?.department_code} />
+                <CITSidebar isUnivWide={currentUserData?.university_wide_org} code={currentUserData?.organization_code} />
             )}
         </div>
         </>

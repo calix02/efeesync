@@ -20,21 +20,21 @@ function Header_Council({code, titleCouncil}) {
   /* ------------------------- Color  ----------------------------- */
 
   const colors = {
-    CIT: "border-[#621668] text-[#621668]",
-    COE: "border-[#020180] text-[#020180]",
-    COC: "border-[#660A0A] text-[#660A0A]",
-    COT: "border-[#847714] text-[#847714]",
-    ESAF: "border-[#6F3306] text-[#6F3306]",
+    CITSC: "border-[#621668] text-[#621668]",
+    CESC: "border-[#020180] text-[#020180]",
+    CCSC: "border-[#660A0A] text-[#660A0A]",
+    COTSC: "border-[#847714] text-[#847714]",
+    SCEAP: "border-[#6F3306] text-[#6F3306]",
     SSC: "border-[#174515] text-[#174515]"
   };
   const color = colors[code] || "border-[#174515] text-[#174515]";
 
   const hoverColors = {
-    CIT: "hover:bg-[#621668] ",
-    COE: "hover:bg-[#020180] ",
-    COC: "hover:bg-[#660A0A]",
-    COT: "hover:bg-[#847714]",
-    ESAF: "hover:bg-[#6F3306]",
+    CITSC: "hover:bg-[#621668] ",
+    CESC: "hover:bg-[#020180] ",
+    CCSC: "hover:bg-[#660A0A]",
+    COTSC: "hover:bg-[#847714]",
+    SCEAP: "hover:bg-[#6F3306]",
     SSC: "hover:bg-[#174515]"
 
   };
@@ -43,11 +43,11 @@ function Header_Council({code, titleCouncil}) {
 
 
   const logos = {
-    COC: Crim,
-    CIT: It,
-    COE: Educ,
-    ESAF: Esaf,
-    COT: Indus,
+    CCSC: Crim,
+    CITSC: It,
+    CESC: Educ,
+    SCEAP: Esaf,
+    COTSC: Indus,
     SSC: Ssc
   };
   const logo = logos[code] || Ssc;
@@ -74,7 +74,7 @@ function Header_Council({code, titleCouncil}) {
 
   return (
     <>
-      <header className={` flex  bg-white fixed top-0 w-screen h-20 lg:z-20 md:z-40 z-60  items-center border-b-3 ${color}`}>
+      <header className={` flex rounded-xl shadow-[2px_2px_4px_gray]   bg-white fixed top-0 w-screen h-20 lg:z-20 md:z-40 z-60  items-center ${color}`}>
         <span hidden>{code}</span>
         <span className="flex items-center  gap-3 ml-2">
           <span className='lg:hidden block'>
@@ -100,7 +100,7 @@ function Header_Council({code, titleCouncil}) {
           </span>
         */}
 
-          <span onClick={() => { clickedAccBar(); account.toggle(); }}  className={`hidden px-3 font-poppins text-sm  ${hoverColor} cursor-pointer transiton duration-150 border-b-3 rounded-3xl lg:flex items-center hover:text-white`}>
+          <span onClick={() => { clickedAccBar(); account.toggle(); }}  className={`hidden px-3 font-poppins text-sm font-semibold  ${hoverColor} rounded-2xl cursor-pointer transiton duration-150 lg:flex items-center hover:text-white`}>
             <span><i  className={`fa-solid fa-circle-user lg:text-xl  rounded-full p-1.5 hover:text-white  text-sm cursor-pointer`}></i></span>
             <span>Account</span>
           </span>

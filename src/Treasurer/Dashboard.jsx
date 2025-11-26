@@ -46,8 +46,9 @@ function CITCouncil() {
       ) : (
        
         <CITHeader
-          code={currentUserData?.department_code}
+          code={currentUserData?.organization_code}
           titleCouncil={currentUserData?.organization_name}
+          color="#e0e0e0"
           abb="CIT Council"/>
        )}
        <div className="lg:block hidden">
@@ -56,7 +57,7 @@ function CITCouncil() {
         ) : (
           <CITSidebar
             isUnivWide={currentUserData?.university_wide_org}
-            code={currentUserData?.department_code}/>
+            code={currentUserData?.organization_code}/>
             )}
       </div>
 

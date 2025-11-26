@@ -42,7 +42,7 @@ function EventChart({ eventSummary, code }) {
               event.student_summary.third_year.total_paid,
               event.student_summary.fourth_year.total_paid
             ],
-            backgroundColor: "#66a810a1"
+            backgroundColor: "#174515e0"
           },
           {
             label: "Unsettled",
@@ -52,7 +52,7 @@ function EventChart({ eventSummary, code }) {
               event.student_summary.third_year.total_unsettled,
               event.student_summary.fourth_year.total_unsettled
             ],
-            backgroundColor: "#eab20886"
+            backgroundColor: "#847714f9"
           },
           {
             label: "Not Paid",
@@ -62,7 +62,7 @@ function EventChart({ eventSummary, code }) {
               event.student_summary.third_year.total_unpaid,
               event.student_summary.fourth_year.total_unpaid
             ],
-            backgroundColor: "#de0004ac"
+            backgroundColor: "#660a0aea"
           }
         ]
       };
@@ -72,7 +72,7 @@ function EventChart({ eventSummary, code }) {
   }, [eventSummary]);
 
   if (!selectedEvent || !eventsData[selectedEvent]) {
-    return <p className="text-gray-500">No event contribution data available</p>;
+    return <p className="text-[#847714f9]">No event contribution data available</p>;
   }
    const colors = {
             CIT: " text-[#621668]",

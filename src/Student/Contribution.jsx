@@ -9,6 +9,7 @@ import SendPayment from "../student_components/SendPayment.jsx";
 import useAnimatedToggle from "../hooks/useAnimatedToggle.js";
 import SkeletonHeader from "../skeletons/SkeletonHeader.jsx";
 import SkeletonBox from "../skeletons/SkeletonBox.jsx";
+import SkeletonSidebar from "../skeletons/SkeletonSidebar.jsx";
 import it from '../assets/it.png';
 import "../animate.css";
 import { errorAlert} from '../utils/alert.js';
@@ -126,7 +127,11 @@ function Contribution(){
             
         </div>
              <div className='lg:block hidden' >
+                {userLoading ? (
+                    <SkeletonSidebar/>
+                ) : (
                  <Sidebar code={currentUserData?.department_code} />
+                 )}
             </div>
 
         </>

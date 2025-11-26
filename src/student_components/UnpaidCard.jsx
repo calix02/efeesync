@@ -3,15 +3,15 @@ import "../animate.css";
 function UnpaidCard({unpaidEvents,total,formatDateStr, pay}){
     const animate = "card-In";
     return(
-         <div className={` ${animate} overflow-y-scroll hide-scrollbar  w-[100%] h-130 bg-white px-6 border-3 text-[#B3030C] border-[#B3030C] rounded-lg shadow-[2px_2px_3px_grey]`}>
+         <div className={` font-poppins ${animate} overflow-y-scroll hide-scrollbar w-[100%] h-130 bg-white px-6 border-3 text-[#B3030C] border-[#B3030C] rounded-lg shadow-[2px_2px_3px_grey]`}>
             <div className="border-b-4  border-[#B3030C] p-1.5 mt-2">
-                <span className="text-xl font-semibold">Unpaid</span>
+                <span className="text-2xl font-semibold">Unpaid</span>
                 <p className="font-[family-name:Arial] text-sm ">Total Unpaid Fees: ₱ {total} </p>
 
             </div>
             <div>
                 {unpaidEvents.map((ue) => (
-                    <div className="flex gap-2 mt-1 items-center border-b-1 py-2  border-[#7d7b7b]">
+                    <div className="flex gap-2 mt-1 items-center border-b-1 py-4  border-[#7d7b7b]">
                         <div className="w-20 py-2 flex flex-col justify-center items-center">
                             <span className="text-sm">Amount</span>
                             <span className="font-bold text-2xl">{ue.remaining_balance}</span>
@@ -27,7 +27,9 @@ function UnpaidCard({unpaidEvents,total,formatDateStr, pay}){
                 ))}
                 {unpaidEvents.length == 0 && (
                     <>
-                        No Unpaid Events
+                        <center>
+                            <p className="text-lg text-gray-400 mt-5">No Paid Events</p>
+                        </center>
                     </>
                 )}
             </div>

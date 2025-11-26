@@ -99,14 +99,14 @@ function CITExcuse() {
     }, [currentUserData, status]);
 
     const hoverColors = {
-            CIT: " hover:bg-[#621668]",
-            COE: "hover:bg-[#020180]",
-            COC: "hover:bg-[#660A0A]",
-            COT: "hover:bg-[#847714]",
-            ESAF: "hover:bg-[#6F3306]",
+            CITSC: " hover:bg-[#621668]",
+            CESC: "hover:bg-[#020180]",
+            CCSC: "hover:bg-[#660A0A]",
+            COTSC: "hover:bg-[#847714]",
+            SCEAP: "hover:bg-[#6F3306]",
             SSC: "hover:bg-[#174515]"
     };
-    const hoverColor = hoverColors[currentUserData?.department_code] || "hover:bg-[#174515]";
+    const hoverColor = hoverColors[currentUserData?.organization_code] || "hover:bg-[#174515]";
     const [selectedStudent, setSelectedStudent] = useState(null);
 
     const formatDateStr = (dateString) => {
@@ -122,7 +122,7 @@ function CITExcuse() {
                     {loadingExcuse ? (
                         <SkeletonModal ref={viewLetterRef}  onAnimationEnd={viewLetter.handleEnd} animate={viewLetter.animation} onClose={() => viewLetter.setAnimation("fade-out")} />
                     ) : (
-                    <Letter code={currentUserData?.department_code} formatDateStr={formatDateStr} ref={viewLetterRef} data={selectedStudent}  onAnimationEnd={viewLetter.handleEnd} animate={viewLetter.animation} onClose={() => viewLetter.setAnimation("fade-out")} />
+                    <Letter code={currentUserData?.organization_code} formatDateStr={formatDateStr} ref={viewLetterRef} data={selectedStudent}  onAnimationEnd={viewLetter.handleEnd} animate={viewLetter.animation} onClose={() => viewLetter.setAnimation("fade-out")} />
                     )}
                 </div>
             </>
@@ -133,7 +133,7 @@ function CITExcuse() {
             {loadingUser ? (
                 <SkeletonHeader/>
             ) :(
-                <CITHeader code={currentUserData?.department_code} titleCouncil={currentUserData?.organization_name} abb="CIT Council" />
+                <CITHeader code={currentUserData?.organization_code} titleCouncil={currentUserData?.organization_name} abb="CIT Council" />
             )}
             <div className="w-screen h-screen bg-[#fafafa] absolute z-[-1] overflow-y-auto overflow-x-auto lg:px-6 md:px-10 px-3">
                 <div className="lg:mt-30 mt-25 lg:ml-70 lg:flex md:flex  md:justify-between   lg:justify-between">
@@ -158,7 +158,7 @@ function CITExcuse() {
                         <TableExcuse formatDateStr={formatDateStr} fetchAttendanceExcuse={fetchAttendanceExcuse} status={status} paginate={paginate} excuses={attendanceExcuses} viewLetter={(row) =>{
                             viewLetter.toggle();
                             setSelectedStudent(row);
-                        }}  code={currentUserData?.department_code} />
+                        }}  code={currentUserData?.organization_code} />
                     )}
                 </div>
             </div>
@@ -166,7 +166,7 @@ function CITExcuse() {
                 {loadingUser ? (
                     <SkeletonSidebar/>
                 ) : (
-                    <CITSidebar isUnivWide={currentUserData?.university_wide_org} code={currentUserData?.department_code} />
+                    <CITSidebar isUnivWide={currentUserData?.university_wide_org} code={currentUserData?.organization_code} />
                 )}
             </div>
             </>

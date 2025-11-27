@@ -1,10 +1,11 @@
-function UpcomingEvents({ month, day, event, desc, target, type, code, pay, excuse, data }) {
+import { useState } from "react";
+function UpcomingEvents({ month, day, event, desc, target, type, sent, code, pay, excuse, data }) {
   const colors = {
-    CIT: "border-[#621668] text-[#621668] bg-[#621668]",
-    COE: "border-[#020180] text-[#020180] bg-[#020180]",
-    COC: "border-[#660A0A] text-[#660A0A] bg-[#660A0A]",
-    COT: "border-[#847714] text-[#847714] bg-[#847714]",
-    ESAF:"border-[#6F3306] text-[#6F3306] bg-[#6F3306]",
+    CITSC: "border-[#621668] text-[#621668] bg-[#621668]",
+    CESC: "border-[#020180] text-[#020180] bg-[#020180]",
+    CCSC: "border-[#660A0A] text-[#660A0A] bg-[#660A0A]",
+    COTSC: "border-[#847714] text-[#847714] bg-[#847714]",
+    SCEAP:"border-[#6F3306] text-[#6F3306] bg-[#6F3306]",
     SSC: "border-[#174515] text-[#174515] bg-[#174515]",
   };
 
@@ -15,6 +16,9 @@ function UpcomingEvents({ month, day, event, desc, target, type, code, pay, excu
   const amount = contribution?.fee || 0;
   const status = contribution?.payment_status || "UNPAID";
   const paid = contribution?.total_paid || 0;
+
+  const [hasSentExcuse, setHasSentExcuse] = useState(data?.has_excuse || false);
+
 
   return (
     <div className="p-2 font-poppins rounded-xl">
@@ -84,12 +88,14 @@ function UpcomingEvents({ month, day, event, desc, target, type, code, pay, excu
 
                 {type === "Attendance" && (
                   <div className="flex justify-end">
+                    {!hasSentExcuse && (
                     <button
-                      onClick={() => excuse(data)}
+                      onClick={() => {excuse(data); setHasSentExcuse(sent)}}
                       className={`${color} bg-white border-2 border-[#e0e0e0] hover:scale-110 transition duration-200 cursor-pointer w-30 shadow-[2px_2px_2px_grey] py-2 font-poppins font-semibold text-xs rounded-xl`}
                     >
                       Request Excuse
                     </button>
+                    )}
                   </div>
                 )}
                 {type === "Attendance and Contribution" && (

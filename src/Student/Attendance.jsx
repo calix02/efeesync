@@ -68,7 +68,7 @@ function Attendance(){
         {userLoading ? (
             <SkeletonHeader/>
         ) : (
-            <Header code={currentUserData?.department_code} title = {currentUserData?.department_name}/>
+            <Header code={currentUserData?.organization_code} title = {currentUserData?.department_name}/>
         )}
         <div className="w-screen h-screen bg-[#F8F8F8] absolute z-[-1] overflow-y-auto overflow-x-auto lg:px-6 md:px-10 px-3 ">
             <div className="mt-[110px] lg:ml-70">
@@ -91,7 +91,7 @@ function Attendance(){
             
         </div>
              <div className='lg:block hidden' >
-                 <Sidebar  code={currentUserData?.department_code} />
+                 <Sidebar  code={currentUserData?.organization_code} />
             </div>
 
         </>

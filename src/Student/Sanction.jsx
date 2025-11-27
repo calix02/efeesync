@@ -76,21 +76,21 @@ function Sanction(){
                 fetchSanctionData();
             }, []);
     const colors = {
-            CIT: "border-[#621668] text-[#621668] bg-[#621668]",
-            COE: "border-[#020180] text-[#020180] bg-[#020180]",
-            COC: "border-[#660A0A] text-[#660A0A] bg-[#660A0A]",
-            COT: "border-[#847714] text-[#847714] bg-[#847714]",
-            ESAF: "border-[#6F3306] text-[#6F3306] bg-[#6F3306]",
+            CITSC: "border-[#621668] text-[#621668] bg-[#621668]",
+            CESC: "border-[#020180] text-[#020180] bg-[#020180]",
+            CCSC: "border-[#660A0A] text-[#660A0A] bg-[#660A0A]",
+            COTSC: "border-[#847714] text-[#847714] bg-[#847714]",
+            SCEAP: "border-[#6F3306] text-[#6F3306] bg-[#6F3306]",
             SSC: "border-[#174515] text-[#174515] bg-[#174515]"
         };
-    const color = colors[currentUserData?.department_code] || "border-[#174515] text-[#174515] bg-[#174515]";
+    const color = colors[currentUserData?.organization_code] || "border-[#174515] text-[#174515] bg-[#174515]";
     
     return(
         <>
         {userLoading ? (
             <SkeletonHeader/>
         ) : (
-            <Header code={currentUserData?.department_code} title ={currentUserData?.department_name}/>
+            <Header code={currentUserData?.organization_code} title ={currentUserData?.department_name}/>
          )}
         <div className="w-screen h-screen bg-[#F8F8F8] absolute z-[-1] overflow-y-auto overflow-x-auto lg:px-6 md:px-10 px-3 ">
             <div className="mt-[110px] lg:ml-70">
@@ -118,7 +118,7 @@ function Sanction(){
                 ) : (
                
                 <>
-                <Monetary formatDateStr={formatDateStr} animate={animateL} code={currentUserData?.department_code} monetarySanction={sanctionData?.monetary_sanctions}/>
+                <Monetary formatDateStr={formatDateStr} animate={animateL} code={currentUserData?.organization_code} monetarySanction={sanctionData?.monetary_sanctions}/>
                 <CommunityService formatDateStr={formatDateStr} animate={animateR} communityService={sanctionData?.community_service} />
                 </>
                  )}
@@ -126,7 +126,7 @@ function Sanction(){
             
         </div>
              <div className='lg:block hidden' >
-                 <Sidebar  code={currentUserData?.department_code} />
+                 <Sidebar  code={currentUserData?.organization_code} />
             </div>
 
         </>

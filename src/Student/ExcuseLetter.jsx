@@ -111,7 +111,7 @@ function ExcuseLetter(){
             <>
             <div className="fixed inset-0 flex justify-center items-center  lg:z-40 md:z-50 z-70 bg-[#00000062] pointer-events-auto">
                 {/* Overlay */}
-                <Letter formatDateStr={formatDateStr} data={selectedExcuse} code={currentUserData?.department_code} ref={letterRef} onAnimationEnd={letter.handleEnd} onClose={() => letter.setAnimation("fade-out")} animate={letter.animation} />
+                <Letter formatDateStr={formatDateStr} data={selectedExcuse} code={currentUserData?.organization_code} ref={letterRef} onAnimationEnd={letter.handleEnd} onClose={() => letter.setAnimation("fade-out")} animate={letter.animation} />
             </div>
         </>
         )
@@ -122,7 +122,7 @@ function ExcuseLetter(){
             <>
             <div className="fixed flex justify-center items-center inset-0 lg:z-40 md:z-50 z-70  bg-[#00000062]  pointer-events-auto">
                 {/* Overlay */}
-                <EditExcuse data={selectedExcuse} fetchExcuses={fetchExcuses} code={currentUserData?.department_code} ref={editRef} onAnimationEnd={editExcuse.handleEnd} onClose={() => editExcuse.setAnimation("fade-out")} animate={editExcuse.animation} />
+                <EditExcuse data={selectedExcuse} fetchExcuses={fetchExcuses} code={currentUserData?.organization_code} ref={editRef} onAnimationEnd={editExcuse.handleEnd} onClose={() => editExcuse.setAnimation("fade-out")} animate={editExcuse.animation} />
             </div>
             </>
 
@@ -131,7 +131,7 @@ function ExcuseLetter(){
         {userLoading ? (
             <SkeletonHeader/>
         ) :(
-            <Header code={currentUserData?.department_code} title = {currentUserData?.department_name}/>
+            <Header code={currentUserData?.organization_code} title = {currentUserData?.department_name}/>
          )}
         <div className="w-screen h-screen bg-[#F8F8F8] absolute z-[-1] overflow-y-auto overflow-x-auto lg:px-6 md:px-10 px-3 ">
             <div className="mt-[110px] lg:ml-70 flex justify-between ">
@@ -172,7 +172,7 @@ function ExcuseLetter(){
             
         </div>
              <div className='lg:block hidden' >
-                 <Sidebar code ={currentUserData?.department_code} />
+                 <Sidebar code ={currentUserData?.organization_code} />
             </div>
 
         </>

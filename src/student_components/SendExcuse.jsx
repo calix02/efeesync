@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { errorAlert, successAlert } from "../utils/alert.js";
 
-const SendExcuse = React.forwardRef(({ animate, onAnimationEnd, code, onClose, selectedEvent, formatDateStr }, ref) => {
+const SendExcuse = React.forwardRef(({ animate, onAnimationEnd, code, onExcuseSent,  onClose, selectedEvent, formatDateStr }, ref) => {
   const [file, setFile] = useState(null);
   const [preview, setPreview] = useState(null);
   const [selectedEventId, setSelectedEventId] = useState(selectedEvent?.event_id);
@@ -53,6 +53,7 @@ const SendExcuse = React.forwardRef(({ animate, onAnimationEnd, code, onClose, s
 
       if (response.ok && result.status === "success") {
         successAlert("Excuse successfully submitted!");
+        onExcuseSent(selectedEventId);
         onClose();
       } else {
         errorAlert(result.message || "Failed to submit excuse.");
@@ -70,11 +71,11 @@ const SendExcuse = React.forwardRef(({ animate, onAnimationEnd, code, onClose, s
   }, [selectedEvent]);
 
   const colors = {
-    CIT: "border-[#621668] text-[#621668] bg-[#621668]",
-    COE: "border-[#020180] text-[#020180] bg-[#020180]",
-    COC: "border-[#660A0A] text-[#660A0A] bg-[#660A0A]",
-    COT: "border-[#847714] text-[#847714] bg-[#847714]",
-    ESAF: "border-[#6F3306] text-[#6F3306] bg-[#6F3306]",
+    CITSC: "border-[#621668] text-[#621668] bg-[#621668]",
+    CESC: "border-[#020180] text-[#020180] bg-[#020180]",
+    CCSC: "border-[#660A0A] text-[#660A0A] bg-[#660A0A]",
+    COTSC: "border-[#847714] text-[#847714] bg-[#847714]",
+    SCEAP: "border-[#6F3306] text-[#6F3306] bg-[#6F3306]",
     SSC: "border-[#174515] text-[#174515] bg-[#174515]",
   };
   const color = colors[code] || "border-[#174515] text-[#174515] bg-[#174515]";

@@ -50,6 +50,10 @@ function Dashboard(){
     const [dashboardLoading, setDashboardLoading] = useState(true);
     const [sanctionLoading, setSanctionLoading] = useState(true);
 
+    const [excusedEvents, setExcusedEvents] = useState({});
+
+
+
         const [currentUserData, setCurrentUserData] = useState(() => {
             const saved = localStorage.getItem("currentUserData");
                 return saved ? JSON.parse(saved) : null;
@@ -138,32 +142,39 @@ function Dashboard(){
         const chooseSanction = () => setIsMonetary(!isMonetary);
 
         const colors = {
-            CIT: "border-[#621668] text-[#621668] bg-[#621668]",
-            COE: "border-[#020180] text-[#020180] bg-[#020180]",
-            COC: "border-[#660A0A] text-[#660A0A] bg-[#660A0A]",
-            COT: "border-[#847714] text-[#847714] bg-[#847714]",
-            ESAF: "border-[#6F3306] text-[#6F3306] bg-[#6F3306]",
+            CITSC: "border-[#621668] text-[#621668] bg-[#621668]",
+            CESC: "border-[#020180] text-[#020180] bg-[#020180]",
+            CCSC: "border-[#660A0A] text-[#660A0A] bg-[#660A0A]",
+            COTSC: "border-[#847714] text-[#847714] bg-[#847714]",
+            SCEAP: "border-[#6F3306] text-[#6F3306] bg-[#6F3306]",
             SSC: "border-[#174515] text-[#174515] bg-[#174515]",
         };
 
-    const color = colors[currentUserData?.department_code] || "border-[#174515] text-[#174515] bg-[#174515]";
+        const [status, setStatus] = useState(null);
+
+    const color = colors[currentUserData?.organization_code] || "border-[#174515] text-[#174515] bg-[#174515]";
     const [selectedEvent, setSelectedEvent] = useState(null);
     return(
         <>
         {sendPayment.isVisible &&(
              <div className="fixed lg:z-40 md:z-50 z-70 flex justify-center items-center  inset-0 bg-[#00000062] pointer-events-auto">
-                <SendPayment fetchDashboardData={fetchDashboardData} data={selectedEvent} code={currentUserData?.department_code} ref={paymentRef} onAnimationEnd={sendPayment.handleEnd} onClose={()=> sendPayment.setAnimation("fade-out")} animate={sendPayment.animation} />  
+                <SendPayment fetchDashboardData={fetchDashboardData} data={selectedEvent} code={currentUserData?.organization_code} ref={paymentRef} onAnimationEnd={sendPayment.handleEnd} onClose={()=> sendPayment.setAnimation("fade-out")} animate={sendPayment.animation} />  
             </div>
         )}
         {sendExcuse.isVisible &&(
             <div className="fixed flex justify-center items-center inset-0 bg-[#00000062] lg:z-40 md:z-50 z-70 pointer-events-auto">
-                <SendExcuse formatDateStr={formatDateStr} selectedEvent={selectedEvent} code={currentUserData?.department_code} ref={excuseRef} onAnimationEnd={sendExcuse.handleEnd} onClose={()=> sendExcuse.setAnimation("fade-out")} animate={sendExcuse.animation} />  
+                <SendExcuse formatDateStr={formatDateStr} onExcuseSent={(eventId) =>
+    setExcusedEvents(prev => ({
+      ...prev,
+      [eventId]: true
+    }))
+  }   selectedEvent={selectedEvent} code={currentUserData?.organization_code} ref={excuseRef} onAnimationEnd={sendExcuse.handleEnd} onClose={()=> sendExcuse.setAnimation("fade-out")} animate={sendExcuse.animation} />  
             </div>
         )}
         {loadingUser ? (
             <SkeletonHeader/>
         ) : (
-            <Header code={currentUserData?.department_code} title ={currentUserData?.department_name}/>
+            <Header code={currentUserData?.organization_code} title ={currentUserData?.department_name}/>
         )}
         <div className="w-screen h-screen bg-[#F8F8F8] absolute z-[-1] overflow-y-auto overflow-x-auto lg:px-6 md:px-10 px-3 ">
             <div className="lg:mt-30 mt-25 lg:ml-70">
@@ -203,6 +214,7 @@ function Dashboard(){
 
                             return (
                             <UpcomingEvents
+                                sent={excusedEvents}
                                 data={ev}
                                 excuse={(ev) =>{sendExcuse.toggle(); setSelectedEvent(ev)}}
                                 pay ={(data)=>{sendPayment.toggle(); setSelectedEvent(data)}}
@@ -214,7 +226,7 @@ function Dashboard(){
                                 desc={ev.event_description}
                                 target={`Open to: ${formatYearLevels(ev.event_target_year_levels)}`}
                                 type={ev.event_type}
-                                code={currentUserData?.department_code}
+                                code={currentUserData?.organization_code}
                             />
                             );
                         })
@@ -238,13 +250,13 @@ function Dashboard(){
                             <h2 className={` ${color} bg-[#fff0] font-semibold ml-2 mt-3 font-inter text-md`}>Total Sanctions: P {sanctionData?.total_sanction_balance}</h2>
                         </div>
 
-                        <MonetarySanction formatDateStr={formatDateStr} monetarySanctions={sanctionData?.monetary_sanctions} code={currentUserData?.department_code} />
+                        <MonetarySanction formatDateStr={formatDateStr} monetarySanctions={sanctionData?.monetary_sanctions} code={currentUserData?.organization_code} />
                         </>
                     )}
                     {isMonetary === false &&(
                         <>
                         <h2 className={` ${color} bg-[#fff0] font-semibold ml-2 mt-3 font-inter text-md`}>Total Number of Service: {sanctionData?.community_service?.length}</h2>
-                        <CommunitySanction formatDateStr={formatDateStr} communityService={sanctionData?.community_service} code={currentUserData?.department_code} />
+                        <CommunitySanction formatDateStr={formatDateStr} communityService={sanctionData?.community_service} code={currentUserData?.organization_code} />
                         </>
                     )}
                     
@@ -261,7 +273,7 @@ function Dashboard(){
                 {loadingUser ? (
                     <SkeletonSideBar/>
                 ) : (
-                    <Sidebar code={currentUserData?.department_code} />
+                    <Sidebar code={currentUserData?.organization_code} />
                  )}
             </div>
 

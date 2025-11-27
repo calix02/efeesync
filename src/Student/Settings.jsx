@@ -146,7 +146,7 @@ function Setting(){
             <>
                 <div className="fixed inset-0 bg-[#00000062] flex justify-center items-center lg:z-40 md:z-50 z-70 pointer-events-auto">
                     {/* Overlay */}
-                    <UploadProfile code={currentUserData?.department_code} ref={profileRef}  onAnimationEnd={profile.handleEnd} onClose={() => profile.setAnimation("fade-out")} animate={profile.animation}  onUpdate={handleProfileUpdate} />  
+                    <UploadProfile code={currentUserData?.organization_code} ref={profileRef}  onAnimationEnd={profile.handleEnd} onClose={() => profile.setAnimation("fade-out")} animate={profile.animation}  onUpdate={handleProfileUpdate} />  
                 </div>
             </>
         )
@@ -157,7 +157,7 @@ function Setting(){
             <>
                 <div className="fixed inset-0 bg-[#00000062] flex justify-center items-center lg:z-40 md:z-50 z-70 pointer-events-auto">
                     {/* Overlay */}
-                    <ChangePassword ref={passwordRef} code={currentUserData?.department_code} onAnimationEnd={changePassword.handleEnd} onClose={() => changePassword.setAnimation("fade-out")} animate={changePassword.animation} />  
+                    <ChangePassword ref={passwordRef} code={currentUserData?.organization_code} onAnimationEnd={changePassword.handleEnd} onClose={() => changePassword.setAnimation("fade-out")} animate={changePassword.animation} />  
                 </div>
             </>
          )
@@ -167,7 +167,7 @@ function Setting(){
             <>
                 <div className="fixed inset-0 bg-[#00000062] flex justify-center items-center lg:z-40 md:z-50 z-70 pointer-events-auto">
                     {/* Overlay */}
-                    <PersonalInformation ref={infoRef} reloadUserInfo={fetchUser} code={currentUserData?.department_code} data={accountData} onUpdate={handleInfoUpdate} onAnimationEnd={information.handleEnd} onClose={() => information.setAnimation("fade-out")} animate={information.animation} />  
+                    <PersonalInformation ref={infoRef} reloadUserInfo={fetchUser} code={currentUserData?.organization_code} data={accountData} onUpdate={handleInfoUpdate} onAnimationEnd={information.handleEnd} onClose={() => information.setAnimation("fade-out")} animate={information.animation} />  
                 </div>
             </>
 
@@ -177,7 +177,7 @@ function Setting(){
         {qr.isVisible &&(
              <div className="fixed inset-0 bg-[#00000062] flex justify-center items-center lg:z-40 md:z-50 z-70 pointer-events-auto">
                 {/* Overlay */}
-                <QrCode ref={qrRef} code={currentUserData?.department_code}  onAnimationEnd={qr.handleEnd} onClose={() => qr.setAnimation("fade-out")} animate={qr.animation} />  
+                <QrCode ref={qrRef} code={currentUserData?.organization_code}  onAnimationEnd={qr.handleEnd} onClose={() => qr.setAnimation("fade-out")} animate={qr.animation} />  
             </div>
 
         )
@@ -185,7 +185,7 @@ function Setting(){
         {userLoading ? ( 
             <SkeletonHeader/>
         ) : (
-            <Header code={currentUserData?.department_code} title = {currentUserData?.department_name}/>
+            <Header code={currentUserData?.organization_code} title = {currentUserData?.department_name}/>
         )}
          <div className="w-screen h-screen bg-[#fafafa] absolute z-[-1] overflow-y-auto overflow-x-auto lg:px-6 md:px-10 px-3 ">
                 <div className=" mt-[110px]  lg:ml-70">
@@ -197,7 +197,7 @@ function Setting(){
                             <SkeletonSetting/>
                         ) : (
                         <AccountSetting 
-                        code={currentUserData?.department_code} 
+                        code={currentUserData?.organization_code} 
                         upload={profile.toggle} 
                         changeInfo={information.toggle} 
                         changePass={changePassword.toggle}  
@@ -213,7 +213,7 @@ function Setting(){
             </div>
             
           <div className='lg:block hidden' >
-                 <Sidebar code={currentUserData?.department_code}/>
+                 <Sidebar code={currentUserData?.organization_code}/>
             </div>
         </>
     );

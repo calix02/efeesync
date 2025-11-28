@@ -40,11 +40,11 @@ function AccountSetting({upload,accName,accRole,accEmail,profile,changePass,chan
                        </div>
                     </span>
                     <span>
-                    <button onClick={changeInfo} className={` ${hover} lg:w-18 md:w-18 cursor-pointer text-black  transition duration-100 hover:text-white w-24 border-1 border-black py-0.5 rounded-lg lg:text-sm md:text-sm text-xs mt-4 flex gap-1 items-center justify-center`}><i className="fa-solid fa-pen"></i>Edit</button>
+                    <button onClick={changeInfo} className={` ${hover} hover:scale-107   lg:w-18 md:w-18 cursor-pointer text-black  transition duration-300 hover:text-white w-24 border-1 border-black py-0.5 rounded-lg lg:text-sm md:text-sm text-xs mt-4 flex gap-1 items-center justify-center`}><i className="fa-solid fa-pen"></i>Edit</button>
                     </span>
             </div>
             <div className="flex lg:justify-end justify-center mt-3">
-                <button onClick={changePass} className={` ${hover} text-black px-4 cursor-pointer transition duration-100 hover:text-white rounded-lg flex gap-2 justify-center items-center py-0.75 border-1 border-[#625555]`}><i className="fa-solid fa-key"></i>Change Password</button>
+                <button onClick={changePass} className={` ${hover} hover:scale-107 duration-300 transition text-black px-4 cursor-pointer  hover:text-white rounded-lg flex gap-2 justify-center items-center py-0.75 border-1 border-[#625555]`}><i className="fa-solid fa-key"></i>Change Password</button>
             </div>
             {/* 
             <h3 className='text-sm font-[family-name:Helvetica] font-semibold mt-6'>Personal Information</h3>

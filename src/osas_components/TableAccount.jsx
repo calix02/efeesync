@@ -68,8 +68,8 @@ function TableAccount({ code = "osas", accounts = [] , update, reloadTreasurers}
   
     <div className={`w-full ${animate} flex flex-col gap-6 `}>
       {/* table wrapper */}
-      <div className="lg:ml-70 font-[family-name:Arial] lg:text-sm text-xs bg-white border-1 border-[#174515] text-black flex-grow p-5  mt-3 rounded-lg shadow-[2px_2px_2px_grey]">
-        <table className="w-full text-center ">
+      <div className="lg:ml-70 font-poppins overflow-x-scroll lg:text-sm text-xs bg-white border-1 border-[#174515] text-black flex-grow p-5  mt-3 rounded-lg shadow-[2px_2px_2px_grey]">
+        <table className="lg:w-full w-230 text-center ">
           <thead>
             <tr className={`border-b-2 border-[#adadad] text-[#000]`}>
               <th>Organization</th>
@@ -86,7 +86,7 @@ function TableAccount({ code = "osas", accounts = [] , update, reloadTreasurers}
                 <td>{s.student_number_id}</td>
                 <td>{s.full_name}</td>
 
-                <td className="flex lg:flex-row flex-col gap-2 justify-center py-2">
+                <td className="flex lg:flex-row flex-col gap-2 justify-center py-6">
                   {/*<span onClick={() => update(s)} className="material-symbols-outlined cursor-pointer text-[#174515] bg-white  shadow-[2px_2px_1px_grey] rounded-md border border-[#174515] px-1">
                     edit_square
                   </span>*/}

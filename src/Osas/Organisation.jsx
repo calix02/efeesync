@@ -89,7 +89,7 @@ function Organisation(){
              <div className="w-screen h-screen bg-[#fafafa] absolute z-[-1] overflow-y-auto overflow-x-auto lg:px-6 md:px-10 px-3">
                 <div className='lg:ml-68 text-[#145712] lg:mt-30 mt-25 lg:flex lg:justify-between items-center '>
                     <h2 className="text-2xl font-semibold font-poppins">Manage Organization</h2>
-                    <button onClick={addOrg.toggle} className='bg-[#174515] lg:mr-4 font-poppins w-40 py-1 text-sm cursor-pointer flex justify-center items-center text-white rounded-md'>
+                    <button onClick={addOrg.toggle} className='hover:bg-[#174515] bg-white lg:mr-4 font-poppins shadow-[2px_2px_2px_gray] transition duration-300 w-50 hover:scale-103 h-10 border border-[#e0e0e0] text-sm cursor-pointer flex justify-center items-center hover:text-white text-[#174515] font-semibold rounded-2xl'>
                         <span className="material-symbols-outlined px-1">add</span>Add Organization
                     </button>
                     

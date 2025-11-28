@@ -89,7 +89,7 @@ function Account(){
             <div className="w-screen h-screen bg-[#fafafa] absolute z-[-1] overflow-y-auto overflow-x-auto lg:px-6 md:px-10 px-3 ">
                  <div className='lg:ml-70 lg:mt-30 mt-25 lg:flex lg:justify-between items-center'>
                     <h2 className="text-2xl font-semibold text-[#145712] font-poppins">Manage Treasurers</h2>
-                    <button onClick={addTreasurer.toggle} className='bg-[#174515] cursor-pointer w-40 py-1 text-sm flex justify-center items-center text-white rounded-md'>
+                    <button onClick={addTreasurer.toggle} className='hover:bg-[#174515] bg-white cursor-pointer w-40 h-10 text-sm flex justify-center items-center hover:text-white text-[#174515] font-semibold border border-[#e0e0e0] shadow-[2px_2px_2px_gray] hover:scale-103 transition duration-300 rounded-2xl'>
                         <span className="material-symbols-outlined px-1">add</span>Add Treasurer
                     </button>
                 </div>

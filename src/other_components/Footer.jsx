@@ -9,7 +9,7 @@ function Footer (){
             
             <div className="py-5">
                 <div className="justify-center gap-3 flex lg:flex-row flex-col lg:items-center font-poppins text-xs text-[#625555]">
-                    <span className="flex items-center gap-1">
+                    <span className="flex items-center  gap-1">
                          <img src={Osas} className="w-5" alt="" />
                         <span> Office of Student Affairs and Services <span>
                     </span>

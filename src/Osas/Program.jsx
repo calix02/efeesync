@@ -91,7 +91,7 @@ function Program(){
                 <div className="w-screen h-screen bg-[#fafafa] absolute z-[-1] overflow-y-auto overflow-x-auto lg:px-6 md:px-10 px-3">
                     <div className='lg:ml-68 text-[#145712] lg:mt-30 mt-25 lg:flex lg:justify-between items-center'>
                         <h2 className="text-2xl font-semibold font-poppins">Manage Program</h2>
-                        <button onClick={addProgram.toggle} className='bg-[#174515] lg:mr-4 font-poppins cursor-pointer w-40 py-1 text-sm flex justify-center items-center text-white rounded-md'>
+                        <button onClick={addProgram.toggle} className='hover:bg-[#174515] bg-white lg:mr-4 font-poppins cursor-pointer border border-[#e0e0e0] font-semibold  w-40 h-10 shadow-[2px_2px_2px_gray] text-sm flex justify-center items-center transition duration-300 hover:scale-103 hover:text-white  text-[#174515] rounded-2xl'>
                             <span className="material-symbols-outlined px-1">add</span>Add Program
                         </button>  
                     </div>

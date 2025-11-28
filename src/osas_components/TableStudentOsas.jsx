@@ -61,8 +61,8 @@ function TableStudentOsas({ code = "osas", students = [] , update,add,reloadStud
   
     <div className={`w-full flex flex-col ${animate} gap-6`}>
       {/* table wrapper */}
-      <div className="lg:ml-68 lg:mr-4 font-[family-name:Arial] lg:text-sm text-xs bg-white border-1 border-[#174515] text-black flex-grow p-5  mt-3 rounded-lg shadow-[2px_2px_2px_grey]">
-        <table className="w-full text-center ">
+      <div className="lg:ml-68 lg:mr-4 font-poppins overflow-x-scroll lg:text-sm text-xs bg-white border-1 border-[#174515] text-black flex-grow p-5  mt-3 rounded-lg shadow-[2px_2px_2px_grey]">
+        <table className="lg:w-full w-230 text-center ">
           <thead>
             <tr className={`border-b-2 border-[#adadad] text-[#000]`}>
               <th>Student ID</th>
@@ -85,7 +85,7 @@ function TableStudentOsas({ code = "osas", students = [] , update,add,reloadStud
 
 
 
-                <td className="flex lg:flex-row flex-col gap-2 justify-center py-2">
+                <td className="flex lg:flex-row flex-col gap-2 justify-center py-6">
                   <span onClick={() => update(s)} className="material-symbols-outlined cursor-pointer text-[#174515] bg-white  shadow-[2px_2px_1px_grey] rounded-sm border border-[#174515] px-1">
                     edit_square
                   </span>

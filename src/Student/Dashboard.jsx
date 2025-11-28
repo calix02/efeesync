@@ -247,7 +247,7 @@ function Dashboard(){
                     {isMonetary === true && (
                         <>
                         <div className=" flex justify-start items-center ">
-                            <h2 className={` ${color} bg-[#fff0] font-semibold ml-2 mt-3 font-inter text-md`}>Total Sanctions: P {sanctionData?.total_sanction_balance}</h2>
+                            <h2 className={` ${color} bg-[#fff0] font-semibold ml-2 mt-3 font-poppins text-md`}>Total Sanctions: P {sanctionData?.total_sanction_balance}</h2>
                         </div>
 
                         <MonetarySanction formatDateStr={formatDateStr} monetarySanctions={sanctionData?.monetary_sanctions} code={currentUserData?.organization_code} />
@@ -255,7 +255,7 @@ function Dashboard(){
                     )}
                     {isMonetary === false &&(
                         <>
-                        <h2 className={` ${color} bg-[#fff0] font-semibold ml-2 mt-3 font-inter text-md`}>Total Number of Service: {sanctionData?.community_service?.length}</h2>
+                        <h2 className={` ${color} bg-[#fff0] font-semibold ml-2 mt-3 font-poppins text-md`}>Total Number of Service: {sanctionData?.community_service?.length}</h2>
                         <CommunitySanction formatDateStr={formatDateStr} communityService={sanctionData?.community_service} code={currentUserData?.organization_code} />
                         </>
                     )}

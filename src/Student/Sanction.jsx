@@ -6,6 +6,7 @@ import EfeeViolet from '../assets/violetlogo.png';
 import {useState, useEffect} from "react";
 import SkeletonHeader from "../skeletons/SkeletonHeader.jsx";
 import SkeletonBox from "../skeletons/SkeletonBox.jsx";
+import SkeletonSideBar from "../skeletons/SkeletonSidebar.jsx";
 import it from '../assets/it.png';
 import "../animate.css";
 import { errorAlert} from '../utils/alert.js';
@@ -104,8 +105,8 @@ function Sanction(){
 
                 </div>
                 ) : (
-                <div className={` ${animate} bg-white ${color} rounded-lg w-100% h-15 border-2  shadow-[2px_2px_3px_grey] mt-4 text-lg font-[family-name:arial] font-semibold flex items-center p-3`}>
-                    <span>Total Sanctions Paid: P {sanctionData?.total_sanctions_paid}</span>
+                <div className={` ${animate} bg-white ${color} rounded-lg w-100% h-15 border-2 font-semibold  shadow-[2px_2px_3px_grey] mt-4 text-lg font-poppins flex items-center p-3`}>
+                    <span className="text-black">Total Sanctions Paid: <span className={`${color} text-xl bg-[#fff0]`}>P{sanctionData?.total_sanctions_paid}</span></span>
                 </div>
                 )}
             </div>
@@ -126,7 +127,11 @@ function Sanction(){
             
         </div>
              <div className='lg:block hidden' >
-                 <Sidebar  code={currentUserData?.organization_code} />
+                {userLoading? (
+                    <SkeletonSideBar/>
+                ) : (
+                    <Sidebar  code={currentUserData?.organization_code} />
+                 )}
             </div>
 
         </>

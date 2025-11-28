@@ -9,6 +9,7 @@ import Letter from '../student_components/Letter.jsx';
 import useAnimatedToggle from "../hooks/useAnimatedToggle.js";
 import SkeletonHeader from '../skeletons/SkeletonHeader.jsx';
 import SkeletonExcuseBox from "../skeletons/SkeletonExcuseBox.jsx";
+import SkeletonSidebar from "../skeletons/SkeletonSidebar.jsx";
 import it from '../assets/it.png';
 import { errorAlert, confirmAlert } from '../utils/alert.js';
 
@@ -172,7 +173,11 @@ function ExcuseLetter(){
             
         </div>
              <div className='lg:block hidden' >
-                 <Sidebar code ={currentUserData?.organization_code} />
+                {userLoading ? (
+                    <SkeletonSidebar/>
+                ) : (
+                    <Sidebar code ={currentUserData?.organization_code} />
+                 )}
             </div>
 
         </>

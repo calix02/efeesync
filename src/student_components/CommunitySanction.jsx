@@ -14,11 +14,11 @@ function CommunitySanction({code, communityService, formatDateStr}){
     const color = colors[code] || "border-[#174515] text-[#174515] bg-[#174515]";
     return(
         (communityService.map((cs)=>(
-            <div className={`w-[100%] bg-[#fff] py-4 mt-2 px-4 ${color} rounded-md border-2`}>
-                <div className={`border-l-8 w-[100%] items-center px-3`}>
+            <div className={`w-[100%] bg-[#fcfcfc] hover:scale-103 transition duration-300  min-h-25 py-2 flex items-center font-poppins  mt-2 px-4 ${color} rounded-2xl border border-[#e0e0e0] shadow-[2px_2px_2px_gray]`}>
+                <div className={`border-l-6 w-[100%] py-2 items-center px-3`}>
                     <div className="text-black ">
-                        <h2 className="font-bold font-poppins text-md ">{cs.event_name}</h2>
-                        <p  className="flex cursor-pointer gap-2 text-xs items-center"><span>{formatDateStr(cs.event_end_date)}</span></p>
+                        <h2 className="font-semibold font-poppins text-xl ">{cs.event_name}</h2>
+                        <p  className="flex gap-2 text-xs items-center"><span>{formatDateStr(cs.event_end_date)}</span></p>
                         
                     </div>
                 </div>

@@ -5,6 +5,7 @@ import EventExcuse from "../student_components/EventExcuse.jsx";
 import EfeeViolet from '../assets/violetlogo.png';
 import SkeletonHeader from "../skeletons/SkeletonHeader.jsx";
 import SkeletonBox from "../skeletons/SkeletonBox.jsx";
+import SkeletonSideBar from "../skeletons/SkeletonSidebar.jsx";
 import {useState, useEffect} from 'react';
 import it from '../assets/it.png';
 import { errorAlert } from '../utils/alert.js';
@@ -91,7 +92,11 @@ function Attendance(){
             
         </div>
              <div className='lg:block hidden' >
-                 <Sidebar  code={currentUserData?.organization_code} />
+                {userLoading ?(
+                    <SkeletonSideBar/>
+                ) : (
+                    <Sidebar  code={currentUserData?.organization_code} />
+                 )}
             </div>
 
         </>

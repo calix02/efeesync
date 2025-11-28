@@ -4,19 +4,21 @@ const UpdateCollegeCard = React.forwardRef(({animate, onAnimationEnd,onClose,dat
     const [collegeCode, setCollegeCode] = useState(data?.department_code || "");
     const [collegeName, setCollegeName] = useState(data?.department_name || "");
     const [collegeId, setCollegeId] = useState(data?.department_id || "");
+    const [collegeColor, setCollegeColor] = useState(data?.department_color || "");
     
     React.useEffect(() => {
         if (data) {
             setCollegeCode(data.department_code);
             setCollegeName(data.department_name);
             setCollegeId(data.department_id);
+            setCollegeColor(data.department_color);
         }
     }, [data]);
 
     const departmentData = {
         "new_department_code": collegeCode,
         "new_department_name": collegeName,
-        "new_department_color": '#0000ff'
+        "new_department_color": collegeColor
     }
 
     const updateCollege = async () =>{
@@ -44,7 +46,7 @@ const UpdateCollegeCard = React.forwardRef(({animate, onAnimationEnd,onClose,dat
 
 
     return( 
-        <div ref={ref}   className={` ${animate} font-[family-name:Arial] lg:text-sm text-xs lg:w-100 w-80 h-65 px-6 bg-white shadow-[2px_2px_#174515,-2px_-2px_white] rounded-lg absolute z-80 inset-0 mx-auto mt-50 `}
+        <div ref={ref}   className={` ${animate} font-[family-name:Arial] lg:text-sm text-xs lg:w-100 w-80 h-83 px-6 bg-white shadow-[2px_2px_#174515,-2px_-2px_white] rounded-lg absolute z-80 inset-0 mx-auto mt-50 `}
         onAnimationEnd={onAnimationEnd}>
             <div className="mt-3 relative">
                 <span onClick={onClose} className="material-symbols-outlined absolute right-0.5 cursor-pointer">disabled_by_default</span>
@@ -62,6 +64,8 @@ const UpdateCollegeCard = React.forwardRef(({animate, onAnimationEnd,onClose,dat
                     <input type="text" onChange={(e) =>setCollegeCode(e.target.value)} value={collegeCode} className="border-2 px-2 border-[#174515] h-8 rounded-md w-[100%] mb-4" /> <br />
                     <label>College Name:</label><br />
                     <input type="text" onChange={(e) =>setCollegeName(e.target.value)} value={collegeName} className="border-2 px-2 border-[#174515] h-8 rounded-md w-[100%] mb-4" /> <br />
+                    <label>College Color:</label><br />
+                    <input type="color" onChange={(e) =>setCollegeColor(e.target.value)} value={collegeColor} className="border-2 px-2 border-[#174515] h-8 rounded-md w-[100%] mb-4" /> <br />
                     
                 </div>
                 <button type="submit"  className="bg-[#174515] w-[100%] rounded-md text-white h-8">Update College</button>

@@ -147,53 +147,35 @@ function Student(){
 
         )
         }
-        {loading ? (
-            <>
-            <SkeletonHeader/>
-             <div className="w-screen h-screen bg-[#fafafa] absolute z-[-1] overflow-y-auto overflow-x-auto lg:px-6 md:px-10 px-3">
-                 <div className='lg:ml-68 lg:mt-30 mt-25 lg:flex md:flex md:justify-between lg:justify-between '>
-                        <div className="w-80 h-8 rounded-md bg-gray-200 animate-pulse"></div>
-
-                    <div className={` lg:flex md:flex ${animateR}  lg:gap-2.5 md:gap-2.5 text-md font-[family-name:Helvetica] lg:mt-0 md:mt-0 mt-4 lg:px-0 md:px-0 px-3 items-center`}>
-                        <div className="w-80 h-8 rounded-md bg-gray-200 animate-pulse"></div>
-                        <div className='bg-gray-200 animate-pulse rounded-2xl w-30 h-8'></div> 
-                    </div> 
-
-                </div>
-                <SkeletonTable/>
-             </div>
-
-            <div className='lg:block hidden' >
-                <SkeletonSideBar/>
-            </div>
-            
-            </>
-
-        ) : (
+       
              <>
             <Header code="osas" logoCouncil={OsasLogo} titleCouncil = "Office of Student Affairs and Services"/>
              <div className="w-screen h-screen bg-[#fafafa] absolute z-[-1] overflow-y-auto overflow-x-auto lg:px-6 md:px-10 px-3">
                  <div className='lg:ml-68 lg:mt-30 mt-25 lg:flex md:flex md:justify-between lg:justify-between '>
                     <h2 className="text-2xl font-semibold text-[#145712] font-poppins">Manage Students</h2>
                     <div className={` lg:flex md:flex ${animateR}  lg:gap-2.5 md:gap-2.5 text-md font-[family-name:Helvetica] lg:mt-0 md:mt-0 mt-4 lg:px-0 md:px-0 px-3 items-center`}>
-                        <input className='lg:w-85 w-[100%] p-1.5 bg-white rounded-md border-2  border-[#174515] block' type="text"  onKeyUp={(e) => {searchStudent(e.target.value)}} placeholder='Search Student' />
+                        <input className='lg:w-120 w-[100%] h-12 bg-white rounded-lg px-8 shadow-[2px_2px_1px_gray] font-poppins border border-[#e0e0e0] block' type="text"  onKeyUp={(e) => {searchStudent(e.target.value)}} placeholder='Search Student' />
                         <div className='relative lg:mt-0 md:mt-0 mt-3 lg:mr-4'>
-                            <input className='bg-amber-300 lg:w-[150px] w-[100%] h-[35px] block z-[1]  cursor-pointer opacity-0' 
+                            <input className='bg-amber-300 lg:w-38 w-[100%] h-10 block z-[1]  cursor-pointer opacity-0' 
                                 type="file" 
                                 accept=".csv" 
                                 onChange={(e) =>{handleFile(e)}}
                             />
-                            <button className='bg-[#174515] p-1.5 lg:w-38 font-poppins w-[100%] flex items-center justify-center cursor-pointer rounded-md  text-white absolute z-[-1] top-0'>
+                            <button className='bg-[#174515] h-10 lg:w-38 font-poppins w-[100%] flex items-center justify-center cursor-pointer rounded-md  text-white absolute z-[-1] top-0'>
                                 <span className="material-symbols-outlined">download</span>Import CSV
                             </button>
                         </div>  
                     </div> 
 
                 </div>
-             <TableStudentOsas paginate={paginate} reloadStudents={fetchStudents} students={students} update={(row) =>{
-                setSelectedStudent(row);
-                updateStudent.toggle();
-             }} add={addStudent.toggle}/>
+                {loading? (
+                    <SkeletonTable/>
+                ) : (
+                <TableStudentOsas paginate={paginate} reloadStudents={fetchStudents} students={students} update={(row) =>{
+                    setSelectedStudent(row);
+                    updateStudent.toggle();
+                }} add={addStudent.toggle}/>
+             )}
 
              </div>
 
@@ -202,7 +184,7 @@ function Student(){
             </div>
             
             </>
-        )}
+    
         </>
     );
 }

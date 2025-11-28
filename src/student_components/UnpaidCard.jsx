@@ -3,7 +3,7 @@ import "../animate.css";
 function UnpaidCard({unpaidEvents,total,formatDateStr, pay}){
     const animate = "card-In";
     return(
-         <div className={` font-poppins ${animate} overflow-y-scroll hide-scrollbar w-[100%] h-130 bg-white px-6 border-3 text-[#B3030C] border-[#B3030C] rounded-lg shadow-[2px_2px_3px_grey]`}>
+         <div className={` font-poppins ${animate}  overflow-y-scroll hide-scrollbar w-[100%] h-130 bg-white px-6 border-3 text-[#B3030C] border-[#B3030C] rounded-lg shadow-[2px_2px_3px_grey]`}>
             <div className="border-b-4  border-[#B3030C] p-1.5 mt-2">
                 <span className="text-2xl font-semibold">Unpaid</span>
                 <p className="font-[family-name:Arial] text-sm ">Total Unpaid Fees: ₱ {total} </p>

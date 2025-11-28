@@ -180,7 +180,7 @@ function Dashboard(){
             <div className="lg:mt-24 mt-24 lg:ml-68">
                 <h2 className="text-lg sm:text-md md:text-2xl lg:text-2xl text-[#145712] font-bold font-poppins">Welcome, Admin!</h2>
             </div>
-            <div className={`lg:flex lg:flex-row lg:justify-center lg:items-center ${animate} grid grid-cols-2 mt-4 gap-6 lg:ml-70`}>
+            <div className={`lg:flex lg:flex-row lg:justify-center  lg:items-center ${animate} grid grid-cols-2 mt-4 gap-6 lg:ml-70`}>
               <CardOsas title="Number of Colleges" count={dashboardData.total_departments} pic={building}/>
               <CardOsas title="Number of Councils" count={dashboardData.total_organizations} pic={council}/>
               <CardOsas title="Number of Programs" count={dashboardData.total_programs} pic={program}/>
@@ -188,7 +188,7 @@ function Dashboard(){
             </div>
             <div className={`lg:ml-70 mt-6 ${animate} grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 justify-center gap-6`}>
                 {orgs.map((o)=>(
-                    <Card_Admin logo={orgLogos[o.organization_code]} title={o.organization_code} budget={o.total_budget} cashHand={o.cash_on_hand} expenses={o.total_deductions}/>
+                    <Card_Admin logo={orgLogos[o.organization_code]} color={o.department_color } title={o.organization_code} budget={o.total_budget} cashHand={o.cash_on_hand} cashBank="2000.00" expenses={o.total_deductions}/>
                 ))}
             </div>
             <div className='lg:ml-70 mt-6 mb-6 flex lg:flex-row flex-col gap-6'>

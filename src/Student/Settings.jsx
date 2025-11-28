@@ -12,6 +12,7 @@ import SkeletonSetting from '../skeletons/SkeletonSetting.jsx';
 import DefaultProfile from '../assets/default.png';
 import React, {useState, useEffect, useRef} from 'react';
 import { errorAlert} from '../utils/alert.js';
+import SkeletonSideBar from '../skeletons/SkeletonSidebar.jsx';
 
 
 function Setting(){
@@ -213,7 +214,11 @@ function Setting(){
             </div>
             
           <div className='lg:block hidden' >
-                 <Sidebar code={currentUserData?.organization_code}/>
+            {userLoading ? (
+                <SkeletonSideBar/>
+            ) : (
+                <Sidebar code={currentUserData?.organization_code}/>
+            )}
             </div>
         </>
     );

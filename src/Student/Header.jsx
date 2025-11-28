@@ -101,7 +101,7 @@ function Header_Council({code, title}) {
           </span>
         */}
 
-          <span onClick={() => { clickedAccBar(); account.toggle(); }}  className={`hidden px-3 font-poppins text-sm font-semibold rounded-xl  ${hoverColor} ${color} cursor-pointer transiton duration-150   lg:flex items-center hover:text-white`}>
+          <span onClick={() => { clickedAccBar(); account.toggle(); }}  className={`hidden px-3 font-poppins text-sm font-semibold rounded-xl hover:scale-107  ${hoverColor} ${color} cursor-pointer transiton duration-150   lg:flex items-center hover:text-white`}>
             <span><i  className={`fa-solid fa-circle-user lg:text-xl  rounded-full p-1.5 hover:text-white  text-sm cursor-pointer`}></i></span>
             <span>Account</span>
           </span>

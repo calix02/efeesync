@@ -93,7 +93,7 @@ function College() {
              <div className="w-screen h-screen bg-[#fafafa] absolute z-[-1] overflow-y-auto overflow-x-auto lg:px-6 md:px-10 px-3 ">
                 <div className='lg:ml-68 lg:mr-4 lg:mt-30 mt-25 lg:flex lg:justify-between items-center'>
                     <h2 className="text-2xl font-semibold font-poppins text-[#145712]">Manage Colleges</h2>
-                    <button onClick={addCollege.toggle} className='bg-[#174515] cursor-pointer w-40 py-1 text-sm font-poppins flex justify-center items-center text-white rounded-md'>
+                    <button onClick={addCollege.toggle} className='hover:bg-[#174515] transition duration-300 hover:scale-103 text-[#174515] cursor-pointer w-40 h-10 bg-white text-sm font-poppins font-semibold border border-[#e0e0e0] shadow-[2px_2px_2px_gray] flex justify-center items-center hover:text-white rounded-2xl'>
                         <span className="material-symbols-outlined px-1">add</span>Add Colleges
                     </button>
                 </div>

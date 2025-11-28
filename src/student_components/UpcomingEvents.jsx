@@ -21,7 +21,7 @@ function UpcomingEvents({ month, day, event, desc, target, type, sent, code, pay
 
 
   return (
-    <div className="p-2 font-poppins rounded-xl">
+    <div className="p-2 font-poppins hover:scale-103 transition duration-300 rounded-xl">
       <div className="py-2 flex lg:flex-row flex-col gap-2">
         <div
           className={`border border-[#e0e0e0] shadow-[3px_3px_2px_gray] ${color} py-4 font-poppins lg:w-[20%] w-[30%] hidden rounded-2xl bg-[#fcfcfc] lg:flex flex-col justify-center items-center`}>

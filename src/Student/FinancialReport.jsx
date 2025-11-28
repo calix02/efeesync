@@ -5,6 +5,7 @@ import FinancialTable from "../student_components/FinancialTable.jsx";
 import FinancialCard from "../student_components/FinancialCard.jsx";
 import SkeletonFinancialTable from "../skeletons/SkeletonFinancialTable.jsx";
 import SkeletonHeader from "../skeletons/SkeletonHeader.jsx";
+import SkeletonSidebar from "../skeletons/SkeletonSidebar.jsx";
 import {useState, useEffect} from "react";
 import it from '../assets/it.png';
 import { errorAlert} from '../utils/alert.js';
@@ -96,7 +97,11 @@ function FinancialReport(){
             
         </div>
              <div className='lg:block hidden' >
-                 <Sidebar code ={currentUserData?.organization_code} />
+                {userLoading? (
+                    <SkeletonSidebar/>
+                 ) : (
+                    <Sidebar code ={currentUserData?.organization_code} />
+                 )}
             </div>
 
         </>

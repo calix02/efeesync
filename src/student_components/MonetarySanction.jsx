@@ -26,7 +26,7 @@ function MonetarySanction({ code, monetarySanctions, formatDateStr }) {
       return (
         <div
           key={id}
-          className={`w-[100%] bg-[#fcfcfc] min-h-25 py-2 flex items-center mt-2 px-4 ${color} border border-[#e0e0e0] rounded-2xl shadow-[2px_2px_2px_gray]`}
+          className={`w-[100%] bg-[#fcfcfc] min-h-25 hover:scale-103 transition duration-300 py-2 flex items-center mt-2 px-4 ${color} border border-[#e0e0e0] rounded-2xl shadow-[2px_2px_2px_gray]`}
         >
           <div className="border-l-6 w-[100%] py-2  items-center grid-cols-[50px_auto] grid px-3">
             <div className="font-bold font-poppins text-2xl">
@@ -39,7 +39,7 @@ function MonetarySanction({ code, monetarySanctions, formatDateStr }) {
 
               <p
                 onClick={() => toggleLog(id)}
-                className="flex cursor-pointer gap-2 text-xs items-center"
+                className="flex cursor-pointer gap-2 text-xs font-bold items-center"
               >
                 <span>Absence Logs</span>
                 {isOpen ? (
@@ -50,7 +50,7 @@ function MonetarySanction({ code, monetarySanctions, formatDateStr }) {
               </p>
 
               {isOpen && ms.absence_logs.map((al, i) => (
-                <p key={i} className="text-xs">
+                <p key={i} className="text-xs"> 📅
                   {formatDateStr(al.event_attend_date)} -{" "}
                   {al.event_attend_time.map((t, j) => (
                     <span key={j}>{t}, </span>

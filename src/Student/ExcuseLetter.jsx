@@ -152,8 +152,8 @@ function ExcuseLetter(){
 
                  ) :(
                 excuseData.length > 0 ?
-                (excuseData.map((ed)=>(
-                    <ExcuseStatusCard formatDateStr={formatDateStr} data={ed} view={()=>{
+                (excuseData.map((ed, id)=>(
+                    <ExcuseStatusCard key={id}  formatDateStr={formatDateStr} data={ed} view={()=>{
                     letter.toggle();
                     setSelectedExcuse(ed);
                     }} edit={() =>{

@@ -10,8 +10,8 @@ function UnpaidCard({unpaidEvents,total,formatDateStr, pay}){
 
             </div>
             <div>
-                {unpaidEvents.map((ue) => (
-                    <div className="flex gap-2 mt-1 items-center border-b-1 py-4  border-[#7d7b7b]">
+                {unpaidEvents.map((ue, id) => (
+                    <div key={id} className="flex gap-2 mt-1 items-center border-b-1 py-4  border-[#7d7b7b]">
                         <div className="w-20 py-2 flex flex-col justify-center items-center">
                             <span className="text-sm">Amount</span>
                             <span className="font-bold text-2xl">{ue.remaining_balance}</span>

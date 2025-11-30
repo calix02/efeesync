@@ -68,9 +68,7 @@ function Program(){
                 <UpdateProgramCard reloadPrograms={fetchPrograms} ref={updateRef} data={selectedProgram} onAnimationEnd={updateProgram.handleEnd} onClose={() => updateProgram.setAnimation("fade-out")} animate={updateProgram.animation} />
 
             </>
-
-        )
-        }
+        )}
         {loading ? (
          <>   
          <SkeletonHeader/>

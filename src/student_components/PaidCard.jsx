@@ -9,8 +9,8 @@ function PaidCard({paidEvents, total, formatDateStr}){
                 <p className="font-[family-name:Arial] text-sm ">Total Fees Paid: ₱ {total} </p>
             </div>
             <div>
-                {paidEvents.map((pe) => (
-                    <div className="flex gap-2  mt-1 border-b-1 py-4 border-[#7d7b7b]">
+                {paidEvents.map((pe, id) => (
+                    <div key={id} className="flex gap-2  mt-1 border-b-1 py-4 border-[#7d7b7b]">
                         <div className="w-20 h-15 flex flex-col justify-center items-center">
                             <span className="text-sm">Amount</span>
                             <span className="font-bold text-2xl">{pe.event_contri_fee}</span>

@@ -239,7 +239,7 @@ function Dashboard(){
                     <SkeletonBox/>
                  ) : (
 
-                <div className={` ${animateR} bg-white border-gray-300 border shadow-[4px_4px_2px_gray]   w-[100%] h-100  px-5 mt-8 rounded-2xl overflow-y-scroll hide-scrollbar`}>
+                <div className={` ${animateR} bg-white border-gray-300 border shadow-[4px_4px_2px_gray] pb-5   w-[100%] h-100  px-5 mt-8 rounded-2xl overflow-y-scroll hide-scrollbar`}>
                     <h2 className="font-poppins font-bold  gap-3 flex text-xl  mt-6 ml-2">
                         <span onClick={chooseSanction} className={` bg-[#fff0] border-b-2 cursor-pointer ${isMonetary? (color) : "text-[#000] border-none"}`}>Monetary</span>
                         <span onClick={chooseSanction} className={` bg-[#fff0] border-b-2 cursor-pointer ${isMonetary? "text-[#000] border-none" : (color)}`}>Community Service</span>

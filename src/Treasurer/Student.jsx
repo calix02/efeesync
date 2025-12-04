@@ -31,6 +31,7 @@ function CITStudent() {
     const [loadingStudents, setLoadingStudents] = useState(true);
     const [programs, setPrograms] = useState([]);
     const [pid, setPid] = useState("");
+    const [newImportIds, setNewImportIds] = useState([]);
 
     function debounce(callback, delay = 500) {
         clearTimeout(debounceTimer);
@@ -104,7 +105,7 @@ function CITStudent() {
                 localStorage.setItem("currentUserData", JSON.stringify(response.data));
             }
         } catch (err) {
-            errorAlert("Fetch Failed");
+           // errorAlert("Fetch Failed");
         } finally {
             setLoadingHeader(false);
         }
@@ -167,6 +168,9 @@ function CITStudent() {
                 });
                 const result = await response.json();
                 if (response.ok && result.status === "success") {
+
+                    const ids = result.imported.map(s => s.student_id);
+                    setNewImportIds(ids);
                     successAlert(`
                         <pre>
                         CSV Imported Successfully!\n\n
@@ -181,7 +185,7 @@ function CITStudent() {
                     errorAlert(result.message || "Failed to import CSV");
                 }
             } catch (error) {
-                errorAlert("Error uploading CSV");
+               // errorAlert("Error uploading CSV");
             }
         }
         e.target.value = "";
@@ -278,6 +282,7 @@ function CITStudent() {
                        <SkeletonTable/>
                     ):(
                     <TableStudent code={currentUserData?.department_code} year={year}
+                        newImportIds={newImportIds}
                         currentUserData={currentUserData}
                         pid={pid}
                         search={searchValue}

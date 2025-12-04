@@ -140,7 +140,7 @@ const UpdateEventCard = React.forwardRef(
         }
       } catch (err) {
         console.error("Update error:", err);
-        errorAlert("Failed to update event.");
+       // errorAlert("Failed to update event.");
       }
     };
      const colors = {

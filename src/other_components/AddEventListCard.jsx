@@ -5,14 +5,30 @@ const AddEventListCard = React.forwardRef(({animate, onAnimationEnd,onClose,curr
 
 const getToday = () => new Date().toISOString().split("T")[0];
 const today = new Date().toISOString().split("T")[0];
+const defaultLogs = ["AM IN", "AM OUT"];
+
 
 
 const [addDates, setAddDates] = useState([{ id: Date.now(), value: getToday() }]);
+const initialDateKey = getToday();
+const [logs, setLogs] = useState({
+  [initialDateKey]: [...defaultLogs]
+});
+
 
 // Add a new date field
 const addDateField = () => {
-  setAddDates([...addDates, { id: Date.now(), value: getToday() }]);
+  const newId = Date.now();
+  const newDate = getToday();
+
+  setAddDates([...addDates, { id: newId, value: newDate }]);
+
+  setLogs(prev => ({
+    ...prev,
+    [newDate]: [...defaultLogs]  // 🔥 Auto-check AM IN & AM OUT
+  }));
 };
+
 
 // Remove a date field
 const removeDateField = (id) => {
@@ -34,7 +50,13 @@ const handleDateChange = (id, newValue) => {
       date.id === id ? { ...date, value: newValue } : date
     )
   );
+
+  setLogs(prev => ({
+    ...prev,
+    [newValue]: prev[newValue] || [...defaultLogs]  // If new date, give default logs
+  }));
 };
+
 
 const getDateRange = (start, end) => {
   if (!start || !end) return [];
@@ -49,7 +71,6 @@ const getDateRange = (start, end) => {
 };
 
 const logOptions = ["AM IN", "AM OUT", "PM IN", "PM OUT"];
-const [logs, setLogs] = useState({});
 
 const handleLogToggle = (dateKey, option) => {
   setLogs((prev) => {
@@ -74,6 +95,9 @@ const [selectedDateType, setSelectedDateType] = useState("Separate Day");
 const [eventFee, setEventFee] = useState("");
 const [selectedSanctionType, setSelectedSanctionType] = useState("");
 const [sanctionPerSignature, setSanctionPerSignature] = useState("");
+
+
+
 
 const handleDateTypeChange = (type) => {
   setSelectedDateType(type);
@@ -158,7 +182,7 @@ const handleSubmit = async () => {
     if (result.status === "success") {
       await reloadEvents();
     } else {
-      errorAlert("Error: " + result.message);
+      //errorAlert("Error: " + result.message);
     }
   } catch (err) {
     console.error("Error submitting:", err);

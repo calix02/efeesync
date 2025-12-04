@@ -3,7 +3,7 @@ import {confirmAlert,successAlert, errorAlert, okAlert} from "../utils/alert.js"
 
 import "../animate.css";
 
-function TableStudent({ code , students = [], show, update, reloadStudents, paginate, year, search, pid, currentUserData }) {
+function TableStudent({ code , students = [], show, update, reloadStudents, paginate, year, search, pid, currentUserData, newImportIds = []  }) {
   const animate = "card-In";
 
   const colors = {
@@ -67,10 +67,10 @@ function TableStudent({ code , students = [], show, update, reloadStudents, pagi
           if (response.status === "success") {
             await reloadStudents();
           } else {
-            alert("Failed: " + response.message);
+           // alert("Failed: " + response.message);
           }
         } catch (err) {
-          alert("Fetch failed: " + err);
+         // alert("Fetch failed: " + err);
         }
       }
     });
@@ -124,7 +124,15 @@ function TableStudent({ code , students = [], show, update, reloadStudents, pagi
                   />
                 </td>
                 <td>{s.student_number_id}</td>
-                <td>{s.full_name}</td>
+                <td>
+                  {s.full_name}
+                  {newImportIds.includes(s.student_id) && (
+                    <span className="ml-2 px-2 py-1 text-[10px] bg-green-500 text-white rounded-md">
+                    NEW ADDED
+                    </span>
+                  )}
+
+                </td>
                 <td>{s.student_section}</td>
                 <td>{s.program_code}</td>
                 <td className="flex lg:flex-row flex-col gap-2 justify-center py-6">

@@ -68,7 +68,7 @@ const Sidebar = React.forwardRef(({eFee, animate,code, onAnimationEnd,onClose},r
                     <NavLink code={code} navLink = "/student/contribution" iconName="account_balance" navName="Contributions"/>
                     <NavLink code={code} navLink = "/student/attendance" iconName="patient_list" navName="Attendance"/>
                     <NavLink code={code} navLink = "/student/sanction" iconName="event_busy" navName="Sanctions"/>
-                    <NavLink code={code} navLink = "/student/excuse" iconName="approval" navName="Excuse Request"/>
+                    <NavLink code={code} navLink = "/student/excuse" iconName="approval" navName="Excuse Status"/>
                     <NavLink code={code} navLink = "/student/financial" iconName="article" navName="Financial Report"/>
                     {/** 
                     <DropDownNav code={code} subNavLink1 = "/student/financial" subNavLink2 = "/student/accomplishment" iconName="assignment" navName="Reports" iconName1 = "article" subNavName1 = "Financial Report" iconName2 = "fact_check" subNavName2 = "Accomplishment Report"/>

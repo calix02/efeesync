@@ -27,7 +27,7 @@ function CITCouncil() {
         localStorage.setItem("currentUserData", JSON.stringify(response.data));
       }
     } catch (err) {
-      errorAlert("Fetch Failed");
+     // errorAlert("Fetch Failed");
     } finally {
       setLoading(false);
     }

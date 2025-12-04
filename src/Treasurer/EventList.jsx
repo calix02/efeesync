@@ -51,7 +51,7 @@ function CITEventList() {
                 localStorage.setItem("currentUserData", JSON.stringify(response.data));
             }
         } catch (err) {
-            errorAlert("Fetch Failed");
+            //errorAlert("Fetch Failed");
         } finally {
             setLoadingUser(false);
         }

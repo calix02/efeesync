@@ -48,7 +48,7 @@ const CITSidebar = React.forwardRef(({ animate, onAnimationEnd,onClose ,code, is
                         window.location.reload();
                     }
                 }catch (err) {
-                    errorAlert("An error occured: " + response.message);
+                   // errorAlert("An error occured: " + response.message);
                 }
             }
         });

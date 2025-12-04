@@ -14,6 +14,8 @@ function LogIn(){
     const [availableRoles, setAvailableRoles] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
     const [isSuccess, setIsSuccess] = useState(false);
+    const [showPassword, setShowPassword] = useState(false);
+
 
     const changeEmail = (e) => setEmail(e.target.value);
     const changePassword = (e) => setPassword(e.target.value);
@@ -119,8 +121,34 @@ function LogIn(){
                             <label className="font-semibold text-md font-poppins" htmlFor="">Email:</label><br />
                             <input type="email" onChange={changeEmail} value={emailData}  className="bg-white mb-2 border-2 font-semibold font-inter text-md border-[#000] w-[100%] px-2 py-2 rounded-md" /><br />
                             <label className="font-semibold text-md font-poppins" htmlFor="">Password:</label><br />
-                            <input type="password" onChange={changePassword} value={passwordData} className="bg-white mb-2 border-2 font-semibold font-inter text-md border-[#000] w-[100%] px-2 py-2 rounded-md" /><br /><br />
-                            
+                            <div className="relative">
+                                <input
+                                    type={showPassword ? "text" : "password"}
+                                    onChange={changePassword}
+                                    value={passwordData}
+                                    className="bg-white mb-3 border-2 font-semibold font-inter text-md border-[#000] w-[100%] px-2 py-2 rounded-md pr-10"
+                                />
+
+                                {/* Eye Icon */}
+                                <span
+                                    onClick={() => setShowPassword(!showPassword)}
+                                    className="absolute right-3 top-2 hidden cursor-pointer select-none"
+                                >
+                                    {showPassword ? (
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6">
+                                            <path strokeLinecap="round" strokeLinejoin="round"
+                                                d="M3.98 8.223A10.477 10.477 0 001.934 12C3.226 16.338 7.244 19.5 12 19.5c1.83 0 3.554-.457 5.057-1.257M6.228 6.228A10.45 10.45 0 0112 4.5c4.756 0 8.773 3.162 10.065 7.5a10.52 10.52 0 01-4.293 5.774M6.228 6.228L3 3m3.228 3.228L9 9m6 6l2.772 2.772M15 15l6 6" />
+                                        </svg>
+                                    ) : (
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6">
+                                            <path strokeLinecap="round" strokeLinejoin="round"
+                                                d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.964 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.964-7.178z" />
+                                            <path strokeLinecap="round" strokeLinejoin="round"
+                                                d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                        </svg>
+                                    )}
+                                </span>
+                            </div>
                             <button 
                                 onClick={submit} 
                                 disabled={isSuccess}

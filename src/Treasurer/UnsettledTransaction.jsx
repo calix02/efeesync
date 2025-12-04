@@ -44,7 +44,7 @@ function  UnsettledTransaction() {
                localStorage.setItem("currentUserData", JSON.stringify(response.data));
             }
         } catch (err) {
-            errorAlert("Fetch Failed");
+          //  errorAlert("Fetch Failed");
         }finally{
             setLoadingUser(false);
         }
@@ -83,7 +83,7 @@ function  UnsettledTransaction() {
                 setPaginate(response.meta);
             }
         } catch (err) {
-            errorAlert("Fetch Failed");
+           // errorAlert("Fetch Failed");
         } finally {
             setLoadingSanction(false);
         }

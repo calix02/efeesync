@@ -36,10 +36,10 @@ const UpdateCollegeCard = React.forwardRef(({animate, onAnimationEnd,onClose,dat
             if (response.status === "success") {
                 await reloadColleges();
             } else {
-                errorAlert("Failed: " + response.message);
+               // errorAlert("Failed: " + response.message);
             }
         } catch (err) {
-            errorAlert("Fetch failed: " + er);
+           // errorAlert("Fetch failed: " + er);
         }
     }
 

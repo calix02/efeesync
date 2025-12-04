@@ -23,7 +23,7 @@ function AccomplishmentReport(){
                         setCurrentUserData(response.data);
                     }
                 } catch (err) {
-                    errorAlert("Fetch Failed");
+                   // errorAlert("Fetch Failed");
                 }
             }
             useEffect(() => {

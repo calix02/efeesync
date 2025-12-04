@@ -39,7 +39,7 @@ function Contribution(){
                localStorage.setItem("currentUserData", JSON.stringify(response.data));
             }
         } catch (err) {
-            errorAlert("Fetch Failed");
+           // errorAlert("Fetch Failed");
         }finally{
             setUserLoading(false);
         }
@@ -65,7 +65,7 @@ function Contribution(){
                         setContributionStatus(response.data);
                     }
                 } catch (err) {
-                    errorAlert("Fetch Failed");
+                  //  errorAlert("Fetch Failed");
                 }finally{
                     setContributionLoading(false);
                 }

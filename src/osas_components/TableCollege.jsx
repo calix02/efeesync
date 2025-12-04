@@ -60,10 +60,10 @@ function TableCollege({ code = "osas", colleges = [] , update, reloadColleges}) 
           if (response.status === "success") {
               await reloadColleges();
           } else {
-              alert("Failed: " + response.message);
+              //alert("Failed: " + response.message);
           }
       } catch (err) {
-          alert("Fetch failed: " + err);
+          //alert("Fetch failed: " + err);
       }
 
       }

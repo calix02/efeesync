@@ -52,10 +52,10 @@ const UpdateStudentCard = React.forwardRef(({animate, onAnimationEnd,onClose,dat
             if (response.status === "success") {
                 await reloadStudents();
             } else {
-                errorAlert("Failed: " + response.message);
+              //  errorAlert("Failed: " + response.message);
             }
         } catch (err) {
-                errorAlert("Failed: " + err);
+               // errorAlert("Failed: " + err);
         }
     }
 

@@ -37,10 +37,10 @@ function FinancialTable({title, financialData =[], code, add, edit, total, fetch
               if (response.status === "success") {
                   await fetchFinancialReportData();
               } else {
-                  errorAlert("Failed: " + response.message);
+                 // errorAlert("Failed: " + response.message);
               }
           } catch (err) {
-              errorAlert("Fetch failed: " + err);
+              //errorAlert("Fetch failed: " + err);
           }
           }
         });

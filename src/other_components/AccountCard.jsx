@@ -27,7 +27,7 @@ const AccountCard = React.forwardRef(({ animate, onAnimationEnd,code}, ref) => {
                 setUser(response.data);
             }
         } catch (err) {
-            errorAlert("Failed to fetch");
+            //errorAlert("Failed to fetch");
         }finally{
             setLoading(false);
         }
@@ -51,7 +51,7 @@ const AccountCard = React.forwardRef(({ animate, onAnimationEnd,code}, ref) => {
                             window.location.reload();
                         }
                     }catch (err) {
-                        errorAlert("An error occured: " + response.message);
+                        //errorAlert("An error occured: " + response.message);
                     }
                 }
             });

@@ -51,7 +51,7 @@ function EventContribution({ data }) {
                localStorage.setItem("currentUserData", JSON.stringify(response.data));
             }
         } catch (err) {
-            errorAlert("Fetch Failed");
+            //errorAlert("Fetch Failed");
         } finally {
             setLoadingUser(false);
         }
@@ -71,7 +71,7 @@ function EventContribution({ data }) {
             setEventContributionsData(anotherResponse.data);
           }
     } catch (err) {
-      errorAlert("Fetch Failed");
+      //errorAlert("Fetch Failed");
     }finally{
       setLoadingEvent(false);
     } 
@@ -126,10 +126,10 @@ function EventContribution({ data }) {
           setPaginateForStudents(response.meta);
           setStudentsToContribute(response.data);
         } else {
-          errorAlert(response.message);
+         // errorAlert(response.message);
         }
       } catch (err) {
-        errorAlert(err);
+       // errorAlert(err);
       } finally {
         setLoadingStudents(false);
       }

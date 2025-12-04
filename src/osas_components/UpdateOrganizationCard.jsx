@@ -55,10 +55,10 @@ const UpdateOrganizationCard = React.forwardRef(({animate, onAnimationEnd,onClos
             if (response.status === "success") {
                 await reloadOrgs();
             } else {
-                errorAlert("Failed: " + response.message);
+               // errorAlert("Failed: " + response.message);
             }
         } catch (err) {
-            errorAlert("Fetch failed: " + err);
+           // errorAlert("Fetch failed: " + err);
         }
     }
 

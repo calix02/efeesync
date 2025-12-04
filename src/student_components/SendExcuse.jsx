@@ -56,10 +56,10 @@ const SendExcuse = React.forwardRef(({ animate, onAnimationEnd, code, onExcuseSe
         onExcuseSent(selectedEventId);
         onClose();
       } else {
-        errorAlert(result.message || "Failed to submit excuse.");
+       // errorAlert(result.message || "Failed to submit excuse.");
       }
     } catch (err) {
-      errorAlert("An unexpected error occurred.");
+     // errorAlert("An unexpected error occurred.");
     }
   };
 

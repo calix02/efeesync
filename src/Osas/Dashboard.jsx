@@ -53,7 +53,7 @@ function Dashboard(){
                 setDashboardData(response.data);
             }
         } catch (err) {
-            errorAlert("Fetch Failed");
+           // errorAlert("Fetch Failed");
         }finally{
             setLoading(false);
         }
@@ -69,7 +69,7 @@ function Dashboard(){
                 setOrgs(response.data);
             }
         } catch (err) {
-            errorAlert("Fetch Failed");
+           // errorAlert("Fetch Failed");
         }finally{
             setLoading(false);
         }

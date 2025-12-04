@@ -47,10 +47,10 @@ function TableProgram({ code = "osas", programs = [] , update, reloadPrograms}) 
             if (response.status === "success") {
                 await reloadPrograms();
             } else {
-                errorAlert("Failed: " + response.message);
+                //errorAlert("Failed: " + response.message);
             }
         } catch (err) {
-            errorAlert("Failed: " + err);
+           // errorAlert("Failed: " + err);
         }
         }
       });

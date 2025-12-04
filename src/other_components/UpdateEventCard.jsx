@@ -136,7 +136,7 @@ const UpdateEventCard = React.forwardRef(
         if (result.status === "success") {
           await reloadEvents();
         } else {
-          errorAlert("Error: " + result.message);
+         // errorAlert("Error: " + result.message);
         }
       } catch (err) {
         console.error("Update error:", err);

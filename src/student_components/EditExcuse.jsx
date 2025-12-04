@@ -53,10 +53,10 @@ const EditExcuse = React.forwardRef(({ animate, onAnimationEnd, onClose, code, d
         successAlert("Excuse updated successfully!");
         onClose();
       } else {
-        errorAlert(result.message || "Failed to update excuse");
+        //errorAlert(result.message || "Failed to update excuse");
       }
     } catch (err) {
-      errorAlert("An error occurred while updating the excuse");
+     // errorAlert("An error occurred while updating the excuse");
       console.error(err);
     } finally {
       setLoading(false);

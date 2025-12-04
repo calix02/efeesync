@@ -50,10 +50,10 @@ const AddAccountCard = React.forwardRef(({animate, onAnimationEnd,onClose,reload
             if (response.status === "success") {
                 await reloadTreasurers();
             } else {
-                errorAlert("Failed: " + response.message);
+             //   errorAlert("Failed: " + response.message);
             }
         } catch (err) {
-                errorAlert("Failed: " + response.message);
+             //   errorAlert("Failed: " + response.message);
         }
     }
 

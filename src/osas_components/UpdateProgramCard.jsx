@@ -53,10 +53,10 @@ const UpdateProgramCard = React.forwardRef(({animate, onAnimationEnd,onClose,dat
                 if (response.status === "success") {
                     await reloadPrograms();
                 } else {
-                    errorAlert("Failed: " + response.message);
+                   // errorAlert("Failed: " + response.message);
                 }
             } catch (err) {
-                errorAlert("Fetch failed: " + err);
+               // errorAlert("Fetch failed: " + err);
             }
         }
 

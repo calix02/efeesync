@@ -44,10 +44,10 @@ function TablePaymentTransaction({ viewProof, payments = [], code, paginate, sta
           if (response.status === "success") {
               fetchOnlineContributions();
           } else {
-              errorAlert("Failed: " + response.message);
+              //errorAlert("Failed: " + response.message);
           }
       } catch (err) {
-          errorAlert("Failed: " + err);
+          //errorAlert("Failed: " + err);
       }
   }
 

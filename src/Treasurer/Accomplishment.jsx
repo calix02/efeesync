@@ -25,7 +25,7 @@ function CITAccomplishment(){
                     setCurrentUserData(response.data);
                  }
              } catch (err) {
-                 errorAlert("Fetch Failed");
+                // errorAlert("Fetch Failed");
              }
           }
           useEffect(() => {

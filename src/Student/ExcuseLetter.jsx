@@ -69,7 +69,7 @@ function ExcuseLetter(){
                setExcuseData(response.data);
             }
         } catch (err) {
-            errorAlert("Fetch Failed");
+            //errorAlert("Fetch Failed");
         }finally{
             setExcuseLoading(false);
         }
@@ -96,10 +96,10 @@ function ExcuseLetter(){
             if (response.status === "success") {
                 fetchExcuses();
             } else {
-                alert("Failed: " + response.message);
+                //alert("Failed: " + response.message);
             }
         } catch (err) {
-            alert("Fetch failed: " + err);
+            //alert("Fetch failed: " + err);
         }
         }
       });

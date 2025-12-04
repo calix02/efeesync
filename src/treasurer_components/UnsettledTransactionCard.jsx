@@ -46,7 +46,7 @@ const UnsettledTransactionCard = React.forwardRef(
           fetchSanctionData();
         }
       } catch (err) {
-        errorAlert("Contribution payment failed");
+        //errorAlert("Contribution payment failed");
       }
     };
 
@@ -65,7 +65,7 @@ const UnsettledTransactionCard = React.forwardRef(
           fetchSanctionData();
         }
       } catch (err) {
-        errorAlert("Sanction payment failed");
+        //errorAlert("Sanction payment failed");
       }
     };
 

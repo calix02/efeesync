@@ -65,10 +65,10 @@ const UpdateStudentOsasCard = React.forwardRef(({animate, onAnimationEnd,onClose
             if (response.status === "success") {
                 await reloadStudents();
             } else {
-                errorAlert("Failed: " + response.message);
+               // errorAlert("Failed: " + response.message);
             }
         } catch (err) {
-                errorAlert("Failed: " + err);
+               // errorAlert("Failed: " + err);
         }
         // alert("Stud ID: " + studId + "\nName: " + name + "\nCollege: " + college + "\nProgram: " + program);
     }

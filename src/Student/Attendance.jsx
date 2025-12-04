@@ -34,7 +34,7 @@ function Attendance(){
                localStorage.setItem("currentUserData", JSON.stringify(response.data));
             }
         } catch (err) {
-            errorAlert("Fetch Failed");
+           // errorAlert("Fetch Failed");
         }finally{
             setUserLoading(false);
         }
@@ -53,7 +53,7 @@ function Attendance(){
                             setAttendanceStatus(response.data);
                         }
                     } catch (err) {
-                        errorAlert("Fetch Failed");
+                       // errorAlert("Fetch Failed");
                     }finally{
                         setAttendanceLoading(false);
                     }

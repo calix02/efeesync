@@ -35,7 +35,7 @@ function FinancialReport(){
                localStorage.setItem("currentUserData", JSON.stringify(response.data));
             }
         } catch (err) {
-            errorAlert("Fetch Failed");
+            //errorAlert("Fetch Failed");
         }finally{
             setUserLoading(false);
         }
@@ -55,7 +55,7 @@ function FinancialReport(){
                     setFinancialReportData(response.data);
                 }
             } catch (err) {
-                errorAlert("Fetch Failed");
+              //  errorAlert("Fetch Failed");
             }finally{
                 setFinancialLoading(false);
             }

@@ -50,7 +50,7 @@ function CITFinancial(){
                localStorage.setItem("currentUserData", JSON.stringify(response.data));
             }
         } catch (err) {
-            errorAlert("Fetch Failed");
+           // errorAlert("Fetch Failed");
         }finally{
             setLoadingUser(false);
         }
@@ -82,7 +82,7 @@ function CITFinancial(){
                 setFinancialReportData(response.data);
             }
         } catch (err) {
-            errorAlert("Fetch Failed");
+           // errorAlert("Fetch Failed");
         } finally {
             setLoadingFinancial(false);
         }

@@ -35,10 +35,10 @@ const PersonalInformation = React.forwardRef(({animate, onAnimationEnd,onClose,c
                 if (response.status === "success") {
                     await fetchUser();
                 } else {
-                    errorAlert("Failed: " + response.message);
+                   // errorAlert("Failed: " + response.message);
                 }
             } catch (err) {
-                errorAlert("Fetch failed: " + err);
+               // errorAlert("Fetch failed: " + err);
             }
         }
 

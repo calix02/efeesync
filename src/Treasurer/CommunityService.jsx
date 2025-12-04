@@ -54,7 +54,7 @@ function  CommunityService() {
                localStorage.setItem("currentUserData", JSON.stringify(response.data));
             }
         } catch (err) {
-            errorAlert("Fetch Failed");
+            //errorAlert("Fetch Failed");
         }finally{
             setLoadingUser(false);
         }
@@ -73,7 +73,7 @@ function  CommunityService() {
                 setPaginate(response.meta);
             }
         } catch (err) {
-            errorAlert("Fetch Failed");
+            //errorAlert("Fetch Failed");
         } finally {
             setLoadingData(false);
         }
@@ -99,7 +99,7 @@ function  CommunityService() {
                 fetchComservData(); 
             }
         } catch (err) {
-            errorAlert("Fetch Failed");
+           // errorAlert("Fetch Failed");
         }
     }
          

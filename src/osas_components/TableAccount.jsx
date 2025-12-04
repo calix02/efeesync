@@ -40,10 +40,10 @@ function TableAccount({ code = "osas", accounts = [] , update, reloadTreasurers}
             if (response.status === "success") {
                 await reloadTreasurers();
             } else {
-                errorAlert("Failed: " + response.message);
+               // errorAlert("Failed: " + response.message);
             }
         } catch (err) {
-            errorAlert("Failed: " + err);
+            //errorAlert("Failed: " + err);
         }
         }
       });

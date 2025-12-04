@@ -29,7 +29,7 @@ AttendanceTable({ code, attendees = [], scanAttendee, attendanceKeys, studentAtt
       });
       const response = await res.json();
       if (response.status !== "success") {
-        errorAlert(response.message);
+       // errorAlert(response.message);
       }
     } else if (target === "Absent") {
       const res = await fetch(apiAttendance, {
@@ -38,7 +38,7 @@ AttendanceTable({ code, attendees = [], scanAttendee, attendanceKeys, studentAtt
       });
       const response = await res.json();
       if (response.status !== "success") {
-        errorAlert(response.message);
+        //errorAlert(response.message);
       }
     } /* else if (target === "Excused") {
       confirmAlert("This student will be excused for the whole day.").then( async (result) =>{

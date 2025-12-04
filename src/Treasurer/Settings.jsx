@@ -75,7 +75,7 @@ function Setting(){
                 });
             }
         } catch (err) {
-            alert("Failed to fetch user data");
+            //alert("Failed to fetch user data");
         } finally {
             setLoadingData(false);
         }
@@ -140,7 +140,7 @@ function Setting(){
                localStorage.setItem("currentUserData", JSON.stringify(response.data));
             }
         } catch (err) {
-            errorAlert("Fetch Failed");
+           // errorAlert("Fetch Failed");
         } finally {
             setLoadingUser(false);
         }

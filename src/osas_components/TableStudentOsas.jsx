@@ -47,10 +47,10 @@ function TableStudentOsas({ code = "osas", students = [] , update,add,reloadStud
               if (response.status === "success") {
                   await reloadStudents();
               } else {
-                  alert("Failed: " + response.message);
+                  //alert("Failed: " + response.message);
               }
           } catch (err) {
-              alert("Fetch failed: " + err);
+              //alert("Fetch failed: " + err);
           }
           }
         });

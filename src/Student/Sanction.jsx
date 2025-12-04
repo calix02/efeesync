@@ -67,7 +67,7 @@ function Sanction(){
                localStorage.setItem("currentUserData", JSON.stringify(response.data));
             }
         } catch (err) {
-            errorAlert("Fetch Failed");
+            //errorAlert("Fetch Failed");
         }finally{
             setUserLoading(false);
         }

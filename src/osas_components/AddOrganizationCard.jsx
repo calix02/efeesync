@@ -29,10 +29,10 @@ const AddOrganizationCard = React.forwardRef(({animate, onAnimationEnd,onClose,r
             if (response.status === "success") {
                 await reloadOrgs();
             } else {
-                errorAlert("Failed: " + response.message);
+               // errorAlert("Failed: " + response.message);
             }
         } catch (err) {
-                errorAlert("Failed: " + err);
+               // errorAlert("Failed: " + err);
         }
     }
 

@@ -63,7 +63,7 @@ function Student(){
                 setPaginate(response.meta);
             }
         } catch (err) {
-            errorAlert("Fetch Failed");
+            //errorAlert("Fetch Failed");
         } finally {
             setLoading(false);
         }
@@ -79,7 +79,7 @@ function Student(){
                 setColleges(response.data);
             }
         } catch (err) {
-            errorAlert("Fetch Failed");
+          //  errorAlert("Fetch Failed");
         }
     }
 
@@ -109,10 +109,10 @@ function Student(){
                             `);
                         fetchStudents();
                     } else {
-                        errorAlert(result.message || "Failed to import CSV");
+                      //  errorAlert(result.message || "Failed to import CSV");
                     }
                 } catch (error) {
-                    errorAlert("Error uploading CSV");
+                    //errorAlert("Error uploading CSV");
                 }
             }
             e.target.value = "";

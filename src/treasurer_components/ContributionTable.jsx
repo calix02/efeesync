@@ -40,7 +40,7 @@ function ContributionTable({ code, selectedEvent, paginate, fetchStudentsToContr
           fetchStudentsToContribute();
         }
       } catch (err) {
-        errorAlert(err);
+        //errorAlert(err);
       }
     };
 
@@ -58,7 +58,7 @@ function ContributionTable({ code, selectedEvent, paginate, fetchStudentsToContr
           fetchStudentsToContribute();
         }
       } catch (err) {
-        errorAlert(err);
+       // errorAlert(err);
       }
     };
 

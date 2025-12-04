@@ -39,7 +39,7 @@ function PaymentTransaction() {
                 setCurrentUserData(response.data);
             }
         } catch (err) {
-            errorAlert("Fetch Failed");
+           // errorAlert("Fetch Failed");
         }finally{
             setLoadingUser(false);
         }
@@ -74,7 +74,7 @@ function PaymentTransaction() {
                 setPaginate(response.meta);
             }
         } catch (err) {
-            errorAlert("Fetch Failed");
+           // errorAlert("Fetch Failed");
         } finally {
             setLoadingPayment(false);
         }

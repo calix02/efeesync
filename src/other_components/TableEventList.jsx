@@ -59,7 +59,7 @@ function TableEventList({
             await reloadEvents();
           }
         } catch (err) {
-          alert("Error deleting event");
+          //alert("Error deleting event");
         }
       }
     });

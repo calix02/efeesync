@@ -182,7 +182,7 @@ function CITStudent() {
                         `);
                     fetchStudents();
                 } else {
-                    errorAlert(result.message || "Failed to import CSV");
+                   // errorAlert(result.message || "Failed to import CSV");
                 }
             } catch (error) {
                // errorAlert("Error uploading CSV");

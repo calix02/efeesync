@@ -101,10 +101,10 @@ const ChangePassword = React.forwardRef(
           onClose();
           successAlert("Succesfully changed password");
         } else {
-          errorAlert("Failed: " + response.message);
+         // errorAlert("Failed: " + response.message);
         }
       } catch (err) {
-        errorAlert("Fetch failed: " + err);
+       // errorAlert("Fetch failed: " + err);
       }
     };
 

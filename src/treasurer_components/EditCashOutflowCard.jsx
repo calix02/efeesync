@@ -36,10 +36,10 @@ const EditCashOutflowCard = React.forwardRef(({animate, onAnimationEnd,onClose, 
             if (response.status === "success") {
                 await fetchFinancialReportData();
             } else {
-                errorAlert("Failed: " + response.message);
+               // errorAlert("Failed: " + response.message);
             }
         } catch (err) {
-            errorAlert("Failed: " + err);
+           // errorAlert("Failed: " + err);
         }
     };
    

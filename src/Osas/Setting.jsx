@@ -71,7 +71,7 @@ function Setting(){
                 });
             }
         } catch (err) {
-            alert("Failed to fetch user data");
+          //  alert("Failed to fetch user data");
         }finally{
             setLoading(false);
         }
@@ -133,7 +133,7 @@ function Setting(){
                setCurrentUserData(response.data);
            }
        } catch (err) {
-           errorAlert("Fetch Failed");
+          // errorAlert("Fetch Failed");
        }finally{
         setLoading(false);
        }

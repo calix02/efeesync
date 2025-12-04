@@ -57,7 +57,7 @@ const SendPayment = React.forwardRef(({ animate, onAnimationEnd, onClose, data, 
       onClose();
 
     } catch (err) {
-      errorAlert(err.message);
+     // errorAlert(err.message);
     } finally {
       setLoading(false);
     }

@@ -19,7 +19,7 @@ const Sidebar = React.forwardRef(({eFee, animate, onAnimationEnd,onClose},ref) =
                         window.location.reload();
                     }
                 }catch (err) {
-                    errorAlert("An error occured: " + response.message);
+                   // errorAlert("An error occured: " + response.message);
                 }
 
             }

@@ -47,10 +47,10 @@ function TableExcuse({ code = "cit", excuses = [], viewLetter, fetchAttendanceEx
           if (response.status === "success") {
               fetchAttendanceExcuse();
           } else {
-              errorAlert("Failed: " + response.message);
+             // errorAlert("Failed: " + response.message);
           }
       } catch (err) {
-          errorAlert("Failed: " + err);
+          //errorAlert("Failed: " + err);
       }
   }
 

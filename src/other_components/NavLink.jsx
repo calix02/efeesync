@@ -15,7 +15,7 @@ function NavLink(props){
   
 
     return(    
-        <Link to={props.navLink} className={`flex items-center font-[family-name:Helvetica] ${color} transition duration-150 p-2.5 text-md  rounded-md hover:text-white hover:shadow-[3px_2px_2px_grey`}>
+        <Link to={props.navLink} className={`flex items-center font-poppins ${color} transition duration-150 p-2.5 text-md  rounded-md hover:text-white hover:shadow-[3px_2px_2px_grey`}>
             <span className="material-symbols-outlined px-2.5">{props.iconName}</span>
             <span>{props.navName}</span>
         </Link>

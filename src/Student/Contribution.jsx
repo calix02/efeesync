@@ -89,7 +89,7 @@ function Contribution(){
         {sendPayment.isVisible && (
           
              <div className="fixed lg:z-40 md:z-50 z-70 flex justify-center items-center  inset-0 bg-[#00000062] pointer-events-auto">
-                <SendPayment data={selectedEvent} code={currentUserData?.organization_code} ref={paymentRef} onAnimationEnd={sendPayment.handleEnd} onClose={()=> sendPayment.setAnimation("fade-out")} animate={sendPayment.animation} />  
+                <SendPayment fetchContributionStatus={fetchContributionStatus} data={selectedEvent} code={currentUserData?.organization_code} ref={paymentRef} onAnimationEnd={sendPayment.handleEnd} onClose={()=> sendPayment.setAnimation("fade-out")} animate={sendPayment.animation} />  
             </div>
         )}
         {userLoading ? (

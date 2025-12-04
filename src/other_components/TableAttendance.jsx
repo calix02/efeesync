@@ -1,7 +1,7 @@
 import { useState, useMemo } from "react";
 import "../animate.css";
 
-function TableAttendance({ code , events = [], scanAttendee, view, formatDateStr}) {
+function TableAttendance({ code , events = [], scanAttendee, view, formatDateStr, searchValueEvents}) {
   const animate = "card-In";
 
     const colors = {
@@ -143,22 +143,6 @@ function TableAttendance({ code , events = [], scanAttendee, view, formatDateStr
         </div>
       
         <div className={`${animate} relative lg:ml-[270px] mt-[-10px] z-[-1] flex flex-col-reverse justify-center items-center`}>
-            <div className="flex">
-              <button  className="mx-1 cursor-pointer flex items-center rounded-md border disabled:opacity-40">
-                <span className="material-symbols-outlined">chevron_left</span>
-              </button>
-             
-                <button
-                  
-                  className={`px-2 mx-1 cursor-pointer rounded-md text-white ${color} `}
-                >1
-                 
-                </button>
-       
-              <button  className="mx-1 cursor-pointer flex items-center rounded-md border disabled:opacity-40">
-                <span className="material-symbols-outlined">chevron_right</span>
-              </button>
-            </div>
           </div>
           </>
           )}

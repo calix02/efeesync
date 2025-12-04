@@ -16,6 +16,7 @@ const ScanAttendance = React.forwardRef(
     const color = colors[code] || "border-black text-black";
 
     const [studentId, setStudentId] = useState("");
+    const [studentIdPlaceholder, setStudentIdPlaceholder] = useState("");
     const [studentName, setStudentName] = useState("");
     const [attendanceMessage, setAttendanceMessage] = useState("");
     const [usingQuagga, setUsingQuagga] = useState(false);
@@ -72,6 +73,7 @@ const ScanAttendance = React.forwardRef(
         setAttendanceMessage("Please select a time slot before marking attendance.");
         return;
       }
+      setStudentIdPlaceholder(student_number_id);
       fetchStudentName(student_number_id);
       fetchStudentAttendees();
       const splittedTimeInout = timeInout.split(' ');
@@ -83,6 +85,7 @@ const ScanAttendance = React.forwardRef(
         credentials: "include"
       });
       const response = await res.json();
+      setStudentId("");
       if (response.status !== "success") {
         setIsErrorAttendance(true);
       }
@@ -99,8 +102,8 @@ const ScanAttendance = React.forwardRef(
     useEffect(() => {
       if (attendanceMessage) {
         const timer = setTimeout(() => {
+          setStudentIdPlaceholder("");
           setAttendanceMessage("");
-          setStudentId("");
           setStudentName("");
           setIsErrorAttendance(false); // also reset error state
         }, 3000);
@@ -222,6 +225,7 @@ const ScanAttendance = React.forwardRef(
               <input
                 type="text"
                 value={studentId}
+                placeholder={studentIdPlaceholder}
                 onChange={(e)=>setStudentId(e.target.value)}
                 maxLength={7}
                 className="border-2 px-2 h-8 rounded-md w-full mt-2 mb-3"

@@ -3,7 +3,7 @@ import { errorAlert, confirmAlert } from '../utils/alert.js';
 import "../animate.css";
 
 function 
-AttendanceTable({ code, attendees = [], scanAttendee, attendanceKeys, studentAttendees, setStudentAttendees, fetchStudentAttendees, paginate, selectedEvent, searchValue, selectedEventDate}) {
+AttendanceTable({ code, attendees = [], scanAttendee, attendanceKeys, studentAttendees, setStudentAttendees, fetchStudentAttendees, paginate, selectedEvent, searchValueStudents, selectedEventDate}) {
   const animate = "card-In";
 
   const colors = {
@@ -168,7 +168,7 @@ AttendanceTable({ code, attendees = [], scanAttendee, attendanceKeys, studentAtt
         {/* Pagination Controls */}
         <div className="mt-4 flex justify-center gap-2 items-center">
           <button
-            onClick={() => fetchStudentAttendees(paginate.page - 1)}
+            onClick={() => fetchStudentAttendees(paginate.page - 1, searchValueStudents)}
             disabled={paginate.page <= 1}
             className="cursor-pointer border rounded disabled:opacity-40 p-1"
           >
@@ -180,7 +180,7 @@ AttendanceTable({ code, attendees = [], scanAttendee, attendanceKeys, studentAtt
           </span>
 
           <button
-            onClick={() => fetchStudentAttendees(paginate.page + 1)}
+            onClick={() => fetchStudentAttendees(paginate.page + 1, searchValueStudents)}
             disabled={paginate.page >= paginate.total_pages}
             className="cursor-pointer border rounded disabled:opacity-40 p-1"
           >

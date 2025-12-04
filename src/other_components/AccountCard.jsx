@@ -47,6 +47,7 @@ const AccountCard = React.forwardRef(({ animate, onAnimationEnd,code}, ref) => {
                     });
                         const response = await res.json();
                         if (response.status === "success") {
+                            localStorage.setItem("currentUserData", null);
                             window.location.reload();
                         }
                     }catch (err) {
@@ -65,8 +66,6 @@ const AccountCard = React.forwardRef(({ animate, onAnimationEnd,code}, ref) => {
                     <div className="w-30 rounded-full h-3 bg-gray-200 animate-pulse"></div>
                     <div className="w-40 rounded-full h-3 bg-gray-200 animate-pulse"></div>
                     <div className="w-40 rounded-full h-3 bg-gray-200 animate-pulse"></div>
-
-
                 </div>
             </div>
 

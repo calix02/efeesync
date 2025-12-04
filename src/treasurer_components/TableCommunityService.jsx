@@ -7,7 +7,7 @@ import "../animate.css";
  * @param {string} code       – org code ("cit", "coe", …) to color the header text
  * @param {Array}  communityService   – array of { id, name, yearSection }
  */
-function TableCommunityService({ code , communityService = [],done, paginate, fetchComservData}) {
+function TableCommunityService({ code , communityService = [],done, paginate, fetchComservData, searchValue}) {
   const animate = "card-In";
   /* --------------------------------- colors -------------------------------- */
   const colors = {
@@ -69,7 +69,7 @@ function TableCommunityService({ code , communityService = [],done, paginate, fe
         <div className={` ${color} bg-[#fff0] relative lg:ml-70 font-[family-name: Arial] lg:text-sm text-xs mt-[-10px] flex flex-col-reverse justify-center items-center`}>
           <div className="mt-4 flex justify-center gap-2 items-center">
             <button
-              onClick={() => fetchComservData(paginate.page - 1)}
+              onClick={() => fetchComservData(paginate.page - 1, searchValue)}
               disabled={paginate.page <= 1}
               className="cursor-pointer border rounded disabled:opacity-40 p-1"
             >
@@ -81,7 +81,7 @@ function TableCommunityService({ code , communityService = [],done, paginate, fe
             </span>
 
             <button
-              onClick={() => fetchComservData(paginate.page + 1)}
+              onClick={() => fetchComservData(paginate.page + 1, searchValue)}
               disabled={paginate.page >= paginate.total_pages}
               className="cursor-pointer border rounded disabled:opacity-40 p-1"
             >

@@ -14,13 +14,29 @@ function UnpaidCard({unpaidEvents,total,formatDateStr, pay}){
                     <div key={id} className="flex gap-2 mt-1 items-center border-b-1 py-4  border-[#7d7b7b]">
                         <div className="w-20 py-2 flex flex-col justify-center items-center">
                             <span className="text-sm">Amount</span>
-                            <span className="font-bold text-2xl">{ue.remaining_balance}</span>
+                            <span className="font-bold text-2xl">{ue.event_contri_fee}</span>
                         </div>
                         <div className="w-50 py-1 border-l-4 flex flex-col pl-4 justify-center">
                             <span className="font-bold text-xl ">{ue.event_name}</span>
                             <span className=" text-sm text-[#625555]">Date: {formatDateStr(ue.event_contri_due_date)}</span>
                             <div className="flex justify-start">
-                                <button onClick={()=> pay(ue)} className="border font-bold border-black cursor-pointer hover:bg-[#07a81f] hover:text-white hover:scale-105 transition duration-300 rounded-md px-3 text-xs py-0.75 my-2 text-[#07a81f]">Pay Now</button>
+                                {ue.online_payment_status ?
+                                    <div className={`
+                                        px-2 py-1 rounded-md font-semibold text-sm
+                                        ${
+                                        ue.online_payment_status === "PENDING"
+                                            ? "bg-yellow-100 text-yellow-700"
+                                            : ue.online_payment_status === "REJECTED"
+                                            ? "bg-red-100 text-red-700"
+                                            : ""
+                                        }
+                                    `}
+                                    >
+                                    {ue.online_payment_status}
+                                    </div>
+                                    :
+                                    <button onClick={()=> pay(ue)} className="border font-bold border-black cursor-pointer hover:bg-[#07a81f] hover:text-white hover:scale-105 transition duration-300 rounded-md px-3 text-xs py-0.75 my-2 text-[#07a81f]">Pay Now</button>
+                                }
                             </div>
                         </div>
                     </div>
@@ -34,7 +50,6 @@ function UnpaidCard({unpaidEvents,total,formatDateStr, pay}){
                 )}
             </div>
         </div>
-
     );
 
 }

@@ -17,6 +17,7 @@ const UpdateStudentCard = React.forwardRef(({animate, onAnimationEnd,onClose,dat
     const [firstName, setFirstName] = useState(data?.first_name);
     const [middle, setMiddle] = useState(data?.middle_initial);
     const [yearSection, setYearSection] = useState(data?.student_section);
+    const [programId, setProgramId] = useState(data?.student_current_program);
 
    React.useEffect(() =>{
         if(data){
@@ -26,6 +27,7 @@ const UpdateStudentCard = React.forwardRef(({animate, onAnimationEnd,onClose,dat
             setFirstName(data.first_name);
             setMiddle(data.middle_initial);
             setYearSection(data.student_section);
+            setProgramId(data.student_current_program);
         }
    }, [data]);
 

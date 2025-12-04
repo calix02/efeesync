@@ -20,6 +20,9 @@ function CITExcuse() {
 
     const [loadingUser, setLoadingUser] = useState(true);
     const [loadingExcuse, setLoadingExcuse] = useState(true);
+    const [program, setProgram] = useState("");
+    const [year, setYear] = useState("");
+    
 
     const [currentUserData, setCurrentUserData] = useState(() => {
         const saved = localStorage.getItem("currentUserData");
@@ -113,7 +116,9 @@ function CITExcuse() {
         return new Date(dateString).toLocaleDateString('en-US', {year:'numeric',month:'long',day:'numeric'});
     }
 
+   
 
+    
     return (
         <>
         {viewLetter.isVisible &&(
@@ -151,11 +156,20 @@ function CITExcuse() {
                             <option value="approved">Approved</option>
                             <option value="rejected">Rejected</option>
                         </select>
+                        <select className={`bg-white ${hoverColor} w-40 lg:text-sm text-xs font-poppins rounded-2xl font-semibold transition duration-200 hover:scale-107 hover:text-white cursor-pointer border border-[#e0e0e0] shadow-[2px_2px_1px_gray]  py-2   text-center`}    name="" id="" onChange={(e) => setProgram(e.target.value)}>
+                            <option value="">-- Program --</option>
+                            <option value="Okieee">Okieee</option>
+                        </select>
+                        <select className={`bg-white ${hoverColor} w-40 lg:text-sm text-xs font-poppins rounded-2xl font-semibold transition duration-200 hover:scale-107 hover:text-white cursor-pointer border border-[#e0e0e0] shadow-[2px_2px_1px_gray]  py-2   text-center`}    name="" id="" onChange={(e) => setYear(e.target.value)}>
+                            <option value="">-- Year --</option>
+                            <option value="Okieee">Okieee</option>
+                        </select>
+                        
                     </div>
                     {loadingUser ? (
                         <SkeletonTable/>
                     ) : (
-                        <TableExcuse formatDateStr={formatDateStr} fetchAttendanceExcuse={fetchAttendanceExcuse} status={status} paginate={paginate} excuses={attendanceExcuses} viewLetter={(row) =>{
+                        <TableExcuse formatDateStr={formatDateStr} fetchAttendanceExcuse={fetchAttendanceExcuse} searchValue={searchValue} status={status} paginate={paginate} excuses={attendanceExcuses} viewLetter={(row) =>{
                             viewLetter.toggle();
                             setSelectedStudent(row);
                         }}  code={currentUserData?.organization_code} />

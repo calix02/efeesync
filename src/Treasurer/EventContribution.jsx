@@ -57,9 +57,8 @@ function EventContribution({ data }) {
         }
     }
 
-  const [searchValue, setSearchValue] = useState("");
-
-  
+  const [searchValueEvents, setSearchValueEvents] = useState("");
+  const [searchValueStudents, setSearchValueStudentss] = useState("");
 
   const fetchEventContributions = async (page=1, search="", org_code=currentUserData?.organization_code) => {
     setLoadingEvent(true);
@@ -86,7 +85,7 @@ function EventContribution({ data }) {
           }
       
           const searchEventContributions = (search) => {
-              setSearchValue(search);
+              setSearchValueEvents(search);
               debounce(() => {
                   fetchEventContributions(1, search);
               }, 500);
@@ -107,7 +106,7 @@ function EventContribution({ data }) {
  
 
   const searchStudentsToContribute = (search) => {
-      setSearchValue(search);
+      setSearchValueStudentss(search);
       debounce(() => {
           fetchStudentsToContribute(1, search);
       }, 500);
@@ -233,6 +232,7 @@ function EventContribution({ data }) {
               <SkeletonTable/>
             ) : (
               <TableEventContribution
+                searchValueEvents={searchValueEvents}
                 code={currentUserData?.organization_code}
                 formatDateStr={formatDateStr}
                 selectedEvent={selectedEvent}
@@ -276,6 +276,7 @@ function EventContribution({ data }) {
                 <SkeletonTable/>
               ) :(
                 <ContributionTable
+                  searchValueStudents={searchValueStudents}
                   paginate={paginateForStudents}
                   fetchStudentsToContribute={fetchStudentsToContribute}
                   studentsToContribute={studentsToContribute}

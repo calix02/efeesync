@@ -37,7 +37,8 @@ function Attendance() {
   const [selectedEvent, setSelectedEvent] = useState(null);
   const [selectedAttendee, setSelectedAttendee] = useState(null);
   const [selectedAttendanceDate, setSelectedAttendanceDate] = useState("");
-  const [searchValue, setSearchValue] = useState("");
+  const [searchValueEvents, setSearchValueEvents] = useState("");
+  const [searchValueStudents, setSearchValueStudents] = useState("");
   const [loadingUser, setLoadingUser] = useState(true);
   const [loadingEvent, setLoadingEvent] = useState(true);
   const [loadingStudents, setLoadingStudents] = useState(false);
@@ -117,7 +118,7 @@ function Attendance() {
   }
 
   const searchEventAttendance = (search) => {
-    setSearchValue(search);
+    setSearchValueEvents(search);
     debounce(() => {
       fetchEventAttendance(1, search);
     }, 500);
@@ -149,6 +150,7 @@ function Attendance() {
   };
 
   const searchStudentAttendees = (search) => {
+    setSearchValueStudents(search);
     debounce(() => {
       fetchStudentAttendees(1, search);
     }, 500);
@@ -236,7 +238,7 @@ function Attendance() {
                     <TableAttendance
                       formatDateStr={formatDateStr}
                       events={eventAttendanceData}
-                      searchValue={searchValue}
+                      searchValueEvents={searchValueEvents}
                       code={currentUserData?.organization_code}
                       updateEvent={updateEvent.toggle}
                       view={(row) => clickedView(row)}
@@ -289,6 +291,7 @@ function Attendance() {
                   <SkeletonTable/>
                 ) :(
                 <AttendanceTable
+                  searchValueStudents={searchValueStudents}
                   code={currentUserData?.organization_code}
                   paginate={paginateForStudents}
                   studentAttendees={studentAttendees}

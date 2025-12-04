@@ -6,7 +6,7 @@ import "../animate.css";
  * @param {string} code       – org code ("cit", "coe", …) to color the header text
  * @param {Array}  payments   – array of { id, name, yearSection }
  */
-function TablePaymentTransaction({ viewProof, payments = [], code, paginate, status, fetchOnlineContributions, formatDateStr }) {
+function TablePaymentTransaction({ viewProof, payments = [], code, paginate, status, fetchOnlineContributions, formatDateStr, searchValue }) {
   const animate = "card-In";
   /* --------------------------------- colors -------------------------------- */
   const colors = {
@@ -127,7 +127,7 @@ function TablePaymentTransaction({ viewProof, payments = [], code, paginate, sta
       {/* pagination controls */}
       <div className="mt-4 lg:ml-60 flex justify-center gap-2 items-center">
           <button
-            onClick={() => fetchOnlineContributions(status, paginate.page - 1)}
+            onClick={() => fetchOnlineContributions(status, paginate.page - 1, searchValue)}
             disabled={paginate.page <= 1}
             className="cursor-pointer border rounded disabled:opacity-40 p-1"
           >
@@ -139,7 +139,7 @@ function TablePaymentTransaction({ viewProof, payments = [], code, paginate, sta
           </span>
 
           <button
-            onClick={() => fetchOnlineContributions(status, paginate.page + 1)}
+            onClick={() => fetchOnlineContributions(status, paginate.page + 1, searchValue)}
             disabled={paginate.page >= paginate.total_pages}
             className="cursor-pointer border rounded disabled:opacity-40 p-1"
           >

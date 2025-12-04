@@ -198,13 +198,14 @@ function Setting(){
                             <SkeletonSetting/>
                         ) : (
                         <AccountSetting 
-                        code={currentUserData?.organization_code} 
-                        upload={profile.toggle} 
-                        changeInfo={information.toggle} 
-                        changePass={changePassword.toggle}  
-                        profile={profileImage} 
-                        accName={accountData.full_name} 
-                        accEmail={accountData.email}/>
+                            code={currentUserData?.organization_code} 
+                            upload={profile.toggle} 
+                            changeInfo={information.toggle} 
+                            changePass={changePassword.toggle}  
+                            profile={profileImage} 
+                            accName={accountData.full_name} 
+                            accEmail={accountData.email}
+                        />
                         )}
                         {/** 
                         <QrCodeSetting code={currentUserData?.department_code} show={qr.toggle}/>

@@ -21,6 +21,8 @@ function  UnsettledTransaction() {
     const collectRef = useRef(null);
 
     const [selectedStudent, setSelectedStudent] = useState(null);
+    const [program, setProgram] = useState("");
+    const [year, setYear] = useState("");
 
     const [currentUserData, setCurrentUserData] = useState(() => {
         const saved = localStorage.getItem("currentUserData");
@@ -171,14 +173,24 @@ function  UnsettledTransaction() {
                      <input className='lg:w-120 px-8 font-poppins text-sm h-12 w-[100%]  bg-white rounded-2xl border lg:mt-0 md:mt-0 mt-4 shadow-[2px_2px_1px_gray]  border-[#e0e0e0] block' type="text" onKeyUp={(e)=>{searchSanctions(e.target.value)}} placeholder='Search Student' />
                  </div>
              </div>
-             <div className="lg:ml-70 flex justify-end mt-5">
-                 <button onClick={collectFeesCard.toggle} className={`w-50 hover:scale-107 flex gap-2 justify-center items-center font-semibold ${hoverColor} ${color} hover:text-white font-poppins text-sm transition duration-300 h-12 border border-[#e0e0e0] cursor-pointer bg-white shadow-[2px_2px_1px_gray] rounded-2xl`}><i className="fa-solid fa-money-bill"></i>Collect Fees</button>
+             <div className="lg:ml-70 flex items-center justify-between mt-5 ">
+                <div className={`flex gap-5 ${animateL}`}>
+                    <select className={`bg-white ${hoverColor} w-40 lg:text-sm text-xs font-poppins rounded-2xl font-semibold transition duration-200 hover:scale-107 hover:text-white cursor-pointer border border-[#e0e0e0] shadow-[2px_2px_1px_gray]  py-2   text-center`}    name="" id="" onChange={(e) => setProgram(e.target.value)}>
+                        <option value="">-- Program --</option>
+                        <option value="Okieee">Okieee</option>
+                    </select>
+                    <select className={`bg-white ${hoverColor} w-40 lg:text-sm text-xs font-poppins rounded-2xl font-semibold transition duration-200 hover:scale-107 hover:text-white cursor-pointer border border-[#e0e0e0] shadow-[2px_2px_1px_gray]  py-2   text-center`}    name="" id="" onChange={(e) => setYear(e.target.value)}>
+                        <option value="">-- Year --</option>
+                        <option value="Okieee">Okieee</option>
+                    </select>
+                </div>
+                 <button onClick={collectFeesCard.toggle} className={`w-50 hover:scale-107 flex gap-2 justify-center items-center font-semibold ${animateR} ${hoverColor} ${color} hover:text-white font-poppins text-sm transition duration-300 h-12 border border-[#e0e0e0] cursor-pointer bg-white shadow-[2px_2px_1px_gray] rounded-2xl`}><i className="fa-solid fa-money-bill"></i>Collect Fees</button>
              </div>
              <div className="w-100% ">
                  {loadingSanction ?(
                      <SkeletonTable/>
                  ) :(
-                     <TableMonetarySanction fetchSanctions={fetchSanctionData} paginate={paginate} sanctions={sanctionData} code={currentUserData?.organization_code} view={(row) =>{
+                     <TableMonetarySanction fetchSanctions={fetchSanctionData} paginate={paginate} sanctions={sanctionData} searchValue={searchValue} code={currentUserData?.organization_code} view={(row) =>{
                          setSelectedStudent(row);
                          unsettledCard.toggle();
                      }} />

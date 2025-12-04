@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { errorAlert, successAlert } from "../utils/alert";
 
-const SendPayment = React.forwardRef(({ animate, onAnimationEnd, onClose, data, code, fetchDashboardData }, ref) => {
+const SendPayment = React.forwardRef(({ animate, onAnimationEnd, onClose, data, code, fetchContributionStatus, fetchDashboardData }, ref) => {
   const [file, setFile] = useState(null);
   const [preview, setPreview] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -51,7 +51,8 @@ const SendPayment = React.forwardRef(({ animate, onAnimationEnd, onClose, data, 
       const result = await res.json();
 
       if (!res.ok) throw new Error(result.message || "Submission failed.");
-      fetchDashboardData();
+      if (fetchDashboardData) fetchDashboardData();
+      if (fetchContributionStatus) fetchContributionStatus();
       successAlert("Payment proof submitted successfully! Pending for approval.");
       onClose();
 

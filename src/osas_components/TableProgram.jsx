@@ -56,19 +56,6 @@ function TableProgram({ code = "osas", programs = [] , update, reloadPrograms}) 
       });
     };
 
-  /* ----------------------------- pagination -------------------------------- */
-  const PAGE_SIZE = 10;
-  const [page, setPage] = useState(0);          // 0‑based
-  const pageCount = Math.ceil(data.length / PAGE_SIZE);
-
-  const pageData = useMemo(
-    () => data.slice(page * PAGE_SIZE, page * PAGE_SIZE + PAGE_SIZE),
-    [page, data]
-  );
-
-  const goPrev = () => setPage(Math.max(0, page - 1));
-  const goNext = () => setPage(Math.min(pageCount - 1, page + 1));
-
   /* -------------------------------- render --------------------------------- */
   return (
   
@@ -86,7 +73,7 @@ function TableProgram({ code = "osas", programs = [] , update, reloadPrograms}) 
           </thead>
 
           <tbody>
-            {pageData.map((s, idx) => (
+            {data.map((s, idx) => (
               <tr key={idx} className="border-b border-[#0505057a] ">
                 <td>{s.program_code}</td>
                 <td>{s.program_name}</td>
@@ -105,43 +92,6 @@ function TableProgram({ code = "osas", programs = [] , update, reloadPrograms}) 
           </tbody>
         </table>
       </div>
-        {/* pagination controls 
-        <div className=" relative lg:ml-70 mt-[-10px] flex flex-col-reverse justify-center items-center">
-            <p className='text-[#174515] font-[family-name:Arial] lg:text-sm text-xs lg:absolute left-9'>Showing of 600</p>  
-        <span className="flex">
-             <button
-            onClick={goPrev}
-            disabled={page === 0}
-            className=" mx-1 flex cursor-pointer items-center rounded-md border disabled:opacity-40"
-          >
-            <span className="material-symbols-outlined">chevron_left</span>
-
-          </button>
-
-          {Array.from({ length: pageCount }, (_, i) => (
-            <button
-              key={i}
-              onClick={() => setPage(i)}
-              className={`px-2 mx-1 cursor-pointer rounded-md border
-                ${i === page
-                  ? "bg-[#174515] text-white"
-                  : "bg-white "}`} >
-              {i + 1}
-            </button>
-          ))}
-
-          <button
-            onClick={goNext}
-            disabled={page === pageCount - 1}
-           className=" mx-1 flex cursor-pointer items-center rounded-md border disabled:opacity-40"
-          >
-            <span className="material-symbols-outlined">chevron_right</span>
-
-          </button>
-
-        </span>
-        </div>
-        */}
     </div>
    
   );

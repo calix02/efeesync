@@ -1,7 +1,7 @@
 import React,{useState} from "react";
 import {  errorAlert } from "../utils/alert";
 
-const PersonalInformation = React.forwardRef(({animate, onAnimationEnd,onClose,code,data,reloadUserInfo}, ref) =>{
+const PersonalInformation = React.forwardRef(({animate, onAnimationEnd,onClose,code,data,fetchUser}, ref) =>{
     const [firstName,setFirstName] = useState(data?.firstName || ""); 
     const [middleName, setMiddleName] = useState (data?.middleName || "");
     const [lastName, setLastName] = useState(data?.lastName || "");
@@ -33,7 +33,7 @@ const PersonalInformation = React.forwardRef(({animate, onAnimationEnd,onClose,c
     
                 const response = await res.json();
                 if (response.status === "success") {
-                    await reloadUserInfo();
+                    await fetchUser();
                 } else {
                     errorAlert("Failed: " + response.message);
                 }

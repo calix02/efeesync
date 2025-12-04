@@ -25,6 +25,8 @@ function PaymentTransaction() {
 
     const [loadingUser, setLoadingUser] = useState(true);
     const [loadingPayment, setLoadingPayment] = useState(true);
+    const [program, setProgram] = useState("");
+    const [year, setYear] = useState("");
         
     const fetchCurrentUser = async () => {
         try {
@@ -137,17 +139,25 @@ function PaymentTransaction() {
             
                 <div className=' w-[100%] mt-3 '>
                     <div className={`lg:ml-70 ${animateL} flex justify-start font-[family-name:Arial] gap-2.5`}>
-                        <select className={`bg-white w-40 ${hoverColor} font-poppins font-semibold lg:text-sm text-xs transition duration-100 hover:scale-100  hover:text-white cursor-pointer border shadow-[2px_2px_1px_gray] border-[#e0e0e0] py-2 rounded-2xl text-center`}  onChange={(e)=>{setStatus(e.target.value)}} name="" id="">
-                            <option value="">All</option>
+                        <select className={`bg-white w-40 ${hoverColor} font-poppins font-semibold lg:text-sm text-xs transition duration-300 hover:scale-100  hover:text-white cursor-pointer border shadow-[2px_2px_1px_gray] border-[#e0e0e0] py-2 rounded-2xl text-center`}  onChange={(e)=>{setStatus(e.target.value)}} name="" id="">
+                            <option value="">--Status--</option>
                             <option value="pending">Pending</option>
                             <option value="approved">Approved</option>
                             <option value="rejected">Rejected</option>
+                        </select>
+                        <select className={`${hoverColor} w-50 h-10 hover:text-white text-sm font-poppins transition duration-300 cursor-pointer font-semibold bg-white rounded-2xl text-center border border-[#e0e0e0] shadow-[2px_2px_1px_gray]`} name="" id="" onChange={(e)=> setProgram(e.target.value)}>
+                            <option value="">--Program--</option>
+                            <option value="Okieee">okiee</option>
+                        </select>
+                         <select className={`${hoverColor} w-50 h-10 hover:text-white text-sm font-poppins transition duration-300 cursor-pointer font-semibold bg-white rounded-2xl text-center border border-[#e0e0e0] shadow-[2px_2px_1px_gray]`} name="" id="" onChange={(e)=> setYear(e.target.value)}>
+                            <option value="">--Year--</option>
+                            <option value="Okieee">okiee</option>
                         </select>
                     </div>
                     {loadingPayment ? ( 
                         <SkeletonTable/>
                     ) : (
-                        <TablePaymentTransaction formatDateStr={formatDateStr} paginate={paginate} status={status} payments={onlinePaymentContributions} fetchOnlineContributions={fetchOnlineContributions} viewProof={(row)=>{
+                        <TablePaymentTransaction formatDateStr={formatDateStr} paginate={paginate} status={status} searchValue={searchValue} payments={onlinePaymentContributions} fetchOnlineContributions={fetchOnlineContributions} viewProof={(row)=>{
                             viewProof.toggle();
                             setSelectedStudent(row)
                         }}  code={currentUserData?.organization_code} />

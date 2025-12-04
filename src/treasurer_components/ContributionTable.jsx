@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { successAlert, errorAlert } from "../utils/alert";
 import "../animate.css";
 
-function ContributionTable({ code, selectedEvent, paginate, fetchStudentsToContribute, studentsToContribute }) {
+function ContributionTable({ code, selectedEvent, paginate, fetchStudentsToContribute, studentsToContribute, searchValueStudents }) {
   const animate = "card-In";
 
   const [amount, setAmount] = useState("");
@@ -166,7 +166,7 @@ function ContributionTable({ code, selectedEvent, paginate, fetchStudentsToContr
         {/* Pagination Controls */}
         <div className="mt-4 flex justify-center gap-2 items-center">
           <button
-            onClick={() => fetchStudentsToContribute(paginate.page - 1)}
+            onClick={() => fetchStudentsToContribute(paginate.page - 1, searchValueStudents)}
             disabled={paginate.page <= 1}
             className="cursor-pointer border rounded disabled:opacity-40 p-1"
           >
@@ -178,7 +178,7 @@ function ContributionTable({ code, selectedEvent, paginate, fetchStudentsToContr
           </span>
 
           <button
-            onClick={() => fetchStudentsToContribute(paginate.page + 1)}
+            onClick={() => fetchStudentsToContribute(paginate.page + 1, searchValueStudents)}
             disabled={paginate.page >= paginate.total_pages}
             className="cursor-pointer border rounded disabled:opacity-40 p-1"
           >

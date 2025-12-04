@@ -7,7 +7,7 @@ import "../animate.css";
  * @param {string} code       – org code ("cit", "coe", …) to color the header text
  * @param {Array}  students   – array of { id, name, yearSection }
  */
-function TableStudentOsas({ code = "osas", students = [] , update,add,reloadStudents,paginate}) {
+function TableStudentOsas({ code = "osas", students = [] , update,add,reloadStudents,paginate, search}) {
   const animate = "card-In";
   /* --------------------------------- colors -------------------------------- */
   const textColor =
@@ -102,7 +102,7 @@ function TableStudentOsas({ code = "osas", students = [] , update,add,reloadStud
         <div className=" relative lg:ml-70 font-[family-name:Arial] text-xs lg:text-sm mt-[-10px] flex flex-col-reverse justify-center items-center">
         <div className="mt-4 flex justify-center gap-2 items-center">
           <button
-            onClick={() => reloadStudents(paginate.page - 1)}
+            onClick={() => reloadStudents(paginate.page - 1, search)}
             disabled={paginate.page <= 1}
             className="cursor-pointer border rounded disabled:opacity-40 p-1"
           >
@@ -114,7 +114,7 @@ function TableStudentOsas({ code = "osas", students = [] , update,add,reloadStud
           </span>
 
           <button
-            onClick={() => reloadStudents(paginate.page + 1)}
+            onClick={() => reloadStudents(paginate.page + 1, search)}
             disabled={paginate.page >= paginate.total_pages}
             className="cursor-pointer border rounded disabled:opacity-40 p-1"
           >

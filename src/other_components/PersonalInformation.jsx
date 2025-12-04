@@ -6,6 +6,7 @@ const PersonalInformation = React.forwardRef(({animate, onAnimationEnd,onClose,c
     const [middleName, setMiddleName] = useState (data?.middleName || "");
     const [lastName, setLastName] = useState(data?.lastName || "");
     const [section, setSection] = useState(data?.section || "");
+    const [role, setRole] = useState(data?.role || "");
 
 
     React.useEffect(()=>{
@@ -14,7 +15,7 @@ const PersonalInformation = React.forwardRef(({animate, onAnimationEnd,onClose,c
             setMiddleName(data.middleName);
             setLastName(data.lastName);
             setSection(data.section);
-
+            setRole(data.role);
         }
     },[data]);
 
@@ -92,17 +93,16 @@ const PersonalInformation = React.forwardRef(({animate, onAnimationEnd,onClose,c
             }}>
             <div className="mt-6">
                 <label>First Name:</label><br />
-                <input type="text" onChange={(e)=>setFirstName(e.target.value)} value={firstName} maxLength={50}  className="border-2 px-2 text-[#000] h-8 rounded-md w-[100%] mb-4" required/> <br />
+                <input type="text" disabled={true} onChange={(e)=>setFirstName(e.target.value)} value={firstName} maxLength={50}  className="border-2 px-2 text-[#000] h-8 rounded-md w-[100%] mb-4 disabled:bg-gray-100 disabled:border-gray-500" required/> <br />
                 <label>Middle Initial:</label><br />
-                <input type="text" onChange={(e)=>setMiddleName(e.target.value)} value={middleName} maxLength={4}  className="border-2 px-2 text-[#000] h-8 rounded-md w-[100%] mb-4" required/> <br /> 
+                <input type="text" disabled={true} onChange={(e)=>setMiddleName(e.target.value)} value={middleName} maxLength={4}  className="border-2 px-2 text-[#000] h-8 rounded-md w-[100%] mb-4 disabled:bg-gray-100 disabled:border-gray-500" required/> <br /> 
                 <label>Last Name:</label><br />
-                <input type="text" onChange={(e)=>setLastName(e.target.value)} value={lastName} maxLength={50} required className="border-2 px-2 text-[#000] h-8 rounded-md w-[100%] mb-4" /> <br />
+                <input type="text" disabled={true} onChange={(e)=>setLastName(e.target.value)} value={lastName} maxLength={50} required className="border-2 px-2 text-[#000] h-8 rounded-md w-[100%] mb-4 disabled:bg-gray-100 disabled:border-gray-500" /> <br />
                 <label>Section:</label><br />
                 <input type="text" onChange={(e)=>setSection(e.target.value)} value={section} maxLength={50} required className="border-2 px-2 text-[#000] h-8 rounded-md w-[100%] mb-4" /> <br />
             </div>
                 <button type="submit" className={` ${color} cursor-pointer w-[100%] rounded-md text-white h-8`}>Update Information</button>
             </form>
-            
         </div>
        
     );

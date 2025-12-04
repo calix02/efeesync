@@ -8,7 +8,7 @@ import {confirmAlert,successAlert, errorAlert, okAlert} from "../utils/alert.js"
  * @param {string} code       – org code ("cit", "coe", …) to color the header text
  * @param {Array}  excuses   – array of { id, name, yearSection }
  */
-function TableExcuse({ code = "cit", excuses = [], viewLetter, fetchAttendanceExcuse, paginate, status, formatDateStr }) {
+function TableExcuse({ code = "cit", excuses = [], viewLetter, fetchAttendanceExcuse, paginate, status, formatDateStr, searchValue }) {
   const animate = "card-In";
   /* --------------------------------- colors -------------------------------- */
   const colors = {
@@ -111,7 +111,7 @@ function TableExcuse({ code = "cit", excuses = [], viewLetter, fetchAttendanceEx
         {/* pagination controls */}
         <div className="mt-4 lg:ml-60 flex justify-center gap-2 items-center">
           <button
-            onClick={() => fetchAttendanceExcuse(status, paginate.page - 1)}
+            onClick={() => fetchAttendanceExcuse(status, paginate.page - 1, searchValue)}
             disabled={paginate.page <= 1}
             className="cursor-pointer border rounded disabled:opacity-40 p-1"
           >
@@ -123,7 +123,7 @@ function TableExcuse({ code = "cit", excuses = [], viewLetter, fetchAttendanceEx
           </span>
 
           <button
-            onClick={() => fetchAttendanceExcuse(status, paginate.page + 1)}
+            onClick={() => fetchAttendanceExcuse(status, paginate.page + 1, searchValue)}
             disabled={paginate.page >= paginate.total_pages}
             className="cursor-pointer border rounded disabled:opacity-40 p-1"
           >

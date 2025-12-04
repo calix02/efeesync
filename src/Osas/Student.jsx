@@ -64,7 +64,7 @@ function Student(){
             }
         } catch (err) {
             errorAlert("Fetch Failed");
-        }finally{
+        } finally {
             setLoading(false);
         }
     }
@@ -171,7 +171,7 @@ function Student(){
                 {loading? (
                     <SkeletonTable/>
                 ) : (
-                <TableStudentOsas paginate={paginate} reloadStudents={fetchStudents} students={students} update={(row) =>{
+                <TableStudentOsas paginate={paginate} search={searchValue} reloadStudents={fetchStudents} students={students} update={(row) =>{
                     setSelectedStudent(row);
                     updateStudent.toggle();
                 }} add={addStudent.toggle}/>

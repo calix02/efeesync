@@ -29,24 +29,25 @@ function CITStudent() {
     const [debounceTimer, setDebounceTimer] = useState(null);
     const [loadingHeader, setLoadingHeader] = useState(true);
     const [loadingStudents, setLoadingStudents] = useState(true);
-    
+    const [programs, setPrograms] = useState([]);
+    const [pid, setPid] = useState("");
 
     function debounce(callback, delay = 500) {
         clearTimeout(debounceTimer);
         setDebounceTimer(setTimeout(callback, delay));
     }
 
-    const fetchStudents = async (deptCode, isUnivOrg, page = 1, search = "") => {
+    const fetchStudents = async (currentUserData, page = 1, search = "", pid = "") => {
         setLoadingStudents(true);
         try {
-            const _dept = deptCode ?? currentUserData?.department_code;
-            const _isUniv = typeof isUnivOrg === "boolean" ? isUnivOrg : currentUserData?.university_wide_org;
+            const _dept = currentUserData?.department_code;
+            const _isUniv = currentUserData?.university_wide_org;
 
             let url = "";
             if (_isUniv) {
-                url = `/api/students?page=${page}&search=${encodeURIComponent(search)}`;
+                url = `/api/students?pid=${pid}&page=${page}&search=${encodeURIComponent(search)}`;
             } else {
-                url = `/api/departments/code/${_dept}/students?page=${page}&search=${encodeURIComponent(search)}`;
+                url = `/api/departments/code/${_dept}/students?pid=${pid}&page=${page}&search=${encodeURIComponent(search)}`;
             }
 
             const res = await fetch(url, { credentials: "include" });
@@ -56,7 +57,31 @@ function CITStudent() {
                 setPaginate(response.meta);
             }
         } catch (err) {
-            errorAlert("Fetch Failed");
+            console.error(err);
+        } finally {
+            setLoadingStudents(false);
+        } 
+    };
+
+    const fetchPrograms = async (currentUserData) => {
+        try {
+            const _dept = currentUserData?.department_code;
+            const _isUniv = currentUserData?.university_wide_org;
+
+            let url = "";
+            if (_isUniv) {
+                url = `/api/programs`;
+            } else {
+                url = `/api/departments/code/${_dept}/programs`;
+            }
+
+            const res = await fetch(url, { credentials: "include" });
+            const response = await res.json();
+            if (response.status === "success") {
+                setPrograms(response.data);
+            }
+        } catch (err) {
+            console.error(err);
         }finally{
             setLoadingStudents(false);
         } 
@@ -80,7 +105,7 @@ function CITStudent() {
             }
         } catch (err) {
             errorAlert("Fetch Failed");
-        }finally{
+        } finally {
             setLoadingHeader(false);
         }
     }
@@ -89,23 +114,32 @@ function CITStudent() {
         setSearchValue(search);
         debounce(() => {
             fetchStudents(
-                undefined,
-                undefined,
+                currentUserData,
                 1,
-                search
+                search,
+                pid
             );
         }, 500);
     };
 
     useEffect(() => {
         fetchCurrentUser();
-        localStorage.setItem("basta", currentUserData);
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     useEffect(() => {
-        if (currentUserData) fetchStudents();
+        if (currentUserData) {
+            fetchPrograms(currentUserData);
+        }
     }, [currentUserData]);
+
+    useEffect(() => {
+        fetchStudents(
+            currentUserData,
+            1,
+            searchValue,
+            pid
+        );
+    }, [pid]);
 
     const [paginate, setPaginate] = useState({
         page: 1,
@@ -134,11 +168,13 @@ function CITStudent() {
                 const result = await response.json();
                 if (response.ok && result.status === "success") {
                     successAlert(`
+                        <pre>
                         CSV Imported Successfully!\n\n
                         Imported: ${result.imported.length} student(s)\n
                         ${result.skipped.length > 0 ? "Skipped: " : ""} \n${result.skipped
                         .map((e) => `SN: ${e.student_number_id} due to ${e.reason}`)
                         .join("\n")}
+                        </pre>
                         `);
                     fetchStudents();
                 } else {
@@ -177,13 +213,6 @@ function CITStudent() {
 
     const addRef = useRef(null);
     const updateRef = useRef(null);
-
-    const [selectedMajor, setSelectedMajor] = useState("");
-
-    const handleSelectedMajor = (e) =>{
-        setSelectedMajor(e.target.value);
-
-    }
    
     return (
         <>
@@ -192,7 +221,7 @@ function CITStudent() {
                     {/* Add Student*/}
                     <div className="fixed inset-0 flex justify-center items-center bg-[#00000062]  lg:z-40 md:z-50 z-70 pointer-events-auto">
                         {/* Overlay */}
-                        <AddStudentCard code={currentUserData?.organization_code} ref={addRef} currentUser={currentUserData} reloadStudents={fetchStudents} onAnimationEnd={addStudent.handleEnd} animate={addStudent.animation} onClose={() => addStudent.setAnimation("fade-out")} />
+                        <AddStudentCard programs={programs} code={currentUserData?.organization_code} ref={addRef} currentUser={currentUserData} reloadStudents={fetchStudents} onAnimationEnd={addStudent.handleEnd} animate={addStudent.animation} onClose={() => addStudent.setAnimation("fade-out")} />
                     </div>
                 </>
 
@@ -203,7 +232,7 @@ function CITStudent() {
                     {loadingStudents ? (
                         <SkeletonModal ref={updateRef} onAnimationEnd={updateStudent.handleEnd} animate={updateStudent.animation} onClose={() =>updateStudent.setAnimation("fade-out")}/>
                     ) : (
-                        <UpdateStudentCard code={currentUserData?.organization_code} ref={updateRef} reloadStudents={fetchStudents} data={selectedStudent} onAnimationEnd={updateStudent.handleEnd} animate={updateStudent.animation} onClose={() => updateStudent.setAnimation("fade-out")} />
+                        <UpdateStudentCard programs={programs} code={currentUserData?.organization_code} ref={updateRef} reloadStudents={fetchStudents} data={selectedStudent} onAnimationEnd={updateStudent.handleEnd} animate={updateStudent.animation} onClose={() => updateStudent.setAnimation("fade-out")} />
                     )}
                 </div>
             )}
@@ -230,10 +259,17 @@ function CITStudent() {
                 </div>
                 <div className=' w-[100%] mt-3 '>
                     <div className={`lg:ml-70 ${animateL} flex justify-start gap-2.5`}>
-                        <select onChange={handleSelectedMajor} className={`w-50  ${hoverColor} hover:text-white cursor-pointer transition  font-poppins lg:text-sm text-xs font-semibold px-2 border border-[#c0c0c0] py-2 rounded-2xl shadow-[2px_2px_2px_gray] text-center`} name="" id="">
-                            <option value=""> -- Major --</option>
-                            <option value="Basta"> -- Basta --</option>
-                            <option value="Aray Ko"> -- Aray ko --</option>
+                        <select onChange={(e)=> {setPid(e.target.value)}} className={`w-50  ${hoverColor} hover:text-white cursor-pointer transition  font-poppins lg:text-sm text-xs font-semibold px-2 border border-[#c0c0c0] py-2 rounded-2xl shadow-[2px_2px_2px_gray] text-center`} name="" id="">
+                            <option value=""> -- Programs --</option>
+                            {programs.map((pg) => (
+                                <option key={pg.program_id} value={pg.program_id}>{pg.program_code}</option>
+                            ))}
+                        </select>
+                        <select onChange={(e)=> {setPid(e.target.value)}} className={`w-50  ${hoverColor} hover:text-white cursor-pointer transition  font-poppins lg:text-sm text-xs font-semibold px-2 border border-[#c0c0c0] py-2 rounded-2xl shadow-[2px_2px_2px_gray] text-center`} name="" id="">
+                            <option value=""> -- Year --</option>
+                            {programs.map((pg) => (
+                                <option key={pg.program_id} value={pg.program_id}>{pg.program_code}</option>
+                            ))}
                         </select>
                     </div>
 
@@ -242,6 +278,9 @@ function CITStudent() {
                        <SkeletonTable/>
                     ):(
                     <TableStudent code={currentUserData?.department_code} year={year}
+                        currentUserData={currentUserData}
+                        pid={pid}
+                        search={searchValue}
                         reloadStudents={fetchStudents}
                         paginate={paginate}
                         students={students}
@@ -251,6 +290,7 @@ function CITStudent() {
                             updateStudent.toggle();
                         }} />
                     )}
+                    
             </div>
             <div className='hidden lg:block'>
             {loadingHeader ? (

@@ -1,11 +1,11 @@
 import CITHeader from '../other_components/Header_Council.jsx';
-import {Navigate} from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 import CITSidebar from './Sidebar.jsx';
 import TableEventList from '../other_components/TableEventList.jsx';
 import EventDetails from '../treasurer_components/EventDetails.jsx';
 import AddEventListCard from '../other_components/AddEventListCard.jsx';
 import UpdateEventCard from '../other_components/UpdateEventCard.jsx';
-import React, {useRef, useState, useEffect} from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import useAnimatedToggle from '../hooks/useAnimatedToggle.js';
 import SkeletonTable from '../skeletons/SkeletonTable.jsx';
 import SkeletonHeader from '../skeletons/SkeletonHeader.jsx';
@@ -15,27 +15,26 @@ import EfeeViolet from '../assets/violetlogo.png';
 import "../animate.css";
 import { errorAlert } from "../utils/alert.js";
 
-function CITEventList(){
-    /* --------------------------------- animation -------------------------------- */
+function CITEventList() {
     const animateR = "right-In";
     const animateL = "left-In";
 
-    /* ------------------------- Animated States ----------------------------- */
     const addEvent = useAnimatedToggle();
     const updateEvent = useAnimatedToggle();
     const viewEventDetails = useAnimatedToggle();
-    const addFee = useAnimatedToggle();
 
     const addRef = useRef(null);
     const updateRef = useRef(null);
     const viewDetailsRef = useRef(null);
-    const addFeeRef = useRef(null);
 
     const [selectedEvent, setSelectedEvent] = useState(null);
     const [selectedType, setSelectedType] = useState("");
     const [searchValue, setSearchValue] = useState("");
+
     const [loadingUser, setLoadingUser] = useState(true);
     const [loadingEvent, setLoadingEvents] = useState(true);
+
+    const [currentPage, setCurrentPage] = useState(1);
 
     const [currentUserData, setCurrentUserData] = useState(() => {
         const saved = localStorage.getItem("currentUserData");
@@ -53,7 +52,7 @@ function CITEventList(){
             }
         } catch (err) {
             errorAlert("Fetch Failed");
-        }finally{
+        } finally {
             setLoadingUser(false);
         }
     };
@@ -61,20 +60,37 @@ function CITEventList(){
     const [eventsOrg, setEventsOrg] = useState([]);
 
     const formatDateStr = (dateString) => {
-        return new Date(dateString).toLocaleDateString('en-US', {year:'numeric',month:'long',day:'numeric'});
+        return new Date(dateString).toLocaleDateString('en-US', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric'
+        });
     };
 
-    const fetchEvents = async (organizationId = currentUserData?.organization_id, page = 1, search = "") => {
+    const fetchEvents = async (
+        page = 1,
+        search = "",
+        organizationId = currentUserData?.organization_id
+    ) => {
         if (!organizationId) {
-            // if we don't have org id, ensure loading stops to avoid infinite spinner
             setLoadingEvents(false);
             return;
         }
+
         setLoadingEvents(true);
+
         try {
-            const res = await fetch(`/api/organizations/${organizationId}/events?page=${page}&search=${encodeURIComponent(search)}`, { credentials: "include" });
+            const res = await fetch(
+                `/api/organizations/${organizationId}/events?page=${page}&search=${encodeURIComponent(search)}`,
+                { credentials: "include" }
+            );
+
             const response = await res.json();
-            if (response.status === "success") setEventsOrg(response.data);
+
+            if (response.status === "success") {
+                setEventsOrg(response.data);
+                setPaginate(response.meta);
+            }
         } catch (err) {
             console.error("Fetch Failed");
         } finally {
@@ -82,16 +98,17 @@ function CITEventList(){
         }
     };
 
-    const [debounceTimer, setDebounceTimer] = useState(null);
-    const debounce = (callback, delay=500)  => {
-        clearTimeout(debounceTimer);
-        setDebounceTimer(setTimeout(callback, delay));
+    const debounceRef = useRef(null);
+    const debounce = (callback, delay = 500) => {
+        clearTimeout(debounceRef.current);
+        debounceRef.current = setTimeout(callback, delay);
     };
 
-    const searchEvents = (search) => {
-        setSearchValue(search);
+    const searchEvents = (value) => {
+        setSearchValue(value);
         debounce(() => {
-            fetchEvents(currentUserData?.organization_id, 1, search);
+            setCurrentPage(1);
+            fetchEvents(1, value, currentUserData?.organization_id);
         }, 500);
     };
 
@@ -102,99 +119,156 @@ function CITEventList(){
         total_pages: 1
     });
 
+    const handlePageChange = (page) => {
+        if (page < 1 || page > paginate.total_pages) return;
+        setCurrentPage(page);
+        fetchEvents(page, searchValue, currentUserData?.organization_id);
+    };
+
     useEffect(() => {
         fetchCurrentUser();
     }, []);
 
     useEffect(() => {
-        if (currentUserData) fetchEvents(currentUserData.organization_id);
+        if (currentUserData) {
+            fetchEvents(1, searchValue, currentUserData?.organization_id);
+        }
     }, [currentUserData]);
 
     const hoverColors = {
-        CITSC: " hover:bg-[#621668]",
+        CITSC: "hover:bg-[#621668]",
         CESC: "hover:bg-[#020180]",
         CCSC: "hover:bg-[#660A0A]",
         COTSC: "hover:bg-[#847714]",
         SCEAP: "hover:bg-[#6F3306]",
         SSC: "hover:bg-[#174515]"
     };
+
     const hoverColor = hoverColors[currentUserData?.organization_code] || "hover:bg-[#174515]";
 
-   
-    return(
+    return (
         <>
-            {addEvent.isVisible &&(
-                <div className="fixed inset-0 flex justify-center items-center bg-[#00000062] lg:z-40 md:z-50 z-70 pointer-events-auto">
-                    <AddEventListCard code={currentUserData?.organization_code} reloadEvents={fetchEvents} currentUserData={currentUserData} ref={addRef} addFee={addFee.toggle} onAnimationEnd={addEvent.handleEnd} animate={addEvent.animation} onClose={() => addEvent.setAnimation("fade-out")} />
+            {addEvent.isVisible && (
+                <div className="fixed inset-0 flex justify-center items-center bg-[#00000062] z-50">
+                    <AddEventListCard
+                        code={currentUserData?.organization_code}
+                        reloadEvents={fetchEvents}
+                        currentUserData={currentUserData}
+                        ref={addRef}
+                        onAnimationEnd={addEvent.handleEnd}
+                        animate={addEvent.animation}
+                        onClose={() => addEvent.setAnimation("fade-out")}
+                    />
                 </div>
             )}
 
-            {updateEvent.isVisible &&(
-                <div className="fixed inset-0 flex justify-center items-center bg-[#00000062] lg:z-40 md:z-50 z-70 pointer-events-auto">
+            {updateEvent.isVisible && (
+                <div className="fixed inset-0 flex justify-center items-center bg-[#00000062] z-50">
                     {loadingEvent ? (
-                        <SkeletonModal/>
+                        <SkeletonModal />
                     ) : (
-                        <UpdateEventCard code={currentUserData?.organization_code} reloadEvents={fetchEvents} currentUserData={currentUserData} ref={updateRef} data={selectedEvent} onAnimationEnd={updateEvent.handleEnd} animate={updateEvent.animation} onClose={() => updateEvent.setAnimation("fade-out")} />
+                        <UpdateEventCard
+                            code={currentUserData?.organization_code}
+                            reloadEvents={fetchEvents}
+                            currentUserData={currentUserData}
+                            ref={updateRef}
+                            data={selectedEvent}
+                            onAnimationEnd={updateEvent.handleEnd}
+                            animate={updateEvent.animation}
+                            onClose={() => updateEvent.setAnimation("fade-out")}
+                        />
                     )}
                 </div>
             )}
 
-            {viewEventDetails.isVisible &&(
-                <div className="fixed inset-0 flex justify-center items-center bg-[#00000062] lg:z-40 md:z-50 z-70 pointer-events-auto">
-                    <EventDetails code={currentUserData?.department_code} reloadEvents={fetchEvents} formatDateStr={formatDateStr} ref={viewDetailsRef} data={selectedEvent} onAnimationEnd={viewEventDetails.handleEnd} animate={viewEventDetails.animation} onClose={() => viewEventDetails.setAnimation("fade-out")}/>
+            {viewEventDetails.isVisible && (
+                <div className="fixed inset-0 flex justify-center items-center bg-[#00000062] z-50">
+                    <EventDetails
+                        code={currentUserData?.department_code}
+                        reloadEvents={fetchEvents}
+                        formatDateStr={formatDateStr}
+                        ref={viewDetailsRef}
+                        data={selectedEvent}
+                        onAnimationEnd={viewEventDetails.handleEnd}
+                        animate={viewEventDetails.animation}
+                        onClose={() => viewEventDetails.setAnimation("fade-out")}
+                    />
                 </div>
             )}
 
-            {selectedType === "Event Contribution" ? <Navigate to="/org/eventcontribution" replace/> : null}
-            {selectedType === "Event Attendance" ? <Navigate to="/org/attendance" replace/> : null}
+            {selectedType === "Event Contribution" && <Navigate to="/org/eventcontribution" replace />}
+            {selectedType === "Event Attendance" && <Navigate to="/org/attendance" replace />}
 
-            <>
             {loadingUser ? (
-                <SkeletonHeader/>
+                <SkeletonHeader />
             ) : (
-                <CITHeader code={currentUserData?.organization_code} titleCouncil={currentUserData?.organization_name} abb="CIT Council" />
+                <CITHeader
+                    code={currentUserData?.organization_code}
+                    titleCouncil={currentUserData?.organization_name}
+                    abb="CIT Council"
+                />
             )}
 
-                <div className="w-screen hide-scrollbar h-screen bg-[#fafafa] absolute z-[-1] overflow-y-auto overflow-x-auto lg:px-6 md:px-10 px-3">
-                    <div className="lg:mt-30 mt-25 lg:ml-70 lg:flex md:flex md:justify-between lg:justify-between">
-                        <h2 className="text-2xl font-[family-name:Futura Bold] font-semibold">Manage Events</h2>
-                        <div className={`flex ${animateR} items-center lg:px-0 md:px-0`}>
-                            <input className='lg:w-120 md:w-85 px-8 relative w-[100%] h-12 bg-white font-poppins text-sm  rounded-xl shadow-[2px_2px_1px_gray] border-1 border-[#e0e0e0] lg:mt-0 md:mt-0 mt-4 block' type="text" onKeyUp={(e) => { searchEvents(e.target.value) }} placeholder='Search Events' />
+            <div className="w-screen hide-scrollbar h-screen bg-[#fafafa] absolute z-[-1] overflow-y-auto overflow-x-auto lg:px-6 md:px-10 px-3">
+                <div className="lg:mt-30 mt-25 lg:ml-70 lg:flex md:flex md:justify-between lg:justify-between">
+                    <h2 className="text-2xl font-semibold">Manage Events</h2>
 
-                        </div>
+                    <div className={`flex ${animateR} items-center`}>
+                        <input
+                            className="lg:w-120 md:w-85 w-full h-12 bg-white text-sm rounded-xl shadow px-8 border"
+                            type="text"
+                            placeholder="Search Events"
+                            onKeyUp={(e) => searchEvents(e.target.value)}
+                        />
                     </div>
-                    <div className=' w-[100%] mt-3'>
-                        <div className={`lg:ml-70 ${animateL} flex lg:justify-start md:justify-start font-[family-name:Arial] justify-start gap-2.5`}>
-                            <select title="Select Event Type" className={`bg-white ${hoverColor} w-60 lg:text-sm text-xs font-semibold transition duration-100 hover:scale-100 hover:text-white cursor-pointer border-1 border-[#c0c0c0] py-2 shadow-[2px_2px_2px_gray] rounded-2xl font-poppins text-center`} value={selectedType} onChange={(e)=>setSelectedType(e.target.value)}  name="" id="">
-                                <option value=""> --Event Type-- </option>
-                                <option value="Event Contribution">Event Contribution</option>
-                                <option value="Event Attendance">Event Attendance</option>
-                            </select>  
-                        </div>
-                        {loadingEvent ? (
-                            <SkeletonTable/>
-                        ) : (
-                            <TableEventList paginate={paginate} code={currentUserData?.organization_code} formatDateStr={formatDateStr} events={eventsOrg} reloadEvents={fetchEvents} addEvent={addEvent.toggle} 
-                            view={(row) =>{
+                </div>
+
+                <div className="w-full mt-3">
+                    <div className={`lg:ml-70 ${animateL} flex gap-2.5`}>
+                        <select
+                            className={`bg-white ${hoverColor} w-60 text-sm font-poppins cursor-pointer hover:text-white font-semibold border h-10 shadow rounded-2xl text-center`}
+                            value={selectedType}
+                            onChange={(e) => setSelectedType(e.target.value)}
+                        >
+                            <option value="">-- Event Type --</option>
+                            <option value="Event Contribution">Event Contribution</option>
+                            <option value="Event Attendance">Event Attendance</option>
+                        </select>
+                    </div>
+
+                    {loadingEvent ? (
+                        <SkeletonTable />
+                    ) : (
+                        <TableEventList
+                            paginate={paginate}
+                            onPageChange={handlePageChange}
+                            code={currentUserData?.organization_code}
+                            formatDateStr={formatDateStr}
+                            events={eventsOrg}
+                            reloadEvents={fetchEvents}
+                            addEvent={addEvent.toggle}
+                            view={(row) => {
                                 viewEventDetails.toggle();
                                 setSelectedEvent(row);
-                            }} updateEvent={(row) =>{
+                            }}
+                            updateEvent={(row) => {
                                 updateEvent.toggle();
                                 setSelectedEvent(row);
-                            }}/>
-                        )}
-                    </div>
-                </div>
-                <div className='hidden lg:block'>
-                    {loadingUser ? (
-                        <SkeletonSideBar/>
-                    ) : (
-                        <CITSidebar isUnivWide={currentUserData?.university_wide_org} code={currentUserData?.organization_code} />
+                            }}
+                        />
                     )}
                 </div>
-            </>
-          
+            </div>
+
+            <div className="hidden lg:block">
+                {loadingUser ? (
+                    <SkeletonSideBar />
+                ) : (
+                    <CITSidebar isUnivWide={currentUserData?.university_wide_org} code={currentUserData?.organization_code} />
+                )}
+            </div>
         </>
     );
 }
+
 export default CITEventList;

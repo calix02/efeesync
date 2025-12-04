@@ -1,96 +1,78 @@
-import { useState, useMemo } from "react";
-import {Link} from 'react-router-dom';
 import "../animate.css";
-import { confirmAlert} from "../utils/alert";
+import { confirmAlert } from "../utils/alert";
+import { useState } from "react";
 
-/**
- * TableStudent
- * @param {string} code       – org code ("cit", "coe", …) to color the header text
- * @param {Array}  events   – array of { id, name, yearSection }
- */
-function TableEventList({ code, events = [] , addEvent, updateEvent,view, reloadEvents, paginate, formatDateStr}) {
-  /* --------------------------------- animation -------------------------------- */
+function TableEventList({
+  code,
+  events = [],
+  addEvent,
+  updateEvent,
+  view,
+  reloadEvents,
+  paginate,
+  onPageChange,
+  formatDateStr
+}) {
   const animate = "card-In";
-  /* --------------------------------- colors -------------------------------- */
+
   const colors = {
     CITSC: "border-[#621668] text-[#621668] bg-[#621668]",
     CESC: "border-[#020180] text-[#020180] bg-[#020180]",
     CCSC: "border-[#660A0A] text-[#660A0A] bg-[#660A0A]",
     COTSC: "border-[#847714] text-[#847714] bg-[#847714]",
     SCEAP: "border-[#6F3306] text-[#6F3306] bg-[#6F3306]",
-    SSC: "border-[#174515] text-[#174515] bg[#174515]",
+    SSC: "border-[#174515] text-[#174515] bg[#174515]"
   };
 
   const color = colors[code] || "border-[#174515] text-[#174515] bg-[#174515]";
 
-  /* ---------------------------- sample fallback ---------------------------- */
-  const fallback = [];
+  const data = events.length ? events : [];
 
-  const data = events.length ? events : fallback;
+  const [checkedIds, setCheckedIds] = useState([]);
 
-   const [checkedIds, setCheckedIds] = useState([]);
-
-  
   const handleCheckboxChange = (e, id) => {
-    if (e.target.checked) {
-      setCheckedIds((prev) => [...prev, id]);
-    } else {
-      setCheckedIds((prev) => prev.filter((item) => item !== id));
-    }
+    if (e.target.checked) setCheckedIds((prev) => [...prev, id]);
+    else setCheckedIds((prev) => prev.filter((item) => item !== id));
   };
 
-
   const handleSelectAll = (e) => {
-    if (e.target.checked) {
-      setCheckedIds(data.map((s) => s.event_id));
-    } else {
-      setCheckedIds([]);
-    }
+    if (e.target.checked) setCheckedIds(data.map((s) => s.event_id));
+    else setCheckedIds([]);
   };
 
   const allChecked = data.length > 0 && checkedIds.length === data.length;
 
-  const [selectedEventIndex, setSelectedEventIndex] = useState(null);
-
   const deleteEvent = (s) => {
-      confirmAlert("It will delete permanently").then( async (result) =>{
-            if(result.isConfirmed){
-              try {
-                const res = await fetch("/api/events/" + s.event_id, {
-                    method: "DELETE",
-                    credentials: "include",
-                    headers: {
-                        "Content-Type": "application/json"
-                    }
-                });
-                const response = await res.json();
-                if (response.status === "success") {
-                    await reloadEvents();
-                } else {
-                    alert("Failed: " + response.message);
-                }
-            } catch (err) {
-                alert("Fetch failed: " + err);
-            }
+    confirmAlert("It will delete permanently").then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          const res = await fetch("/api/events/" + s.event_id, {
+            method: "DELETE",
+            credentials: "include",
+            headers: {
+              "Content-Type": "application/json"
             }
           });
-    }
-  
+
+          const response = await res.json();
+          if (response.status === "success") {
+            await reloadEvents();
+          }
+        } catch (err) {
+          alert("Error deleting event");
+        }
+      }
+    });
+  };
 
   return (
-  
-    <div className={`w-full ${animate} flex flex-col gap-6 lg:text-sm text-xs font-poppins `}>
-      {/* table wrapper */}
-      {selectedEventIndex === null && (
-        <>
-      <div className={`lg:ml-70 overflow-x-scroll bg-white text-black flex-grow p-5 mt-3 rounded-lg shadow-[2px_2px_2px_grey]`}>
-        <table className="lg:w-full w-230 text-center ">
+    <div className={`w-full ${animate} flex flex-col gap-6`}>
+      <div className="lg:ml-70 overflow-x-scroll bg-white p-5 mt-3 rounded-lg shadow">
+        <table className="lg:w-full w-230 text-center">
           <thead>
-            <tr className={`border-b-2 rounded-lg bg-white border-[#adadad] ${color}`}>
-              <th hidden  className="py-2">
-                <input type="checkbox" 
-                checked={allChecked}
-                onChange={handleSelectAll}/>
+            <tr className={`border-b-2 bg-white ${color}`}>
+              <th hidden className="py-2">
+                <input type="checkbox" checked={allChecked} onChange={handleSelectAll} />
               </th>
               <th>Event Name</th>
               <th hidden>Event Description</th>
@@ -148,11 +130,12 @@ function TableEventList({ code, events = [] , addEvent, updateEvent,view, reload
           </tbody>
         </table>
       </div>
-        {/* pagination controls */}
-        <div className=" relative lg:ml-70 flex mt-[-10px] flex-col-reverse justify-center items-center">
-          <div className="mt-4 flex justify-center gap-2 items-center">
+
+      {/* Pagination */}
+      <div className="lg:ml-70 flex flex-col justify-center items-center relative">
+        <div className="mt-4 flex justify-center gap-2 items-center">
           <button
-            onClick={() => reloadEvents(paginate.page - 1)}
+            onClick={() => onPageChange(paginate.page - 1)}
             disabled={paginate.page <= 1}
             className="cursor-pointer border rounded disabled:opacity-40 p-1"
           >
@@ -164,21 +147,21 @@ function TableEventList({ code, events = [] , addEvent, updateEvent,view, reload
           </span>
 
           <button
-            onClick={() => reloadEvents(paginate.page + 1)}
+            onClick={() => onPageChange(paginate.page + 1)}
             disabled={paginate.page >= paginate.total_pages}
             className="cursor-pointer border rounded disabled:opacity-40 p-1"
           >
             <span className="material-symbols-outlined">chevron_right</span>
           </button>
         </div>
-            <i onClick={addEvent}  className="fa-solid fa-circle-plus text-[50px] absolute right-[40px] top-[-40px] cursor-pointer text-[#157112] bg-white rounded-full "></i>
-        </div>
-        </>
-        )};
+
+        <i
+          onClick={addEvent}
+          className="fa-solid fa-circle-plus text-[50px] absolute right-[40px] top-[-40px] cursor-pointer text-[#157112] bg-white rounded-full"
+        ></i>
+      </div>
     </div>
-   
   );
 }
-
 
 export default TableEventList;

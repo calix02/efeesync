@@ -17,11 +17,13 @@ function  CommunityService() {
     const [comservData, setComservData] = useState([]);
 
     const [debounceTimer, setDebounceTimer] = useState(null);
-        
+
     const debounce = (callback, delay=500)  => {
         clearTimeout(debounceTimer);
         setDebounceTimer(setTimeout(callback, delay));
     }
+
+    const [searchValue, setSearchValue] = useState("");
 
     const [paginate, setPaginate] = useState({
         page: 1,
@@ -37,6 +39,8 @@ function  CommunityService() {
 
     const [loadingUser, setLoadingUser] = useState(true);
     const [loadingData, setLoadingData] = useState(true);
+    const [program, setProgram] = useState("");
+    const [year, setYear] = useState("");
     
     const fetchCurrentUser = async () => {
         try {
@@ -76,7 +80,7 @@ function  CommunityService() {
     }
 
     const searchStudentsWithComserv = (search) => {
-        // setSearchValue(search);
+        setSearchValue(search);
         setLoadingData(true);
         debounce(() => {
             fetchComservData(1, search);
@@ -115,7 +119,7 @@ function  CommunityService() {
             SCEAP: "hover:bg-[#6F3306]",
             SSC: "hover:bg-[#174515]"
         };
-    const hoverColor = hoverColors[currentUserData?.department_code] || "hover:bg-[#174515']";
+    const hoverColor = hoverColors[currentUserData?.organization_code] || "hover:bg-[#174515']";
 
 
     return (
@@ -132,11 +136,22 @@ function  CommunityService() {
                 <input className='lg:w-120  w-[100%] h-12 bg-white rounded-2xl border lg:mt-0 md:mt-0 mt-4 shadow-[2px_2px_1px_gray] px-8 border-[#e0e0e0] block' type="text" onKeyUp={(e)=>{searchStudentsWithComserv(e.target.value)}} placeholder='Search Student' />
                 </div>
             </div>
+            <div className={`lg:ml-70 flex ${animateL} justify-start gap-3 mt-5`}>
+                <select className={`bg-white ${hoverColor} w-40 lg:text-sm text-xs font-poppins rounded-2xl font-semibold transition duration-200 hover:scale-107 hover:text-white cursor-pointer border border-[#e0e0e0] shadow-[2px_2px_1px_gray]  py-2   text-center`}    name="" id="" onChange={(e) => setProgram(e.target.value)}>
+                    <option value="">-- Program --</option>
+                    <option value="Okieee">Okieee</option>
+                </select>
+                <select className={`bg-white ${hoverColor} w-40 lg:text-sm text-xs font-poppins rounded-2xl font-semibold transition duration-200 hover:scale-107 hover:text-white cursor-pointer border border-[#e0e0e0] shadow-[2px_2px_1px_gray]  py-2   text-center`}    name="" id="" onChange={(e) => setYear(e.target.value)}>
+                    <option value="">-- Year --</option>
+                    <option value="Okieee">Okieee</option>
+                </select>
+            </div>
             <div className="w-100% mt-3">
             {loadingData ? (
                 <SkeletonTable/>
              ) : (   
                 <TableCommunityService 
+                searchValue={searchValue}
                 paginate={paginate}
                 fetchComservData={fetchComservData}
                 code={currentUserData?.organization_code}

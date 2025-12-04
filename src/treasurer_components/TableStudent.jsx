@@ -3,7 +3,7 @@ import {confirmAlert,successAlert, errorAlert, okAlert} from "../utils/alert.js"
 
 import "../animate.css";
 
-function TableStudent({ code , students = [], show, update, reloadStudents, paginate, year }) {
+function TableStudent({ code , students = [], show, update, reloadStudents, paginate, year, search, pid, currentUserData }) {
   const animate = "card-In";
 
   const colors = {
@@ -22,7 +22,6 @@ function TableStudent({ code , students = [], show, update, reloadStudents, pagi
 
   // ✅ filter students by year if provided
   if (year) {
-    console.log(year);
     data = data.filter((s) => {
       const sec = (s.student_section || "").toLowerCase();
       if (year === "1") return sec.includes("1");
@@ -158,7 +157,12 @@ function TableStudent({ code , students = [], show, update, reloadStudents, pagi
       <div className={` relative lg:ml-[270px] mt-[-10px] flex flex-col-reverse justify-center items-center`}>
         <div className="mt-4 flex justify-center gap-2 items-center">
           <button
-            onClick={() => reloadStudents(paginate.page - 1)}
+            onClick={() => reloadStudents(
+                currentUserData,
+                paginate.page - 1,
+                search,
+                pid
+            )}
             disabled={paginate.page <= 1}
             className="cursor-pointer border rounded disabled:opacity-40 p-1"
           >
@@ -170,7 +174,12 @@ function TableStudent({ code , students = [], show, update, reloadStudents, pagi
           </span>
 
           <button
-            onClick={() => reloadStudents(paginate.page + 1)}
+            onClick={() => reloadStudents(
+                currentUserData,
+                paginate.page + 1,
+                search,
+                pid
+            )}
             disabled={paginate.page >= paginate.total_pages}
             className="cursor-pointer border rounded disabled:opacity-40 p-1"
           >

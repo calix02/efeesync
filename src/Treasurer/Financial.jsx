@@ -27,6 +27,8 @@ function CITFinancial(){
     const editRef = useRef(null);
     
     const[selectedCashOut, setSelectedCashOut] = useState(null);
+    const [year, setYear] = useState("");
+    const [semester, setSemester] = useState("");
         
     const [currentUserData, setCurrentUserData] = useState(() => {
         const saved = localStorage.getItem("currentUserData");
@@ -93,7 +95,16 @@ function CITFinancial(){
     useEffect(() => {
         if (currentUserData) fetchFinancialReportData();
     }, [currentUserData]);
-
+    
+    const hoverColors = {
+        CITSC: " hover:bg-[#621668]",
+        CESC: "hover:bg-[#020180]",
+        CCSC: "hover:bg-[#660A0A]",
+        COTSC: "hover:bg-[#847714]",
+        SCEAP: "hover:bg-[#6F3306]",
+        SSC: "hover:bg-[#174515]"
+    };
+    const hoverColor = hoverColors[currentUserData?.organization_code] || "hover:bg-[#174515]";
 
 
     return(
@@ -124,7 +135,17 @@ function CITFinancial(){
                 <div className="lg:mt-30 mt-25 lg:ml-70">
                     <h2 className="text-2xl font-medium font-[family-name:Futura Bold]">Financial Report</h2>
                 </div>
-            <div className={` ${animate} lg:ml-70 lg:mt-6 mt-3 lg:gap-6 gap-3 flex lg:flex-row flex-col items-center justify-center`}>
+                <div className={`lg:ml-70 mt-5 ${animateL} flex justify-start gap-2.5`}>
+                    <select className={`bg-white ${hoverColor} w-50 lg:text-sm text-xs font-poppins rounded-2xl font-semibold transition duration-200 hover:scale-107 hover:text-white cursor-pointer border border-[#e0e0e0] shadow-[2px_2px_1px_gray]  py-2   text-center`}    name="" id="" onChange={(e) => setYear(e.target.value)}>
+                        <option value="">-- Academic Year --</option>
+                        <option value="Okieee">Okieee</option>
+                    </select>
+                    <select className={`bg-white ${hoverColor} w-50 lg:text-sm text-xs font-poppins rounded-2xl font-semibold transition duration-200 hover:scale-107 hover:text-white cursor-pointer border border-[#e0e0e0] shadow-[2px_2px_1px_gray]  py-2   text-center`}    name="" id="" onChange={(e) => setSemester(e.target.value)}>
+                        <option value="">-- Semester --</option>
+                        <option value="Okieee">Okieee</option>
+                    </select>
+                </div>
+            <div className={` ${animate} lg:ml-70  mt-3 lg:gap-6 gap-3 flex lg:flex-row flex-col items-center justify-center`}>
                 {loadingFinancial ? (
                     <>
                     <SkeletonFinancialTable/>

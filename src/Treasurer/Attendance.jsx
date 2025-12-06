@@ -19,6 +19,7 @@ import "../animate.css";
 
 function Attendance() {
   /* ------------------------- animation ----------------------------- */
+  document.title="Attendance";
   const animateR = "right-In";
   const animateL = "left-In";
 

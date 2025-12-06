@@ -8,6 +8,7 @@ import { useEffect, useState } from 'react';
 import { confirmAlert, successAlert, errorAlert, okAlert } from "../utils/alert.js";
 
 function CITCouncil() {
+  document.title="Dashboard";
   const [currentUserData, setCurrentUserData] = useState(() => {
     const saved = localStorage.getItem("currentUserData");
     return saved ? JSON.parse(saved) : null;

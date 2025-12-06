@@ -13,6 +13,7 @@ import "../animate.css";
 
 
 function FinancialReport(){
+    document.title="Financial Report";
     const animateL= "left-In";
     const animateR = "right-In";
     

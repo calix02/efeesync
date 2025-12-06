@@ -120,12 +120,13 @@ const UnsettledTransactionCard = React.forwardRef(
 
         {/* === Sanctions Table === */}
         {data?.attendance_sanctions.length > 0 ? (
-          <div className="h-50 overflow-y-scroll hide-scrollbar">
-            <h3 className="font-bold sticky top-0 font-inter text-lg mt-3">
+          <>
+          <h3 className="font-bold sticky top-0 font-inter text-lg mt-3">
               Sanctions
             </h3>
-            <table className="w-[100%] text-center">
-              <thead className={`${color} sticky top-8`}>
+          <div className="h-50 overflow-y-scroll hide-scrollbar">
+            <table className="lg:w-[100%] w-100 text-center">
+              <thead className={`${color} sticky top-0`}>
                 <tr className="text-white">
                   <th className="py-1.5">Event Name</th>
                   <th>Total Sanctions</th>
@@ -156,18 +157,20 @@ const UnsettledTransactionCard = React.forwardRef(
               </tbody>
             </table>
           </div>
+          </>
         ):(
           <p className="pt-5">No Unsettled Sanction Found</p>
         )}
 
         {/* === Contributions Table === */}
         {data?.contributions_needed.length > 0 ? (
-          <div className="h-50 overflow-y-scroll hide-scrollbar mt-8">
-            <h3 className="font-bold font-inter bg-white sticky top-0 text-lg mt-3">
+          <>
+           <h3 className="font-bold font-inter  text-lg ">
               Unsettled Contributions
             </h3>
-            <table className="w-[100%] text-center">
-              <thead className={`${color} text-white sticky top-8`}>
+          <div className="h-50  overflow-y-scroll hide-scrollbar">
+            <table className="lg:w-[100%] w-100 text-center">
+              <thead className={`${color} text-white sticky top-0`}>
                 <tr>
                   <th className="py-1.5">Event Name</th>
                   <th>Total Contributions</th>
@@ -219,6 +222,7 @@ const UnsettledTransactionCard = React.forwardRef(
               </tbody>
             </table>
           </div>
+          </>
         ):(
           <p className="pt-5">No Unsettled Contribution Found</p>
         )}

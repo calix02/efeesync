@@ -12,6 +12,7 @@ import "../animate.css";
 import useAnimatedToggle from '../hooks/useAnimatedToggle.js';
 
 function CITExcuse() {
+    document.title="Excuse Requests";
     const animateR = "right-In";
     const animateL = "left-In";
 

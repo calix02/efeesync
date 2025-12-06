@@ -12,6 +12,7 @@ import {confirmAlert,successAlert, errorAlert, okAlert} from "../utils/alert.js"
 import "../animate.css";
 
 function  UnsettledTransaction() {
+    document.title="Unsettled Transactions";
     const animateR = "right-In";
     const animateL = "left-In";
 /* ------------------------- Animated States ----------------------------- */
@@ -184,7 +185,7 @@ function  UnsettledTransaction() {
                         <option value="Okieee">Okieee</option>
                     </select>
                 </div>
-                 <button onClick={collectFeesCard.toggle} className={`w-50 hover:scale-107 flex gap-2 justify-center items-center font-semibold ${animateR} ${hoverColor} ${color} hover:text-white font-poppins text-sm transition duration-300 h-12 border border-[#e0e0e0] cursor-pointer bg-white shadow-[2px_2px_1px_gray] rounded-2xl`}><i className="fa-solid fa-money-bill"></i>Collect Fees</button>
+                 <button onClick={collectFeesCard.toggle} className={`lg:w-50 w-30 hover:scale-107 flex gap-2 justify-center items-center font-semibold ${animateR} ${hoverColor} ${color} hover:text-white font-poppins lg:text-sm text-xs transition duration-300 lg:h-12 h-10 border border-[#e0e0e0] cursor-pointer bg-white shadow-[2px_2px_1px_gray] rounded-2xl`}><i className="fa-solid fa-money-bill"></i>Collect Fees</button>
              </div>
              <div className="w-100% ">
                  {loadingSanction ?(

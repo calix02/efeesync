@@ -18,6 +18,7 @@ import '../animate.css';
 
 function ExcuseLetter(){
 /* ------------------------- Animated States ----------------------------- */
+     document.title="Excuse Status";
     const letter = useAnimatedToggle();
     const editExcuse = useAnimatedToggle();
 

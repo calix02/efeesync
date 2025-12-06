@@ -14,6 +14,7 @@ import { errorAlert} from '../utils/alert.js';
 
 
 function Sanction(){
+    document.title="Sanctions";
     const animate = "card-In";
     const animateL = "left-In";
     const animateR = "right-In";

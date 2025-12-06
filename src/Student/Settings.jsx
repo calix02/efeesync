@@ -16,7 +16,7 @@ import SkeletonSideBar from '../skeletons/SkeletonSidebar.jsx';
 
 
 function Setting(){
-    document.title = "Setting";
+    document.title = "Settings";
     const profile = useAnimatedToggle();
     const changePassword = useAnimatedToggle();
     const information = useAnimatedToggle();

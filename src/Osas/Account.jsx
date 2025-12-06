@@ -16,6 +16,8 @@ function Account(){
 /* ------------------------- Animated States ----------------------------- */
     const addTreasurer = useAnimatedToggle();
     const updateTreasurer = useAnimatedToggle();
+    document.title = "Treasurer";
+
 
     const addRef = useRef(null);
     const updateRef = useRef(null);

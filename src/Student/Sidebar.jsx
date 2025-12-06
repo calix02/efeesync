@@ -21,16 +21,26 @@ const Sidebar = React.forwardRef(({eFee, animate,code, onAnimationEnd,onClose},r
       };
       const color = colors[code] || "border-black text-black";
       
-      const logos = {
-            CCSC : Crim,
-            CESC: Educ,
-            CITSC: It,
-            COTSC: Indus,
-            SCEAP: Esaf,
-            SSC: Ssc
+    const logos = {
+        CCSC : Crim,
+        CESC: Educ,
+        CITSC: It,
+        COTSC: Indus,
+        SCEAP: Esaf,
+        SSC: Ssc
            
-          };
-          const logo = logos[code] || " ";
+    };
+    const logo = logos[code] || " ";
+
+    const hoverColors = {
+        CITSC: " hover:bg-[#621668]",
+        CESC: "hover:bg-[#020180]",
+        CCSC: "hover:bg-[#660A0A]",
+        COTSC: "hover:bg-[#847714]",
+        SCEAP: "hover:bg-[#6F3306]",
+        SSC: "hover:bg-[#174515]"
+    };
+    const hoverColor = hoverColors[code] || "hover:bg-[#174515]";
     
 
     const logout = () => {
@@ -79,7 +89,7 @@ const Sidebar = React.forwardRef(({eFee, animate,code, onAnimationEnd,onClose},r
                     {/** 
                     <NavLink code={code} navLink = "#" iconName="moon_stars" navName="Dark Mode"  />
                     */}
-                    <Link onClick={logout} className={`flex items-center font-[family-name:Helvetica] transition duration-150 mt-2 text-md hover:bg-[#621668]  rounded-md hover:text-white hover:shadow-[3px_2px_2px_grey`}>
+                    <Link onClick={logout} className={`flex items-center font-poppins transition duration-150 mt-2 text-md ${hoverColor} py-2  rounded-md hover:text-white hover:shadow-[3px_2px_2px_grey`}>
                         <span className="material-symbols-outlined px-2.5">logout</span>
                         <span>Log Out</span>
                         <span hidden >cit</span>

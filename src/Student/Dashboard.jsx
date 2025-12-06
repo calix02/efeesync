@@ -18,6 +18,7 @@ import "../animate.css";
 
 
 function Dashboard(){
+    document.title="Dashboard";
     const animateL = "left-In";
     const animateR = "right-In";
     const animate = "card-In";

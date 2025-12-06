@@ -8,12 +8,9 @@ function CardStudent(props){
     : "bg-[white]";
     return(
         <Link to={props.link} className={`border-2 cursor-pointer font-poppins hover:scale-105 transition duration-500 rounded-2xl w-[100%] h-30 ${Color} relative px-4 shadow-[2px_2px_3px_grey]`}>
-            <div className="text-[#625555] mt-2.5 lg:text-sm text-xs font-poppins font-semibold">{props.title}</div>
+            <div className="text-[#625555] mt-2.5 lg:text-sm text-xs font-poppins font-medium">{props.title}</div>
             <span className="lg:text-5xl text-4xl ml-2 font-bold">{props.value}</span>
-            {props.title === "Number of Paid Contributions" && (
-                <p className="font-poppins font-bold  text-md">PAID : 10/7</p>
-
-            )}
+           
             <span className="absolute lg:right-3 right-5 bottom-5 lg:bottom-4 lg:text-7xl text-5xl">
                 {props.icon}
             </span>

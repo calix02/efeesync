@@ -11,6 +11,7 @@ import {confirmAlert,successAlert, errorAlert, okAlert} from "../utils/alert.js"
 import "../animate.css";
 
 function PaymentTransaction() {
+    document.title="Online Payment Transaction";
     const animateR = "right-In";
     const animateL = "left-In";
 
@@ -145,11 +146,11 @@ function PaymentTransaction() {
                             <option value="approved">Approved</option>
                             <option value="rejected">Rejected</option>
                         </select>
-                        <select className={`${hoverColor} w-50 h-10 hover:text-white text-sm font-poppins transition duration-300 cursor-pointer font-semibold bg-white rounded-2xl text-center border border-[#e0e0e0] shadow-[2px_2px_1px_gray]`} name="" id="" onChange={(e)=> setProgram(e.target.value)}>
+                        <select className={`${hoverColor} w-50 h-10 hover:text-white lg:text-sm text-xs font-poppins transition duration-300 cursor-pointer font-semibold bg-white rounded-2xl text-center border border-[#e0e0e0] shadow-[2px_2px_1px_gray]`} name="" id="" onChange={(e)=> setProgram(e.target.value)}>
                             <option value="">--Program--</option>
                             <option value="Okieee">okiee</option>
                         </select>
-                         <select className={`${hoverColor} w-50 h-10 hover:text-white text-sm font-poppins transition duration-300 cursor-pointer font-semibold bg-white rounded-2xl text-center border border-[#e0e0e0] shadow-[2px_2px_1px_gray]`} name="" id="" onChange={(e)=> setYear(e.target.value)}>
+                         <select className={`${hoverColor} w-50 h-10 hover:text-white lg:text-sm text-xs font-poppins transition duration-300 cursor-pointer font-semibold bg-white rounded-2xl text-center border border-[#e0e0e0] shadow-[2px_2px_1px_gray]`} name="" id="" onChange={(e)=> setYear(e.target.value)}>
                             <option value="">--Year--</option>
                             <option value="Okieee">okiee</option>
                         </select>

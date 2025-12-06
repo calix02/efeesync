@@ -34,6 +34,16 @@ const CITSidebar = React.forwardRef(({ animate, onAnimationEnd,onClose ,code, is
       };
       const logo = logos[code] || Ssc;
 
+       const hoverColors = {
+        CITSC: " hover:bg-[#621668]",
+        CESC: "hover:bg-[#020180]",
+        CCSC: "hover:bg-[#660A0A]",
+        COTSC: "hover:bg-[#847714]",
+        SCEAP: "hover:bg-[#6F3306]",
+        SSC: "hover:bg-[#174515]"
+    };
+    const hoverColor = hoverColors[code] || "hover:bg-[#174515]";
+
     const logout = () => {
         confirmAlert("You really want to Log out?").then( async (result) =>{
             if(result.isConfirmed){
@@ -58,7 +68,7 @@ const CITSidebar = React.forwardRef(({ animate, onAnimationEnd,onClose ,code, is
         <div ref={ref} onAnimationEnd={onAnimationEnd} className={`w-70 h-screen overflow-y-scroll hide-scrollbar shadow-[2px_2px_2px_gray] rounded-md  ${animate} border-b-20 ${color} lg:z-10 md:z-30  z-40 fixed bg-white`}>
             <div className='mt-[95px]'>
                 <span onClick={onClose} className='lg:hidden'>
-                    <span className="material-symbols-outlined absolute right-1.5 top-23 cursor-pointer text-[#621668]">close</span>
+                    <span className="material-symbols-outlined absolute right-1.5 top-23 cursor-pointer ">close</span>
                 </span>
                 <span className='flex justify-center items-center gap-3'>
                     <img className='h-10' src={logo} alt="" />
@@ -82,7 +92,7 @@ const CITSidebar = React.forwardRef(({ animate, onAnimationEnd,onClose ,code, is
                     {/** 
                     <NavLink code={code} navLink = "/org/citdashboard" iconName="moon_stars" navName="Dark Mode"  />
                     */}
-                    <Link onClick={logout} className={`flex items-center font-poppins transition duration-150 p-2.5 text-md hover:bg-[#621668] rounded-md hover:text-white hover:shadow-[3px_2px_2px_grey`}>
+                    <Link onClick={logout} className={`flex items-center ${hoverColor} font-poppins transition duration-150 p-2.5 text-md  rounded-md hover:text-white hover:shadow-[3px_2px_2px_grey`}>
                         <span className="material-symbols-outlined px-2.5">logout</span>
                         <span>Log Out</span>
                         <span hidden >cit</span>

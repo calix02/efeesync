@@ -127,8 +127,8 @@ function TableStudent({ code , students = [], show, update, reloadStudents, pagi
                 <td>
                   {s.full_name}
                   {newImportIds.includes(s.student_id) && (
-                    <span className="ml-2 px-2 py-1 text-[10px] bg-green-500 text-white rounded-md">
-                    NEW ADDED
+                    <span className="ml-2 px-2 py-1 text-xs bg-green-500 text-white rounded-md">
+                    NEWLY ADDED
                     </span>
                   )}
 

@@ -13,7 +13,7 @@ import { errorAlert } from '../utils/alert.js';
 
 
 function Attendance(){
-
+    document.title="Attendance";
     const [currentUserData, setCurrentUserData] = useState(() => {
     const saved = localStorage.getItem("currentUserData");
         return saved ? JSON.parse(saved) : null;

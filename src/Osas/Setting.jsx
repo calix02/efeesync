@@ -19,7 +19,7 @@ import { errorAlert } from '../utils/alert.js';
 
 
 function Setting(){
-    document.title = "Setting";
+    document.title = "Settings";
     const profile = useAnimatedToggle();
     const changePassword = useAnimatedToggle();
     const information = useAnimatedToggle();

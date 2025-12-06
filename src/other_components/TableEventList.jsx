@@ -66,7 +66,7 @@ function TableEventList({
   };
 
   return (
-    <div className={`w-full ${animate} flex flex-col gap-6`}>
+    <div className={`w-full ${animate} lg:text-sm text-xs font-poppins flex flex-col gap-6`}>
       <div className="lg:ml-70 overflow-x-scroll bg-white p-5 mt-3 rounded-lg shadow">
         <table className="lg:w-full w-230 text-center">
           <thead>

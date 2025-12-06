@@ -16,6 +16,7 @@ import "../animate.css";
 import { errorAlert } from "../utils/alert.js";
 
 function CITEventList() {
+    document.title="Event List";
     const animateR = "right-In";
     const animateL = "left-In";
 
@@ -226,7 +227,7 @@ function CITEventList() {
                 <div className="w-full mt-3">
                     <div className={`lg:ml-70 ${animateL} flex gap-2.5`}>
                         <select
-                            className={`bg-white ${hoverColor} w-60 text-sm font-poppins cursor-pointer hover:text-white font-semibold border h-10 shadow rounded-2xl text-center`}
+                            className={`bg-white ${hoverColor} lg:w-60 w-50 lg:text-sm text-xs  font-poppins cursor-pointer hover:text-white font-semibold border h-10 shadow rounded-2xl text-center`}
                             value={selectedType}
                             onChange={(e) => setSelectedType(e.target.value)}
                         >

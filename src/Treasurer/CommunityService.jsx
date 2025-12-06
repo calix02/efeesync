@@ -9,6 +9,7 @@ import SkeletonTable from '../skeletons/SkeletonTable.jsx';
 import "../animate.css";
 
 function  CommunityService() {
+    document.title="Community Services";
     const animateR = "right-In";
     const animateL = "left-In";
 /* ------------------------- Animated States ----------------------------- */

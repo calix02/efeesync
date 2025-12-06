@@ -18,6 +18,7 @@ import { use } from "react";
 
 
 function Contribution(){
+    document.title="Contributions";
     const animate = "card-In";
     const [userLoading, setUserLoading] = useState(true);
     const [contributionLoading, setContributionLoading] = useState(true);

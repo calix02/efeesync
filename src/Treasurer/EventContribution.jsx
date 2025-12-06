@@ -17,6 +17,7 @@ import {confirmAlert,successAlert, errorAlert, okAlert} from "../utils/alert.js"
 
 function EventContribution({ data }) {
   /* --------------------------------- animation -------------------------------- */
+  document.title="Event Contributions";
   const animateR = "right-In";
   const animateL = "left-In";
 

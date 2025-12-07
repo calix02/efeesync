@@ -132,7 +132,7 @@ function  CommunityService() {
         )} 
         <div className="w-screen h-screen bg-[#fafafa] absolute z-[-1] overflow-y-auto overflow-x-auto lg:px-6 md:px-10 px-3">
             <div className="lg:mt-30 mt-25 lg:ml-70 lg:flex md:flex  md:justify-between   lg:justify-between">
-                <h2 className="text-2xl font-[family-name:Futura Bold] font-semibold">Manage Community Service</h2>
+                <h2 className="text-2xl font-poppins font-semibold">Manage Community Service</h2>
                 <div className={`flex ${animateR} items-center lg:px-0 md:px-0`}>
                 <input className='lg:w-120  w-[100%] h-12 bg-white rounded-2xl border lg:mt-0 md:mt-0 mt-4 shadow-[2px_2px_1px_gray] px-8 border-[#e0e0e0] block' type="text" onKeyUp={(e)=>{searchStudentsWithComserv(e.target.value)}} placeholder='Search Student' />
                 </div>

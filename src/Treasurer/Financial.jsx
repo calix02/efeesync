@@ -160,9 +160,9 @@ function CITFinancial(){
             ) :(
                 <CITHeader code={currentUserData?.organization_code} titleCouncil = {currentUserData?.organization_name} abb="CIT Council" />
             )}
-            <div className="w-screen hide-scrollbar h-screen bg-[#fafafa] absolute z-[-1] overflow-y-auto overflow-x-auto lg:px-6 md:px-10 px-3">
+            <div className="w-screen hide-scrollbar h-screen bg-[#fafafa] absolute pb-5 z-[-1] overflow-y-auto overflow-x-auto lg:px-6 md:px-10 px-3">
                 <div className="lg:mt-30 mt-25 lg:ml-70">
-                    <h2 className="text-2xl font-medium font-[family-name:Futura Bold]">Financial Report</h2>
+                    <h2 className="text-2xl font-semibold font-poppins">Financial Report</h2>
                 </div>
                 <div className={`lg:ml-70 mt-5 ${animateL} flex lg:flex-row flex-col-reverse justify-between gap-2.5`}>
                     <div className=" flex gap-5">

@@ -94,7 +94,7 @@ function Sanction(){
         ) : (
             <Header code={currentUserData?.organization_code} title ={currentUserData?.department_name}/>
          )}
-        <div className="w-screen h-screen bg-[#F8F8F8] absolute z-[-1] overflow-y-auto overflow-x-auto lg:px-6 md:px-10 px-3 ">
+        <div className="w-screen h-screen pb-5 bg-[#F8F8F8] absolute z-[-1] overflow-y-auto overflow-x-auto lg:px-6 md:px-10 px-3 ">
             <div className="mt-[110px] lg:ml-70">
                 <h2 className="text-2xl font-poppins font-semibold ">My Sanction</h2>
             </div>
@@ -107,7 +107,7 @@ function Sanction(){
                 </div>
                 ) : (
                 <div className={` ${animate} bg-white ${color} rounded-lg w-100% h-15 border-2 font-semibold  shadow-[2px_2px_3px_grey] mt-4 text-lg font-poppins flex items-center p-3`}>
-                    <span className="text-black">Total Sanctions Paid: <span className={`${color} text-xl bg-[#fff0]`}>P{sanctionData?.total_sanctions_paid}</span></span>
+                    <span className="text-black">Total Sanctions Paid: <span className={`${color} text-xl bg-[#fff0]`}>₱{sanctionData?.total_sanctions_paid}</span></span>
                 </div>
                 )}
             </div>

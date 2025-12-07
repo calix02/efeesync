@@ -250,7 +250,7 @@ function CITStudent() {
             )}
             <div className="w-screen h-screen absolute z-[-1] overflow-y-auto overflow-x-auto lg:px-6 md:px-10 px-3">
                 <div className='lg:ml-70 lg:mt-30 mt-25 lg:flex md:flex md:justify-between lg:justify-between '>
-                    <h2 className="text-2xl font-medium font-[family-name:Futura Bold]">Manage Students</h2>
+                    <h2 className="text-2xl font-semibold font-poppins">Manage Students</h2>
                     <div className={` lg:flex md:flex ${animateR}  lg:gap-2.5 md:gap-2.5  font-[family-name:Helvetica] lg:mt-0 md:mt-0 mt-4 lg:px-0 md:px-0 px-3 items-center`}>
                         <input className={`lg:w-85 w-[100%] lg:text-md text-sm  font-poppins h-12 px-8 relative shadow-[2px_2px_1px_gray]  bg-white rounded-xl border border-[#e0e0e0]  block`} type="text" onKeyUp={(e) => { searchStudent(e.target.value) }} placeholder='Search Student' />
                         <div className='relative lg:mt-0 md:mt-0 mt-3'>

@@ -204,7 +204,7 @@ function EventContribution({ data }) {
          
               <>
                <div className="lg:mt-30 mt-25 lg:ml-70 lg:flex md:flex justify-between">
-              <h2 className="text-2xl font-medium font-[family-name:Futura Bold]">
+              <h2 className="text-2xl font-semibold font-poppins">
                 Event Contribution
               </h2>
               <div className={`flex ${animateR} items-center lg:px-0 md:px-0 px-3`}>

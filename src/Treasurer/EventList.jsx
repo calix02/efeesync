@@ -212,9 +212,9 @@ function CITEventList() {
 
             <div className="w-screen hide-scrollbar h-screen bg-[#fafafa] absolute z-[-1] overflow-y-auto overflow-x-auto lg:px-6 md:px-10 px-3">
                 <div className="lg:mt-30 mt-25 lg:ml-70 lg:flex md:flex md:justify-between lg:justify-between">
-                    <h2 className="text-2xl font-semibold">Manage Events</h2>
+                    <h2 className="text-2xl font-semibold font-poppins">Manage Events</h2>
 
-                    <div className={`flex ${animateR} items-center`}>
+                    <div className={`flex ${animateR} lg:mt-0 mt-5 items-center`}>
                         <input
                             className="lg:w-120 md:w-85 w-full h-12 bg-white text-sm rounded-xl shadow px-8 border"
                             type="text"

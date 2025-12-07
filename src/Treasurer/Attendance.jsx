@@ -215,7 +215,7 @@ function Attendance() {
         {!showSelectedEvents && (
               <>
                 <div className="lg:mt-30 mt-25 lg:ml-70 lg:flex md:flex justify-between">
-                  <h2 className="text-2xl font-medium font-[family-name:Futura Bold]">Manage Attendance</h2>
+                  <h2 className="text-2xl font-semibold font-poppins">Manage Attendance</h2>
                   <div className={`flex ${animateR} items-center lg:px-0 md:px-0 px-3`}>
                     <input
                       className="lg:w-120 px-8 h-12 text-sm relative w-[100%] p-1.5 bg-white rounded-md border border-[#e0e0e0] shadow-[2px_2px_1px_gray] lg:mt-0 md:mt-0 mt-4 block"

@@ -169,23 +169,25 @@ function  UnsettledTransaction() {
          )}
          <div className="w-screen h-screen bg-[#fafafa] absolute z-[-1] overflow-y-auto overflow-x-auto lg:px-6 md:px-10 px-3">
              <div className="lg:mt-30 mt-25 lg:ml-70 lg:flex md:flex  md:justify-between   lg:justify-between">
-                 <h2 className="text-2xl font-[family-name:Futura Bold] font-semibold">Manage Unsettled Transactions</h2>
+                 <h2 className="text-2xl font-poppins font-semibold">Manage Unsettled Transactions</h2>
                  <div className={`flex ${animateR} items-center lg:px-0 md:px-0 `}>
                      <input className='lg:w-120 px-8 font-poppins text-sm h-12 w-[100%]  bg-white rounded-2xl border lg:mt-0 md:mt-0 mt-4 shadow-[2px_2px_1px_gray]  border-[#e0e0e0] block' type="text" onKeyUp={(e)=>{searchSanctions(e.target.value)}} placeholder='Search Student' />
                  </div>
              </div>
-             <div className="lg:ml-70 flex items-center justify-between mt-5 ">
+             <div className="lg:ml-70 lg:flex lg:flex-row items-center justify-between mt-5 ">
                 <div className={`flex gap-5 ${animateL}`}>
-                    <select className={`bg-white ${hoverColor} w-40 lg:text-sm text-xs font-poppins rounded-2xl font-semibold transition duration-200 hover:scale-107 hover:text-white cursor-pointer border border-[#e0e0e0] shadow-[2px_2px_1px_gray]  py-2   text-center`}    name="" id="" onChange={(e) => setProgram(e.target.value)}>
+                    <select className={`bg-white ${hoverColor} lg:w-40 w-30 lg:text-sm text-xs font-poppins rounded-2xl font-semibold transition duration-200 hover:scale-107 hover:text-white cursor-pointer border border-[#e0e0e0] shadow-[2px_2px_1px_gray]  py-2   text-center`}    name="" id="" onChange={(e) => setProgram(e.target.value)}>
                         <option value="">-- Program --</option>
                         <option value="Okieee">Okieee</option>
                     </select>
-                    <select className={`bg-white ${hoverColor} w-40 lg:text-sm text-xs font-poppins rounded-2xl font-semibold transition duration-200 hover:scale-107 hover:text-white cursor-pointer border border-[#e0e0e0] shadow-[2px_2px_1px_gray]  py-2   text-center`}    name="" id="" onChange={(e) => setYear(e.target.value)}>
+                    <select className={`bg-white ${hoverColor} lg:w-40 w-30 lg:text-sm text-xs font-poppins rounded-2xl font-semibold transition duration-200 hover:scale-107 hover:text-white cursor-pointer border border-[#e0e0e0] shadow-[2px_2px_1px_gray]  py-2   text-center`}    name="" id="" onChange={(e) => setYear(e.target.value)}>
                         <option value="">-- Year --</option>
                         <option value="Okieee">Okieee</option>
                     </select>
                 </div>
-                 <button onClick={collectFeesCard.toggle} className={`lg:w-50 w-30 hover:scale-107 flex gap-2 justify-center items-center font-semibold ${animateR} ${hoverColor} ${color} hover:text-white font-poppins lg:text-sm text-xs transition duration-300 lg:h-12 h-10 border border-[#e0e0e0] cursor-pointer bg-white shadow-[2px_2px_1px_gray] rounded-2xl`}><i className="fa-solid fa-money-bill"></i>Collect Fees</button>
+                <div className="w-full flex justify-end">
+                    <button onClick={collectFeesCard.toggle} className={`lg:w-50 w-30 hover:scale-107 flex gap-2 justify-center items-center font-semibold ${animateR} ${hoverColor} ${color} hover:text-white font-poppins lg:text-sm text-xs transition duration-300 lg:h-12 h-10 border border-[#e0e0e0] cursor-pointer bg-white shadow-[2px_2px_1px_gray] rounded-2xl`}><i className="fa-solid fa-money-bill"></i>Collect Fees</button>
+                </div>
              </div>
              <div className="w-100% ">
                  {loadingSanction ?(

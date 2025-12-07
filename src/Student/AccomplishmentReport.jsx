@@ -38,7 +38,7 @@ function AccomplishmentReport(){
             <div className="mt-[110px] lg:ml-70">
                 <h2 className="text-2xl font-semibold ml-6">Accomplishment Report</h2>
             </div>
-            <div className="lg:ml-70 grid lg:grid-cols-2  grid-cols-1 mt-6 px-6 gap-6">
+            <div className="lg:ml-70 grid lg:grid-cols-2 pb-5  grid-cols-1 mt-6 px-6 gap-6">
                 <AccomplishmentCard AccomplishPic={AccomplishPic}/>
                 <AccomplishmentCard AccomplishPic={AccomplishPic}/>
                 <AccomplishmentCard AccomplishPic={AccomplishPic}/>

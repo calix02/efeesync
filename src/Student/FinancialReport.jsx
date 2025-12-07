@@ -16,6 +16,7 @@ function FinancialReport(){
     document.title="Financial Report";
     const animateL= "left-In";
     const animateR = "right-In";
+    const animate = "fade-In";
     
     const [currentUserData, setCurrentUserData] = useState(() => {
     const saved = localStorage.getItem("currentUserData");
@@ -23,6 +24,7 @@ function FinancialReport(){
     });
     const [userLoading, setUserLoading] = useState(true);
     const [financialLoading, setFinancialLoading] = useState(true);
+    const [cashBank, setCashBank] = useState(0);
     
     const fetchCurrentUser = async () => {
         setUserLoading(true);
@@ -68,6 +70,16 @@ function FinancialReport(){
           useEffect(() => {
             fetchFinancialReportData();
           }, [currentUserData]);
+
+            const colors = {
+            CITSC: "border-[#621668] text-[#621668] ",
+            CESC: "border-[#020180] text-[#020180] ",
+            CCSC: "border-[#660A0A] text-[#660A0A] ",
+            COTSC: "border-[#847714] text-[#847714] ",
+            SCEAP: "border-[#6F3306] text-[#6F3306] ",
+            SSC: "border-[#174515] text-[#174515] "
+        };
+    const color = colors[currentUserData?.organization_code] || "border-[#174515] text-[#174515] ";
        
     return(
         <>
@@ -76,9 +88,15 @@ function FinancialReport(){
          ) : (
             <Header code={currentUserData?.organization_code} title = {currentUserData?.department_name}/>
         )}
-        <div className="w-screen h-screen bg-[#F8F8F8] absolute z-[-1] overflow-y-auto overflow-x-auto lg:px-6 md:px-10 px-3 ">
+        <div className="w-screen h-screen bg-[#F8F8F8] pb-5 absolute z-[-1] overflow-y-auto overflow-x-auto lg:px-6 md:px-10 px-3 ">
             <div className="mt-[110px] lg:ml-70">
                 <h2 className="text-2xl font-poppins font-semibold ">Financial Report</h2>
+            </div>
+            <div className="lg:ml-70">
+                <div className={`h-14 ${animate} rounded-lg border mt-5 shadow-[2px_2px_2px_gray] flex items-center px-5 w-full bg-white`}>
+                    <h1 className="font-poppins font-semibold text-xl">Cash on Bank:  <span className={`${color}`}>₱ {cashBank}</span></h1>
+                </div>
+
             </div>
             
             <div className="lg:ml-70 gap-6  flex lg:flex-row flex-col mt-2">

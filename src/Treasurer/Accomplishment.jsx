@@ -59,7 +59,7 @@ function CITAccomplishment(){
             <CITHeader code={currentUserData?.department_code} titleCouncil = {currentUserData?.organization_name} abb="CIT Council" />
              <div className="w-screen h-screen bg-[#fafafa] absolute z-[-1] overflow-y-auto overflow-x-auto lg:px-6 md:px-10 px-3">
                 <div className=" lg:ml-70 lg:mt-30 mt-25 relative lg:flex md:flex justify-between">
-                    <h2 className="text-2xl font-medium font-[family-name:Futura Bold]">Accomplishment Report</h2>
+                    <h2 className="text-2xl font-semibold font-poppins">Accomplishment Report</h2>
 
                     <button onClick={addAccomplishment.toggle} className={` ${hoverColor} bg-white border-1 border-[#000] cursor-pointer lg:mt-0 md:mt-0 mt-3  hover:text-white transition duration-200 flex gap-1 hover:scale-105 items-center justify-center  p-1 lg:text-sm md:text-sm text-xs font-semibold shadow-[2px_2px_grey] rounded-md`}><i className="fa-solid fa-plus"></i>Add Accomplishment</button>
                 </div>
